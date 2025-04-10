@@ -7,13 +7,14 @@ import Products from "../components/Products/Products";
 import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 // import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
-
+ProductsPage;
 // import ShoppingCartPage from "../pages/ShoppingCartPage";
 // import WishlistPage from "../pages/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
-// import AuthFormLogin from "./AuthForm/AuthFormLogin";
-// import AuthFormRegister from "./AuthForm/AuthFormRegister";
+import AuthFormLogin from "./AuthForm/AuthFormLogin";
+import AuthFormRegister from "./AuthForm/AuthFormRegister";
 // import Footer from "./Footer/Footer";
+import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import "./i18n/i18n";
 
 export const App = () => {
@@ -36,18 +37,18 @@ export const App = () => {
           <Route path="/products/silver" element={<Products type="silver" />} />
           <Route path="/products/set" element={<Products type="set" />} />
           <Route path="/products/box" element={<Products type="box" />} />
-          {/* <Route path="/products/:type" element={<ProductsPage />} />
-         <Route path="/products/:id/details" element={<ProductDetails />} />
-         <Route path="/products/popular" element={<ProductsPage popular />} />
+          <Route path="/products/:type" element={<ProductsPage />} />
+          {/* <Route path="/products/:id/details" element={<ProductDetails />} /> */}
+          <Route path="/products/popular" element={<ProductsPage popular />} />
           <Route path="/products/search" element={<ProductsPage search />} />
-        <Route path="/products/filters" element={<ProductsPage filters />} />  */}
+          <Route path="/products/filters" element={<ProductsPage filters />} />
           {/* Маршрути для Auth */}
-          {/* <Route path="/auth/login" element={<AuthFormLogin />} />
-           <Route
+          <Route path="/auth/login" element={<AuthFormLogin />} />
+          <Route
             path="/auth/register/user"
             element={<AuthFormRegister isAdmin={false} />}
-          /> */}
-          {/* <Route
+          />
+          <Route
             path="/auth/register/admin"
             element={<AuthFormRegister isAdmin={true} />}
           />
