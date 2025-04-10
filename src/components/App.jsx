@@ -5,16 +5,16 @@ import { ThemeProvider } from "styled-components";
 // import Products from "../components/Products/Products";
 // import { AboutPage } from "../pages/AboutPage";
 import HomePage from "../pages/HomePage/HomePage";
-// import MainPage from "../pages/MainPage/MainPage";
+import MainPage from "../pages/MainPage/MainPage";
 // import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
-// import ProductsPage from "../pages/ProductsPage/ProductsPage";
+
 // import ShoppingCartPage from "../pages/ShoppingCartPage";
 // import WishlistPage from "../pages/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 // import AuthFormLogin from "./AuthForm/AuthFormLogin";
 // import AuthFormRegister from "./AuthForm/AuthFormRegister";
 // import Footer from "./Footer/Footer";
-// import "./i18n/i18n";
+import "./i18n/i18n";
 
 export const App = () => {
   const location = useLocation();
@@ -28,7 +28,7 @@ export const App = () => {
         <GlobalStyles />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* <Route path="/main" element={<MainPage />} /> */}
+          <Route path="/main" element={<MainPage />} />
           // {/* Products */}
           {/* <Route path="/products" element={<Products type="all" />} />
   //         {/* Додано маршрут для всіх продуктів */}
