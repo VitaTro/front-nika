@@ -3,19 +3,19 @@ import { useSelector } from "react-redux";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
-// import { AboutPage } from "../pages/AboutPage";
+import AboutPage from "../pages/AboutPage";
 import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
-// import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
-ProductsPage;
-// import ShoppingCartPage from "../pages/ShoppingCartPage";
-// import WishlistPage from "../pages/WishlistPage";
+import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
+import ProductsPage from "../pages/ProductsPage/ProductsPage";
+import ShoppingCartPage from "../pages/ShoppingCartPage";
+import WishlistPage from "../pages/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";
-// import Footer from "./Footer/Footer";
-import ProductsPage from "../pages/ProductsPage/ProductsPage";
+import Footer from "./Footer/Footer";
 import "./i18n/i18n";
+ProductsPage;
 
 export const App = () => {
   const location = useLocation();
@@ -53,21 +53,18 @@ export const App = () => {
             element={<AuthFormRegister isAdmin={true} />}
           />
           {/* Маршрути для User */}
-          {/* <Route path="/user/wishlist" element={<WishlistPage />} />
-          <Route path="/user/shopping-cart" element={<ShoppingCartPage />} /> */}
-          {/* <Route path="/user/profile" element={<UserProfilePage />} />
-
-        <Route path="/user/purchase-history" element={<WishlistPage />} />
-
-        {/* Маршрути для Admin */}
+          <Route path="/user/wishlist" element={<WishlistPage />} />
+          <Route path="/user/shopping-cart" element={<ShoppingCartPage />} />
+          {/* <Route path="/user/profile" element={<UserProfilePage />} /> */}
+          // <Route path="/user/purchase-history" element={<WishlistPage />} />
+          {/* Маршрути для Admin */}
           {/* <Route path="/admin/dashboard" element={<AdminDashboardPage />} /> */}
           {/* Інші маршрути */}
-          {/* <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<NotFoundPage />} /> */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        {/* <Footer /> */}
+        <Footer />
       </>
     </ThemeProvider>
   );
-  // return <div>Hello</div>;
 };
