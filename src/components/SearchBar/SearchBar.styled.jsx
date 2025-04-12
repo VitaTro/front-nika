@@ -58,7 +58,7 @@ export const SearchInput = styled.input`
 
 export const SearchButton = styled.button`
   position: absolute;
-  right: 10px;
+  right: -45px;
   top: 50%; /* Центруємо по вертикалі */
   transform: translateY(-50%);
   padding: 10px 20px;
@@ -74,20 +74,20 @@ export const SearchButton = styled.button`
   }
 
   @media (max-width: 1022px) {
-    padding: 8px 16px;
+    padding: 11px 16px;
     font-size: 14px;
-    right: 8px; /* Зменшуємо правий відступ */
+    right: -17px; /* Зменшуємо правий відступ */
   }
 
   @media (max-width: 768px) {
-    padding: 6px 14px;
+    padding: 9px 14px;
     font-size: 12px;
-    right: 5px; /* Ще менший відступ */
+    right: -17px; /* Ще менший відступ */
   }
 
   @media (max-width: 480px) {
-    padding: 6px 12px;
+    padding: 8px 12px;
     font-size: 12px;
-    right: 5px;
+    right: -13px;
   }
 `;
