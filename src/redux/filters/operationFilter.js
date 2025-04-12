@@ -1,11 +1,13 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "../axiosConfig";
+
+// Застосування фільтрів
 export const applyFilters = createAsyncThunk(
-  "filters/applyFiltters",
-  async (filters, thunkAPI) => {
+  "filters/applyFilters",
+  async (filterData, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products/filters`, {
-        params: filters, // Передача фільтрів у запит
-      });
-      return response.data.filteredProducts;
+      const response = await axios.post(`/api/products/filters`, filterData);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

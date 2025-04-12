@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import ErrorBoundary from "../ErrorBoundary";
 import Header from "../Header/Header";
 import Loader from "../Loader";
 import PaginationComponent from "../Pagination/Pagination";
@@ -142,12 +143,14 @@ const Products = ({ type }) => {
           <>
             <ProductsGrid>
               {currentProducts.map((product) => (
-                <ProductsCard
-                  key={product._id}
-                  product={product}
-                  isAuthenticated={isAuthenticated}
-                  t={t}
-                />
+                <ErrorBoundary>
+                  <ProductsCard
+                    key={product.id}
+                    product={product}
+                    isAuthenticated={isAuthenticated}
+                    t={t}
+                  />
+                </ErrorBoundary>
               ))}
             </ProductsGrid>
             <PaginationComponent

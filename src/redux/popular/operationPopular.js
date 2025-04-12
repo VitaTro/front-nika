@@ -1,14 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../axiosConfig";
 
-axios.defaults.baseURL = "https://nika-gold-back-fe0ff35469d7.herokuapp.com/";
-
+// Отримати популярні продукти
 export const getPopularProducts = createAsyncThunk(
-  "products/getPopular",
+  "popular/getPopularProducts",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(`api/products/popular/`);
-      return data?.data?.categories || [];
+      const response = await axios.get(`/api/products/popular`);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

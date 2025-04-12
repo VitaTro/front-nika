@@ -5,39 +5,43 @@ import {
   removeProductFromWishlist,
 } from "./operationWishlist";
 
-const initialState = {
-  products: [],
-  isLoading: false,
-  error: null,
-};
-
 const wishlistSlice = createSlice({
   name: "wishlist",
-  initialState,
-  reducers: {},
+  initialState: {
+    products: [], // Список бажаних товарів
+    loading: false, // Стан завантаження
+    error: null, // Помилка
+  },
+  reducers: {}, // Можна додати синхронні редюсери, якщо потрібно
   extraReducers: (builder) => {
     builder
       .addCase(getWishlist.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
         state.error = null;
       })
-      .addCase(getWishlist.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.wishlist = action.payload;
+      .addCase(getWishlist.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.products = payload; // Оновлюємо список бажаних товарів
       })
-      .addCase(getWishlist.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+      .addCase(getWishlist.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       })
-      .addCase(addProductToWishlist.fulfilled, (state, action) => {
-        state.wishlist.push(action.payload); // Додаємо продукт до списку бажань
+      .addCase(addProductToWishlist.fulfilled, (state, { payload }) => {
+        state.products.push(payload); // Додаємо товар до списку
       })
-      .addCase(removeProductFromWishlist.fulfilled, (state, action) => {
-        state.wishlist = state.wishlist.filter(
-          (product) => product.id !== action.payload
-        ); // Видаляємо продукт зі списку бажань
+      .addCase(addProductToWishlist.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(removeProductFromWishlist.fulfilled, (state, { payload }) => {
+        state.products = state.products.filter(
+          (product) => product.id !== payload
+        ); // Видаляємо товар зі списку
+      })
+      .addCase(removeProductFromWishlist.rejected, (state, { payload }) => {
+        state.error = payload;
       });
   },
 });
 
-export const wishlistReducer = wishlistSlice.reducer;
+export default wishlistSlice.reducer;

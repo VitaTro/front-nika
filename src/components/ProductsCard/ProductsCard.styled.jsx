@@ -27,3 +27,19 @@ export const ProductsHeader = styled.h3`
       : "0 0 5px rgb(167, 182, 208)"};
   color: ${(props) => (props.theme.$isDarkMode ? "#fff" : "#4a5a77")};
 `;
+export const ButtonHeart = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  font-size: 24px; /* Розмір сердечка */
+  color: ${(props) =>
+    props.$isActive ? "red" : "gray"}; /* Червоне активне, сіре неактивне */
+  outline: none;
+
+  &:hover {
+    color: ${(props) =>
+      props.$isActive ? "darkred" : "black"}; /* Темніший колір при наведенні */
+  }
+`;

@@ -1,34 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSearchProducts } from "./operationSearch";
-
-const initialState = {
-  searchResults: [],
-  isLoading: false,
-  error: null,
-  reducers: {
-    clearSearch(state) {
-      state.result = [];
-    },
-  },
-};
+import { searchProducts } from "./operationSearch";
 
 const searchSlice = createSlice({
-  name: "searchResult",
-  initialState,
+  name: "search",
+  initialState: {
+    results: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getSearchProducts.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getSearchProducts.fulfilled, (state, action) => {
-        state.isLoading = false;
+      .addCase(searchProducts.pending, (state) => {
+        state.loading = true;
         state.error = null;
-        state.result = action.payload;
       })
-      .addCase(getSearchProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+      .addCase(searchProducts.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.results = payload;
+      })
+      .addCase(searchProducts.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       });
   },
 });
-export const searchReducer = searchSlice.reducer;
+
+export default searchSlice.reducer;

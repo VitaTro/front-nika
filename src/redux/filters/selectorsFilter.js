@@ -1,4 +1,3 @@
-export const selectFilters = (state) => state.filters.filters;
-export const selectFilteredProducts = (state) => state.filters.filteredProducts;
-export const selectFiltersLoading = (state) => state.filters.isLoading;
+export const selectFilteredItems = (state) => state.filters.filteredItems;
+export const selectFiltersLoading = (state) => state.filters.loading;
 export const selectFiltersError = (state) => state.filters.error;

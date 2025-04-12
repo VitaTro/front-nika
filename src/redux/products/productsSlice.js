@@ -1,51 +1,69 @@
-import { createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { getProductsList } from "./operationProducts";
-
-const initialState = {
-  productsList: null,
-  isLoading: false,
-  error: null,
-  filters: {
-    type: null,
-    priceRange: [0, 1000],
-  },
-};
-
-const extraActions = [getProductsList];
-
-const getActions = (type) =>
-  isAnyOf(...extraActions.map((action) => action[type]));
-
-const getProductsListFulfilledReducer = (state, action) => {
-  state.productsList = action.payload;
-};
-const productsAnyPendingReducer = (state) => {
-  state.isLoading = true;
-  state.error = null;
-};
-const productsAnyFulfilledReducer = (state) => {
-  state.isLoading = false;
-  state.error = null;
-};
-const productsAnyRejectedReducer = (state, action) => {
-  state.isLoading = false;
-  state.error = action.payload;
-};
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  addProduct,
+  deleteProduct,
+  getProductById,
+  getProductByType,
+  getProducts,
+  updateProduct,
+} from "./operationProducts";
 
 const productsSlice = createSlice({
   name: "products",
-  initialState,
-  reducers: {
-    setFilter: (state, action) => {
-      state.filters = { ...state.filters, ...action.payload };
-    },
+  initialState: {
+    items: [],
+    currentProduct: null, // Для зберігання даних конкретного продукту
+    loading: false,
+    error: null,
   },
-  extraReducers: (builder) =>
+  reducers: {},
+  extraReducers: (builder) => {
     builder
-      .addCase(getProductsList.fulfilled, getProductsListFulfilledReducer)
-      .addMatcher(getActions("pending"), productsAnyPendingReducer)
-      .addMatcher(getActions("rejected"), productsAnyRejectedReducer)
-      .addMatcher(getActions("fulfilled"), productsAnyFulfilledReducer),
+      .addCase(getProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getProducts.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.items = payload;
+      })
+      .addCase(getProducts.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(addProduct.fulfilled, (state, { payload }) => {
+        state.items.push(payload);
+      })
+      .addCase(addProduct.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(getProductByType.fulfilled, (state, { payload }) => {
+        state.items = payload;
+      })
+      .addCase(getProductByType.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(getProductById.fulfilled, (state, { payload }) => {
+        state.currentProduct = payload; // Зберігаємо дані конкретного продукту
+      })
+      .addCase(getProductById.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(updateProduct.fulfilled, (state, { payload }) => {
+        state.items = state.items.map((item) =>
+          item.id === payload.id ? payload : item
+        ); // Оновлюємо продукт у списку
+      })
+      .addCase(updateProduct.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(deleteProduct.fulfilled, (state, { payload }) => {
+        state.items = state.items.filter((item) => item.id !== payload); // Видаляємо продукт зі списку
+      })
+      .addCase(deleteProduct.rejected, (state, { payload }) => {
+        state.error = payload;
+      });
+  },
 });
-export const { setFilter } = productsSlice.actions;
-export const productsReducer = productsSlice.reducer;
+
+export default productsSlice.reducer;

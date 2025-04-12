@@ -1,43 +1,47 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../axiosConfig";
 
-axios.defaults.baseURL = "https://nika-gold-back-fe0ff35469d7.herokuapp.com/";
-
+// Отримати товари з кошика
 export const getShoppingCart = createAsyncThunk(
-  "shoppingCart/getAll",
+  "shoppingCart/getShoppingCart",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(`api/shopping-cart`);
-      return data?.products || [];
+      const response = await axios.get("/api/user/shopping-cart");
+      return response.data.products || []; // Повертаємо список продуктів
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-export const deleteProductFromCart = createAsyncThunk(
-  "shoppingCart/deleteProduct",
-  async (productId, thunkAPI) => {
-    try {
-      const response = await axios.delete(`api/shopping-cart/${productId}`);
-
-      if (response.status !== 200) {
-        throw new Error(`Failed to delete product: ${response.statusText}`);
-      }
-
-      return productId;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-export const addProductToCart = createAsyncThunk(
+// Додати товар до кошика
+export const addProductToShoppingCart = createAsyncThunk(
   "shoppingCart/addProduct",
+  async (productData, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        "/api/user/shopping-cart/add",
+        productData
+      );
+      return response.data.product; // Повертаємо доданий продукт
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// Видалити товар із кошика
+export const removeProductFromShoppingCart = createAsyncThunk(
+  "shoppingCart/removeProduct",
   async (productId, thunkAPI) => {
     try {
-      const response = await axios.post(`/api/shopping-cart`, { productId });
-      return response.data.product;
+      const response = await axios.delete(
+        `/api/user/shopping-cart/remove/${productId}`
+      );
+      if (response.status !== 200) {
+        throw new Error("Failed to delete product from shopping cart");
+      }
+      return productId; // Повертаємо ID видаленого продукту
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

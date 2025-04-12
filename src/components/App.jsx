@@ -9,7 +9,7 @@ import MainPage from "../pages/MainPage/MainPage";
 import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import ShoppingCartPage from "../pages/ShoppingCartPage";
-import WishlistPage from "../pages/WishlistPage";
+import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";

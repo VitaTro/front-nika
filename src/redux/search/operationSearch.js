@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosConfig";
 
-export const getSearchProducts = createAsyncThunk(
-  "products/search",
-  async (_, thunkAPI) => {
+// Пошук продуктів
+export const searchProducts = createAsyncThunk(
+  "search/searchProducts",
+  async (query, thunkAPI) => {
     try {
-      const { data } = await axios.get(`api/products/search`, {
-        params: { query: searchTerm },
+      const response = await axios.get(`/api/products/search`, {
+        params: { q: query },
       });
-
-      return data?.products || [];
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

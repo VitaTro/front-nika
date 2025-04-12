@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header/Header";
-import HoursOfWork from "./hours_of_work.png";
-
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import Loader from "../../components/Loader";
+import { fetchMainData } from "../../redux/user/userOperations";
+import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductsPage from "../ProductsPage/ProductsPage";
+import HoursOfWork from "./hours_of_work.png";
 import { ImageWork } from "./MainPage.styled";
 
 const MainPage = () => {
-  const { t } = useTranslation();
-  const userName = useSelector((state) => state.auth.userName); // Ім'я користувача з Redux
-  const userRole = useSelector((state) => state.auth.role); // Роль користувача
+  const dispatch = useDispatch();
+
+  const wishlist = useSelector(selectWishlistProducts);
+  const loading = useSelector((state) => state?.user?.loading || false);
+  const error = useSelector((state) => state?.user?.error || null);
+
+  useEffect(() => {
+    dispatch(fetchMainData());
+  }, [dispatch]);
+
+  if (loading) return <Loader />;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <>
       <Header />
-      {/* image */}
       <ImageWork src={HoursOfWork} alt="hours of work" />
       <ProductsPage />
     </>

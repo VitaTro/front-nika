@@ -1,3 +1,3 @@
-export const selectPopularProducts = (state) => state.products.products;
-export const selectIsLoading = (state) => state.products.isLoading;
-export const selectError = (state) => state.products.error;
+export const selectPopularItems = (state) => state.popular.popularItems;
+export const selectPopularLoading = (state) => state.popular.loading;
+export const selectPopularError = (state) => state.popular.error;

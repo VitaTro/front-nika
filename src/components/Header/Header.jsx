@@ -76,7 +76,7 @@ const Header = () => {
             <NavLinkStyled to="/products">{t("products")}</NavLinkStyled>
           </NavItem>
           <NavItem>
-            <NavLinkStyled to="/wishlist">{t("wishlist")}</NavLinkStyled>
+            <NavLinkStyled to="/user/wishlist">{t("wishlist")}</NavLinkStyled>
           </NavItem>
           <NavItem>
             <NavLinkStyled to="/about">{t("about")}</NavLinkStyled>

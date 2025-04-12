@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import Loader from "../Loader";
 import {
   AuthForm,
   ButtonForm,
@@ -26,25 +27,21 @@ const AuthFormRegister = ({ isAdmin }) => {
   useEffect(() => {
     const checkFirstAdmin = async () => {
       try {
-        const response = await axios.get(
-          "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/auth/check-admin"
-        );
+        const response = await axios.get("/api/auth/check-admin");
         setIsFirstAdmin(response.data.isFirstAdmin);
       } catch (error) {
         setErrorMessage("Failed to check admin status.");
       }
     };
     checkFirstAdmin();
-  }, [t]);
+  }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post(
-        isAdmin
-          ? "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/auth/register/admin"
-          : "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/auth/register/user",
+        isAdmin ? "/api/auth/register/admin" : "/api/auth/register/user",
         {
           username,
           email,

@@ -1,30 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getPopularProducts } from "./operationPopular";
 
-const initialState = {
-  products: [],
-  isLoading: false,
-  error: null,
-};
-
 const popularSlice = createSlice({
-  name: "products",
-  initialState,
+  name: "popular",
+  initialState: {
+    popularItems: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getPopularProducts.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getPopularProducts.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.loading = true;
         state.error = null;
-        state.products = action.payload;
       })
-      .addCase(getPopularProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+      .addCase(getPopularProducts.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.popularItems = payload;
+      })
+      .addCase(getPopularProducts.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       });
   },
 });
 
-export const popularProductsReducer = popularSlice.reducer;
+export default popularSlice.reducer;
