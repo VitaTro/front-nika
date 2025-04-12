@@ -46,6 +46,7 @@ const Products = ({ type }) => {
         }
 
         const data = await response.json();
+        setProducts(data);
         console.log("Fetched data:", data);
 
         let filteredProducts = data;
@@ -125,7 +126,7 @@ const Products = ({ type }) => {
               "incense",
             ].map((category) => (
               <TabButton
-                key={category}
+                key={`tab-${category}`}
                 onClick={() => handleCategoryChange(category)}
                 className={activeCategory === category ? "active" : ""}
               >
@@ -142,10 +143,9 @@ const Products = ({ type }) => {
         ) : (
           <>
             <ProductsGrid>
-              {currentProducts.map((product) => (
-                <ErrorBoundary>
+              {currentProducts.map((product, index) => (
+                <ErrorBoundary key={`product-${product.id || index}`}>
                   <ProductsCard
-                    key={product.id}
                     product={product}
                     isAuthenticated={isAuthenticated}
                     t={t}

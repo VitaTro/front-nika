@@ -3,57 +3,91 @@ import styled from "styled-components";
 export const SearchContainer = styled.div`
   position: relative;
   display: flex;
+  align-items: center;
   width: 100%;
-  min-width: 600px;
+  max-width: 600px;
+  height: 40px;
   margin: 10px auto;
 
-  @media (min-width: 768px) {
-    max-width: 500px;
+  @media (max-width: 1022px) {
+    max-width: 500px; /* Для екранів до 1022px */
+    height: 35px; /* Менша висота */
   }
 
-  @media (min-width: 1024px) {
-    max-width: 600px;
+  @media (max-width: 768px) {
+    max-width: 400px; /* Для планшетів */
+    height: 30px;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 350px; /* Для мобільних */
+    height: 30px;
   }
 `;
 
 export const SearchInput = styled.input`
   flex: 1;
-  padding: 12px 45px 12px 20px; /* Місце для притиска праворуч */
+  padding: 12px 45px 12px 20px; /* Відступи */
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 24px;
+  border-radius: 12px;
   background-color: #fff;
   box-sizing: border-box;
+  height: 100%; /* Підлаштовується під контейнер */
 
   &:focus {
-    border-color: #8baa36;
+    border-color: #8baa36; /* Колір при фокусі */
     outline: none;
   }
 
-  @media (min-width: 768px) {
-    height: 50px;
-    font-size: 18px;
+  @media (max-width: 1022px) {
+    font-size: 14px;
+    padding: 10px 40px 10px 16px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 8px 35px 8px 12px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    padding: 8px 35px 8px 12px;
   }
 `;
 
 export const SearchButton = styled.button`
   position: absolute;
-  right: -5px;
-  top: 50%;
+  right: 10px;
+  top: 50%; /* Центруємо по вертикалі */
   transform: translateY(-50%);
   padding: 10px 20px;
-  font-size: 18px;
-  background-color: #8baa33; /* Зелений фон для притиска */
+  font-size: 16px;
+  background-color: #8baa33; /* Основний фон */
   color: #fff;
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   cursor: pointer;
 
   &:hover {
-    background-color: #6e8a2d; /* Темніший зелений при наведенні */
+    background-color: #6e8a2d; /* Темніший зелений */
   }
 
-  @media (min-width: 768px) {
+  @media (max-width: 1022px) {
+    padding: 8px 16px;
     font-size: 14px;
+    right: 8px; /* Зменшуємо правий відступ */
+  }
+
+  @media (max-width: 768px) {
+    padding: 6px 14px;
+    font-size: 12px;
+    right: 5px; /* Ще менший відступ */
+  }
+
+  @media (max-width: 480px) {
+    padding: 6px 12px;
+    font-size: 12px;
+    right: 5px;
   }
 `;

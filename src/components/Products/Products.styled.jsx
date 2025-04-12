@@ -19,11 +19,11 @@ export const ProductsGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1110px) and (min-width: 677px) {
     grid-template-columns: repeat(2, 1fr); /* Адаптивність для планшетів */
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 676px) {
     grid-template-columns: 1fr; /* Адаптивність для мобільних пристроїв */
   }
 `;
@@ -89,6 +89,21 @@ export const WelcomeHeader = styled.h2`
 
 export const Tabs = styled.div`
   margin-bottom: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @media (max-width: 1110px) and (min-width: 677px) {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 676px) {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const TabButton = styled.button`

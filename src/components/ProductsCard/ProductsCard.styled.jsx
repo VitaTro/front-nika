@@ -1,7 +1,20 @@
 import styled from "styled-components";
 export const ProductAction = styled.div`
   display: flex;
-  gap: 30px;
+  gap: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  @media (max-width: 1110px) and (min-width: 677px) {
+    gap: 15px; /* Трохи менший відступ для середніх екранів */
+    justify-content: center; /* Центруємо елементи */
+  }
+
+  @media (max-width: 676px) {
+    flex-direction: column; /* Розташовуємо елементи вертикально */
+    align-items: center;
+    gap: 10px; /* Ще менший відступ для мобільних пристроїв */
+  }
 `;
 export const ProductCardContainer = styled.div`
   border: 1px solid ${(props) => (props.theme.$isDarkMode ? "#555" : "#ccc")};
@@ -18,6 +31,13 @@ export const ProductCardContainer = styled.div`
           ? "rgba(255, 255, 255, 0.2)"
           : "rgba(0, 0, 0, 0.1)"};
   }
+  @media (max-width: 676px) {
+    padding: 15px; /* Менший padding для мобільних */
+  }
+
+  @media (max-width: 1110px) and (min-width: 677px) {
+    padding: 18px; /* Трохи менший padding для планшетів */
+  }
 `;
 export const ProductsHeader = styled.h3`
   font-size: 18px;
@@ -32,14 +52,31 @@ export const ButtonHeart = styled.button`
   border: none;
   cursor: pointer;
   padding: 0;
-
-  font-size: 24px; /* Розмір сердечка */
-  color: ${(props) =>
-    props.$isActive ? "red" : "gray"}; /* Червоне активне, сіре неактивне */
-  outline: none;
+  margin-left: 10px;
+  font-size: 24px;
+`;
+export const ButtonShopping = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 24px;
+`;
+export const ButtonQuantity = styled.button`
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 16px;
+  margin: 0 5px;
+  cursor: pointer;
 
   &:hover {
-    color: ${(props) =>
-      props.$isActive ? "darkred" : "black"}; /* Темніший колір при наведенні */
+    background-color: #e0e0e0;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `;

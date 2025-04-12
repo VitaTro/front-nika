@@ -74,20 +74,21 @@ export const NavItem = styled.li`
 `;
 
 export const SearchContainer = styled.div`
-  align-self: flex-start; /* Вирівнювання по лівому краю */
-  margin-top: auto; /* Розташування внизу */
-  input {
-    width: 200px;
-    height: 36px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    padding: 5px;
-    font-size: 16px;
-    margin-left: 35px;
-  }
+  // align-self: flex-start; /* Вирівнювання по лівому краю */
+  // margin-top: auto; /* Розташування внизу */
+  // input {
+  //   width: 200px;
+  //   height: 36px;
+  //   border-radius: 12px;
+  //   border: 1px solid #ccc;
+  //   padding: 5px;
+  //   font-size: 16px;
+  //   margin-left: 35px;
+  // }
 
-  @media (max-width: 768px) {
-    width: 100%; /* На мобільному адаптується до ширини */
+  // @media (max-width: 768px) {
+  //   width: 80%; /* На мобільному адаптується до ширини */
+  //   margin-left: 5px;
   }
 `;
 export const NavLinkStyled = styled(Link)`
