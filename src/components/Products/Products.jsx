@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
 import Header from "../Header/Header";
 import Loader from "../Loader";
 import PaginationComponent from "../Pagination/Pagination";
 import ProductsCard from "../ProductsCard/ProductsCard";
+import SearchBar from "../SearchBar/SearchBar";
 import {
   ProductsContainer,
   ProductsGrid,
@@ -13,10 +15,11 @@ import {
   Tabs,
   WelcomeHeader,
 } from "./Products.styled";
-const BACKEND_URL = "https://nika-gold-back-fe0ff35469d7.herokuapp.com";
 
 const Products = ({ type }) => {
   const dispatch = useDispatch();
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,6 +30,21 @@ const Products = ({ type }) => {
   const productsPerPage = 18;
 
   useEffect(() => {
+    if (searchQuery) {
+      const filtered = products.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [searchQuery, products]);
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setCurrentPage(1); // Скидаємо сторінку після пошуку
+  };
+  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsAuthenticated(true);
@@ -35,18 +53,15 @@ const Products = ({ type }) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // Формуємо запит до бекенду
-        const endpoint = `${BACKEND_URL}/api/products?type=${type}&category=${activeCategory}`;
-        console.log("Fetching data from:", endpoint);
+        // Запит через axios
+        const response = await axios.get("/api/products", {
+          params: {
+            type: type,
+            category: activeCategory,
+          },
+        });
 
-        const response = await fetch(endpoint);
-
-        if (!response.ok) {
-          throw new Error("Не вдалося отримати дані: " + response.statusText);
-        }
-
-        const data = await response.json();
-        setProducts(data);
+        const data = response.data;
         console.log("Fetched data:", data);
 
         let filteredProducts = data;
@@ -72,6 +87,7 @@ const Products = ({ type }) => {
         const sortedProducts = filteredProducts.sort(sortByDate);
 
         setProducts(sortedProducts);
+        setFilteredProducts(sortedProducts);
         setErrorMessage("");
       } catch (error) {
         console.error("Error fetching data from API:", error);
@@ -106,6 +122,7 @@ const Products = ({ type }) => {
   return (
     <>
       <Header />
+      <SearchBar onSearch={handleSearch} />
       <ProductsContainer>
         <WelcomeHeader>
           {type === "all"

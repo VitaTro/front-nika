@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { toggleTheme } from "../../redux/themeSlice";
-import SearchBar from "../SearchBar/SearchBar";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import {
   Container,
@@ -14,7 +13,6 @@ import {
   NavLinkStyled,
   NavList,
   Option,
-  SearchContainer,
   Select,
   Slider,
   ThemeIcon,
@@ -123,9 +121,9 @@ const Header = () => {
         )}
       </HeaderComponent>
       {/* Пошук знизу */}
-      <SearchContainer>
+      {/* <SearchContainer>
         <SearchBar onSearch={(query) => console.log("Searching for:", query)} />
-      </SearchContainer>
+      </SearchContainer> */}
 
       {/* Мобільне меню */}
       <MobileMenuHeader

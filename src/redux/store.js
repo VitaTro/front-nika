@@ -3,7 +3,7 @@ import rootReducer from "./combineReducers";
 import themeReducer from "./themeSlice";
 const store = configureStore({
   reducer: {
-    reducer: rootReducer,
+    ...rootReducer,
     theme: themeReducer,
   },
   devTools: process.env.NODE_ENV !== "production",

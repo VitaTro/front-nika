@@ -13,7 +13,9 @@ import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";
+import ErrorBoundary from "./ErrorBoundary";
 import Footer from "./Footer/Footer";
+import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
 ProductsPage;
 
@@ -40,7 +42,14 @@ export const App = () => {
           <Route path="/products/:type" element={<ProductsPage />} />
           {/* <Route path="/products/:id/details" element={<ProductDetails />} /> */}
           <Route path="/products/popular" element={<ProductsPage popular />} />
-          <Route path="/products/search" element={<ProductsPage search />} />
+          <Route
+            path="/products/search"
+            element={
+              <ErrorBoundary>
+                <SearchResults />
+              </ErrorBoundary>
+            }
+          />
           <Route path="/products/filters" element={<ProductsPage filters />} />
           {/* Маршрути для Auth */}
           <Route path="/auth/login" element={<AuthFormLogin />} />

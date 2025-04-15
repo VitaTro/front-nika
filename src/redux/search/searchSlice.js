@@ -4,7 +4,7 @@ import { searchProducts } from "./operationSearch";
 const searchSlice = createSlice({
   name: "search",
   initialState: {
-    results: [],
+    results: [], // Завжди масив
     loading: false,
     error: null,
   },
@@ -16,12 +16,13 @@ const searchSlice = createSlice({
         state.error = null;
       })
       .addCase(searchProducts.fulfilled, (state, { payload }) => {
+        console.log("Redux received payload:", payload); // Лог відповіді
         state.loading = false;
-        state.results = payload;
+        state.results = payload.results || []; // Встановлюємо дані
       })
       .addCase(searchProducts.rejected, (state, { payload }) => {
         state.loading = false;
-        state.error = payload;
+        state.error = payload || "Something went wrong";
       });
   },
 });
