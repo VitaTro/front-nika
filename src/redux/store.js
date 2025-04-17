@@ -1,9 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./combineReducers";
+import adminReducer from "./admin/adminSlice";
+import authReducer from "./auth/authSlice";
+import filtersReducer from "./filters/filterSlice";
+import popularProductsReducer from "./popular/popularSlice";
+import productsReducer from "./products/productsSlice";
+import searchReducer from "./search/searchSlice";
+import shoppingCartReducer from "./shopping/shoppingSlice";
 import themeReducer from "./themeSlice";
+import userReducer from "./user/userSlice";
 const store = configureStore({
   reducer: {
-    ...rootReducer,
+    auth: authReducer,
+    user: userReducer,
+    admin: adminReducer,
+    products: productsReducer,
+    popularProducts: popularProductsReducer,
+    search: searchReducer,
+    cart: shoppingCartReducer,
+    // wishlist: wishlistReducer,
+    filters: filtersReducer,
     theme: themeReducer,
   },
   devTools: process.env.NODE_ENV !== "production",

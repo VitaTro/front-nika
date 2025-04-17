@@ -6,8 +6,8 @@ export const searchProducts = createAsyncThunk(
   "search/searchProducts",
   async (query, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products/search`, {
-        params: { q: query },
+      const response = await axios.get(`/api/products`, {
+        params: { query: query },
       });
       return response.data;
     } catch (error) {

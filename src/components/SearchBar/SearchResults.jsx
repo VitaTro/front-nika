@@ -1,46 +1,64 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { searchProducts } from "../../redux/search/operationSearch";
 import {
   selectSearchError,
   selectSearchLoading,
   selectSearchResults,
 } from "../../redux/search/selectorsSearch";
 import Loader from "../Loader";
+import {
+  ProductsContainer,
+  ProductsGrid,
+  WelcomeHeader,
+} from "../Products/Products.styled";
+import ProductsCard from "../ProductsCard/ProductsCard";
 
 const SearchResults = () => {
   const location = useLocation();
-  const searchResults = useSelector(selectSearchResults); // Завжди стабільний масив
+  const dispatch = useDispatch();
+
+  const searchResults = useSelector(selectSearchResults);
+  console.log("SearchResults:", searchResults);
+
   const loading = useSelector(selectSearchLoading);
   const error = useSelector(selectSearchError);
 
-  const [searchQuery, setSearchQuery] = useState("");
+  // Отримання параметра query з URL
+  const params = new URLSearchParams(location.search);
+  const searchQuery = params.get("query") || "";
+
+  // Фільтрація результатів на основі query
+  const filteredResults = searchResults.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    console.log("Search Results in Component:", searchResults);
-
-    setSearchQuery(params.get("query") || "");
-  }, [location.search]);
+    if (searchQuery && searchQuery.trim().length >= 3) {
+      dispatch(searchProducts(searchQuery)); // Запит до Redux
+    }
+  }, [searchQuery, dispatch]);
 
   return (
-    <div>
-      <h1>Search Results for "{searchQuery}"</h1>
+    <ProductsContainer>
+      <WelcomeHeader>Search Results for "{searchQuery}"</WelcomeHeader>
       {loading && <Loader />}
-      {error && <p>Error: {error}</p>}
-      {Array.isArray(searchResults) && searchResults.length > 0 ? ( // Перевіряємо, чи це масив
-        <div>
-          {searchResults.map((product) => (
-            <div key={product.name}>
-              <h2>{product.name}</h2>
-              <p>{product.description}</p>
-            </div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {Array.isArray(filteredResults) && filteredResults.length > 0 ? (
+        <ProductsGrid>
+          {filteredResults.map((product) => (
+            <ProductsCard
+              key={product.id}
+              product={product}
+              // Передаємо інші потрібні пропси (якщо є)
+            />
           ))}
-        </div>
+        </ProductsGrid>
       ) : (
-        !loading && <p>No results found.</p>
+        !loading && <p>No results found for "{searchQuery}".</p>
       )}
-    </div>
+    </ProductsContainer>
   );
 };
 

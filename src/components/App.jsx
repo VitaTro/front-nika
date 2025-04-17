@@ -43,7 +43,7 @@ export const App = () => {
           {/* <Route path="/products/:id/details" element={<ProductDetails />} /> */}
           <Route path="/products/popular" element={<ProductsPage popular />} />
           <Route
-            path="/products/search"
+            path="/search"
             element={
               <ErrorBoundary>
                 <SearchResults />
