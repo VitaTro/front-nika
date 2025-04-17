@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
+import FiltersComponent from "../FiltersComponent/FiltersComponent";
 import Header from "../Header/Header";
 import Loader from "../Loader";
 import PaginationComponent from "../Pagination/Pagination";
@@ -152,7 +153,7 @@ const Products = ({ type }) => {
             ))}
           </Tabs>
         )}
-
+        <FiltersComponent />
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
         {isLoading ? (

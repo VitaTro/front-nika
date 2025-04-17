@@ -15,13 +15,13 @@ const filtersSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(applyFilters.fulfilled, (state, { payload }) => {
+      .addCase(applyFilters.fulfilled, (state, action) => {
         state.loading = false;
-        state.filteredItems = payload;
+        state.filteredItems = action.payload;
       })
-      .addCase(applyFilters.rejected, (state, { payload }) => {
+      .addCase(applyFilters.rejected, (state, action) => {
         state.loading = false;
-        state.error = payload;
+        state.error = action.payload;
       });
   },
 });

@@ -49,7 +49,7 @@ const SearchResults = () => {
         <ProductsGrid>
           {filteredResults.map((product) => (
             <ProductsCard
-              key={product.id}
+              key={product._id}
               product={product}
               // Передаємо інші потрібні пропси (якщо є)
             />
