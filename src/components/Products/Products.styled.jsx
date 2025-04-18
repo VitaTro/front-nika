@@ -54,7 +54,8 @@ export const ProductImage = styled.img`
 `;
 
 export const Pagination = styled.div`
-  margin-top: 20px;
+  margin: 0 auto;
+  padding-top: 20px;
 `;
 
 export const PageLink = styled.button`

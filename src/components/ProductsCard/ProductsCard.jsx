@@ -73,7 +73,7 @@ const ProductsCard = ({ product, isAuthenticated, t }) => {
       ) : (
         <div>{t("no_image")}</div>
       )}
-      <p>Price: {product.price} zł</p>
+      <p> {product.price} zł</p>
       <ProductAction>
         <ButtonHeart
           onClick={handleToggleWishlist}

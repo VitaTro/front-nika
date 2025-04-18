@@ -14,7 +14,7 @@ import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";
 import ErrorBoundary from "./ErrorBoundary";
-import FiltersComponent from "./FiltersComponent/FiltersComponent";
+// import FiltersComponent from "./FiltersComponent/FiltersComponent";
 import Footer from "./Footer/Footer";
 import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
@@ -51,7 +51,7 @@ export const App = () => {
               </ErrorBoundary>
             }
           />
-          <Route path="/products/filters" element={<FiltersComponent />} />
+          {/* <Route path="/products/filters" element={<FiltersComponent />} /> */}
           {/* Маршрути для Auth */}
           <Route path="/auth/login" element={<AuthFormLogin />} />
           <Route

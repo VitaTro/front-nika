@@ -46,6 +46,8 @@ export const ProductsHeader = styled.h3`
       ? "0 0 5px rgba(255, 255, 255, 0.8)"
       : "0 0 5px rgb(167, 182, 208)"};
   color: ${(props) => (props.theme.$isDarkMode ? "#fff" : "#4a5a77")};
+  display: flex;
+  justify-content: center;
 `;
 export const ButtonHeart = styled.button`
   background: none;
