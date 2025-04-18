@@ -1,18 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import NoResults from "../NoResults/NoResults";
 import { PageLink, Pagination } from "../Products/Products.styled";
-import emptyImage from "./empty.jpeg";
-import { EmptyState, StyledImage } from "./Pagination.styled";
 const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
   const { t } = useTranslation();
   if (totalPages === 0) {
-    return (
-      <EmptyState>
-        <StyledImage src={emptyImage} alt="No results" />
-        <p>{t("no_results")}</p>
-      </EmptyState>
-    );
+    return <NoResults />;
   }
   const pages = [];
   const maxVisiblePages = 5;

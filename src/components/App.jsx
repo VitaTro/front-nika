@@ -63,7 +63,7 @@ export const App = () => {
             element={<AuthFormRegister isAdmin={true} />}
           />
           {/* Маршрути для User */}
-          <Route path="/user/wishlist" element={<WishlistPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/user/shopping-cart" element={<ShoppingCartPage />} />
           {/* <Route path="/user/profile" element={<UserProfilePage />} /> */}
           // <Route path="/user/purchase-history" element={<WishlistPage />} />

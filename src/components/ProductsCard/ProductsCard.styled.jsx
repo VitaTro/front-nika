@@ -56,6 +56,12 @@ export const ButtonHeart = styled.button`
   padding: 0;
   margin-left: 10px;
   font-size: 24px;
+  color: ${(props) => (props.$isActive ? "red" : "gray")}; // Червоне активне
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${(props) => (props.$isActive ? "darkred" : "black")};
+  }
 `;
 export const ButtonShopping = styled.button`
   background: none;

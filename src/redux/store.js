@@ -8,6 +8,7 @@ import searchReducer from "./search/searchSlice";
 import shoppingCartReducer from "./shopping/shoppingSlice";
 import themeReducer from "./themeSlice";
 import userReducer from "./user/userSlice";
+import wishlistReducer from "./wishlist/wishlistSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -17,7 +18,7 @@ const store = configureStore({
     popularProducts: popularProductsReducer,
     search: searchReducer,
     cart: shoppingCartReducer,
-    // wishlist: wishlistReducer,
+    wishlist: wishlistReducer,
     filters: filtersReducer,
     theme: themeReducer,
   },

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-// import {
-//   addProductToWishlist,
-//   removeProductFromWishlist,
-// } from "../../redux/wishlist/operationWishlist";
-// import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProductToWishlist,
+  removeProductFromWishlist,
+} from "../../redux/wishlist/operationWishlist";
+import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
   ButtonHeart,
@@ -15,53 +16,33 @@ import {
   ProductsHeader,
 } from "./ProductsCard.styled";
 
-const ProductsCard = ({ product, isAuthenticated, t }) => {
+const ProductsCard = ({ product }) => {
+  const [productCount, setProductCount] = useState(1); // Кількість продукту
+  const [isActive, setIsActive] = useState(false); // Статус "В бажаному"
   const dispatch = useDispatch();
-  const [isActive, setIsActive] = useState(false);
-  const [productCount, setProductCount] = useState(1);
-  // const wishlist = useSelector(selectWishlistProducts);
+  const { t } = useTranslation();
+  const wishlist = useSelector(selectWishlistProducts);
 
-  // const isProductInWishlist =
-  //   Array.isArray(wishlist) &&
-  //   wishlist.some((wishlistProduct) => wishlistProduct.id === product.id);
+  // Перевірка, чи продукт у списку бажань
+  const isProductInWishlist =
+    Array.isArray(wishlist) &&
+    wishlist.some((wishlistProduct) => wishlistProduct._id === product._id);
 
-  // const handleToggleWishlist = async () => {
-  //   try {
-  //     if (isProductInWishlist) {
-  //       await dispatch(removeProductFromWishlist(product.id));
-  //     } else {
-  //       await dispatch(addProductToWishlist(product));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error toggling wishlist:", error);
-  //   }
-  // };
-  const handleToggleWishlist = () => {
-    setIsActive((prevState) => !prevState);
-  };
+  // Синхронізація локального стану з Redux
+  useEffect(() => {
+    setIsActive(isProductInWishlist); // Оновлення стану "сердечка"
+  }, [isProductInWishlist]);
 
-  // Якщо використовуєте Redux:
-  // try {
-  //   if (isActive) {
-  //     dispatch(removeProductFromWishlist(product.id));
-  //   } else {
-  //     dispatch(addProductToWishlist(product));
-  //   }
-  // } catch (error) {
-  //   console.error("Error toggling wishlist:", error);
-  // }
-
-  const handleAddProductToCart = () => {
-    dispatch(addProductToCart({ ...product, quantity: productCount }));
-  };
-
-  const handleIncreaseQuantity = () => {
-    setProductCount((prevCount) => prevCount + 1);
-  };
-
-  const handleDecreaseQuantity = () => {
-    if (productCount > 1) {
-      setProductCount((prevCount) => prevCount - 1);
+  // Обробка кліку на сердечко
+  const handleToggleWishlist = async () => {
+    try {
+      if (isActive) {
+        await dispatch(removeProductFromWishlist(product._id));
+      } else {
+        await dispatch(addProductToWishlist(product));
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
     }
   };
 
@@ -73,24 +54,31 @@ const ProductsCard = ({ product, isAuthenticated, t }) => {
       ) : (
         <div>{t("no_image")}</div>
       )}
-      <p> {product.price} zł</p>
+      <p>{product.price} zł</p>
       <ProductAction>
         <ButtonHeart
           onClick={handleToggleWishlist}
-
-          // $isActive={isProductInWishlist}
+          $isActive={isActive} // Відображення кольору на основі статусу
         >
           {isActive ? "❤️" : "🖤"}
         </ButtonHeart>
         <div>
-          <ButtonQuantity onClick={handleDecreaseQuantity}>➖</ButtonQuantity>
+          <ButtonQuantity
+            onClick={
+              () => setProductCount((c) => Math.max(c - 1, 1)) // Мінімальне значення — 1
+            }
+          >
+            ➖
+          </ButtonQuantity>
           <span>{productCount}</span>
-          <ButtonQuantity onClick={handleIncreaseQuantity}>➕</ButtonQuantity>
+          <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
+            ➕
+          </ButtonQuantity>
         </div>
-
-        <ButtonShopping onClick={handleAddProductToCart}>🛒</ButtonShopping>
+        <ButtonShopping onClick={() => {}}>🛒</ButtonShopping>
       </ProductAction>
     </ProductCardContainer>
   );
 };
+
 export default ProductsCard;

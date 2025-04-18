@@ -20,15 +20,14 @@ import {
   UtilityContainer,
 } from "./Header.styled";
 import MobileMenuHeader from "./MobileMenuHeader";
-
 const Header = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
-  const { t, i18n } = useTranslation();
+
   const [selectedLanguage, setSelectedLanguage] = useState("pl");
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 768 });
-
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -74,7 +73,7 @@ const Header = () => {
             <NavLinkStyled to="/products">{t("products")}</NavLinkStyled>
           </NavItem>
           <NavItem>
-            <NavLinkStyled to="/user/wishlist">{t("wishlist")}</NavLinkStyled>
+            <NavLinkStyled to="/wishlist">{t("wishlist")}</NavLinkStyled>
           </NavItem>
           <NavItem>
             <NavLinkStyled to="/about">{t("about")}</NavLinkStyled>

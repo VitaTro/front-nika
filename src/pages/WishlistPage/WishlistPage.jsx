@@ -1,67 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ReactPaginate from "react-paginate";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
-import ProductsCard from "../../components/ProductsCard/ProductsCard"; // Картка продукту
-// import {
-//   getWishlist,
-//   removeProductFromWishlist,
-// } from "../../redux/wishlist/operationWishlist";
-// import {
-//   selectWishlistError,
-//   selectWishlistLoading,
-//   selectWishlistProducts,
-// } from "../../redux/wishlist/selectorsWishlist";
+import NoResults from "../../components/NoResults/NoResults";
+import {
+  getWishlist,
+  removeProductFromWishlist,
+} from "../../redux/wishlist/operationWishlist";
+import {
+  selectWishlistError,
+  selectWishlistLoading,
+  selectWishlistProducts,
+} from "../../redux/wishlist/selectorsWishlist";
+import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
+import {
+  AddToCartButton,
+  AllButton,
+  ProductImage,
+  ProductName,
+  ProductPrice,
+  RemoveButton,
+  WishlistContainer,
+  WishlistItem,
+} from "./WishlistPage.styled";
 
-const WishlistPage = ({ t }) => {
+const WishlistPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(0);
-  const productsPerPage = 5;
-  // const wishlist = useSelector(selectWishlistProducts);
-  // const isLoading = useSelector(selectWishlistLoading);
-  // const error = useSelector(selectWishlistError);
+  const productsPerPage = 10;
+  const wishlist = useSelector(selectWishlistProducts);
+  const isLoading = useSelector(selectWishlistLoading);
+  const error = useSelector(selectWishlistError);
 
-  // useEffect(() => {
-  //   dispatch(getWishlist());
-  // }, [dispatch]);
-  const isLoading = false; // Тимчасова заглушка
-  const error = null; // Тимчасова заглушка
+  useEffect(() => {
+    dispatch(getWishlist());
+  }, [dispatch]);
 
-  // Заглушка для списку бажаних продуктів:
-  const wishlist = []; // Тимчасова заглушка (порожній масив)
-
-  if (isLoading) return <Loader />;
-  if (error)
-    return (
-      <p>
-        {t("error")}: {error}
-      </p>
-    );
-  if (!wishlist.length && !isLoading) {
-    return (
-      <div>
-        {/* <img src={sadFace} alt="No items" /> */}
-        <p>{t("no_items_in_wishlist")}</p>
-      </div>
-    );
-  }
-
+  const handleRemove = (productId) => {
+    dispatch(removeProductFromWishlist(productId)).then(() => {
+      dispatch(getWishlist()); // Оновлення списку після видалення
+    });
+  };
   const displayProducts = wishlist
     .slice(currentPage * productsPerPage, (currentPage + 1) * productsPerPage)
     .map((product) => (
-      <li key={product.id}>
-        <ProductsCard product={product} isAuthenticated={true} t={t} />
-        <button onClick={() => dispatch(removeProductFromWishlist(product.id))}>
-          ❌ {t("remove")}
-        </button>
-      </li>
+      <WishlistItem key={product._id}>
+        <ProductImage src={product.photoUrl} alt={product.name} />
+        <ProductName>{product.name}</ProductName>
+        <ProductPrice>{product.price} zł</ProductPrice>
+        <AllButton>
+          <AddToCartButton
+            onClick={() => dispatch(addProductToCart(product._id))}
+          >
+            🛒
+          </AddToCartButton>
+          <RemoveButton onClick={() => handleRemove(product._id)}>
+            🗑️
+          </RemoveButton>
+        </AllButton>
+      </WishlistItem>
     ));
 
   const pageCount = Math.ceil(wishlist.length / productsPerPage);
+
   return (
-    <div>
-      <h1>{t("wishlist")}</h1>
-      <ul>{displayProducts}</ul>
+    <WishlistContainer>
+      {/* Заголовок завжди відображається */}
+      <WelcomeGeneral>{t("wishlist_page")}</WelcomeGeneral>
+
+      {/* Показуємо різний контент залежно від стану */}
+      {isLoading && <Loader />}
+      {error && (
+        <p>
+          {"error"}: {error}
+        </p>
+      )}
+      {!wishlist.length && !isLoading && <NoResults />}
+      {wishlist.length > 0 && <>{displayProducts}</>}
       {wishlist.length > productsPerPage && (
         <ReactPaginate
           previousLabel={"<"}
@@ -70,7 +87,7 @@ const WishlistPage = ({ t }) => {
           onPageChange={({ selected }) => setCurrentPage(selected)}
         />
       )}
-    </div>
+    </WishlistContainer>
   );
 };
 
