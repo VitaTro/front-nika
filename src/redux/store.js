@@ -17,7 +17,7 @@ const store = configureStore({
     products: productsReducer,
     popularProducts: popularProductsReducer,
     search: searchReducer,
-    cart: shoppingCartReducer,
+    shoppingCart: shoppingCartReducer,
     wishlist: wishlistReducer,
     filters: filtersReducer,
     theme: themeReducer,

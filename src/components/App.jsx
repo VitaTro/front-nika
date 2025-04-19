@@ -8,7 +8,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
-import ShoppingCartPage from "../pages/ShoppingCartPage";
+import ShoppingCartPage from "../pages/ShoppingCart/ShoppingCart";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
@@ -64,7 +64,7 @@ export const App = () => {
           />
           {/* Маршрути для User */}
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/user/shopping-cart" element={<ShoppingCartPage />} />
+          <Route path="/shopping-cart" element={<ShoppingCartPage />} />
           {/* <Route path="/user/profile" element={<UserProfilePage />} /> */}
           // <Route path="/user/purchase-history" element={<WishlistPage />} />
           {/* Маршрути для Admin */}

@@ -34,17 +34,6 @@ const wishlistSlice = createSlice({
         if (!exists) {
           state.products.push(payload);
         }
-        //     state.products = [...state.products, payload];
-        //     // .reduce(
-        //     //   (unique, product) => {
-        //     //     if (!unique.some((p) => p.id === product.id)) {
-        //     //       unique.push(product);
-        //     //     }
-        //     //     return unique;
-        //     //   },
-        //     //   []
-        //     // );
-        //   }
       })
 
       .addCase(addProductToWishlist.rejected, (state, { payload }) => {
@@ -54,14 +43,6 @@ const wishlistSlice = createSlice({
         state.products = state.products.filter(
           (product) => product.productId !== payload
         );
-        // state.products = state.products
-        //   .filter((product) => product.id !== payload)
-        //   .reduce((unique, product) => {
-        //     if (!unique.some((p) => p.id === product.id)) {
-        //       unique.push(product);
-        //     }
-        //     return unique;
-        //   }, []);
       })
 
       .addCase(removeProductFromWishlist.rejected, (state, { payload }) => {
