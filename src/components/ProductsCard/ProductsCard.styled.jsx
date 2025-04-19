@@ -60,7 +60,6 @@ export const ButtonHeart = styled.button`
 
   color: ${(props) =>
     props.$isActive ? "red" : "gray"}; /* Колір залежить від стану */
-  transition: color 0.3s ease, transform 0.3s ease; /* Плавна зміна кольору та розміру */
 
   &:hover {
     transform: scale(1.2); /* Легке збільшення при наведенні */

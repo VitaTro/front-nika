@@ -34,20 +34,19 @@ const WishlistPage = () => {
   const wishlist = useSelector(selectWishlistProducts);
   const isLoading = useSelector(selectWishlistLoading);
   const error = useSelector(selectWishlistError);
-  const [lightboxImage, setLightboxImage] = useState(null);
 
   useEffect(() => {
     dispatch(getWishlist());
   }, [dispatch]);
 
   // Оновлення списку після видалення
-  const handleRemove = (productId) => {
-    dispatch(removeProductFromWishlist(productId)).then(() => {
+  const handleRemove = (_id) => {
+    dispatch(removeProductFromWishlist(_id)).then(() => {
       dispatch(getWishlist());
     });
   };
 
-  // pagination
+  // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentWishlist = wishlist.slice(
@@ -59,11 +58,11 @@ const WishlistPage = () => {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Прокрутка вгору
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const displayProducts = currentWishlist.map((product) => (
-    <WishlistItem key={product._id}>
+    <WishlistItem key={product.productId}>
       <ZoomableProductImage
         src={product.photoUrl}
         alt={product.name}
@@ -73,7 +72,7 @@ const WishlistPage = () => {
       <ProductPrice>{product.price} zł</ProductPrice>
       <AllButton>
         <AddToCartButton
-          onClick={() => dispatch(addProductToCart(product._id))}
+          onClick={() => dispatch(addProductToCart(product.productId))}
         >
           🛒
         </AddToCartButton>
@@ -114,7 +113,6 @@ const WishlistPage = () => {
           />
         </div>
       )}
-      {/* Компонент Lightbox */}
     </WishlistContainer>
   );
 };

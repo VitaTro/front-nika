@@ -18,34 +18,39 @@ import {
 
 const ProductsCard = ({ product }) => {
   const [productCount, setProductCount] = useState(1); // Кількість продукту
-  const [isActive, setIsActive] = useState(false); // Статус "В бажаному"
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const wishlist = useSelector(selectWishlistProducts);
-  const [localIsActive, setLocalIsActive] = useState(null);
+  const [localIsActive, setLocalIsActive] = useState(false);
 
   // Перевірка, чи продукт у списку бажань
-  const isProductInWishlist =
-    Array.isArray(wishlist) &&
-    wishlist.some((wishlistProduct) => wishlistProduct._id === product._id);
+  const isProductInWishlist = wishlist.some(
+    (item) => item.productId === product._id // Звертаємося напряму до `productId`
+  );
 
   // Синхронізація локального стану з Redux
   useEffect(() => {
-    setLocalIsActive(isProductInWishlist); // Оновлення стану "сердечка"
-  }, [isProductInWishlist]);
+    setLocalIsActive(isProductInWishlist);
+    console.log("Wishlist:", wishlist);
+    console.log(
+      "Current Product ID:",
+      product._id,
+      "Active:",
+      isProductInWishlist
+    );
+  }, [wishlist, isProductInWishlist, product._id]);
 
   // Обробка кліку на сердечко
   const handleToggleWishlist = async () => {
     try {
-      setLocalIsActive((prevState) => !prevState);
-      console.log("Before toggle:", isActive); // Лог стану до натискання
       if (isProductInWishlist) {
-        await dispatch(removeProductFromWishlist(product._id));
+        console.log("Removing from wishlist:", product._id);
+        await dispatch(removeProductFromWishlist(product._id)); // Передаємо `_id`
       } else {
-        await dispatch(addProductToWishlist(product));
+        console.log("Adding to wishlist:", product._id);
+        await dispatch(addProductToWishlist(product._id)); // Передаємо `_id`
       }
-      // setIsActive(!isActive);
-      console.log("After toggle:", !isActive); // Лог стану після натискання
     } catch (error) {
       console.error("Error toggling wishlist:", error);
     }
@@ -53,35 +58,43 @@ const ProductsCard = ({ product }) => {
 
   return (
     <ProductCardContainer>
-      <ProductsHeader>{product.name}</ProductsHeader>
-      {product.photoUrl ? (
-        <ProductImageWithLightbox src={product.photoUrl} alt={product.name} />
+      {product ? (
+        <>
+          <ProductsHeader>{product.name}</ProductsHeader>
+          {product.photoUrl ? (
+            <ProductImageWithLightbox
+              src={product.photoUrl}
+              alt={product.name}
+            />
+          ) : (
+            <div>{t("no_image")}</div>
+          )}
+          <p>{product.price} zł</p>
+          <ProductAction>
+            <ButtonHeart
+              onClick={handleToggleWishlist}
+              $isActive={localIsActive}
+            >
+              {localIsActive ? "❤️" : "🖤"}
+            </ButtonHeart>
+
+            <div>
+              <ButtonQuantity
+                onClick={() => setProductCount((c) => Math.max(c - 1, 1))}
+              >
+                ➖
+              </ButtonQuantity>
+              <span>{productCount}</span>
+              <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
+                ➕
+              </ButtonQuantity>
+            </div>
+            <ButtonShopping onClick={() => {}}>🛒</ButtonShopping>
+          </ProductAction>
+        </>
       ) : (
-        <div>{t("no_image")}</div>
+        <div>{t("Product information unavailable")}</div>
       )}
-      <p>{product.price} zł</p>
-      <ProductAction>
-        <ButtonHeart
-          onClick={handleToggleWishlist}
-          $isActive={localIsActive} // Відображення кольору на основі статусу
-        >
-          {localIsActive ? "❤️" : "🖤"}
-        </ButtonHeart>
-        <div>
-          <ButtonQuantity
-            onClick={
-              () => setProductCount((c) => Math.max(c - 1, 1)) // Мінімальне значення — 1
-            }
-          >
-            ➖
-          </ButtonQuantity>
-          <span>{productCount}</span>
-          <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
-            ➕
-          </ButtonQuantity>
-        </div>
-        <ButtonShopping onClick={() => {}}>🛒</ButtonShopping>
-      </ProductAction>
     </ProductCardContainer>
   );
 };

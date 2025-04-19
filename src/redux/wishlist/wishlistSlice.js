@@ -21,23 +21,49 @@ const wishlistSlice = createSlice({
       })
       .addCase(getWishlist.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.products = payload; // Оновлюємо список бажаних товарів
+        state.products = payload;
       })
       .addCase(getWishlist.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       })
       .addCase(addProductToWishlist.fulfilled, (state, { payload }) => {
-        state.products.push(payload); // Додаємо товар до списку
+        const exists = state.products.some(
+          (product) => product.productId === payload.productId
+        );
+        if (!exists) {
+          state.products.push(payload);
+        }
+        //     state.products = [...state.products, payload];
+        //     // .reduce(
+        //     //   (unique, product) => {
+        //     //     if (!unique.some((p) => p.id === product.id)) {
+        //     //       unique.push(product);
+        //     //     }
+        //     //     return unique;
+        //     //   },
+        //     //   []
+        //     // );
+        //   }
       })
+
       .addCase(addProductToWishlist.rejected, (state, { payload }) => {
         state.error = payload;
       })
       .addCase(removeProductFromWishlist.fulfilled, (state, { payload }) => {
         state.products = state.products.filter(
-          (product) => product.id !== payload
-        ); // Видаляємо товар зі списку
+          (product) => product.productId !== payload
+        );
+        // state.products = state.products
+        //   .filter((product) => product.id !== payload)
+        //   .reduce((unique, product) => {
+        //     if (!unique.some((p) => p.id === product.id)) {
+        //       unique.push(product);
+        //     }
+        //     return unique;
+        //   }, []);
       })
+
       .addCase(removeProductFromWishlist.rejected, (state, { payload }) => {
         state.error = payload;
       });

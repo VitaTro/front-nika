@@ -32,16 +32,19 @@ export const addProductToWishlist = createAsyncThunk(
     }
   }
 );
+
 export const removeProductFromWishlist = createAsyncThunk(
   "wishlist/removeProduct",
   async (productId, thunkAPI) => {
     try {
-      const response = await axios.delete(`/api/wishlist/remove/${productId}`);
+      console.log("Sending DELETE request for productId:", productId); // Логування
+      const response = await axios.delete(`/api/wishlist/remove/${productId}`); // Використовуємо productId
       if (response.status !== 200) {
         throw new Error("Failed to delete product from wishlist");
       }
       return productId;
     } catch (error) {
+      console.error("Error removing product:", error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

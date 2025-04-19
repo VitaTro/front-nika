@@ -4,7 +4,12 @@ export const selectWishlist = (state) => state.wishlist;
 
 export const selectWishlistProducts = createSelector(
   [selectWishlist],
-  (wishlist) => wishlist.products || []
+  (wishlist) =>
+    wishlist.products.map((item) => ({
+      ...item, // Розгортаємо дані `productId`
+      productId: item.productId._id, // Дістаємо ID
+      addedAt: item.addedAt, // Зберігаємо додаткову інформацію
+    }))
 );
 
 export const selectWishlistLoading = createSelector(
