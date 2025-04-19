@@ -44,6 +44,7 @@ const ProductsCard = ({ product }) => {
   // Обробка кліку на сердечко
   const handleToggleWishlist = async () => {
     try {
+      setLocalIsActive((prevState) => !prevState);
       if (isProductInWishlist) {
         console.log("Removing from wishlist:", product._id);
         await dispatch(removeProductFromWishlist(product._id)); // Передаємо `_id`
