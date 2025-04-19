@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const WishlistContainer = styled.div`
-  width: 80%;
-  margin: 0 auto;
+  width: 90%;
+  // margin: 0 auto;
+  padding: 10px 30px;
   font-family: Arial, sans-serif;
+
   min-height: 100vh;
 `;
 
@@ -19,6 +21,12 @@ export const ProductImage = styled.img`
   max-width: 50px; /* Маленьке фото */
   height: auto;
   margin-right: 10px;
+  cursor: pointer;
+  &:focus {
+    outline: none; /* Приберемо стандартний контур */
+    transform: scale(2); /* Збільшення фото */
+    transition: transform 0.3s ease; /* Плавне збільшення */
+  }
 `;
 
 export const ProductName = styled.span`

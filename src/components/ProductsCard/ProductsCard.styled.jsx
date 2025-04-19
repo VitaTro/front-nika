@@ -49,6 +49,7 @@ export const ProductsHeader = styled.h3`
   display: flex;
   justify-content: center;
 `;
+
 export const ButtonHeart = styled.button`
   background: none;
   border: none;
@@ -56,13 +57,20 @@ export const ButtonHeart = styled.button`
   padding: 0;
   margin-left: 10px;
   font-size: 24px;
-  color: ${(props) => (props.$isActive ? "red" : "gray")}; // Червоне активне
-  transition: color 0.3s ease;
+
+  color: ${(props) =>
+    props.$isActive ? "red" : "gray"}; /* Колір залежить від стану */
+  transition: color 0.3s ease, transform 0.3s ease; /* Плавна зміна кольору та розміру */
 
   &:hover {
-    color: ${(props) => (props.$isActive ? "darkred" : "black")};
+    transform: scale(1.2); /* Легке збільшення при наведенні */
+  }
+
+  &:focus {
+    outline: none; /* Прибираємо стандартний контур */
   }
 `;
+
 export const ButtonShopping = styled.button`
   background: none;
   border: none;

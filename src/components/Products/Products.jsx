@@ -6,7 +6,7 @@ import ErrorBoundary from "../ErrorBoundary";
 // import FiltersComponent from "../FiltersComponent/FiltersComponent";
 import Header from "../Header/Header";
 import Loader from "../Loader";
-import PaginationComponent from "../Pagination/Pagination";
+import PaginationComponent from "../PaginationComponent/PaginationComponent";
 import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
 import {

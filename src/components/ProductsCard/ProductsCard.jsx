@@ -22,6 +22,7 @@ const ProductsCard = ({ product }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const wishlist = useSelector(selectWishlistProducts);
+  const [localIsActive, setLocalIsActive] = useState(null);
 
   // Перевірка, чи продукт у списку бажань
   const isProductInWishlist =
@@ -30,17 +31,21 @@ const ProductsCard = ({ product }) => {
 
   // Синхронізація локального стану з Redux
   useEffect(() => {
-    setIsActive(isProductInWishlist); // Оновлення стану "сердечка"
+    setLocalIsActive(isProductInWishlist); // Оновлення стану "сердечка"
   }, [isProductInWishlist]);
 
   // Обробка кліку на сердечко
   const handleToggleWishlist = async () => {
     try {
-      if (isActive) {
+      setLocalIsActive((prevState) => !prevState);
+      console.log("Before toggle:", isActive); // Лог стану до натискання
+      if (isProductInWishlist) {
         await dispatch(removeProductFromWishlist(product._id));
       } else {
         await dispatch(addProductToWishlist(product));
       }
+      // setIsActive(!isActive);
+      console.log("After toggle:", !isActive); // Лог стану після натискання
     } catch (error) {
       console.error("Error toggling wishlist:", error);
     }
@@ -58,9 +63,9 @@ const ProductsCard = ({ product }) => {
       <ProductAction>
         <ButtonHeart
           onClick={handleToggleWishlist}
-          $isActive={isActive} // Відображення кольору на основі статусу
+          $isActive={localIsActive} // Відображення кольору на основі статусу
         >
-          {isActive ? "❤️" : "🖤"}
+          {localIsActive ? "❤️" : "🖤"}
         </ButtonHeart>
         <div>
           <ButtonQuantity

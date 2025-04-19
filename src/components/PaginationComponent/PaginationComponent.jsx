@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import NoResults from "../NoResults/NoResults";
-import { PageLink, Pagination } from "../Products/Products.styled";
+import { PageLink, Pagination } from "./PaginationComponent.styled";
 const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
   const { t } = useTranslation();
   if (totalPages === 0) {
