@@ -49,3 +49,17 @@ export const removeProductFromWishlist = createAsyncThunk(
     }
   }
 );
+
+export const moveProductToShoppingCart = createAsyncThunk(
+  "wishlist/moveToShoppingCart",
+  async (id, thunkAPI) => {
+    console.log("Moving product from wishlist to shopping cart with ID:", id); // Логування
+    try {
+      const { data } = await axios.post(`/api/wishlist/move-to-cart/${id}`);
+      return data.item; // Повертаємо переміщений товар
+    } catch (error) {
+      console.error("Error moving product to shopping cart:", error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

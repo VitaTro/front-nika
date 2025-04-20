@@ -8,6 +8,7 @@ import PaginationComponent from "../../components/PaginationComponent/Pagination
 import ZoomableProductImage from "../../components/ZoomableProductImage";
 import {
   getWishlist,
+  moveProductToShoppingCart,
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
 import {
@@ -46,6 +47,11 @@ const WishlistPage = () => {
     });
   };
 
+  const handleMoveToCart = (id) => {
+    console.log("Moving product to cart with ID:", id);
+    dispatch(moveProductToShoppingCart(id));
+  };
+
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -62,7 +68,7 @@ const WishlistPage = () => {
   };
 
   const displayProducts = currentWishlist.map((product) => (
-    <WishlistItem key={product.productId}>
+    <WishlistItem key={`${product.productId}-${product.name}`}>
       <ZoomableProductImage
         src={product.photoUrl}
         alt={product.name}
@@ -71,9 +77,7 @@ const WishlistPage = () => {
       <ProductName>{product.name}</ProductName>
       <ProductPrice>{product.price} zł</ProductPrice>
       <AllButton>
-        <AddToCartButton
-          onClick={() => dispatch(addProductToCart(product.productId))}
-        >
+        <AddToCartButton onClick={() => handleMoveToCart(product._id)}>
           🛒
         </AddToCartButton>
         <RemoveButton onClick={() => handleRemove(product._id)}>

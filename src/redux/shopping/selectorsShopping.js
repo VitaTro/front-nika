@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-export const selectShopping = (state) => state.shopping;
+export const selectShopping = (state) => state.shopping.products;
 
 export const selectShoppingCartItems = createSelector(
   [selectShopping],
@@ -18,4 +18,8 @@ export const selectShoppingCartLoading = createSelector(
 export const selectShoppingCartError = createSelector(
   [selectShopping],
   (shopping) => shopping.error
+);
+export const isProductInShoppingCart = createSelector(
+  [selectShopping, (_, productId) => productId],
+  (shopping, productId) => shopping.some((item) => item.productId === productId)
 );

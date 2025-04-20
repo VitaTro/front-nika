@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addProductToWishlist,
   getWishlist,
+  moveProductToShoppingCart,
   removeProductFromWishlist,
 } from "./operationWishlist";
 
@@ -46,6 +47,17 @@ const wishlistSlice = createSlice({
       })
 
       .addCase(removeProductFromWishlist.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(moveProductToShoppingCart.fulfilled, (state, { payload }) => {
+        console.log("Product successfully moved to shopping cart:", payload);
+
+        // Видаляємо товар зі списку бажань
+        state.products = state.products.filter(
+          (product) => product._id !== payload._id
+        );
+      })
+      .addCase(moveProductToShoppingCart.rejected, (state, { payload }) => {
         state.error = payload;
       });
   },

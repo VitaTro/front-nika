@@ -64,7 +64,14 @@ export const App = () => {
           />
           {/* Маршрути для User */}
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/shopping-cart" element={<ShoppingCartPage />} />
+          <Route
+            path="/shopping-cart"
+            element={
+              <ErrorBoundary>
+                <ShoppingCartPage />{" "}
+              </ErrorBoundary>
+            }
+          />
           {/* <Route path="/user/profile" element={<UserProfilePage />} /> */}
           // <Route path="/user/purchase-history" element={<WishlistPage />} />
           {/* Маршрути для Admin */}

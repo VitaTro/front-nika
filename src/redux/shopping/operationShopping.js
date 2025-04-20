@@ -70,3 +70,22 @@ export const updateProductToShoppingCart = createAsyncThunk(
     }
   }
 );
+
+export const moveProductToWishlist = createAsyncThunk(
+  "shoppingCart/moveToWishlist",
+  async (id, thunkAPI) => {
+    console.log(
+      "Sending POST request to move product to wishlist with ID:",
+      id
+    );
+    try {
+      const { data } = await axios.post(
+        `/api/shopping-cart/move-to-wishlist/${id}`
+      );
+      return data.item; // Повертаємо переміщений товар
+    } catch (error) {
+      console.error("Error moving product to wishlist:", error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

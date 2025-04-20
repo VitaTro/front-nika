@@ -21,3 +21,8 @@ export const selectWishlistError = createSelector(
   [selectWishlist],
   (wishlist) => wishlist.error
 );
+
+export const isProductInWishlist = createSelector(
+  [selectWishlistProducts, (_, productId) => productId],
+  (wishlist, productId) => wishlist.some((item) => item.productId === productId)
+);
