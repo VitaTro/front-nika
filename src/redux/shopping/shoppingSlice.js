@@ -23,43 +23,58 @@ const shoppingCartSlice = createSlice({
         state.error = null;
       })
       .addCase(getShoppingCart.fulfilled, (state, { payload }) => {
+        console.log("Redux state updated with payload:", payload);
         state.loading = false;
-        state.items = payload; // Оновлюємо список товарів у кошику
+        state.loading = false;
+        state.items = payload; // Оновлюємо стан з отриманими даними
         state.totalAmount = payload.reduce(
           (sum, item) => sum + item.price * item.quantity,
           0
         );
       })
+
       .addCase(getShoppingCart.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       })
       .addCase(addProductToShoppingCart.fulfilled, (state, { payload }) => {
         state.totalAmount += payload.price * payload.quantity;
-        const exists = state.products.some(
-          (product) => product.productId === payload.productId
-        );
-        if (!exists) {
-          state.products.push(payload);
+        if (Array.isArray(state.items)) {
+          const exists = state.items.some(
+            (product) => product.productId === payload.productId
+          );
+          if (!exists) {
+            state.items.push(payload);
+          }
+        } else {
+          console.error("state.items is not an array:", state.items);
         }
       })
+
       .addCase(addProductToShoppingCart.rejected, (state, { payload }) => {
         state.error = payload;
       })
       .addCase(updateProductToShoppingCart.fulfilled, (state, { payload }) => {
-        const index = state.items.findIndex((item) => item._id === payload._id);
-        if (index !== -1) {
-          state.items[index].quantity = payload.quantity;
-          state.totalQuantity = state.items.reduce(
-            (sum, item) => sum + item.quantity,
-            0
+        if (Array.isArray(state.items)) {
+          const index = state.items.findIndex(
+            (item) => item._id === payload._id
           );
-          state.totalAmount = state.items.reduce(
-            (sum, item) => sum + item.price * item.quantity,
-            0
-          );
+          if (index !== -1) {
+            state.items[index].quantity = payload.quantity;
+            state.totalQuantity = state.items.reduce(
+              (sum, item) => sum + item.quantity,
+              0
+            );
+            state.totalAmount = state.items.reduce(
+              (sum, item) => sum + item.price * item.quantity,
+              0
+            );
+          }
+        } else {
+          console.error("state.items is not an array:", state.items);
         }
       })
+
       .addCase(
         removeProductFromShoppingCart.fulfilled,
         (state, { payload }) => {

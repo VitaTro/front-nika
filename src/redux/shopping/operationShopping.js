@@ -6,9 +6,10 @@ export const getShoppingCart = createAsyncThunk(
   "shoppingCart/getShoppingCart",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get("/api/user/shopping-cart");
+      const { data } = await axios.get("/api/shopping-cart");
+      console.log("Fetched shopping cart data:", data);
       // Сортування за часом додавання (нові зверху)
-      const sortedShopping = (data.shoppingCart || []).sort(
+      const sortedShopping = (data.cart || []).sort(
         (a, b) => new Date(b.addedAt) - new Date(a.addedAt)
       );
       return sortedShopping; // Повертаємо список продуктів
@@ -21,12 +22,12 @@ export const getShoppingCart = createAsyncThunk(
 // Додати товар до кошика
 export const addProductToShoppingCart = createAsyncThunk(
   "shoppingCart/addProduct",
-  async (productId, thunkAPI) => {
+  async ({ productId, quantity }, thunkAPI) => {
     try {
-      const { data } = await axios.post(
-        "/api/user/shopping-cart/add",
-        productId
-      );
+      const { data } = await axios.post("/api/shopping-cart/add", {
+        productId,
+        quantity,
+      });
       return data.item; // Повертаємо доданий продукт
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -41,7 +42,7 @@ export const removeProductFromShoppingCart = createAsyncThunk(
     try {
       console.log("Sending DELETE request for productId:", productId); // Логування
       const response = await axios.delete(
-        `/api/user/shopping-cart/remove/${productId}`
+        `/api/shopping-cart/remove/${productId}`
       );
       if (response.status !== 200) {
         throw new Error("Failed to delete product from shopping cart");
@@ -59,7 +60,7 @@ export const updateProductToShoppingCart = createAsyncThunk(
   async ({ productId, quantity }, thunkAPI) => {
     try {
       const { data } = await axios.patch(
-        `/api/user/shopping-cart/update/${productId}`,
+        `/api/shopping-cart/update/${productId}`,
         { quantity }
       );
       return data.item; // Сервер повертає оновлений продукт

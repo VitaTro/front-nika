@@ -76,6 +76,13 @@ export const ButtonShopping = styled.button`
   cursor: pointer;
   padding: 0;
   font-size: 24px;
+  &:hover {
+    transform: scale(1.2); /* Легке збільшення при наведенні */
+  }
+
+  &:focus {
+    outline: none; /* Прибираємо стандартний контур */
+  }
 `;
 export const ButtonQuantity = styled.button`
   background-color: #f0f0f0;

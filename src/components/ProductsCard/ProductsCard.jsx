@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addProductToShoppingCart,
+  getShoppingCart,
+} from "../../redux/shopping/operationShopping";
+import {
   addProductToWishlist,
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
@@ -57,6 +61,21 @@ const ProductsCard = ({ product }) => {
     }
   };
 
+  const handleAddToCart = async () => {
+    try {
+      const productToAdd = {
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        quantity: productCount,
+      };
+      await dispatch(addProductToShoppingCart(productToAdd));
+      dispatch(getShoppingCart());
+    } catch (error) {
+      console.error("Error adding to cart", error);
+    }
+  };
+
   return (
     <ProductCardContainer>
       {product ? (
@@ -90,7 +109,7 @@ const ProductsCard = ({ product }) => {
                 ➕
               </ButtonQuantity>
             </div>
-            <ButtonShopping onClick={() => {}}>🛒</ButtonShopping>
+            <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
           </ProductAction>
         </>
       ) : (

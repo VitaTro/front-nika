@@ -11,7 +11,7 @@ export const selectShoppingCartItems = createSelector(
       addedAt: item.addedAt, // Зберігаємо додаткову інформацію
     }))
 );
-export const electShoppingCartLoading = createSelector(
+export const selectShoppingCartLoading = createSelector(
   [selectShopping],
   (shopping) => shopping?.loading ?? false
 );
