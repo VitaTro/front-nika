@@ -19,11 +19,14 @@ import {
   ThemeToggle,
   UtilityContainer,
 } from "./Header.styled";
+
+import { useLocation } from "react-router-dom";
 import MobileMenuHeader from "./MobileMenuHeader";
+
 const Header = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
-
+  const location = useLocation();
   const [selectedLanguage, setSelectedLanguage] = useState("pl");
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -70,16 +73,36 @@ const Header = () => {
         {/* Меню */}
         <NavList>
           <NavItem>
-            <NavLinkStyled to="/products">{t("products")}</NavLinkStyled>
+            <NavLinkStyled
+              to="/products"
+              $isActive={location.pathname === "/products"}
+            >
+              {t("products")}
+            </NavLinkStyled>
           </NavItem>
           <NavItem>
-            <NavLinkStyled to="/wishlist">{t("wishlist")}</NavLinkStyled>
+            <NavLinkStyled
+              to="/wishlist"
+              $isActive={location.pathname === "/wishlist"}
+            >
+              {t("wishlist")}
+            </NavLinkStyled>
           </NavItem>
           <NavItem>
-            <NavLinkStyled to="/about">{t("about")}</NavLinkStyled>
+            <NavLinkStyled
+              to="/about"
+              $isActive={location.pathname === "/about"}
+            >
+              {t("about")}
+            </NavLinkStyled>
           </NavItem>
           <NavItem>
-            <NavLinkStyled to="/shopping-cart">{t("basket")}</NavLinkStyled>
+            <NavLinkStyled
+              to="/shopping-cart"
+              $isActive={location.pathname === "/shopping-cart"}
+            >
+              {t("basket")}
+            </NavLinkStyled>
           </NavItem>
         </NavList>
 

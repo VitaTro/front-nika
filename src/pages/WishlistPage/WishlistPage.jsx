@@ -23,7 +23,6 @@ import {
   ProductName,
   ProductPrice,
   RemoveButton,
-  WishlistContainer,
   WishlistItem,
 } from "./WishlistPage.styled";
 
@@ -88,7 +87,7 @@ const WishlistPage = () => {
   ));
 
   return (
-    <WishlistContainer>
+    <>
       <Header />
       <WelcomeGeneral>{t("wishlist_page")}</WelcomeGeneral>
 
@@ -117,7 +116,7 @@ const WishlistPage = () => {
           />
         </div>
       )}
-    </WishlistContainer>
+    </>
   );
 };
 

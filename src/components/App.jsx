@@ -28,8 +28,8 @@ export const App = () => {
   };
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <>
-        <GlobalStyles />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/main" element={<MainPage />} />

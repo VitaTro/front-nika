@@ -6,8 +6,32 @@ export const WelcomeGeneral = styled.h1`
   font-family: "Noto Sans", sans-serif;
   font-size: 42px;
   font-weight: 700;
-  color: gray;
-  text-shadow: 0 0 5px rgb(167, 182, 208);
+  color: ${(props) => (props.theme.$isDarkMode ? "lightgray" : "gray")};
+  background: ${(props) =>
+    props.$isActive
+      ? props.theme.$isDarkMode
+        ? "linear-gradient(90deg, #8BC34A, #1B5E20)"
+        : "linear-gradient(90deg, #91A1B8, #ECEFF1)"
+      : "none"};
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: ${(props) =>
+    props.$isActive ? "transparent" : ""}; /* Завжди чіткий текст */
+  text-shadow: ${(props) =>
+    props.$isActive
+      ? props.theme.$isDarkMode
+        ? "0 5px 15px rgba(123, 228, 10, 0.5), 0 0 10px rgba(255, 255, 255, 0.2)"
+        : "0 0 12px rgba(167, 182, 208, 0.9)"
+      : "0 0 6px rgba(0, 0, 0, 0.1)"};
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1); /* Невелике збільшення */
+    text-shadow: ${(props) =>
+      props.theme.$isDarkMode
+        ? "0 10px 20px rgba(123, 228, 10, 0.7), 0 0 15px rgba(255, 255, 255, 0.4)"
+        : "0 0 15px rgba(167, 182, 208, 1)"};
+  }
 `;
 export const WelcomeContainer = styled.div`
   padding: 20px 190px;

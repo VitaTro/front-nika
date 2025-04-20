@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
 // import FiltersComponent from "../FiltersComponent/FiltersComponent";
+import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import Header from "../Header/Header";
 import Loader from "../Loader";
 import PaginationComponent from "../PaginationComponent/PaginationComponent";
@@ -14,7 +15,6 @@ import {
   ProductsGrid,
   TabButton,
   Tabs,
-  WelcomeHeader,
 } from "./Products.styled";
 
 const Products = ({ type }) => {
@@ -125,11 +125,11 @@ const Products = ({ type }) => {
       <Header />
       <SearchBar onSearch={handleSearch} />
       <ProductsContainer>
-        <WelcomeHeader>
+        <WelcomeGeneral>
           {type === "all"
             ? t("all_products")
             : t(`${type}_products`.toLowerCase())}
-        </WelcomeHeader>
+        </WelcomeGeneral>
 
         {(type === "gold" || type === "silver") && (
           <Tabs>

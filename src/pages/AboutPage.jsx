@@ -9,8 +9,11 @@ const AboutPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+    >
       <Header />
+
       <HeaderForm>{t("about_us")}</HeaderForm>
       <ItemForm>{t("about_info")}</ItemForm>
       <HeaderForm>{t("contact_us")}</HeaderForm>

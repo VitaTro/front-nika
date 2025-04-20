@@ -98,8 +98,39 @@ export const NavLinkStyled = styled(Link)`
   font-size: 18px;
   text-decoration: none;
   list-style: none;
+
+  /* Тінь для активної сторінки */
+  text-shadow: ${(props) =>
+    props.$isActive
+      ? props.theme.$isDarkMode
+        ? "0 6px 12px rgba(164, 159, 159, 0.5)"
+        : "0 6px 12px rgba(176, 173, 173, 0.6)"
+      : "none"};
+
+  /* Градієнт кольору для активної сторінки */
+  background: ${(props) =>
+    props.$isActive
+      ? props.theme.$isDarkMode
+        ? "linear-gradient(90deg, #8BC34A,rgb(9, 66, 12))"
+        : "linear-gradient(90deg, #91A1B8,rgb(20, 159, 252))"
+      : "none"};
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: ${(props) =>
+    props.$isActive
+      ? "transparent"
+      : ""}; /* Прозорий текст для активного стану */
+
+  /* Ефект при наведенні */
   &:hover {
-    color: darkgray;
+    color: ${(props) =>
+      props.theme.$isDarkMode ? "lightgray" : "darkgray"}; /* Зміна кольору */
+    text-shadow: ${(props) =>
+      props.theme.$isDarkMode
+        ? "0 8px 8px rgba(221, 219, 219, 0.79)"
+        : "0 8px 8px rgba(248, 247, 247, 0.8)"};
+    transform: scale(1.05); /* Легке збільшення */
+    transition: all 0.3s ease-in-out; /* Плавний перехід */
   }
 `;
 

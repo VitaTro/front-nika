@@ -26,7 +26,6 @@ import {
   ProductPrice,
   QuantityController,
   RemoveButton,
-  ShoppingContainer,
   ShoppingItem,
   ShoppingList,
   TotalAmount,
@@ -160,10 +159,9 @@ const ShoppingCartPage = () => {
   });
 
   return (
-    <ShoppingContainer>
+    <>
       <Header />
       <WelcomeGeneral>{t("basket")}</WelcomeGeneral>
-
       {isLoading && <Loader />}
       {error && (
         <p>
@@ -193,7 +191,7 @@ const ShoppingCartPage = () => {
           />
         </div>
       )}
-    </ShoppingContainer>
+    </>
   );
 };
 
