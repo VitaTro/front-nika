@@ -13,12 +13,19 @@ import {
 } from "../../redux/shopping/operationShopping";
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
 import {
-  AllButton,
+  ButtonHeart,
+  ButtonQuantity,
+  ContainerCart,
+  ItemHeader,
   ProductName,
   ProductPrice,
-  ShoppingActions,
+  QuantityController,
+  RemoveButton,
   ShoppingContainer,
   ShoppingItem,
+  ShoppingList,
+  TotalAmount,
+  TotalHeader,
 } from "./ShoppingCartPage.styled";
 
 const ShoppingCartPage = () => {
@@ -26,7 +33,9 @@ const ShoppingCartPage = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 18;
-  const shoppingCart = useSelector((state) => state.shoppingCart.items);
+  const shoppingCart = useSelector(
+    (state) => state.shoppingCart.products || []
+  );
   const isLoading = useSelector((state) => state.shoppingCart.loading);
   const error = useSelector((state) => state.shoppingCart.error);
   const totalAmount = useSelector((state) => state.shoppingCart.totalAmount);
@@ -36,12 +45,15 @@ const ShoppingCartPage = () => {
     dispatch(getShoppingCart());
   }, [dispatch]);
 
-  const handleQuantityChange = (productId, quantity) => {
-    dispatch(updateProductToShoppingCart({ productId, quantity }));
+  const handleQuantityChange = (id, quantity) => {
+    console.log("Updating quantity for ID:", id, "Quantity:", quantity); // Додай лог
+    dispatch(updateProductToShoppingCart({ id, quantity }));
+    // dispatch(getShoppingCart());
   };
 
   const handleRemove = (id) => {
     dispatch(removeProductFromShoppingCart(id));
+    dispatch(getShoppingCart());
   };
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -60,35 +72,37 @@ const ShoppingCartPage = () => {
 
   const displayProducts = currentCart.map((item) => (
     <ShoppingItem key={item._id}>
-      <ZoomableProductImage src={item.photoUrl} alt={item.name} tabIndex="0" />
-      <ProductName>{item.name}</ProductName>
-      <ShoppingActions>
-        <button
-          onClick={() =>
-            handleQuantityChange(item._id, Math.max(item.quantity - 1, 1))
-          }
-        >
-          ➖
-        </button>
-        <span>{item.quantity}</span>
-        <button
-          onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-        >
-          ➕
-        </button>
-      </ShoppingActions>
-      <ProductPrice>{item.price} zł</ProductPrice>
-      <p>
-        {t("quantity")}: {item.quantity}
-      </p>
-      <AllButton>
-        {/* <AddToCartButton
-          onClick={() => dispatch(addProductToCart(product.productId))}
-        >
-          🛒
-        </AddToCartButton> */}
-        <button onClick={() => handleRemove(item._id)}>🗑️</button>
-      </AllButton>
+      <ItemHeader>
+        <ZoomableProductImage
+          src={item.photoUrl}
+          alt={item.name}
+          tabIndex="0"
+        />
+        <ProductName>{item.name}</ProductName>
+      </ItemHeader>
+      <ContainerCart>
+        <QuantityController>
+          <ButtonQuantity
+            onClick={() =>
+              handleQuantityChange(item._id, Math.max(item.quantity - 1, 1))
+            }
+          >
+            ➖
+          </ButtonQuantity>
+          <span>{item.quantity}</span>
+          <ButtonQuantity
+            onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+          >
+            ➕
+          </ButtonQuantity>
+        </QuantityController>
+        <ProductPrice>
+          <span>{item.quantity * item.price} zł</span>
+        </ProductPrice>
+
+        <ButtonHeart>❤️</ButtonHeart>
+        <RemoveButton onClick={() => handleRemove(item._id)}>🗑️</RemoveButton>
+      </ContainerCart>
     </ShoppingItem>
   ));
 
@@ -103,11 +117,13 @@ const ShoppingCartPage = () => {
         </p>
       )}
       {!shoppingCart.length && !isLoading && <NoResults />}
-      {shoppingCart.length > 0 && <ul>{displayProducts}</ul>}
+      {shoppingCart.length > 0 && (
+        <ShoppingList>{displayProducts}</ShoppingList>
+      )}
 
-      <h2>
-        {t("total")}: {totalAmount} zł
-      </h2>
+      <TotalHeader>
+        {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
+      </TotalHeader>
       {shoppingCart.length > productsPerPage && (
         <div
           style={{

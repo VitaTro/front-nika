@@ -22,8 +22,12 @@ export const getShoppingCart = createAsyncThunk(
 // Додати товар до кошика
 export const addProductToShoppingCart = createAsyncThunk(
   "shoppingCart/addProduct",
-  async ({ productId, quantity }, thunkAPI) => {
+  async ({ productId, quantity = 1 }, thunkAPI) => {
     try {
+      if (quantity < 1) {
+        throw new Error("Quantity must be greater than 0");
+      }
+
       const { data } = await axios.post("/api/shopping-cart/add", {
         productId,
         quantity,
@@ -38,16 +42,14 @@ export const addProductToShoppingCart = createAsyncThunk(
 // Видалити товар із кошика
 export const removeProductFromShoppingCart = createAsyncThunk(
   "shoppingCart/removeProduct",
-  async (productId, thunkAPI) => {
+  async (id, thunkAPI) => {
+    console.log("Sending DELETE request for ID:", id); // Лог
     try {
-      console.log("Sending DELETE request for productId:", productId); // Логування
-      const response = await axios.delete(
-        `/api/shopping-cart/remove/${productId}`
-      );
+      const response = await axios.delete(`/api/shopping-cart/remove/${id}`);
       if (response.status !== 200) {
         throw new Error("Failed to delete product from shopping cart");
       }
-      return productId; // Повертаємо ID видаленого продукту
+      return id; // Повертаємо `_id` видаленого продукту
     } catch (error) {
       console.error("Error removing product:", error.message);
       return thunkAPI.rejectWithValue(error.message);
@@ -57,12 +59,11 @@ export const removeProductFromShoppingCart = createAsyncThunk(
 
 export const updateProductToShoppingCart = createAsyncThunk(
   "cart/updateCartItem",
-  async ({ productId, quantity }, thunkAPI) => {
+  async ({ id, quantity }, thunkAPI) => {
     try {
-      const { data } = await axios.patch(
-        `/api/shopping-cart/update/${productId}`,
-        { quantity }
-      );
+      const { data } = await axios.patch(`/api/shopping-cart/update/${id}`, {
+        quantity,
+      });
       return data.item; // Сервер повертає оновлений продукт
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

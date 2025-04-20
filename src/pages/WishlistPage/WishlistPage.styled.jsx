@@ -32,12 +32,18 @@ export const ProductImage = styled.img`
 export const ProductName = styled.span`
   flex: 2;
   font-size: 16px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 export const ProductPrice = styled.span`
   flex: 1;
   font-size: 16px;
   text-align: center;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `;
 
 export const RemoveButton = styled.button`
@@ -46,6 +52,9 @@ export const RemoveButton = styled.button`
   cursor: pointer;
   padding: 5px 10px;
   font-size: 24px;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 export const AddToCartButton = styled.button`
   background: none;
@@ -53,8 +62,14 @@ export const AddToCartButton = styled.button`
   cursor: pointer;
   padding: 5px 10px;
   font-size: 24px;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 export const AllButton = styled.div`
   display: flex;
   gap: 25px;
+  @media (max-width: 768px) {
+    gap: 10px;
+  }
 `;
