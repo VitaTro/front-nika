@@ -1,0 +1,115 @@
+import { Button, TextField } from "@mui/material";
+import React from "react";
+
+const AddProductForm = ({ newProduct, handleChange, handleAddProduct }) => (
+  <form onSubmit={handleAddProduct} style={{ marginBottom: "20px" }}>
+    <TextField
+      name="name"
+      label="Назва"
+      value={newProduct.name}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="category"
+      label="Категорія"
+      value={newProduct.category}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="subcategory"
+      label="Підкатегорія"
+      value={newProduct.subcategory}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="price"
+      label="Ціна"
+      value={newProduct.price}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="description"
+      label="Опис"
+      value={newProduct.description}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="photoUrl"
+      label="URL Фото"
+      value={newProduct.photoUrl}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="size"
+      label="Розмір"
+      value={newProduct.size}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="width"
+      label="Ширина"
+      value={newProduct.width}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="length"
+      label="Довжина"
+      value={newProduct.length}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="color"
+      label="Колір"
+      value={newProduct.color}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="quantity"
+      label="Кількість"
+      value={newProduct.quantity}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="index"
+      label="Індекс"
+      value={newProduct.index}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      name="purchasePrice"
+      label="Ціна закупки"
+      value={newProduct.purchasePrice}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    <Button type="submit" variant="contained" color="primary">
+      Додати товар
+    </Button>
+  </form>
+);
+export default AddProductForm;

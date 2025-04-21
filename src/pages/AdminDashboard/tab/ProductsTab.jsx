@@ -1,23 +1,10 @@
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ZoomableProductImage from "../../../components/ZoomableProductImage";
-import {
-  addAdminProduct,
-  deleteAdminProduct,
-  fetchAdminProducts,
-  updateAdminProduct,
-} from "../../../redux/admin/operationsAdmin";
+import { fetchAdminProducts } from "../../../redux/admin/operationsAdmin";
+import AddProductForm from "./products/AddProductForm";
+import FilterPanel from "./products/FilterPanel";
+import ProductsTable from "./products/ProductsTable";
 
 const ProductsTab = () => {
   const dispatch = useDispatch();
@@ -207,207 +194,26 @@ const ProductsTab = () => {
 
       {/* Вміст залежно від вибраного режиму */}
       {viewMode === "add" && (
-        <form onSubmit={handleAddProduct} style={{ marginBottom: "20px" }}>
-          <TextField
-            name="name"
-            label="Назва"
-            value={newProduct.name}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="category"
-            label="Категорія"
-            value={newProduct.category}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="subcategory"
-            label="Підкатегорія"
-            value={newProduct.subcategory}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="price"
-            label="Ціна"
-            value={newProduct.price}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="description"
-            label="Опис"
-            value={newProduct.description}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="photoUrl"
-            label="URL Фото"
-            value={newProduct.photoUrl}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="size"
-            label="Розмір"
-            value={newProduct.size}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="width"
-            label="Ширина"
-            value={newProduct.width}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="length"
-            label="Довжина"
-            value={newProduct.length}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="color"
-            label="Колір"
-            value={newProduct.color}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="quantity"
-            label="Кількість"
-            value={newProduct.quantity}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="index"
-            label="Індекс"
-            value={newProduct.index}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            name="purchasePrice"
-            label="Ціна закупки"
-            value={newProduct.purchasePrice}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <Button type="submit" variant="contained" color="primary">
-            Додати товар
-          </Button>
-        </form>
+        <AddProductForm
+          newProduct={newProduct}
+          handleChange={handleChange}
+          handleAddProduct={handleAddProduct}
+        />
       )}
 
       {viewMode === "view" && (
         <>
-          <div style={{ marginBottom: "20px" }}>
-            <TextField
-              label="Пошук за назвою"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Фільтр за категорією"
-              value={filterCategory}
-              onChange={handleFilterChange}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Індекс товару "
-              value={filterCategory}
-              onChange={handleFilterChange}
-              fullWidth
-              margin="normal"
-            />
-          </div>
-
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Фото</TableCell>
-                  <TableCell>Назва</TableCell>
-                  <TableCell>Категорія</TableCell>
-                  <TableCell>Підкатегорія</TableCell>
-                  <TableCell>Ціна</TableCell>
-                  <TableCell>Індекс</TableCell>
-                  <TableCell>Кількість</TableCell>
-                  <TableCell>Закупка</TableCell>
-                  <TableCell>Наявність</TableCell>
-                  <TableCell>Дії</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredProducts.map((product) => (
-                  <TableRow key={product.id || product.index}>
-                    <TableCell>
-                      <ZoomableProductImage
-                        src={product.photoUrl}
-                        alt={product.name}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.category}</TableCell>
-                    <TableCell>{product.subcategory}</TableCell>
-                    <TableCell>{product.price} zł</TableCell>
-                    <TableCell>{product.index}</TableCell>
-                    <TableCell>{product.quantity}</TableCell>
-                    <TableCell>{product.purchasePrice} zł</TableCell>
-                    <TableCell>
-                      {product.inStock ? "Є в наявності" : "Немає в наявності"}
-                    </TableCell>
-
-                    <TableCell>
-                      <Button
-                        size="small"
-                        color="primary"
-                        onClick={() =>
-                          handleUpdate(product.id, { name: product.name })
-                        }
-                      >
-                        Редагувати
-                      </Button>
-                      <Button
-                        size="small"
-                        color="error"
-                        onClick={() => handleDelete(product.id)}
-                      >
-                        Видалити
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <FilterPanel
+            searchTerm={searchTerm}
+            handleSearchChange={handleSearchChange}
+            filterCategory={filterCategory}
+            handleFilterChange={handleFilterChange}
+          />
+          <ProductsTable
+            filteredProducts={filteredProducts}
+            handleUpdate={handleUpdate}
+            handleDelete={handleDelete}
+          />
         </>
       )}
     </div>
