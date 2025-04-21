@@ -4,7 +4,9 @@ import {
   deleteAdminProduct,
   deleteAdminUser,
   fetchAdminDashboard,
+  fetchAdminProducts,
   fetchAdminUsers,
+  updateAdminProduct,
 } from "./operationsAdmin";
 
 const adminSlice = createSlice({
@@ -16,7 +18,7 @@ const adminSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {}, // Основні редюсери, якщо потрібно
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAdminUsers.pending, (state) => {
@@ -34,8 +36,37 @@ const adminSlice = createSlice({
       .addCase(deleteAdminUser.fulfilled, (state, { payload }) => {
         state.users = state.users.filter((user) => user.id !== payload);
       })
+      .addCase(fetchAdminProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminProducts.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.products = payload;
+      })
+      .addCase(fetchAdminProducts.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
       .addCase(addAdminProduct.fulfilled, (state, { payload }) => {
         state.products.push(payload);
+      })
+      .addCase(updateAdminProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateAdminProduct.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        const index = state.products.findIndex(
+          (product) => product.id === payload.updatedProduct.id
+        );
+        if (index !== -1) {
+          state.products[index] = payload.updatedProduct; // Оновлення продукту в списку
+        }
+      })
+      .addCase(updateAdminProduct.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       })
       .addCase(deleteAdminProduct.fulfilled, (state, { payload }) => {
         state.products = state.products.filter(

@@ -27,6 +27,19 @@ export const deleteAdminUser = createAsyncThunk(
   }
 );
 
+// подивитись список всіх продуктів
+export const fetchAdminProducts = createAsyncThunk(
+  "admin/fetchProducts",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("/api/admin/products");
+      return response.data; // Повертаємо список продуктів
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 // Додати новий продукт
 export const addAdminProduct = createAsyncThunk(
   "admin/addProduct",
@@ -47,6 +60,21 @@ export const deleteAdminProduct = createAsyncThunk(
     try {
       await axios.delete(`/api/admin/products/${id}`);
       return id; // Повертаємо ID видаленого продукту
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+// змінити дані продукту
+export const updateAdminProduct = createAsyncThunk(
+  "admin/updateProduct",
+  async ({ id, updatedData }, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        `/api/admin/products/${id}`,
+        updatedData
+      );
+      return response.data; // Повертаємо оновлені дані товару
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
