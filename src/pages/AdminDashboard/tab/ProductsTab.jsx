@@ -23,6 +23,12 @@ const ProductsTab = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.admin.products); // Отримання продуктів із Redux
   const [viewMode, setViewMode] = useState("view"); // 'view' або 'add'
+  const [searchTerm, setSearchTerm] = useState(""); // Строка для пошуку
+  const [filterCategory, setFilterCategory] = useState(""); // Фільтр за категорією
+  const [filteredProducts, setFilteredProducts] = useState(products); // Відфільтровані продукти
+  const [showCriticalStock, setShowCriticalStock] = useState(false);
+  const [showOutOfStock, setShowOutOfStock] = useState(false);
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "",
@@ -44,6 +50,48 @@ const ProductsTab = () => {
   useEffect(() => {
     dispatch(fetchAdminProducts()); // Отримання продуктів після першого рендеру
   }, [dispatch]);
+
+  useEffect(() => {
+    // Фільтрація критичного залишку
+    let results = products;
+
+    if (showCriticalStock) {
+      results = results.filter((product) => product.quantity <= 1);
+    }
+
+    setFilteredProducts(results);
+  }, [products, showCriticalStock]);
+
+  useEffect(() => {
+    // немає в наявності
+    let results = products;
+
+    if (showCriticalStock) {
+      results = results.filter((product) => product.quantity <= 1);
+    }
+
+    if (showOutOfStock) {
+      results = results.filter((product) => !product.inStock);
+    }
+
+    setFilteredProducts(results);
+  }, [products, showCriticalStock, showOutOfStock]);
+
+  useEffect(() => {
+    // Фільтруємо продукти на основі пошуку та категорії
+    let results = products;
+    if (searchTerm) {
+      results = results.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    if (filterCategory) {
+      results = results.filter(
+        (product) => product.category === filterCategory
+      );
+    }
+    setFilteredProducts(results);
+  }, [products, searchTerm, filterCategory]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,6 +128,17 @@ const ProductsTab = () => {
     dispatch(deleteAdminProduct(id));
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleFilterChange = (e) => {
+    setFilterCategory(e.target.value);
+  };
+
+  const toggleCriticalStockFilter = () => {
+    setShowCriticalStock(!showCriticalStock);
+  };
   return (
     <div>
       {/* Кнопки для переключення між підзакладками */}
@@ -99,6 +158,26 @@ const ProductsTab = () => {
         >
           Додати товар
         </Button>
+        {viewMode === "view" && (
+          <Button
+            variant={showCriticalStock ? "contained" : "outlined"}
+            color="warning"
+            onClick={toggleCriticalStockFilter}
+            style={{ marginLeft: "10px" }}
+          >
+            Kритичний залишок
+          </Button>
+        )}
+        {viewMode === "view" && (
+          <Button
+            variant={showOutOfStock ? "contained" : "outlined"}
+            color="error"
+            onClick={() => setShowOutOfStock(!showOutOfStock)}
+            style={{ marginLeft: "10px" }}
+          >
+            Hемає в наявності
+          </Button>
+        )}
       </div>
 
       {/* Вміст залежно від вибраного режиму */}
@@ -215,69 +294,89 @@ const ProductsTab = () => {
       )}
 
       {viewMode === "view" && (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Фото</TableCell>
-                <TableCell>Назва</TableCell>
-                <TableCell>Категорія</TableCell>
-                <TableCell>Підкатегорія</TableCell>
-                <TableCell>Ціна</TableCell>
-                <TableCell>Індекс</TableCell>
-                <TableCell>Кількість</TableCell>
-                <TableCell>Закупка</TableCell>
-                <TableCell>Наявність</TableCell>
-                <TableCell>Дії</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products.map((product) => (
-                <TableRow key={product.id || product.index}>
-                  <TableCell>
-                    <ZoomableProductImage
-                      src={product.photoUrl}
-                      alt={product.name}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.category}</TableCell>
-                  <TableCell>{product.subcategory}</TableCell>
-                  <TableCell>{product.price} zł</TableCell>
-                  <TableCell>{product.index}</TableCell>
-                  <TableCell>{product.quantity}</TableCell>
-                  <TableCell>{product.purchasePrice} zł</TableCell>
-                  <TableCell>
-                    {product.inStock ? "Є в наявності" : "Немає в наявності"}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      size="small"
-                      color="primary"
-                      onClick={() =>
-                        handleUpdate(product.id, { name: product.name })
-                      }
-                    >
-                      Редагувати
-                    </Button>
-                    <Button
-                      size="small"
-                      color="error"
-                      onClick={() => handleDelete(product.id)}
-                    >
-                      Видалити
-                    </Button>
-                  </TableCell>
+        <>
+          <div style={{ marginBottom: "20px" }}>
+            <TextField
+              label="Пошук за назвою"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Фільтр за категорією"
+              value={filterCategory}
+              onChange={handleFilterChange}
+              fullWidth
+              margin="normal"
+            />
+          </div>
+
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Фото</TableCell>
+                  <TableCell>Назва</TableCell>
+                  <TableCell>Категорія</TableCell>
+                  <TableCell>Підкатегорія</TableCell>
+                  <TableCell>Ціна</TableCell>
+                  <TableCell>Індекс</TableCell>
+                  <TableCell>Кількість</TableCell>
+                  <TableCell>Закупка</TableCell>
+                  <TableCell>Наявність</TableCell>
+                  <TableCell>Дії</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {filteredProducts.map((product) => (
+                  <TableRow key={product.id || product.index}>
+                    <TableCell>
+                      <ZoomableProductImage
+                        src={product.photoUrl}
+                        alt={product.name}
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.category}</TableCell>
+                    <TableCell>{product.subcategory}</TableCell>
+                    <TableCell>{product.price} zł</TableCell>
+                    <TableCell>{product.index}</TableCell>
+                    <TableCell>{product.quantity}</TableCell>
+                    <TableCell>{product.purchasePrice} zł</TableCell>
+                    <TableCell>
+                      {product.inStock ? "Є в наявності" : "Немає в наявності"}
+                    </TableCell>
+
+                    <TableCell>
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={() =>
+                          handleUpdate(product.id, { name: product.name })
+                        }
+                      >
+                        Редагувати
+                      </Button>
+                      <Button
+                        size="small"
+                        color="error"
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        Видалити
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       )}
     </div>
   );

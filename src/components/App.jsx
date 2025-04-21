@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
+import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab";
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab";
 import HomePage from "../pages/HomePage/HomePage";
@@ -17,12 +18,9 @@ import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";
 import ErrorBoundary from "./ErrorBoundary";
-// import FiltersComponent from "./FiltersComponent/FiltersComponent";
-import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab";
 import Footer from "./Footer/Footer";
 import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
-ProductsPage;
 
 export const App = () => {
   const location = useLocation();
@@ -30,6 +28,10 @@ export const App = () => {
   const theme = {
     isDarkMode,
   };
+
+  // Перевіряємо, чи поточний маршрут є частиною адмінської панелі
+  const isAdminPage = location.pathname.startsWith("/admin");
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -37,16 +39,13 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/main" element={<MainPage />} />
-          // {/* Products */}
+          {/* Products */}
           <Route path="/products" element={<Products type="all" />} />
-          // {/* Додано маршрут для всіх продуктів */}
           <Route path="/products/gold" element={<Products type="gold" />} />
           <Route path="/products/silver" element={<Products type="silver" />} />
           <Route path="/products/set" element={<Products type="set" />} />
           <Route path="/products/box" element={<Products type="box" />} />
           <Route path="/products/:type" element={<ProductsPage />} />
-          {/* <Route path="/products/:id/details" element={<ProductDetails />} /> */}
-          <Route path="/products/popular" element={<ProductsPage popular />} />
           <Route
             path="/search"
             element={
@@ -55,7 +54,6 @@ export const App = () => {
               </ErrorBoundary>
             }
           />
-          {/* <Route path="/products/filters" element={<FiltersComponent />} /> */}
           {/* Маршрути для Auth */}
           <Route path="/auth/login" element={<AuthFormLogin />} />
           <Route
@@ -71,12 +69,10 @@ export const App = () => {
             path="/shopping-cart"
             element={
               <ErrorBoundary>
-                <ShoppingCartPage />{" "}
+                <ShoppingCartPage />
               </ErrorBoundary>
             }
           />
-          {/* <Route path="/user/profile" element={<UserProfilePage />} /> */}
-          // <Route path="/user/purchase-history" element={<WishlistPage />} />
           {/* Маршрути для Admin */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="users" element={<UsersTab />} />
@@ -87,7 +83,9 @@ export const App = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-        <Footer />
+
+        {/* Відображаємо футер лише для не-адмінських сторінок */}
+        {!isAdminPage && <Footer />}
       </>
     </ThemeProvider>
   );
