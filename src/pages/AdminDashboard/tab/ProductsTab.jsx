@@ -28,7 +28,7 @@ const ProductsTab = () => {
   const [filteredProducts, setFilteredProducts] = useState(products); // Відфільтровані продукти
   const [showCriticalStock, setShowCriticalStock] = useState(false);
   const [showOutOfStock, setShowOutOfStock] = useState(false);
-
+  const [notOrderGoods, setNotOrderGoods] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "",
@@ -77,6 +77,21 @@ const ProductsTab = () => {
     setFilteredProducts(results);
   }, [products, showCriticalStock, showOutOfStock]);
 
+  useEffect(() => {
+    let results = products;
+
+    if (notOrderGoods) {
+      results = results.filter((product) => product.isNotOrderable); // Фільтруємо по стану
+    }
+
+    if (filterCategory) {
+      results = results.filter((product) =>
+        product.index.toLowerCase().includes(filterCategory.toLowerCase())
+      );
+    }
+
+    setFilteredProducts(results);
+  }, [products, notOrderGoods, filterCategory]);
   useEffect(() => {
     // Фільтруємо продукти на основі пошуку та категорії
     let results = products;
@@ -176,6 +191,16 @@ const ProductsTab = () => {
             style={{ marginLeft: "10px" }}
           >
             Hемає в наявності
+          </Button>
+        )}
+        {viewMode === "view" && (
+          <Button
+            variant={notOrderGoods ? "contained" : "outlined"}
+            color="error"
+            onClick={() => setNotOrderGoods(!notOrderGoods)}
+            style={{ marginLeft: "10px" }}
+          >
+            Не замовляти
           </Button>
         )}
       </div>
@@ -305,6 +330,13 @@ const ProductsTab = () => {
             />
             <TextField
               label="Фільтр за категорією"
+              value={filterCategory}
+              onChange={handleFilterChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Індекс товару "
               value={filterCategory}
               onChange={handleFilterChange}
               fullWidth
