@@ -4,6 +4,9 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
+import AdminLayout from "../pages/AdminDashboard/AdminLayout";
+import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab";
+import UsersTab from "../pages/AdminDashboard/tab/UsersTab";
 import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
@@ -15,6 +18,7 @@ import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";
 import ErrorBoundary from "./ErrorBoundary";
 // import FiltersComponent from "./FiltersComponent/FiltersComponent";
+import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab";
 import Footer from "./Footer/Footer";
 import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
@@ -62,7 +66,6 @@ export const App = () => {
             path="/auth/register/admin"
             element={<AuthFormRegister isAdmin={true} />}
           />
-          {/* Маршрути для User */}
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route
             path="/shopping-cart"
@@ -75,7 +78,11 @@ export const App = () => {
           {/* <Route path="/user/profile" element={<UserProfilePage />} /> */}
           // <Route path="/user/purchase-history" element={<WishlistPage />} />
           {/* Маршрути для Admin */}
-          {/* <Route path="/admin/dashboard" element={<AdminDashboardPage />} /> */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="users" element={<UsersTab />} />
+            <Route path="products" element={<ProductsTab />} />
+            <Route path="dashboard" element={<DashboardTab />} />
+          </Route>
           {/* Інші маршрути */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
