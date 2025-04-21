@@ -1,5 +1,10 @@
-import React, { useEffect } from "react";
+import { Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import FinancialOverviewSection from "../../../components/AdminDashboard/FinancialOverviewSection";
+import PopularProductsSection from "../../../components/AdminDashboard/PopularProductsSection";
+import StatisticsSection from "../../../components/AdminDashboard/StatisticsSection";
+import WishlistSection from "../../../components/AdminDashboard/WishlistSection";
 import Loader from "../../../components/Loader";
 import { fetchAdminDashboard } from "../../../redux/admin/operationsAdmin";
 import {
@@ -14,6 +19,8 @@ const DashboardTab = () => {
   const loading = useSelector(selectAdminLoading);
   const error = useSelector(selectAdminError);
 
+  const [viewMode, setViewMode] = useState("stats"); // Управління підзакладками
+
   useEffect(() => {
     dispatch(fetchAdminDashboard());
   }, [dispatch]);
@@ -22,70 +29,57 @@ const DashboardTab = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      {/* Загальна статистика */}
-      <section>
-        <h2>Статистика</h2>
-        <p>Загальна кількість користувачів: {dashboard.stats?.totalUsers}</p>
-        <p>Загальна кількість товарів: {dashboard.stats?.totalProducts}</p>
-        <p>Активні користувачі: {dashboard.stats?.activeUsers}</p>
-        <p>Продажі: {dashboard.stats?.salesCount}</p>
-        <p>Чистий прибуток: ${dashboard.stats?.netProfit}</p>
-      </section>
+    <div style={{ marginLeft: "10px" }}>
+      {/* Кнопки для переключення між секціями */}
+      <div style={{ marginBottom: "20px", marginLeft: "10px" }}>
+        <Button
+          variant={viewMode === "stats" ? "contained" : "outlined"}
+          color="primary"
+          onClick={() => setViewMode("stats")}
+        >
+          Статистика
+        </Button>
+        <Button
+          variant={viewMode === "popular" ? "contained" : "outlined"}
+          color="secondary"
+          onClick={() => setViewMode("popular")}
+          style={{ marginLeft: "10px" }}
+        >
+          Популярні товари
+        </Button>
+        <Button
+          variant={viewMode === "wishlist" ? "contained" : "outlined"}
+          color="success"
+          onClick={() => setViewMode("wishlist")}
+          style={{ marginLeft: "10px" }}
+        >
+          Список бажань
+        </Button>
+        <Button
+          variant={viewMode === "finance" ? "contained" : "outlined"}
+          color="warning"
+          onClick={() => setViewMode("finance")}
+          style={{ marginLeft: "10px" }}
+        >
+          Фінанси
+        </Button>
+      </div>
 
-      {/* Огляд продуктів */}
-      <section>
-        <h2>Товари з низькими залишками</h2>
-        <ul>
-          {dashboard.productsOverview?.lowStockItems.map((item) => (
-            <li key={item.name}>
-              {item.name} - залишок: {item.stock}
-            </li>
-          ))}
-        </ul>
-
-        <h2>Популярні товари</h2>
-        <ul>
-          {dashboard.productsOverview?.popularItems.map((item) => (
-            <li key={item.name}>
-              {item.name} - популярність: {item.popularity}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Список бажань */}
-      <section>
-        <h2>Список бажань</h2>
-        <ul>
-          {dashboard.wishlistOverview?.map((item) => (
-            <li key={item.name}>
-              {item.name} - кількість: {item.count}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Фінансова статистика */}
-      <section>
-        <h2>Фінансовий огляд</h2>
-        <h3>Ціни закупівель:</h3>
-        <ul>
-          {dashboard.financialOverview?.purchasePrices.map((item) => (
-            <li key={item.name}>
-              {item.name} - ${item.purchasePrice}
-            </li>
-          ))}
-        </ul>
-        <h3>Націнка:</h3>
-        <ul>
-          {dashboard.financialOverview?.markupOverview.map((item) => (
-            <li key={item.name}>
-              {item.name} - ${item.markup}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {/* Відображення вибраного режиму */}
+      {viewMode === "stats" && <StatisticsSection stats={dashboard.stats} />}
+      {viewMode === "popular" && (
+        <PopularProductsSection
+          popularItems={dashboard.productsOverview?.popularItems}
+        />
+      )}
+      {viewMode === "wishlist" && (
+        <WishlistSection wishlist={dashboard.wishlistOverview} />
+      )}
+      {viewMode === "finance" && (
+        <FinancialOverviewSection
+          financialOverview={dashboard.financialOverview}
+        />
+      )}
     </div>
   );
 };

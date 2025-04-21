@@ -78,6 +78,7 @@ export const App = () => {
             <Route path="users" element={<UsersTab />} />
             <Route path="products" element={<ProductsTab />} />
             <Route path="dashboard" element={<DashboardTab />} />
+            {/* <Route path="finance" element={<FinanceTab />} /> */}
           </Route>
           {/* Інші маршрути */}
           <Route path="/about" element={<AboutPage />} />
