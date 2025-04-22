@@ -61,7 +61,7 @@ const DashboardTab = () => {
           onClick={() => setViewMode("finance")}
           style={{ marginLeft: "10px" }}
         >
-          Фінанси
+          Загальні фінанси
         </Button>
       </div>
 

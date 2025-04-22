@@ -17,10 +17,11 @@ const AdminLayout = () => {
         style={{ marginBottom: "20px" }}
       >
         {/* Навігація між вкладеними маршрутами */}
-        <Tab label="Користувачі" component={Link} to="/admin/users" />
-        <Tab label="Товари" component={Link} to="/admin/products" />
+        <Tab label="Фінанси" component={Link} to="/admin/finance" />
         <Tab label="Головна панель" component={Link} to="/admin/dashboard" />
-        {/* <Tab label="Фінанси" component={Link} to="/admin/finance" /> */}
+        <Tab label="Товари" component={Link} to="/admin/products" />
+        <Tab label="Користувачі" component={Link} to="/admin/users" />
+        <Tab label="Замовлення" component={Link} to="/admin/orders" />
       </Tabs>
       {/* Outlet для відображення дочірніх маршрутів */}
       <Outlet />

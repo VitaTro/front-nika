@@ -5,7 +5,10 @@ import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
+import OrdersPage from "../pages/AdminDashboard/Finance/OrdersPage";
+import SalesPage from "../pages/AdminDashboard/Finance/SalesPage";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab";
+import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab";
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab";
 import HomePage from "../pages/HomePage/HomePage";
@@ -78,7 +81,10 @@ export const App = () => {
             <Route path="users" element={<UsersTab />} />
             <Route path="products" element={<ProductsTab />} />
             <Route path="dashboard" element={<DashboardTab />} />
-            {/* <Route path="finance" element={<FinanceTab />} /> */}
+            <Route path="finance" element={<FinanceTab />}>
+              <Route path="orders" element={<OrdersPage />} />
+              <Route path="sale" element={<SalesPage />} />
+            </Route>
           </Route>
           {/* Інші маршрути */}
           <Route path="/about" element={<AboutPage />} />

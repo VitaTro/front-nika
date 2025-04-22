@@ -1,18 +1,23 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import NoResults from "../NoResults/NoResults";
 import { PageLink, Pagination } from "./PaginationComponent.styled";
+
 const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
-  const { t } = useTranslation();
   if (totalPages === 0) {
     return <NoResults />;
   }
+
   const pages = [];
   const maxVisiblePages = 5;
 
-  if (totalPages <= maxVisiblePages) {
-    for (let i = 1; i <= totalPages; i++) {
+  for (let i = 1; i <= totalPages; i++) {
+    if (
+      i === 1 ||
+      i === totalPages ||
+      (i >= currentPage - 1 && i <= currentPage + 1) ||
+      (i < maxVisiblePages && totalPages < maxVisiblePages)
+    ) {
       pages.push(
         <PageLink
           key={i}
@@ -22,101 +27,32 @@ const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
           {i}
         </PageLink>
       );
+    } else if (
+      i === currentPage - 2 ||
+      i === currentPage + 2 ||
+      (i === totalPages - 1 && totalPages > maxVisiblePages)
+    ) {
+      pages.push(<span key={`ellipsis-${i}`}>...</span>);
     }
-  } else {
-    pages.push(
-      <PageLink
-        key={1}
-        onClick={() => onPageChange(1)}
-        className={1 === currentPage ? "active" : ""}
-      >
-        1
-      </PageLink>
-    );
-    pages.push(
-      <PageLink
-        key={2}
-        onClick={() => onPageChange(2)}
-        className={2 === currentPage ? "active" : ""}
-      >
-        2
-      </PageLink>
-    );
-    pages.push(
-      <PageLink
-        key={3}
-        onClick={() => onPageChange(3)}
-        className={3 === currentPage ? "active" : ""}
-      >
-        3
-      </PageLink>
-    );
-
-    if (currentPage > 3 && currentPage < totalPages - 2) {
-      pages.push(<span key="ellipsis">...</span>);
-      pages.push(
-        <PageLink
-          key={currentPage}
-          onClick={() => onPageChange(currentPage)}
-          className={"active"}
-        >
-          {currentPage}
-        </PageLink>
-      );
-      pages.push(<span key="ellipsis2">...</span>);
-    } else {
-      pages.push(<span key="ellipsis">...</span>);
-    }
-
-    pages.push(
-      <PageLink
-        key={totalPages - 2}
-        onClick={() => onPageChange(totalPages - 2)}
-        className={totalPages - 2 === currentPage ? "active" : ""}
-      >
-        {totalPages - 2}
-      </PageLink>
-    );
-    pages.push(
-      <PageLink
-        key={totalPages - 1}
-        onClick={() => onPageChange(totalPages - 1)}
-        className={totalPages - 1 === currentPage ? "active" : ""}
-      >
-        {totalPages - 1}
-      </PageLink>
-    );
-    pages.push(
-      <PageLink
-        key={totalPages}
-        onClick={() => onPageChange(totalPages)}
-        className={totalPages === currentPage ? "active" : ""}
-      >
-        {totalPages}
-      </PageLink>
-    );
   }
 
   return (
     <Pagination>
-      {totalPages > maxVisiblePages && (
-        <PageLink
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          <FaArrowLeft /> {/* Іконка стрілки вліво */}
-        </PageLink>
-      )}
+      <PageLink
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        <FaArrowLeft />
+      </PageLink>
 
       {pages}
-      {totalPages > maxVisiblePages && (
-        <PageLink
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          <FaArrowRight /> {/* Іконка стрілки вправо */}
-        </PageLink>
-      )}
+
+      <PageLink
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        <FaArrowRight />
+      </PageLink>
     </Pagination>
   );
 };

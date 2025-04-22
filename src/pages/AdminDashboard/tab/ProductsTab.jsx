@@ -2,9 +2,9 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminProducts } from "../../../redux/admin/operationsAdmin";
-import AddProductForm from "./products/AddProductForm";
-import FilterPanel from "./products/FilterPanel";
-import ProductsTable from "./products/ProductsTable";
+import AddProductForm from "../products/AddProductForm";
+import FilterPanel from "../products/FilterPanel";
+import ProductsTable from "../products/ProductsTable";
 
 const ProductsTab = () => {
   const dispatch = useDispatch();
