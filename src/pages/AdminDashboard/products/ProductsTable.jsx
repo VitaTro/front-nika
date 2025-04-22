@@ -8,84 +8,71 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../../components/Loader";
-import { fetchOrders } from "../../../redux/order/operationOrder";
-import {
-  selectOrders,
-  selectOrdersError,
-  selectOrdersLoading,
-} from "../../../redux/order/selectorsOrder";
+import React from "react";
+import ZoomableProductImage from "../../../components/ZoomableProductImage";
 
-const OrdersPage = () => {
-  const dispatch = useDispatch();
-  const orders = useSelector(selectOrders);
-  const loading = useSelector(selectOrdersLoading);
-  const error = useSelector(selectOrdersError);
-
-  useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error: {error}</p>;
-
-  return (
-    <TableContainer component={Paper}>
-      <h1 style={{ textAlign: "center", margin: "20px 0" }}>Замовлення</h1>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Назва продукту</TableCell>
-            <TableCell>Кількість</TableCell>
-            <TableCell>Ціна</TableCell>
-            <TableCell>Адреса доставки</TableCell>
-            <TableCell>Статус</TableCell>
-            <TableCell>Дії</TableCell>
+const ProductsTable = ({ filteredProducts, handleUpdate, handleDelete }) => (
+  <TableContainer component={Paper}>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Фото</TableCell>
+          <TableCell>Назва</TableCell>
+          <TableCell>Категорія</TableCell>
+          <TableCell>Підкатегорія</TableCell>
+          <TableCell>Ціна</TableCell>
+          <TableCell>Індекс</TableCell>
+          <TableCell>Кількість</TableCell>
+          <TableCell>Закупка</TableCell>
+          <TableCell>Наявність</TableCell>
+          <TableCell>Дії</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {filteredProducts.map((product) => (
+          <TableRow key={product.id || product.index}>
+            <TableCell>
+              <ZoomableProductImage
+                src={product.photoUrl}
+                alt={product.name}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  objectFit: "cover",
+                }}
+              />
+            </TableCell>
+            <TableCell>{product.name}</TableCell>
+            <TableCell>{product.category}</TableCell>
+            <TableCell>{product.subcategory}</TableCell>
+            <TableCell>{product.price} zł</TableCell>
+            <TableCell>{product.index}</TableCell>
+            <TableCell>{product.quantity}</TableCell>
+            <TableCell>{product.purchasePrice} zł</TableCell>
+            <TableCell>
+              {product.inStock ? "Є в наявності" : "Немає в наявності"}
+            </TableCell>
+            <TableCell>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => handleUpdate(product.id, { name: product.name })}
+              >
+                Редагувати
+              </Button>
+              <Button
+                size="small"
+                color="error"
+                onClick={() => handleDelete(product.id)}
+              >
+                Видалити
+              </Button>
+            </TableCell>
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {orders.map((order) => (
-            <TableRow key={order.orderId}>
-              <TableCell>{order.orderId}</TableCell>
-              <TableCell>
-                {order.products
-                  .map((product) => `${product.name} (${product.quantity} шт.)`)
-                  .join(", ")}
-              </TableCell>
-              <TableCell>
-                {order.products.reduce(
-                  (total, product) => total + product.quantity,
-                  0
-                )}
-              </TableCell>
-              <TableCell>{order.totalPrice} zł</TableCell>
-              <TableCell>{order.deliveryAddress}</TableCell>
-              <TableCell>{order.status}</TableCell>
-              <TableCell>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => console.log("Edit order", order.orderId)}
-                >
-                  Редагувати
-                </Button>
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={() => console.log("Delete order", order.orderId)}
-                >
-                  Видалити
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-};
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
 
-export default OrdersPage;
+export default ProductsTable;
