@@ -55,14 +55,6 @@ const DashboardTab = () => {
         >
           Список бажань
         </Button>
-        <Button
-          variant={viewMode === "finance" ? "contained" : "outlined"}
-          color="warning"
-          onClick={() => setViewMode("finance")}
-          style={{ marginLeft: "10px" }}
-        >
-          Загальні фінанси
-        </Button>
       </div>
 
       {/* Відображення вибраного режиму */}

@@ -21,7 +21,6 @@ const AdminLayout = () => {
         <Tab label="Головна панель" component={Link} to="/admin/dashboard" />
         <Tab label="Товари" component={Link} to="/admin/products" />
         <Tab label="Користувачі" component={Link} to="/admin/users" />
-        <Tab label="Замовлення" component={Link} to="/admin/orders" />
       </Tabs>
       {/* Outlet для відображення дочірніх маршрутів */}
       <Outlet />
