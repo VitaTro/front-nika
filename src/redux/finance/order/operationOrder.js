@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../axiosConfig";
+import axios from "../../axiosConfig";
 
 // Отримати всі замовлення
 export const fetchOrders = createAsyncThunk(
@@ -13,6 +13,7 @@ export const fetchOrders = createAsyncThunk(
     }
   }
 );
+
 // Отримати окреме замовлення
 export const fetchOrderById = createAsyncThunk(
   "orders/fetchOrderById",
@@ -25,6 +26,8 @@ export const fetchOrderById = createAsyncThunk(
     }
   }
 );
+
+//Редагувати окреме замовлення
 export const updateOrderStatus = createAsyncThunk(
   "orders/updateOrderStatus",
   async ({ orderId, newStatus }, thunkAPI) => {

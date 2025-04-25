@@ -1,8 +1,9 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
-import FinancialStatisticsPage from "../Finance/FinancialStatisticsPage";
 import OrderOffline from "../Finance/OrderOffline";
 import OrdersPage from "../Finance/OrdersPage";
+
+import OverviewFinancePage from "../Finance/OverviewFinancePage";
 import SalesPage from "../Finance/SalesPage";
 const FinanceTab = () => {
   const [viewMode, setViewMode] = useState("orders");
@@ -27,9 +28,9 @@ const FinanceTab = () => {
           Продажі
         </Button>
         <Button
-          variant={viewMode === "statistics" ? "contained" : "outlined"}
+          variant={viewMode === "overview" ? "contained" : "outlined"}
           color="success"
-          onClick={() => setViewMode("statistics")}
+          onClick={() => setViewMode("overview")}
           style={{ marginLeft: "10px" }}
         >
           Фінансова статистика
@@ -37,7 +38,7 @@ const FinanceTab = () => {
         <Button
           variant={viewMode === "offline" ? "contained" : "outlined"}
           color="success"
-          onClick={() => setViewMode("statistics")}
+          onClick={() => setViewMode("offline")}
           style={{ marginLeft: "10px" }}
         >
           Замовлення Offline
@@ -47,7 +48,7 @@ const FinanceTab = () => {
       {/* Відображення відповідної секції */}
       {viewMode === "orders" && <OrdersPage />}
       {viewMode === "sales" && <SalesPage />}
-      {viewMode === "statistics" && <FinancialStatisticsPage />}
+      {viewMode === "statistics" && <OverviewFinancePage />}
       {viewMode === "offline" && <OrderOffline />}
     </div>
   );

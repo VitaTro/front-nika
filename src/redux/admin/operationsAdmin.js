@@ -93,16 +93,3 @@ export const fetchAdminDashboard = createAsyncThunk(
     }
   }
 );
-
-// Отримати дані фінансів
-export const fetchAdminFinance = createAsyncThunk(
-  "admin/fetchFinance",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios.get("/api/admin/finance");
-      return response.data; // Повертаємо дані фінансової панелі
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);

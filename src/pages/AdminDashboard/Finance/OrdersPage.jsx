@@ -15,12 +15,12 @@ import PaginationComponent from "../../../components/PaginationComponent/Paginat
 import {
   fetchOrders,
   updateOrderStatus,
-} from "../../../redux/order/operationOrder";
+} from "../../../redux/finance/order/operationOrder";
 import {
   selectOrders,
   selectOrdersError,
   selectOrdersLoading,
-} from "../../../redux/order/selectorsOrder";
+} from "../../../redux/finance/order/selectorsOrder";
 import OrderDetails from "../order/OrderDetails";
 
 const OrdersPage = () => {

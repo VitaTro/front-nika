@@ -4,7 +4,6 @@ import {
   deleteAdminProduct,
   deleteAdminUser,
   fetchAdminDashboard,
-  fetchAdminFinance,
   fetchAdminProducts,
   fetchAdminUsers,
   updateAdminProduct,
@@ -84,18 +83,6 @@ const adminSlice = createSlice({
         state.dashboard = payload;
       })
       .addCase(fetchAdminDashboard.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload;
-      })
-      .addCase(fetchAdminFinance.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchAdminFinance.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.finance = payload; // Записуємо дані фінансів у стан
-      })
-      .addCase(fetchAdminFinance.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

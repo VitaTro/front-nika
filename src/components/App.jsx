@@ -6,6 +6,7 @@ import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
 import OrdersPage from "../pages/AdminDashboard/Finance/OrdersPage";
+import OverviewFinancePage from "../pages/AdminDashboard/Finance/OverviewFinancePage";
 import SalesPage from "../pages/AdminDashboard/Finance/SalesPage";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab";
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab";
@@ -84,6 +85,7 @@ export const App = () => {
             <Route path="finance" element={<FinanceTab />}>
               <Route path="orders" element={<OrdersPage />} />
               <Route path="sale" element={<SalesPage />} />
+              <Route path="overview" element={<OverviewFinancePage />} />
             </Route>
           </Route>
           {/* Інші маршрути */}
