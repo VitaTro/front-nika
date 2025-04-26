@@ -51,7 +51,10 @@ export const createOrder = createAsyncThunk(
   async (orderData, thunkAPI) => {
     try {
       const response = await axios.post(`/api/admin/finance/orders`, orderData);
-      return response.data; // Повертаємо створене замовлення
+      return {
+        success: true,
+        order: response.data,
+      }; // Повертаємо створене замовлення
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

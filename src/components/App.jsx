@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
+import OrderOffline from "../pages/AdminDashboard/Finance/OrderOffline";
 import OrdersPage from "../pages/AdminDashboard/Finance/OrdersPage";
 import OverviewFinancePage from "../pages/AdminDashboard/Finance/OverviewFinancePage";
 import SalesPage from "../pages/AdminDashboard/Finance/SalesPage";
@@ -86,6 +87,7 @@ export const App = () => {
               <Route path="orders" element={<OrdersPage />} />
               <Route path="sale" element={<SalesPage />} />
               <Route path="overview" element={<OverviewFinancePage />} />
+              <Route path="offline" element={<OrderOffline />} />
             </Route>
           </Route>
           {/* Інші маршрути */}

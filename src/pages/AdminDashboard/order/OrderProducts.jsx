@@ -11,27 +11,24 @@ import {
 import React from "react";
 import ZoomableProductImage from "../../../components/ZoomableProductImage";
 
-const ProductsTable = ({ filteredProducts, handleUpdate, handleDelete }) => (
+const OrderProducts = ({ filteredProducts, handleAdd }) => (
   <TableContainer component={Paper}>
     <Table>
       <TableHead>
         <TableRow>
           <TableCell>Фото</TableCell>
           <TableCell>Назва</TableCell>
-          <TableCell>Категорія</TableCell>
-          <TableCell>Підкатегорія</TableCell>
           <TableCell>Ціна</TableCell>
-          <TableCell>Індекс</TableCell>
           <TableCell>Кількість</TableCell>
-          <TableCell>Закупка</TableCell>
-          <TableCell>Наявність</TableCell>
           <TableCell>Дії</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {filteredProducts &&
           filteredProducts.map((product) => (
-            <TableRow key={`${product.name}-${product.index}`}>
+            <TableRow
+              key={`${product.productId}-${product.name}-${product.index}`}
+            >
               <TableCell>
                 <ZoomableProductImage
                   src={product.photoUrl}
@@ -57,18 +54,9 @@ const ProductsTable = ({ filteredProducts, handleUpdate, handleDelete }) => (
                 <Button
                   size="small"
                   color="primary"
-                  onClick={() =>
-                    handleUpdate(product.id, { name: product.name })
-                  }
+                  onClick={() => handleAdd(product.id, { name: product.name })}
                 >
-                  Редагувати
-                </Button>
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={() => handleDelete(product.id)}
-                >
-                  Видалити
+                  Додати
                 </Button>
               </TableCell>
             </TableRow>
@@ -78,4 +66,4 @@ const ProductsTable = ({ filteredProducts, handleUpdate, handleDelete }) => (
   </TableContainer>
 );
 
-export default ProductsTable;
+export default OrderProducts;
