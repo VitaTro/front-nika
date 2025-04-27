@@ -5,14 +5,15 @@ import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
-import OrderOffline from "../pages/AdminDashboard/Finance/OrderOffline";
-import OrdersPage from "../pages/AdminDashboard/Finance/OrdersPage";
-import OverviewFinancePage from "../pages/AdminDashboard/Finance/OverviewFinancePage";
-import SalesPage from "../pages/AdminDashboard/Finance/SalesPage";
-import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab";
-import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab";
-import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab";
-import UsersTab from "../pages/AdminDashboard/tab/UsersTab";
+import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab";
+import FinanceSettings from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceSettings";
+import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineOrder";
+import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineSale";
+import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineOrder";
+import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineSale";
+import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
+import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
+import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
@@ -84,10 +85,11 @@ export const App = () => {
             <Route path="products" element={<ProductsTab />} />
             <Route path="dashboard" element={<DashboardTab />} />
             <Route path="finance" element={<FinanceTab />}>
-              <Route path="orders" element={<OrdersPage />} />
-              <Route path="sale" element={<SalesPage />} />
-              <Route path="overview" element={<OverviewFinancePage />} />
-              <Route path="offline" element={<OrderOffline />} />
+              <Route path="offlineOrder" element={<OfflineOrder />} />
+              <Route path="offlineSale" element={<OfflineSale />} />
+              <Route path="onlineOrder" element={<OnlineOrder />} />
+              <Route path="onlineSale" element={<OnlineSale />} />
+              <Route path="overview" element={<FinanceSettings />} />
             </Route>
           </Route>
           {/* Інші маршрути */}

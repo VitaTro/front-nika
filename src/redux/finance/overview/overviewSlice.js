@@ -1,26 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchFinanceOverview } from "./operationOverview";
+import {
+  createFinanceSettings,
+  fetchFinanceSettings,
+  updateFinanceSettings,
+} from "./operationOverview";
 const financeSlice = createSlice({
   name: "finance",
   initialState: {
-    overview: null,
+    overview: {
+      stats: {},
+      salesOverview: {},
+      financeSettings: {},
+    },
     loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFinanceOverview.pending, (state) => {
+      .addCase(fetchFinanceSettings.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchFinanceOverview.fulfilled, (state, action) => {
+      .addCase(fetchFinanceSettings.fulfilled, (state, action) => {
         state.loading = false;
         state.overview = action.payload;
       })
-      .addCase(fetchFinanceOverview.rejected, (state, action) => {
+      .addCase(fetchFinanceSettings.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(createFinanceSettings.fulfilled, (state, action) => {
+        state.overview = action.payload; // Оновлюємо overview після створення
+      })
+      .addCase(updateFinanceSettings.fulfilled, (state, action) => {
+        state.overview = { ...state.overview, ...action.payload }; // Мерджимо дані
       });
   },
 });

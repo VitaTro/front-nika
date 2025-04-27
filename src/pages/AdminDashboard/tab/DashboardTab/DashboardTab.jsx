@@ -1,17 +1,17 @@
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import FinancialOverviewSection from "../../../components/AdminDashboard/FinancialOverviewSection";
-import PopularProductsSection from "../../../components/AdminDashboard/PopularProductsSection";
-import StatisticsSection from "../../../components/AdminDashboard/StatisticsSection";
-import WishlistSection from "../../../components/AdminDashboard/WishlistSection";
-import Loader from "../../../components/Loader";
-import { fetchAdminDashboard } from "../../../redux/admin/operationsAdmin";
+import FinancialOverviewSection from "../../../../components/AdminDashboard/FinancialOverviewSection";
+import PopularProductsSection from "../../../../components/AdminDashboard/PopularProductsSection";
+import StatisticsSection from "../../../../components/AdminDashboard/StatisticsSection";
+import WishlistSection from "../../../../components/AdminDashboard/WishlistSection";
+import Loader from "../../../../components/Loader";
+import { fetchAdminDashboard } from "../../../../redux/admin/operationsAdmin";
 import {
   selectAdminDashboard,
   selectAdminError,
   selectAdminLoading,
-} from "../../../redux/admin/selectorsAdmin";
+} from "../../../../redux/admin/selectorsAdmin";
 
 const DashboardTab = () => {
   const dispatch = useDispatch();

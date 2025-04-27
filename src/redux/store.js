@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import adminReducer from "./admin/adminSlice";
 import authReducer from "./auth/authSlice";
 import filtersReducer from "./filters/filterSlice";
-import ordersReducer from "./finance/order/orderSlice";
+import offlineOrderReducer from "./finance/offlineOrder/offlineOrderSlice";
+import offlineSaleReducer from "./finance/offlineSale/offlineSaleSlice";
+import onlineOrderReducer from "./finance/onlineOrder/onlineOrderSlice";
+import onlineSaleReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
-import salesReducer from "./finance/sale/saleSlice";
 import popularProductsReducer from "./popular/popularSlice";
 import productsReducer from "./products/productsSlice";
 import searchReducer from "./search/searchSlice";
@@ -19,8 +21,10 @@ const store = configureStore({
     user: userReducer,
     userOrders: userOrdersReducer,
     admin: adminReducer,
-    orders: ordersReducer,
-    sales: salesReducer,
+    onlineOrder: onlineOrderReducer,
+    onlineSale: onlineSaleReducer,
+    offlineOrder: offlineOrderReducer,
+    offlineSale: offlineSaleReducer,
     overview: overviewReducer,
     products: productsReducer,
     popularProducts: popularProductsReducer,

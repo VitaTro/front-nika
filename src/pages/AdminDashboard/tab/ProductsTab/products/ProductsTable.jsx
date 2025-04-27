@@ -9,26 +9,29 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
-import ZoomableProductImage from "../../../components/ZoomableProductImage";
+import ZoomableProductImage from "../../../../../components/ZoomableProductImage";
 
-const OrderProducts = ({ filteredProducts, handleAdd }) => (
+const ProductsTable = ({ filteredProducts, handleUpdate, handleDelete }) => (
   <TableContainer component={Paper}>
     <Table>
       <TableHead>
         <TableRow>
           <TableCell>Фото</TableCell>
           <TableCell>Назва</TableCell>
+          <TableCell>Категорія</TableCell>
+          <TableCell>Підкатегорія</TableCell>
           <TableCell>Ціна</TableCell>
+          <TableCell>Індекс</TableCell>
           <TableCell>Кількість</TableCell>
+          <TableCell>Закупка</TableCell>
+          <TableCell>Наявність</TableCell>
           <TableCell>Дії</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {filteredProducts &&
           filteredProducts.map((product) => (
-            <TableRow
-              key={`${product.productId}-${product.name}-${product.index}`}
-            >
+            <TableRow key={`${product.name}-${product.index}`}>
               <TableCell>
                 <ZoomableProductImage
                   src={product.photoUrl}
@@ -54,9 +57,18 @@ const OrderProducts = ({ filteredProducts, handleAdd }) => (
                 <Button
                   size="small"
                   color="primary"
-                  onClick={() => handleAdd(product.id, { name: product.name })}
+                  onClick={() =>
+                    handleUpdate(product.id, { name: product.name })
+                  }
                 >
-                  Додати
+                  Редагувати
+                </Button>
+                <Button
+                  size="small"
+                  color="error"
+                  onClick={() => handleDelete(product.id)}
+                >
+                  Видалити
                 </Button>
               </TableCell>
             </TableRow>
@@ -66,4 +78,4 @@ const OrderProducts = ({ filteredProducts, handleAdd }) => (
   </TableContainer>
 );
 
-export default OrderProducts;
+export default ProductsTable;

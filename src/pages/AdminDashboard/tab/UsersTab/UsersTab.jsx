@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
   fetchAdminUsers,
-} from "../../../redux/admin/operationsAdmin";
-import { selectAdminUsers } from "../../../redux/admin/selectorsAdmin";
+} from "../../../../redux/admin/operationsAdmin";
+import { selectAdminUsers } from "../../../../redux/admin/selectorsAdmin";
 
 const UsersTab = () => {
   const dispatch = useDispatch();
