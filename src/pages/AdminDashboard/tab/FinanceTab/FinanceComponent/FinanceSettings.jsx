@@ -32,9 +32,6 @@ const FinanceSettings = () => {
       </Typography>
 
       <Typography variant="h6">
-        Загальна кількість користувачів: {overview?.stats?.totalUsers || "N/A"}
-      </Typography>
-      <Typography variant="h6">
         Загальна кількість продуктів: {overview?.stats?.totalProducts || "N/A"}
       </Typography>
       <Typography variant="h6">

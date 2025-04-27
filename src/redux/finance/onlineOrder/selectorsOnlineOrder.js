@@ -1,6 +1,24 @@
-export const selectOnlineOrders = (state) => state.onlineOrders.orders; // Список замовлень
-export const selectCurrentOnlineOrder = (state) =>
-  state.onlineOrders.currentOrder; // Деталі окремого замовлення
-export const selectOnlineOrdersLoading = (state) =>
-  state.onlineOrders.isLoading; // Стан завантаження
-export const selectOnlineOrdersError = (state) => state.onlineOrders.error;
+import { createSelector } from "reselect";
+
+// Базовий селектор для стану офлайн-замовлень
+const selectOnlineOrdersState = (state) => state.onlineOrders || {};
+
+// Мемоїзовані селектори
+export const selectOnlineOrders = createSelector(
+  [selectOnlineOrdersState],
+  (onlineOrders) => onlineOrders.orders || []
+);
+
+export const selectOnlineOrdersLoading = createSelector(
+  [selectOnlineOrdersState],
+  (onlineOrders) => onlineOrders.isLoading || false
+);
+
+export const selectOnlineOrdersError = createSelector(
+  [selectOnlineOrdersState],
+  (onlineOrders) => onlineOrders.error || null
+);
+export const selectCurrentOnlineOrder = createSelector(
+  [selectOnlineOrdersState],
+  (onlineOrders) => onlineOrders.currentOrder || {}
+);
