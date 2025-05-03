@@ -7,6 +7,7 @@ import offlineSaleReducer from "./finance/offlineSale/offlineSaleSlice";
 import onlineOrderReducer from "./finance/onlineOrder/onlineOrderSlice";
 import onlineSaleReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
+import settingsReducer from "./finance/settings/settingsSlice";
 import popularProductsReducer from "./popular/popularSlice";
 import productsReducer from "./products/productsSlice";
 import searchReducer from "./search/searchSlice";
@@ -26,6 +27,7 @@ const store = configureStore({
     offlineOrder: offlineOrderReducer,
     offlineSale: offlineSaleReducer,
     overview: overviewReducer,
+    settings: settingsReducer,
     products: productsReducer,
     popularProducts: popularProductsReducer,
     search: searchReducer,
@@ -36,4 +38,5 @@ const store = configureStore({
   },
   devTools: process.env.NODE_ENV !== "production",
 });
+
 export default store;

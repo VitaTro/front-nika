@@ -21,12 +21,13 @@ const offlineOrderSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchOfflineOrders.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.isLoading = false;
         state.orders = action.payload; // Зберігаємо список замовлень
       })
       .addCase(fetchOfflineOrders.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
+        state.error = action.payload.message; // Зберігаємо помилку
       })
 
       // Логіка створення нового офлайн-замовлення
@@ -50,13 +51,15 @@ const offlineOrderSlice = createSlice({
       })
       .addCase(updateOfflineOrderStatus.fulfilled, (state, action) => {
         state.isLoading = false;
+        const updatedOrder = action.payload;
         const index = state.orders.findIndex(
-          (order) => order.orderId === action.payload.orderId
+          (order) => order._id === updatedOrder._id
         );
         if (index !== -1) {
-          state.orders[index] = { ...state.orders[index], ...action.payload }; // Оновлюємо замовлення
+          state.orders[index] = updatedOrder; // Перезаписуємо новими даними з бекенду
         }
       })
+
       .addCase(updateOfflineOrderStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload; // Зберігаємо помилку

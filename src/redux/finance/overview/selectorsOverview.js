@@ -1,11 +1,31 @@
 import { createSelector } from "reselect";
 
 // Базовий селектор для фінансів
-const selectFinanceState = (state) => state.finance || {};
+const selectFinanceState = (state) => state.overview || {};
 
-export const selectFinanceOverview = createSelector(
+export const selectFinanceStats = createSelector(
   [selectFinanceState],
-  (finance) => finance.overview || {} // Повертає те ж саме, але мемоїзовано
+  (finance) => finance.stats || {}
+);
+
+export const selectCompletedSales = createSelector(
+  [selectFinanceState],
+  (finance) => finance.completedSales || []
+);
+
+export const selectLowStockItems = createSelector(
+  [selectFinanceState],
+  (finance) => finance.lowStockItems || []
+);
+
+export const selectSalesOverview = createSelector(
+  [selectFinanceState],
+  (finance) => finance.salesOverview || {}
+);
+
+export const selectFinanceSettings = createSelector(
+  [selectFinanceState],
+  (finance) => finance.financeSettings || {}
 );
 
 export const selectFinanceLoading = createSelector(

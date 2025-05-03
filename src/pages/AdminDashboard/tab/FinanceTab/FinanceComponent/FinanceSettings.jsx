@@ -1,56 +1,103 @@
-import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../../../../components/Loader";
-import { fetchFinanceSettings } from "../../../../../redux/finance/overview/operationOverview";
 import {
-  selectFinanceError,
-  selectFinanceLoading,
-  selectFinanceOverview,
-} from "../../../../../redux/finance/overview/selectorsOverview";
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchFinanceSettings,
+  updateFinanceSettings,
+} from "../../../../../redux/finance/settings/operationSettings";
+import { selectFinanceSettings } from "../../../../../redux/finance/settings/selectorsSettings";
 
 const FinanceSettings = () => {
   const dispatch = useDispatch();
-  const overview = useSelector(selectFinanceOverview);
-  const isLoading = useSelector(selectFinanceLoading);
-  const error = useSelector(selectFinanceError);
+  const settings = useSelector(selectFinanceSettings);
+  const [editableSettings, setEditableSettings] = useState(settings);
 
   useEffect(() => {
     dispatch(fetchFinanceSettings());
   }, [dispatch]);
-  if (isLoading) return <Loader />;
-  if (error) {
-    return (
-      <Typography color="error">Помилка завантаження даних: {error}</Typography>
-    );
-  }
+
+  useEffect(() => {
+    setEditableSettings(settings);
+  }, [settings]);
+
+  const handleChange = (event) => {
+    setEditableSettings({
+      ...editableSettings,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSave = () => {
+    dispatch(updateFinanceSettings(editableSettings));
+  };
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
-        Фінансова статистика
-      </Typography>
-
-      <Typography variant="h6">
-        Загальна кількість продуктів: {overview?.stats?.totalProducts || "N/A"}
-      </Typography>
-      <Typography variant="h6">
-        Загальні замовлення онлайн:{" "}
-        {overview?.stats?.totalOnlineOrders || "N/A"}
-      </Typography>
-      <Typography variant="h6">
-        Загальні замовлення офлайн:{" "}
-        {overview?.stats?.totalOfflineOrders || "N/A"}
-      </Typography>
-      <Typography variant="h6">
-        Чистий дохід онлайн-продажів:{" "}
-        {overview?.salesOverview?.online?.netProfit || "N/A"} zł
-      </Typography>
-      <Typography variant="h6">
-        Чистий дохід офлайн-продажів:{" "}
-        {overview?.salesOverview?.offline?.netProfit || "N/A"} zł
-      </Typography>
-    </Box>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Параметр</TableCell>
+            <TableCell>Значення</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {settings && (
+            <>
+              <TableRow>
+                <TableCell>Ставка податку (%)</TableCell>
+                <TableCell>
+                  <TextField
+                    name="taxRate"
+                    type="number"
+                    value={editableSettings.taxRate || ""}
+                    onChange={handleChange}
+                    variant="outlined"
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Операційні витрати</TableCell>
+                <TableCell>
+                  <TextField
+                    name="operatingCosts"
+                    type="number"
+                    value={editableSettings.operatingCosts || ""}
+                    onChange={handleChange}
+                    variant="outlined"
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Бюджет закупівлі</TableCell>
+                <TableCell>
+                  <TextField
+                    name="budgetForProcurement"
+                    type="number"
+                    value={editableSettings.budgetForProcurement || ""}
+                    onChange={handleChange}
+                    variant="outlined"
+                  />
+                </TableCell>
+              </TableRow>
+            </>
+          )}
+        </TableBody>
+      </Table>
+      <Button variant="contained" color="primary" onClick={handleSave}>
+        Зберегти зміни
+      </Button>
+    </TableContainer>
   );
 };
+
 export default FinanceSettings;

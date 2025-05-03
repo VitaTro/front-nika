@@ -1,24 +1,16 @@
 import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import FinancialOverviewSection from "../../../../components/AdminDashboard/FinancialOverviewSection";
 import PopularProductsSection from "../../../../components/AdminDashboard/PopularProductsSection";
 import StatisticsSection from "../../../../components/AdminDashboard/StatisticsSection";
 import WishlistSection from "../../../../components/AdminDashboard/WishlistSection";
 import Loader from "../../../../components/Loader";
 import { fetchAdminDashboard } from "../../../../redux/admin/operationsAdmin";
-import {
-  selectAdminDashboard,
-  selectAdminError,
-  selectAdminLoading,
-} from "../../../../redux/admin/selectorsAdmin";
+import { selectAdminData } from "../../../../redux/admin/selectorsAdmin";
 
 const DashboardTab = () => {
   const dispatch = useDispatch();
-  const dashboard = useSelector(selectAdminDashboard);
-  const loading = useSelector(selectAdminLoading);
-  const error = useSelector(selectAdminError);
-
+  const { loading, error, dashboard } = useSelector(selectAdminData);
   const [viewMode, setViewMode] = useState("stats"); // Управління підзакладками
 
   useEffect(() => {
@@ -66,11 +58,6 @@ const DashboardTab = () => {
       )}
       {viewMode === "wishlist" && (
         <WishlistSection wishlist={dashboard.wishlistOverview} />
-      )}
-      {viewMode === "finance" && (
-        <FinancialOverviewSection
-          financialOverview={dashboard.financialOverview}
-        />
       )}
     </div>
   );

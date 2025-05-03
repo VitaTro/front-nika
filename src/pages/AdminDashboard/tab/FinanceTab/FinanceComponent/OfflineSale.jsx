@@ -45,7 +45,7 @@ const OfflineSale = () => {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
         Офлайн-Продажі
       </Typography>
       <Table>

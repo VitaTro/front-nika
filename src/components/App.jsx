@@ -6,6 +6,7 @@ import Products from "../components/Products/Products";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab";
+import FinanceOverview from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceOverview";
 import FinanceSettings from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceSettings";
 import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineOrder";
 import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineSale";
@@ -89,7 +90,8 @@ export const App = () => {
               <Route path="offlineSale" element={<OfflineSale />} />
               <Route path="onlineOrder" element={<OnlineOrder />} />
               <Route path="onlineSale" element={<OnlineSale />} />
-              <Route path="overview" element={<FinanceSettings />} />
+              <Route path="overview" element={<FinanceOverview />} />
+              <Route path="settings" element={<FinanceSettings />} />
             </Route>
           </Route>
           {/* Інші маршрути */}

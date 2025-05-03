@@ -14,11 +14,11 @@ import {
   deleteAdminUser,
   fetchAdminUsers,
 } from "../../../../redux/admin/operationsAdmin";
-import { selectAdminUsers } from "../../../../redux/admin/selectorsAdmin";
+import { selectAdminData } from "../../../../redux/admin/selectorsAdmin";
 
 const UsersTab = () => {
   const dispatch = useDispatch();
-  const users = useSelector(selectAdminUsers);
+  const { users } = useSelector(selectAdminData);
 
   useEffect(() => {
     dispatch(fetchAdminUsers());
@@ -40,8 +40,8 @@ const UsersTab = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TableRow key={user.id}>
+          {users.map((user, index) => (
+            <TableRow key={user.id || `user-${index}`}>
               <TableCell>{user.username}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.role}</TableCell>

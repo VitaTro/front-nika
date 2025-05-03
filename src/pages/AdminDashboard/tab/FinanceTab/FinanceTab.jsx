@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
+import FinanceOverview from "./FinanceComponent/FinanceOverview";
 import FinanceSettings from "./FinanceComponent/FinanceSettings";
 import OfflineOrder from "./FinanceComponent/OfflineOrder";
 import OfflineSale from "./FinanceComponent/OfflineSale";
@@ -51,11 +52,20 @@ const FinanceTab = () => {
         >
           Офлайн-продажі
         </Button>
+        <Button
+          variant={viewMode === "settings" ? "contained" : "outlined"}
+          color="primary"
+          onClick={() => setViewMode("settings")}
+          style={{ marginLeft: "10px" }}
+        >
+          Налаштування
+        </Button>
       </div>
 
       {/* Відображення відповідної секції */}
       {/* Відображення відповідного контенту */}
-      {viewMode === "overview" && <FinanceSettings />}
+      {viewMode === "overview" && <FinanceOverview />}
+      {viewMode === "settings" && <FinanceSettings />}
       {viewMode === "online-orders" && <OnlineOrder />}
       {viewMode === "online-sales" && <OnlineSale />}
       {viewMode === "offline-orders" && <OfflineOrder />}

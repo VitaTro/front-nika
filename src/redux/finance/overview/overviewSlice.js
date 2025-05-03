@@ -1,41 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  createFinanceSettings,
-  fetchFinanceSettings,
-  updateFinanceSettings,
+  createFinanceOverview,
+  fetchFinanceOverview,
+  updateFinanceOverview,
 } from "./operationOverview";
-const financeSlice = createSlice({
-  name: "finance",
+
+const overviewSlice = createSlice({
+  name: "overview",
   initialState: {
-    overview: {
-      stats: {},
-      salesOverview: {},
-      financeSettings: {},
-    },
+    stats: {},
+    completedSales: [],
+    lowStockItems: [],
+    salesOverview: {},
+    financeSettings: {},
     loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFinanceSettings.pending, (state) => {
+      .addCase(fetchFinanceOverview.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchFinanceSettings.fulfilled, (state, action) => {
+      .addCase(fetchFinanceOverview.fulfilled, (state, action) => {
+        console.log("🧐 Оновлення Redux:", action.payload);
         state.loading = false;
-        state.overview = action.payload;
+        state.stats = action.payload.stats;
+        state.completedSales = action.payload.completedSales;
+        state.lowStockItems = action.payload.lowStockItems;
+        state.salesOverview = action.payload.salesOverview;
+        state.financeSettings = action.payload.financeSettings;
       })
-      .addCase(fetchFinanceSettings.rejected, (state, action) => {
+      .addCase(fetchFinanceOverview.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(createFinanceSettings.fulfilled, (state, action) => {
-        state.overview = action.payload; // Оновлюємо overview після створення
+      .addCase(createFinanceOverview.fulfilled, (state, action) => {
+        Object.assign(state.financeSettings, action.payload.financeSettings);
       })
-      .addCase(updateFinanceSettings.fulfilled, (state, action) => {
-        state.overview = { ...state.overview, ...action.payload }; // Мерджимо дані
+      .addCase(updateFinanceOverview.fulfilled, (state, action) => {
+        Object.assign(state.financeSettings, action.payload.financeSettings);
       });
   },
 });
-export default financeSlice.reducer;
+
+export default overviewSlice.reducer;
