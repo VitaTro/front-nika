@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import React, { useState } from "react";
 import FinanceOverview from "./FinanceComponent/FinanceOverview";
 import FinanceSettings from "./FinanceComponent/FinanceSettings";
-import OfflineOrder from "./FinanceComponent/OfflineOrder";
+import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
 import OfflineSale from "./FinanceComponent/OfflineSale";
 import OnlineOrder from "./FinanceComponent/OnlineOrder";
 import OnlineSale from "./FinanceComponent/OnlineSale";

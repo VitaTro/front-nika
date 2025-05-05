@@ -1,4 +1,3 @@
-// src/redux/finance/offlineOrder/selectorsOfflineOrder.js
 import { createSelector } from "reselect";
 
 const selectOfflineOrdersState = (state) => state.offlineOrders || {};

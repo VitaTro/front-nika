@@ -1,7 +1,10 @@
-// src/redux/finance/offlineOrder/actionsOfflineOrder.js
 export const FETCH_OFFLINE_ORDERS_REQUEST = "FETCH_OFFLINE_ORDERS_REQUEST";
 export const FETCH_OFFLINE_ORDERS_SUCCESS = "FETCH_OFFLINE_ORDERS_SUCCESS";
 export const FETCH_OFFLINE_ORDERS_FAILURE = "FETCH_OFFLINE_ORDERS_FAILURE";
+
+export const CREATE_OFFLINE_ORDER_REQUEST = "CREATE_OFFLINE_ORDER_REQUEST";
+export const CREATE_OFFLINE_ORDER_SUCCESS = "CREATE_OFFLINE_ORDER_SUCCESS";
+export const CREATE_OFFLINE_ORDER_FAILURE = "CREATE_OFFLINE_ORDER_FAILURE";
 
 export const UPDATE_OFFLINE_ORDER_REQUEST = "UPDATE_OFFLINE_ORDER_REQUEST";
 export const UPDATE_OFFLINE_ORDER_SUCCESS = "UPDATE_OFFLINE_ORDER_SUCCESS";
@@ -16,6 +19,18 @@ export const fetchOfflineOrdersSuccess = (orders) => ({
 });
 export const fetchOfflineOrdersFailure = (error) => ({
   type: FETCH_OFFLINE_ORDERS_FAILURE,
+  payload: error,
+});
+
+export const createOfflineOrderRequest = () => ({
+  type: CREATE_OFFLINE_ORDER_REQUEST,
+});
+export const createOfflineOrderSuccess = (order) => ({
+  type: CREATE_OFFLINE_ORDER_SUCCESS,
+  payload: order,
+});
+export const createOfflineOrderFailure = (error) => ({
+  type: CREATE_OFFLINE_ORDER_FAILURE,
   payload: error,
 });
 

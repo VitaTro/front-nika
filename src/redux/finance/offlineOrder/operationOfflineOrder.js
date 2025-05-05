@@ -1,4 +1,3 @@
-// src/redux/finance/offlineOrder/operationsOfflineOrder.js
 import axios from "../../axiosConfig";
 import {
   fetchOfflineOrdersFailure,
@@ -17,6 +16,20 @@ export const fetchOfflineOrders = () => async (dispatch) => {
     dispatch(fetchOfflineOrdersSuccess(response.data.offlineOrders));
   } catch (error) {
     dispatch(fetchOfflineOrdersFailure(error.message));
+  }
+};
+
+// Створити нове офлайн-замовлення
+export const createOfflineOrder = (orderData) => async (dispatch) => {
+  dispatch(createOfflineOrderRequest());
+  try {
+    const response = await axios.post(
+      "/api/admin/finance/offline/orders",
+      orderData
+    );
+    dispatch(createOfflineOrderSuccess(response.data.order));
+  } catch (error) {
+    dispatch(createOfflineOrderFailure(error.message));
   }
 };
 
