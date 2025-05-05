@@ -4,13 +4,12 @@ const selectOfflineSalesState = (state) => state.offlineSales || {};
 
 export const selectOfflineSales = createSelector(
   [selectOfflineSalesState],
-  (offlineSales) => offlineSales.sales || []
+  (offlineSales) => offlineSales.offlineSales || []
 );
 export const selectOfflineSalesLoading = createSelector(
   [selectOfflineSalesState],
-  (offlineSales) => offlineSales.isLoading || false
+  (offlineSales) => offlineSales.loading || false
 );
-
 export const selectOfflineSalesError = createSelector(
   [selectOfflineSalesState],
   (offlineSales) => offlineSales.error || null

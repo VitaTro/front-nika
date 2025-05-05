@@ -1,67 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
 import {
-  createOfflineSale,
-  fetchOfflineSales,
-  updateOfflineSale,
-} from "./operationOfflineSale";
+  FETCH_OFFLINE_SALES_FAILURE,
+  FETCH_OFFLINE_SALES_REQUEST,
+  FETCH_OFFLINE_SALES_SUCCESS,
+  UPDATE_OFFLINE_SALE_FAILURE,
+  UPDATE_OFFLINE_SALE_REQUEST,
+  UPDATE_OFFLINE_SALE_SUCCESS,
+} from "./actionsOfflineSale";
 
-const offlineSaleSlice = createSlice({
-  name: "offlineSales",
-  initialState: {
-    sales: [], // Список офлайн-продажів
-    isLoading: false, // Стан завантаження
-    error: null, // Помилки
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      // Логіка отримання всіх офлайн-продажів
-      .addCase(fetchOfflineSales.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchOfflineSales.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.sales = action.payload; // Зберігаємо список продажів
-      })
-      .addCase(fetchOfflineSales.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+const initialState = {
+  offlineSales: [],
+  loading: false,
+  error: null,
+};
+const offlineSalesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH_OFFLINE_SALES_REQUEST:
+    case UPDATE_OFFLINE_SALE_REQUEST:
+      return { ...state, loading: true, error: null };
 
-      // Логіка створення нового офлайн-продажу
-      .addCase(createOfflineSale.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(createOfflineSale.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.sales.push(action.payload); // Додаємо новий продаж
-      })
-      .addCase(createOfflineSale.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+    case FETCH_OFFLINE_SALES_SUCCESS:
+      return { ...state, offlineSales: action.payload, loading: false };
 
-      // Логіка оновлення даних офлайн-продажу
-      .addCase(updateOfflineSale.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(updateOfflineSale.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const index = state.sales.findIndex(
-          (sale) => sale.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.sales[index] = { ...state.sales[index], ...action.payload }; // Оновлюємо продаж
-        }
-      })
-      .addCase(updateOfflineSale.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      });
-  },
-});
+    case UPDATE_OFFLINE_SALE_SUCCESS:
+      return {
+        ...state,
+        offlineSales: state.offlineSales.map((sale) =>
+          sale._id === action.payload._id ? action.payload : sale
+        ),
+        loading: false,
+      };
 
-export default offlineSaleSlice.reducer;
+    case FETCH_OFFLINE_SALES_FAILURE:
+    case UPDATE_OFFLINE_SALE_FAILURE:
+      return { ...state, error: action.payload, loading: false };
+
+    default:
+      return state;
+  }
+};
+
+export default offlineSalesReducer;

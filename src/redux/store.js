@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import adminReducer from "./admin/adminSlice";
 import authReducer from "./auth/authSlice";
 import filtersReducer from "./filters/filterSlice";
-import offlineOrderReducer from "./finance/offlineOrder/offlineOrderSlice";
+import offlineOrdersReducer from "./finance/offlineOrder/offlineOrderSlice";
 import offlineSalesReducer from "./finance/offlineSale/offlineSaleSlice";
 import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
 import onlineSalesReducer from "./finance/onlineSale/onlineSaleSlice";
@@ -24,8 +24,8 @@ const store = configureStore({
     admin: adminReducer,
     onlineOrders: onlineOrdersReducer,
     onlineSales: onlineSalesReducer,
-    offlineOrder: offlineOrderReducer,
-    offlineSale: offlineSalesReducer,
+    offlineOrders: offlineOrdersReducer,
+    offlineSales: offlineSalesReducer,
     overview: overviewReducer,
     settings: settingsReducer,
     products: productsReducer,

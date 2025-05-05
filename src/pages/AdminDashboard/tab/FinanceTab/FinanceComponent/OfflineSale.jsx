@@ -1,19 +1,6 @@
-import {
-  Button,
-  CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchOfflineSales,
-  updateOfflineSale,
-} from "../../../../../redux/finance/offlineSale/operationOfflineSale";
+import { fetchOfflineSales } from "../../../../../redux/finance/offlineSale/operationOfflineSale";
 import {
   selectOfflineSales,
   selectOfflineSalesError,
@@ -22,64 +9,36 @@ import {
 
 const OfflineSale = () => {
   const dispatch = useDispatch();
-
-  const sales = useSelector(selectOfflineSales);
-  const isLoading = useSelector(selectOfflineSalesLoading);
+  const offlineSales = useSelector(selectOfflineSales);
+  const loading = useSelector(selectOfflineSalesLoading);
   const error = useSelector(selectOfflineSalesError);
 
   useEffect(() => {
-    dispatch(fetchOfflineSales()); // Завантаження офлайн-продажів
+    dispatch(fetchOfflineSales());
   }, [dispatch]);
 
-  const handleUpdateSale = (id, updatedData) => {
-    dispatch(updateOfflineSale({ saleId: id, updatedData }));
-  };
-
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-
-  if (error) {
-    return <Typography color="error">Помилка: {error}</Typography>;
-  }
+  if (loading) return <p>🔄 Завантаження продажів...</p>;
+  if (error) return <p>❌ Помилка: {error}</p>;
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
-        Офлайн-Продажі
-      </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID Продажу</TableCell>
-            <TableCell>Сума</TableCell>
-            <TableCell>Метод оплати</TableCell>
-            <TableCell>Оновити</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sales.map((sale) => (
-            <TableRow key={sale.id}>
-              <TableCell>{sale.id}</TableCell>
-              <TableCell>{sale.totalAmount}</TableCell>
-              <TableCell>{sale.paymentMethod}</TableCell>
-              <TableCell>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() =>
-                    handleUpdateSale(sale.id, {
-                      totalAmount: sale.totalAmount + 10,
-                    })
-                  }
-                >
-                  Оновити Суму
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <h2>🏪 Офлайн-продажі</h2>
+      {offlineSales.map((sale) => (
+        <div
+          key={sale._id}
+          style={{
+            border: "1px solid black",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <h3>Продаж ID: {sale._id}</h3>
+          <p>Статус: {sale.status}</p>
+          <p>Сума: {sale.totalAmount} zł</p>
+          <p>Метод оплати: {sale.paymentMethod}</p>
+          <p>Кількість товарів: {sale.products.length}</p>
+        </div>
+      ))}
     </div>
   );
 };
