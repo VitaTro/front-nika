@@ -1,148 +1,47 @@
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+// src/pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineOrder.jsx
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../../../../components/Loader";
-import PaginationComponent from "../../../../../components/PaginationComponent/PaginationComponent";
 import { fetchOnlineOrders } from "../../../../../redux/finance/onlineOrder/operationOnlineOrder";
 import {
   selectOnlineOrders,
   selectOnlineOrdersError,
   selectOnlineOrdersLoading,
 } from "../../../../../redux/finance/onlineOrder/selectorsOnlineOrder";
+
 const OnlineOrder = () => {
   const dispatch = useDispatch();
   const onlineOrders = useSelector(selectOnlineOrders);
   const loading = useSelector(selectOnlineOrdersLoading);
   const error = useSelector(selectOnlineOrdersError);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const ordersPerPage = 10;
 
   useEffect(() => {
     dispatch(fetchOnlineOrders());
   }, [dispatch]);
 
-  const totalPages = Math.ceil(onlineOrders.length / ordersPerPage);
-  const currentOrders = onlineOrders.slice(
-    (currentPage - 1) * ordersPerPage,
-    currentPage * ordersPerPage
-  );
+  if (loading) return <p>🔄 Завантаження замовлень...</p>;
+  if (error) return <p>❌ Помилка: {error}</p>;
 
-  const handleOpenDetails = (order) => {
-    setSelectedOrder(order);
-  };
-
-  const handleCloseDetails = () => {
-    setSelectedOrder(null);
-  };
-
-  const handleStatusUpdate = (orderId, newStatus) => {
-    dispatch(updateOrderStatus({ orderId, newStatus }));
-  };
-
-  if (loading) return <Loader />;
-  if (error) return <p>Error: {error}</p>;
   return (
-    <TableContainer component={Paper}>
-      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
-        Онлайн-замовлення
-      </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Продукти</TableCell>
-            <TableCell>Кількість</TableCell>
-            <TableCell>Ціна</TableCell>
-            <TableCell>Статус</TableCell>
-            <TableCell>Дії</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {onlineOrders.map((order) => (
-            <TableRow key={order.orderId}>
-              <TableCell>{order.orderId}</TableCell>
-              <TableCell>
-                {order.products
-                  .map(
-                    (product) => `${product.productId} (${product.quantity}шт.)`
-                  )
-                  .join(", ")}
-              </TableCell>
-              <TableCell>{order.totalQuantity}</TableCell>
-              <TableCell>{order.totalPrice} zł</TableCell>
-              <TableCell>{order.status}</TableCell>
-              <TableCell>
-                <Button
-                  size="small"
-                  color="info"
-                  onClick={() => handleOpenDetails(order)}
-                >
-                  Деталі
-                </Button>
-                <Button
-                  size="small"
-                  color="info"
-                  onClick={() => handleStatusUpdate(order.orderId, "received")}
-                >
-                  Отримане
-                </Button>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => handleStatusUpdate(order.orderId, "assembled")}
-                >
-                  Зібране
-                </Button>
-                <Button
-                  size="small"
-                  color="secondary"
-                  onClick={() => handleStatusUpdate(order.orderId, "shipped")}
-                >
-                  Вислано
-                </Button>
-                <Button
-                  size="small"
-                  color="success"
-                  onClick={() => handleStatusUpdate(order.orderId, "completed")}
-                >
-                  Завершити
-                </Button>
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={() => handleStatusUpdate(order.orderId, "cancelled")}
-                >
-                  Скасувати
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <PaginationComponent
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
-      {selectedOrder && (
-        <OrderDetails
-          open={!!selectedOrder}
-          onClose={handleCloseDetails}
-          order={selectedOrder}
-        />
-      )}
-    </TableContainer>
+    <div>
+      <h2>📦 Онлайн-замовлення</h2>
+      {onlineOrders.map((order) => (
+        <div
+          key={order._id}
+          style={{
+            border: "1px solid black",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <h3>Замовлення ID: {order.orderId}</h3>
+          <p>Статус: {order.status}</p>
+          <p>Сума: {order.totalPrice} zł</p>
+          <p>Метод оплати: {order.paymentMethod}</p>
+          <p>Кількість товарів: {order.products.length}</p>
+        </div>
+      ))}
+    </div>
   );
 };
+
 export default OnlineOrder;

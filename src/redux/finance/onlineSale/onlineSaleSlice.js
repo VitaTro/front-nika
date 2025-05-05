@@ -1,67 +1,43 @@
-import { createSlice } from "@reduxjs/toolkit";
 import {
-  createOnlineSale,
-  fetchOnlineSales,
-  updateOnlineSale,
-} from "./operationOnlineSale";
+  FETCH_ONLINE_SALES_FAILURE,
+  FETCH_ONLINE_SALES_REQUEST,
+  FETCH_ONLINE_SALES_SUCCESS,
+  UPDATE_ONLINE_ORDER_FAILURE,
+  UPDATE_ONLINE_ORDER_REQUEST,
+  UPDATE_ONLINE_ORDER_SUCCESS,
+} from "./actionsOnlineSales";
 
-const onlineSaleSlice = createSlice({
-  name: "onlineSales",
-  initialState: {
-    sales: [], // Список усіх продажів
-    isLoading: false, // Стан завантаження
-    error: null, // Помилки
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      // Логіка отримання списку продажів
-      .addCase(fetchOnlineSales.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchOnlineSales.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.sales = action.payload; // Зберігаємо список продажів
-      })
-      .addCase(fetchOnlineSales.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+const initialState = {
+  onlineSales: [],
+  loading: false,
+  error: null,
+};
 
-      // Логіка створення нового продажу
-      .addCase(createOnlineSale.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(createOnlineSale.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.sales.push(action.payload); // Додаємо новий продаж до списку
-      })
-      .addCase(createOnlineSale.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+const onlineSalesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH_ONLINE_SALES_REQUEST:
+    case UPDATE_ONLINE_ORDER_REQUEST:
+      return { ...state, loading: true, error: null };
 
-      // Логіка оновлення даних продажу
-      .addCase(updateOnlineSale.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(updateOnlineSale.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const index = state.sales.findIndex(
-          (sale) => sale.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.sales[index] = { ...state.sales[index], ...action.payload }; // Оновлюємо продаж
-        }
-      })
-      .addCase(updateOnlineSale.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      });
-  },
-});
+    case FETCH_ONLINE_SALES_SUCCESS:
+      return { ...state, onlineSales: action.payload, loading: false };
 
-export default onlineSaleSlice.reducer;
+    case UPDATE_ONLINE_ORDER_SUCCESS:
+      return {
+        ...state,
+        onlineSales: state.onlineSales.map((sale) =>
+          sale._id === action.payload._id ? action.payload : sale
+        ),
+        loading: false,
+      };
+
+    case FETCH_ONLINE_SALES_FAILURE:
+    case UPDATE_ONLINE_ORDER_FAILURE:
+      return { ...state, error: action.payload, loading: false };
+
+    default:
+      return state;
+  }
+};
+
+export default onlineSalesReducer;

@@ -3,9 +3,9 @@ import adminReducer from "./admin/adminSlice";
 import authReducer from "./auth/authSlice";
 import filtersReducer from "./filters/filterSlice";
 import offlineOrderReducer from "./finance/offlineOrder/offlineOrderSlice";
-import offlineSaleReducer from "./finance/offlineSale/offlineSaleSlice";
-import onlineOrderReducer from "./finance/onlineOrder/onlineOrderSlice";
-import onlineSaleReducer from "./finance/onlineSale/onlineSaleSlice";
+import offlineSalesReducer from "./finance/offlineSale/offlineSaleSlice";
+import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
+import onlineSalesReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
 import settingsReducer from "./finance/settings/settingsSlice";
 import popularProductsReducer from "./popular/popularSlice";
@@ -22,10 +22,10 @@ const store = configureStore({
     user: userReducer,
     userOrders: userOrdersReducer,
     admin: adminReducer,
-    onlineOrder: onlineOrderReducer,
-    onlineSale: onlineSaleReducer,
+    onlineOrders: onlineOrdersReducer,
+    onlineSales: onlineSalesReducer,
     offlineOrder: offlineOrderReducer,
-    offlineSale: offlineSaleReducer,
+    offlineSale: offlineSalesReducer,
     overview: overviewReducer,
     settings: settingsReducer,
     products: productsReducer,

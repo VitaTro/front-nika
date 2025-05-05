@@ -1,6 +1,6 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { Chart, registerables } from "chart.js";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Line } from "react-chartjs-2"; // 📊 Графік продажів
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
@@ -31,18 +31,15 @@ const FinanceOverview = () => {
 
   // 🔥 Локальний стан для оновлення налаштувань фінансів
   const [updatedSettings, setUpdatedSettings] = useState(financeSettings);
-
+  const chartRef = useRef(null);
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.destroy();
+    }
+  }, []);
   useEffect(() => {
     dispatch(fetchFinanceOverview());
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log("📊 Поточний Redux-стан:", {
-      stats,
-      salesOverview,
-      financeSettings,
-    });
-  }, [stats, salesOverview, financeSettings]);
 
   const handleUpdateSettings = () => {
     dispatch(updateFinanceOverview(updatedSettings));
@@ -59,6 +56,48 @@ const FinanceOverview = () => {
       <Typography color="error">Помилка завантаження даних: {error}</Typography>
     );
   }
+  const onlineSales = Array(12).fill(0); // Масив для онлайн-продажів
+  const offlineSales = Array(12).fill(0); // Масив для офлайн-продажів
+
+  sortedCompletedSales.forEach((sale) => {
+    const saleMonth = new Date(sale.createdAt).getMonth(); // Отримуємо місяць продажу
+    if (sale.source === "online") {
+      onlineSales[saleMonth] += sale.totalPrice; // Додаємо до онлайн-продажів
+    } else {
+      offlineSales[saleMonth] += sale.totalPrice; // Додаємо до офлайн-продажів
+    }
+  });
+
+  const chartData = {
+    labels: [
+      "Січень",
+      "Лютий",
+      "Березень",
+      "Квітень",
+      "Травень",
+      "Червень",
+      "Липень",
+      "Серпень",
+      "Вересень",
+      "Жовтень",
+      "Листопад",
+      "Грудень",
+    ],
+    datasets: [
+      {
+        label: "Онлайн-продажі",
+        data: onlineSales, // ✅ Реальні онлайн-продажі
+        borderColor: "blue",
+        backgroundColor: "rgba(0, 0, 255, 0.2)",
+      },
+      {
+        label: "Офлайн-продажі",
+        data: offlineSales, // ✅ Реальні офлайн-продажі
+        borderColor: "green",
+        backgroundColor: "rgba(0, 255, 0, 0.2)",
+      },
+    ],
+  };
 
   return (
     <Box sx={{ maxHeight: "85vh", overflowY: "auto", padding: "10px" }}>
@@ -116,6 +155,7 @@ const FinanceOverview = () => {
           variant="contained"
           color="primary"
           onClick={handleUpdateSettings}
+          sx={{ marginLeft: "50px" }}
         >
           Зберегти налаштування
         </Button>
@@ -140,38 +180,24 @@ const FinanceOverview = () => {
       </Paper>
 
       {/* 🔹 Графік динаміки продажів */}
-      <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
+      <Paper
+        elevation={3}
+        sx={{
+          padding: "20px",
+          marginBottom: "20px",
+          maxHeight: "300px",
+          overflowY: "auto",
+        }}
+      >
         <Typography variant="h6">Графік продажів</Typography>
         <Line
-          data={{
-            labels: ["Січень", "Лютий", "Березень", "Квітень", "Травень"],
-            datasets: [
-              {
-                label: "Онлайн-продажі",
-                data: [
-                  1200,
-                  1500,
-                  1700,
-                  1300,
-                  salesOverview?.online?.totalSales || 0,
-                ],
-                borderColor: "blue",
-                backgroundColor: "rgba(0, 0, 255, 0.2)",
-              },
-              {
-                label: "Офлайн-продажі",
-                data: [
-                  1000,
-                  1400,
-                  1600,
-                  1500,
-                  salesOverview?.offline?.totalSales || 0,
-                ],
-                borderColor: "green",
-                backgroundColor: "rgba(0, 255, 0, 0.2)",
-              },
-            ],
+          data={chartData}
+          options={{
+            maintainAspectRatio: false,
+            responsive: true,
           }}
+          height={200}
+          width={350}
         />
       </Paper>
 

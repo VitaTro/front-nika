@@ -1,67 +1,31 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axiosConfig";
+import {
+  fetchOnlineSalesFailure,
+  fetchOnlineSalesRequest,
+  fetchOnlineSalesSuccess,
+} from "./actionsOnlineSales";
 
-// Отримати всі онлайн-продажі
-export const fetchOnlineSales = createAsyncThunk(
-  "onlineSales/fetchOnlineSales",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios.get("/api/admin/finance/online/sales", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
-    }
+export const fetchOnlineSales = () => async (dispatch) => {
+  dispatch(fetchOnlineSalesRequest());
+  try {
+    const response = await axios.get("/api/admin/finance/online/sales");
+    console.log("📦 Отримані дані від API:", response.data); // 🔍 Перевір, що API повертає
+    dispatch(fetchOnlineSalesSuccess(response.data)); // Можливо потрібно `response.data`
+  } catch (error) {
+    console.error("🔥 Помилка API:", error.response?.data || error.message);
+    dispatch(fetchOnlineSalesFailure(error.message));
   }
-);
+};
 
-// Створити новий онлайн-продаж
-export const createOnlineSale = createAsyncThunk(
-  "onlineSales/createOnlineSale",
-  async (saleData, thunkAPI) => {
-    try {
-      const response = await axios.post(
-        "/api/admin/finance/online/sales",
-        saleData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
-    }
+export const updateOnlineSale = (saleId, updatedData) => async (dispatch) => {
+  dispatch(updateOnlineSaleRequest());
+  try {
+    const response = await axios.patch(
+      `/api/admin/finance/online/sales/${saleId}`,
+      updatedData
+    );
+    dispatch(updateOnlineSaleSuccess(response.data));
+  } catch (error) {
+    dispatch(updateOnlineSaleFailure(error.message));
   }
-);
-
-// Оновити дані онлайн-продажу
-export const updateOnlineSale = createAsyncThunk(
-  "onlineSales/updateOnlineSale",
-  async ({ saleId, updatedData }, thunkAPI) => {
-    try {
-      const response = await axios.patch(
-        `/api/admin/finance/online/sales/${saleId}`,
-        updatedData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
-    }
-  }
-);
+};

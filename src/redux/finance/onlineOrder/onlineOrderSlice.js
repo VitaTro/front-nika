@@ -1,83 +1,44 @@
-import { createSlice } from "@reduxjs/toolkit";
+// src/redux/finance/onlineOrder/reducerOnlineOrder.js
 import {
-  createOnlineOrder,
-  fetchOnlineOrderById,
-  fetchOnlineOrders,
-  updateOnlineOrderStatus,
-} from "./operationOnlineOrder";
+  FETCH_ONLINE_ORDERS_FAILURE,
+  FETCH_ONLINE_ORDERS_REQUEST,
+  FETCH_ONLINE_ORDERS_SUCCESS,
+  UPDATE_ONLINE_ORDER_FAILURE,
+  UPDATE_ONLINE_ORDER_REQUEST,
+  UPDATE_ONLINE_ORDER_SUCCESS,
+} from "./actionsOnlineOrder";
 
-const onlineOrderSlice = createSlice({
-  name: "onlineOrders",
-  initialState: {
-    orders: [], // Список усіх замовлень
-    currentOrder: null, // Дані про окреме замовлення
-    isLoading: false, // Стан завантаження
-    error: null, // Помилки
-  },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      // Логіка отримання списку замовлень
-      .addCase(fetchOnlineOrders.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchOnlineOrders.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.orders = action.payload; // Зберігаємо список замовлень
-      })
-      .addCase(fetchOnlineOrders.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+const initialState = {
+  onlineOrders: [],
+  loading: false,
+  error: null,
+};
 
-      // Логіка створення нового замовлення
-      .addCase(createOnlineOrder.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(createOnlineOrder.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.orders.push(action.payload.order); // Додаємо нове замовлення до списку
-      })
-      .addCase(createOnlineOrder.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+const onlineOrdersReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH_ONLINE_ORDERS_REQUEST:
+    case UPDATE_ONLINE_ORDER_REQUEST:
+      return { ...state, loading: true, error: null };
 
-      // Логіка отримання конкретного замовлення
-      .addCase(fetchOnlineOrderById.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchOnlineOrderById.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.currentOrder = action.payload; // Зберігаємо дані конкретного замовлення
-      })
-      .addCase(fetchOnlineOrderById.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
+    case FETCH_ONLINE_ORDERS_SUCCESS:
+      return { ...state, onlineOrders: action.payload, loading: false };
 
-      // Логіка оновлення статусу замовлення
-      .addCase(updateOnlineOrderStatus.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(updateOnlineOrderStatus.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const index = state.orders.findIndex(
-          (order) => order.orderId === action.payload.orderId
-        );
-        if (index !== -1) {
-          state.orders[index] = { ...state.orders[index], ...action.payload }; // Оновлюємо замовлення
-        }
-      })
-      .addCase(updateOnlineOrderStatus.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      });
-  },
-});
+    case UPDATE_ONLINE_ORDER_SUCCESS:
+      return {
+        ...state,
+        onlineOrders: state.onlineOrders.map((order) =>
+          order._id === action.payload._id ? action.payload : order
+        ),
+        loading: false,
+      };
 
-export default onlineOrderSlice.reducer;
+    case FETCH_ONLINE_ORDERS_FAILURE:
+    case UPDATE_ONLINE_ORDER_FAILURE:
+      return { ...state, error: action.payload, loading: false };
+
+    default:
+      return state;
+  }
+};
+
+export default onlineOrdersReducer;

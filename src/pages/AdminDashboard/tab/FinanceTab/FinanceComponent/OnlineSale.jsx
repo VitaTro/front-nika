@@ -1,20 +1,58 @@
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+// import { useEffect, useState } from "react";
+// import axios from "../../../../../redux/axiosConfig"; // 👈 Налаштований axios
+
+// const OnlineSale = () => {
+//   const [sales, setSales] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     console.log("🌍 Fetching sales directly from API...");
+//     axios
+//       .get("/api/admin/finance/online/sales") // 👈 Отримуємо дані напряму
+//       .then((response) => {
+//         console.log("✅ API Response:", response.data);
+//         setSales(response.data); // 🔹 Записуємо продажі в `state`
+//         setLoading(false);
+//       })
+//       .catch((error) => {
+//         console.error("❌ API Fetch Error:", error);
+//         setError("Не вдалося завантажити продажі");
+//         setLoading(false);
+//       });
+//   }, []);
+
+//   if (loading) return <p>🔄 Завантаження продажів...</p>;
+//   if (error) return <p>❌ {error}</p>;
+
+//   return (
+//     <div>
+//       <h2>💰 Онлайн-продажі</h2>
+//       {sales.map((sale) => (
+//         <div
+//           key={sale._id}
+//           style={{
+//             border: "1px solid black",
+//             padding: "10px",
+//             marginBottom: "10px",
+//           }}
+//         >
+//           <h3>Продаж ID: {sale._id}</h3>
+//           <p>Статус: {sale.status}</p>
+//           <p>Сума: {sale.totalAmount} zł</p>
+//           <p>Метод оплати: {sale.paymentMethod}</p>
+//           <p>Кількість товарів: {sale.products.length}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default OnlineSale;
+// src/pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineSale.jsx
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchOnlineSales,
-  updateOnlineSale,
-} from "../../../../../redux/finance/onlineSale/operationOnlineSale";
+import { fetchOnlineSales } from "../../../../../redux/finance/onlineSale/operationOnlineSale";
 import {
   selectOnlineSales,
   selectOnlineSalesError,
@@ -31,90 +69,29 @@ const OnlineSale = () => {
     dispatch(fetchOnlineSales());
   }, [dispatch]);
 
-  const handleStatusUpdate = (saleId, newStatus) => {
-    dispatch(updateOnlineSale({ saleId, updatedData: { status: newStatus } }));
-  };
-
-  if (loading) return <p>Завантаження...</p>;
-  if (error) return <p>Помилка: {error}</p>;
+  if (loading) return <p>🔄 Завантаження продажів...</p>;
+  if (error) return <p>❌ Помилка: {error}</p>;
 
   return (
-    <TableContainer component={Paper}>
-      <Typography variant="h4" gutterBottom style={{ textAlign: "center" }}>
-        Онлайн-продажі
-      </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Продукти</TableCell>
-            <TableCell>Кількість</TableCell>
-            <TableCell>Загальна сума</TableCell>
-            <TableCell>Статус</TableCell>
-            <TableCell>Дії</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {onlineSales.map((sale) => (
-            <TableRow key={sale.id}>
-              <TableCell>{sale.id}</TableCell>
-              <TableCell>
-                {sale.products
-                  .map(
-                    (product) => `${product.productId} (${product.quantity})`
-                  )
-                  .join(", ")}
-              </TableCell>
-              <TableCell>
-                {sale.products.reduce(
-                  (total, product) => total + product.quantity,
-                  0
-                )}
-              </TableCell>
-              <TableCell>{sale.totalAmount} zł</TableCell>
-              <TableCell>{sale.status}</TableCell>
-              <TableCell>
-                <Button
-                  size="small"
-                  color="primary"
-                  onClick={() => handleStatusUpdate(sale.id, "received")}
-                >
-                  Отримане
-                </Button>
-                <Button
-                  size="small"
-                  color="secondary"
-                  onClick={() => handleStatusUpdate(sale.id, "assembled")}
-                >
-                  Зібране
-                </Button>
-                <Button
-                  size="small"
-                  color="info"
-                  onClick={() => handleStatusUpdate(sale.id, "shipped")}
-                >
-                  Вислано
-                </Button>
-                <Button
-                  size="small"
-                  color="success"
-                  onClick={() => handleStatusUpdate(sale.id, "completed")}
-                >
-                  Завершено
-                </Button>
-                <Button
-                  size="small"
-                  color="error"
-                  onClick={() => handleStatusUpdate(sale.id, "cancelled")}
-                >
-                  Скасовано
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+      <h2>💰 Онлайн-продажі</h2>
+      {onlineSales.map((sale) => (
+        <div
+          key={sale._id}
+          style={{
+            border: "1px solid black",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <h3>Продаж ID: {sale._id}</h3>
+          <p>Статус: {sale.status}</p>
+          <p>Сума: {sale.totalAmount} zł</p>
+          <p>Метод оплати: {sale.paymentMethod}</p>
+          <p>Кількість товарів: {sale.products.length}</p>
+        </div>
+      ))}
+    </div>
   );
 };
 

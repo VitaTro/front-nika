@@ -24,7 +24,6 @@ const overviewSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchFinanceOverview.fulfilled, (state, action) => {
-        console.log("🧐 Оновлення Redux:", action.payload);
         state.loading = false;
         state.stats = action.payload.stats;
         state.completedSales = action.payload.completedSales;

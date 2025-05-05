@@ -1,67 +1,65 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axiosConfig";
 
-// Отримати всі офлайн-замовлення
 export const fetchOfflineOrders = createAsyncThunk(
   "offlineOrders/fetchOfflineOrders",
-  async (_, thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/admin/finance/offline/orders", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      return response.data;
+      const response = await axios.get("/api/admin/finance/offline/orders");
+      console.log("📊 API Response:", response.data); // ✅ Перевіряємо структуру
+
+      return Array.isArray(response.data) ? response.data : []; // 🔥 Переконаємось, що це масив
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
+      console.error("❌ API Error:", error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-// Створити нове офлайн-замовлення
 export const createOfflineOrder = createAsyncThunk(
   "offlineOrders/createOfflineOrder",
-  async (orderData, thunkAPI) => {
+  async (newOrderData, { rejectWithValue }) => {
     try {
+      console.log(
+        "📡 Sending createOfflineOrder request:",
+        JSON.stringify(newOrderData, null, 2)
+      );
       const response = await axios.post(
         "/api/admin/finance/offline/orders",
-        orderData,
+        newOrderData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
           },
         }
       );
+      console.log(
+        "✅ createOfflineOrder API RESPONSE:",
+        JSON.stringify(response.data, null, 2)
+      );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
+      console.error(
+        "❌ API Error:",
+        JSON.stringify(error.response.data, null, 2)
       );
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-// Оновити статус офлайн-замовлення
+// ✅ Запит на оновлення статусу замовлення
 export const updateOfflineOrderStatus = createAsyncThunk(
   "offlineOrders/updateOfflineOrderStatus",
-  async ({ orderId, newStatus }, thunkAPI) => {
+  async ({ orderId, status }, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
         `/api/admin/finance/offline/orders/${orderId}`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        { status } // 🔥 Відправляємо лише статус
       );
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || error.message
-      );
+      return rejectWithValue(error.response.data);
     }
   }
 );

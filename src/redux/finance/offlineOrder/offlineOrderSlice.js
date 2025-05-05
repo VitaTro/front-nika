@@ -1,50 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import {
   createOfflineOrder,
   fetchOfflineOrders,
   updateOfflineOrderStatus,
 } from "./operationOfflineOrder";
 
-const offlineOrderSlice = createSlice({
+const offlineOrdersSlice = createSlice({
   name: "offlineOrders",
   initialState: {
-    orders: [], // Список офлайн-замовлень
-    isLoading: false, // Стан завантаження
-    error: null, // Помилки
+    orders: [],
+    loading: false,
+    error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Логіка отримання всіх офлайн-замовлень
       .addCase(fetchOfflineOrders.pending, (state) => {
-        state.isLoading = true;
+        state.loading = true;
         state.error = null;
       })
+
       .addCase(fetchOfflineOrders.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.isLoading = false;
-        state.orders = action.payload; // Зберігаємо список замовлень
+        console.log("📊 Full API Response:", action.payload);
+        state.loading = false;
+        state.orders = structuredClone(action.payload) ?? []; // 🔥 Використовуємо `structuredClone`
+        console.log(
+          "📊 Updated Redux State AFTER mutation:",
+          JSON.stringify(state.orders, null, 2)
+        );
       })
+
       .addCase(fetchOfflineOrders.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload.message; // Зберігаємо помилку
+        state.loading = false;
+        state.error = action.payload;
       })
 
-      // Логіка створення нового офлайн-замовлення
-      .addCase(createOfflineOrder.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
       .addCase(createOfflineOrder.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.orders.push(action.payload); // Додаємо нове замовлення
-      })
-      .addCase(createOfflineOrder.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload; // Зберігаємо помилку
-      })
-
-      // Логіка оновлення статусу офлайн-замовлення
+        console.log(
+          "🚀 createOfflineOrder SUCCESS! New order:",
+          JSON.stringify(action.payload, null, 2)
+        );
+        state.orders.push(action.payload);
+      }) // Логіка оновлення статусу офлайн-замовлення
       .addCase(updateOfflineOrderStatus.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -67,4 +65,4 @@ const offlineOrderSlice = createSlice({
   },
 });
 
-export default offlineOrderSlice.reducer;
+export default offlineOrdersSlice.reducer;

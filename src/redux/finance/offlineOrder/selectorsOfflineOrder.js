@@ -1,20 +1,25 @@
 import { createSelector } from "reselect";
 
-// Базовий селектор для стану офлайн-замовлень
-const selectOfflineOrdersState = (state) => state.offlineOrders || {};
+const selectOfflineOrdersState = (state) =>
+  state.offlineOrders ?? { orders: [], loading: false, error: null };
 
-// Мемоїзовані селектори
 export const selectOfflineOrders = createSelector(
   [selectOfflineOrdersState],
-  (offlineOrders) => offlineOrders.orders || []
+  (offlineOrders) => {
+    console.log(
+      "🔎 Selector FINAL CHECK - offlineOrders object:",
+      JSON.stringify(offlineOrders, null, 2)
+    );
+    return offlineOrders.orders ?? []; // 🔥 Переконуємось, що це масив
+  }
 );
 
 export const selectOfflineOrdersLoading = createSelector(
   [selectOfflineOrdersState],
-  (offlineOrders) => offlineOrders.isLoading || false
+  (offlineOrders) => offlineOrders.loading ?? false
 );
 
 export const selectOfflineOrdersError = createSelector(
   [selectOfflineOrdersState],
-  (offlineOrders) => offlineOrders.error || null
+  (offlineOrders) => offlineOrders.error ?? null
 );

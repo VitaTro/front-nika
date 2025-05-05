@@ -6,10 +6,6 @@ export const fetchFinanceOverview = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("/api/admin/finance/overview");
-      console.log("🚀 Відповідь бекенду:", response.data);
-      if (!response.data.completedSales || !response.data.lowStockItems) {
-        console.warn("⚠️ Дані `completedSales` або `lowStockItems` відсутні!");
-      }
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

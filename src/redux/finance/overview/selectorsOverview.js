@@ -1,6 +1,5 @@
 import { createSelector } from "reselect";
 
-// Базовий селектор для фінансів
 const selectFinanceState = (state) => state.overview || {};
 
 export const selectFinanceStats = createSelector(
