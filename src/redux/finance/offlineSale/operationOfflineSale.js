@@ -1,5 +1,8 @@
 import axios from "../../axiosConfig";
 import {
+  createOfflineSaleFailure,
+  createOfflineSaleRequest,
+  createOfflineSaleSuccess,
   fetchOfflineSalesFailure,
   fetchOfflineSalesRequest,
   fetchOfflineSalesSuccess,
@@ -16,6 +19,19 @@ export const fetchOfflineSales = () => async (dispatch) => {
     dispatch(fetchOfflineSalesSuccess(response.data));
   } catch (error) {
     dispatch(fetchOfflineSalesFailure(error.message));
+  }
+};
+
+export const createOfflineSale = (saleData) => async (dispatch) => {
+  dispatch(createOfflineSaleRequest());
+  try {
+    const response = await axios.post(
+      "/api/admin/finance/offline/sales",
+      saleData
+    );
+    dispatch(createOfflineSaleSuccess(response.data));
+  } catch (error) {
+    dispatch(createOfflineSaleFailure(error.message));
   }
 };
 

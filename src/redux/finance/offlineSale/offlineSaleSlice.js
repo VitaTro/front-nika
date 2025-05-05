@@ -1,4 +1,7 @@
 import {
+  CREATE_OFFLINE_SALE_FAILURE,
+  CREATE_OFFLINE_SALE_REQUEST,
+  CREATE_OFFLINE_SALE_SUCCESS,
   FETCH_OFFLINE_SALES_FAILURE,
   FETCH_OFFLINE_SALES_REQUEST,
   FETCH_OFFLINE_SALES_SUCCESS,
@@ -12,14 +15,23 @@ const initialState = {
   loading: false,
   error: null,
 };
+
 const offlineSalesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_OFFLINE_SALES_REQUEST:
+    case CREATE_OFFLINE_SALE_REQUEST:
     case UPDATE_OFFLINE_SALE_REQUEST:
       return { ...state, loading: true, error: null };
 
     case FETCH_OFFLINE_SALES_SUCCESS:
       return { ...state, offlineSales: action.payload, loading: false };
+
+    case CREATE_OFFLINE_SALE_SUCCESS:
+      return {
+        ...state,
+        offlineSales: [...state.offlineSales, action.payload], // ✅ Додаємо новий продаж
+        loading: false,
+      };
 
     case UPDATE_OFFLINE_SALE_SUCCESS:
       return {
@@ -31,6 +43,7 @@ const offlineSalesReducer = (state = initialState, action) => {
       };
 
     case FETCH_OFFLINE_SALES_FAILURE:
+    case CREATE_OFFLINE_SALE_FAILURE:
     case UPDATE_OFFLINE_SALE_FAILURE:
       return { ...state, error: action.payload, loading: false };
 
@@ -38,5 +51,4 @@ const offlineSalesReducer = (state = initialState, action) => {
       return state;
   }
 };
-
 export default offlineSalesReducer;
