@@ -6,6 +6,9 @@ import {
   fetchOfflineSalesFailure,
   fetchOfflineSalesRequest,
   fetchOfflineSalesSuccess,
+  returnOfflineSaleFailure,
+  returnOfflineSaleRequest,
+  returnOfflineSaleSuccess,
   updateOfflineSaleFailure,
   updateOfflineSaleRequest,
   updateOfflineSaleSuccess,
@@ -46,5 +49,18 @@ export const updateOfflineSale = (saleId, updatedData) => async (dispatch) => {
     dispatch(updateOfflineSaleSuccess(response.data));
   } catch (error) {
     dispatch(updateOfflineSaleFailure(error.message));
+  }
+};
+
+export const returnOfflineSale = (saleId, refundAmount) => async (dispatch) => {
+  dispatch(returnOfflineSaleRequest());
+  try {
+    const response = await axios.put(
+      `/api/admin/finance/offline/sales/${saleId}/return`,
+      { refundAmount }
+    );
+    dispatch(returnOfflineSaleSuccess(response.data));
+  } catch (error) {
+    dispatch(returnOfflineSaleFailure(error.message));
   }
 };

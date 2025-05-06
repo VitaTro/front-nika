@@ -8,6 +8,9 @@ export const CREATE_OFFLINE_SALE_FAILURE = "CREATE_OFFLINE_SALE_FAILURE";
 export const UPDATE_OFFLINE_SALE_REQUEST = "UPDATE_OFFLINE_SALE_REQUEST";
 export const UPDATE_OFFLINE_SALE_SUCCESS = "UPDATE_OFFLINE_SALE_SUCCESS";
 export const UPDATE_OFFLINE_SALE_FAILURE = "UPDATE_OFFLINE_SALE_FAILURE";
+export const RETURN_OFFLINE_SALE_REQUEST = "RETURN_OFFLINE_SALE_REQUEST";
+export const RETURN_OFFLINE_SALE_SUCCESS = "RETURN_OFFLINE_SALE_SUCCESS";
+export const RETURN_OFFLINE_SALE_FAILURE = "RETURN_OFFLINE_SALE_FAILURE";
 
 export const fetchOfflineSalesRequest = () => ({
   type: FETCH_OFFLINE_SALES_REQUEST,
@@ -40,5 +43,16 @@ export const updateOfflineSaleSuccess = (sale) => ({
 });
 export const updateOfflineSaleFailure = (error) => ({
   type: UPDATE_OFFLINE_SALE_FAILURE,
+  payload: error,
+});
+export const returnOfflineSaleRequest = () => ({
+  type: RETURN_OFFLINE_SALE_REQUEST,
+});
+export const returnOfflineSaleSuccess = (sale) => ({
+  type: RETURN_OFFLINE_SALE_SUCCESS,
+  payload: sale,
+});
+export const returnOfflineSaleFailure = (error) => ({
+  type: RETURN_OFFLINE_SALE_FAILURE,
   payload: error,
 });

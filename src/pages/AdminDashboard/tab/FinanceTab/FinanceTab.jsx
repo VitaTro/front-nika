@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import FinanceOverview from "./FinanceComponent/FinanceOverview";
 import FinanceSettings from "./FinanceComponent/FinanceSettings";
 import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
-import OfflineSale from "./FinanceComponent/OfflineSale";
+import OfflineSale from "./FinanceComponent/OfflineSale/OfflineSale";
 import OnlineOrder from "./FinanceComponent/OnlineOrder";
 import OnlineSale from "./FinanceComponent/OnlineSale";
 const FinanceTab = () => {
