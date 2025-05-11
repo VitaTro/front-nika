@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Products from "../components/Products/Products";
+import useGlobalNavigation from "../hooks/useGlobalNavigation";
+import useGlobalPagination from "../hooks/useGlobalPagination";
 import AboutPage from "../pages/AboutPage";
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab";
@@ -24,17 +26,31 @@ import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import AuthFormLogin from "./AuthForm/AuthFormLogin";
 import AuthFormRegister from "./AuthForm/AuthFormRegister";
-import ErrorBoundary from "./ErrorBoundary";
 import Footer from "./Footer/Footer";
 import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
 
 export const App = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  const theme = {
-    isDarkMode,
-  };
+  const theme = { isDarkMode };
+
+  useGlobalNavigation();
+  const { currentPage, handlePageChange } = useGlobalPagination();
+
+  // ✅ Зберігаємо останню відвідану сторінку у `localStorage`
+  useEffect(() => {
+    localStorage.setItem("lastPage", location.pathname);
+  }, [location.pathname]);
+
+  // ✅ При запуску отримуємо збережену сторінку та перенаправляємо користувача
+  useEffect(() => {
+    const lastPage = localStorage.getItem("lastPage");
+    if (lastPage && lastPage !== location.pathname) {
+      navigate(lastPage);
+    }
+  }, [navigate, location.pathname]);
 
   // Перевіряємо, чи поточний маршрут є частиною адмінської панелі
   const isAdminPage = location.pathname.startsWith("/admin");
@@ -42,66 +58,41 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/main" element={<MainPage />} />
-          {/* Products */}
-          <Route path="/products" element={<Products type="all" />} />
-          <Route path="/products/gold" element={<Products type="gold" />} />
-          <Route path="/products/silver" element={<Products type="silver" />} />
-          <Route path="/products/set" element={<Products type="set" />} />
-          <Route path="/products/box" element={<Products type="box" />} />
-          <Route path="/products/:type" element={<ProductsPage />} />
-          <Route
-            path="/search"
-            element={
-              <ErrorBoundary>
-                <SearchResults />
-              </ErrorBoundary>
-            }
-          />
-          {/* Маршрути для Auth */}
-          <Route path="/auth/login" element={<AuthFormLogin />} />
-          <Route
-            path="/auth/register/user"
-            element={<AuthFormRegister isAdmin={false} />}
-          />
-          <Route
-            path="/auth/register/admin"
-            element={<AuthFormRegister isAdmin={true} />}
-          />
-          <Route path="/wishlist" element={<WishlistPage />} />
-          <Route
-            path="/shopping-cart"
-            element={
-              <ErrorBoundary>
-                <ShoppingCartPage />
-              </ErrorBoundary>
-            }
-          />
-          {/* Маршрути для Admin */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="users" element={<UsersTab />} />
-            <Route path="products" element={<ProductsTab />} />
-            <Route path="dashboard" element={<DashboardTab />} />
-            <Route path="finance" element={<FinanceTab />}>
-              <Route path="offlineOrder" element={<OfflineOrder />} />
-              <Route path="offlineSale" element={<OfflineSale />} />
-              <Route path="onlineOrder" element={<OnlineOrder />} />
-              <Route path="onlineSale" element={<OnlineSale />} />
-              <Route path="overview" element={<FinanceOverview />} />
-              <Route path="settings" element={<FinanceSettings />} />
-            </Route>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/main" element={<MainPage />} />
+        <Route path="/products" element={<Products type="all" />} />
+        <Route path="/products/:type" element={<ProductsPage />} />
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/auth/login" element={<AuthFormLogin />} />
+        <Route
+          path="/auth/register/user"
+          element={<AuthFormRegister isAdmin={false} />}
+        />
+        <Route
+          path="/auth/register/admin"
+          element={<AuthFormRegister isAdmin={true} />}
+        />
+        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/shopping-cart" element={<ShoppingCartPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="users" element={<UsersTab />} />
+          <Route path="products" element={<ProductsTab />} />
+          <Route path="dashboard" element={<DashboardTab />} />
+          <Route path="finance" element={<FinanceTab />}>
+            <Route path="offlineOrder" element={<OfflineOrder />} />
+            <Route path="offlineSale" element={<OfflineSale />} />
+            <Route path="onlineOrder" element={<OnlineOrder />} />
+            <Route path="onlineSale" element={<OnlineSale />} />
+            <Route path="overview" element={<FinanceOverview />} />
+            <Route path="settings" element={<FinanceSettings />} />
           </Route>
-          {/* Інші маршрути */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        </Route>
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
 
-        {/* Відображаємо футер лише для не-адмінських сторінок */}
-        {!isAdminPage && <Footer />}
-      </>
+      {!location.pathname.startsWith("/admin") && <Footer />}
     </ThemeProvider>
   );
 };
