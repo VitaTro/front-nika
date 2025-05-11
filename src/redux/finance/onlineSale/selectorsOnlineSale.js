@@ -1,4 +1,3 @@
-// src/redux/finance/onlineSale/selectorsOnlineSale.js
 import { createSelector } from "reselect";
 
 const selectOnlineSalesState = (state) => state.onlineSales || {};

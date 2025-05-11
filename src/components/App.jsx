@@ -10,8 +10,8 @@ import FinanceOverview from "../pages/AdminDashboard/tab/FinanceTab/FinanceCompo
 import FinanceSettings from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceSettings";
 import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineOrder/OfflineOrder";
 import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineSale/OfflineSale";
-import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineOrder";
-import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineSale";
+import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineOrder/OnlineOrder";
+import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineSale/OnlineSale";
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";

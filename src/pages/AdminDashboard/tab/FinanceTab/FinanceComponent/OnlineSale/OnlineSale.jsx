@@ -9,13 +9,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../../components/Loader";
-import { fetchOfflineSales } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
+import { fetchOnlineSales } from "../../../../../../redux/finance/onlineSale/operationOnlineSale";
 import {
-  selectOfflineSales,
-  selectOfflineSalesError,
-  selectOfflineSalesLoading,
-} from "../../../../../../redux/finance/offlineSale/selectorsOfflineSale";
-import OfflineSaleDetails from "./OfflineSaleDetails";
+  selectOnlineSales,
+  selectOnlineSalesError,
+  selectOnlineSalesLoading,
+} from "../../../../../../redux/finance/onlineSale/selectorsOnlineSale";
+import OnlineSaleDetails from "./OnlineSaleDetails";
 
 const statusColors = {
   new: "info",
@@ -24,16 +24,16 @@ const statusColors = {
   cancelled: "error",
 };
 
-const OfflineSale = () => {
+const OnlineSale = () => {
   const dispatch = useDispatch();
-  const offlineSales = useSelector(selectOfflineSales);
-  const loading = useSelector(selectOfflineSalesLoading);
-  const error = useSelector(selectOfflineSalesError);
+  const onlineSales = useSelector(selectOnlineSales);
+  const loading = useSelector(selectOnlineSalesLoading);
+  const error = useSelector(selectOnlineSalesError);
 
   const [selectedSale, setSelectedSale] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchOfflineSales());
+    dispatch(fetchOnlineSales());
   }, [dispatch]);
 
   if (loading) return <Loader />;
@@ -41,9 +41,9 @@ const OfflineSale = () => {
 
   return (
     <div>
-      <h2>🏪 Офлайн-продажі</h2>
+      <h2>💰 Онлайн-продажі</h2>
 
-      {offlineSales.map((sale) => (
+      {onlineSales.map((sale) => (
         <Card key={sale._id} sx={{ marginBottom: 2, padding: 2 }}>
           <CardContent
             sx={{
@@ -71,7 +71,7 @@ const OfflineSale = () => {
         </Card>
       ))}
       {selectedSale && (
-        <OfflineSaleDetails
+        <OnlineSaleDetails
           sale={selectedSale}
           onClose={() => setSelectedSale(null)}
         />
@@ -80,4 +80,4 @@ const OfflineSale = () => {
   );
 };
 
-export default OfflineSale;
+export default OnlineSale;

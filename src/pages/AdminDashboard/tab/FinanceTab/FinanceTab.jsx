@@ -4,8 +4,8 @@ import FinanceOverview from "./FinanceComponent/FinanceOverview";
 import FinanceSettings from "./FinanceComponent/FinanceSettings";
 import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
 import OfflineSale from "./FinanceComponent/OfflineSale/OfflineSale";
-import OnlineOrder from "./FinanceComponent/OnlineOrder";
-import OnlineSale from "./FinanceComponent/OnlineSale";
+import OnlineOrder from "./FinanceComponent/OnlineOrder/OnlineOrder";
+import OnlineSale from "./FinanceComponent/OnlineSale/OnlineSale";
 const FinanceTab = () => {
   const [viewMode, setViewMode] = useState("overview");
 
