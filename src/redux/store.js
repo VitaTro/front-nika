@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import adminReducer from "./admin/adminSlice";
-import authReducer from "./auth/authSlice";
+// import userAuthReducer from "./auth/userAuth/userAuthSlice";
+import adminAuthReducer from "./auth/adminAuth/adminAuthSlice";
 import filtersReducer from "./filters/filterSlice";
 import offlineOrdersReducer from "./finance/offlineOrder/offlineOrderSlice";
 import offlineSalesReducer from "./finance/offlineSale/offlineSaleSlice";
@@ -18,9 +19,10 @@ import userReducer from "./user/userSlice";
 import wishlistReducer from "./wishlist/wishlistSlice";
 const store = configureStore({
   reducer: {
-    auth: authReducer,
+    // userAuth: userAuthReducer,
     user: userReducer,
     userOrders: userOrdersReducer,
+    adminAuth: adminAuthReducer,
     admin: adminReducer,
     onlineOrders: onlineOrdersReducer,
     onlineSales: onlineSalesReducer,

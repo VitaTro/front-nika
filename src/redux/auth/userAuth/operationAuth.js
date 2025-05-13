@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../axiosConfig";
+import axios from "../../axiosConfig";
 
 // Перевірка адміністратора
 export const checkAdmin = createAsyncThunk(

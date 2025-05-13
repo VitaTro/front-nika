@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../redux/auth/operationAuth";
-import Loader from "../Loader";
+import { login } from "../../../redux/auth/userAuth/operationAuth";
+import Loader from "../../Loader";
 import {
   AuthForm,
   ButtonForm,
@@ -13,7 +13,7 @@ import {
   ItemForm,
   LabelForm,
   ResponsiveContainer,
-} from "./AuthFormRegister.styled";
+} from "../AuthFormRegister.styled";
 
 const AuthFormLogin = ({ isAdmin }) => {
   const dispatch = useDispatch();

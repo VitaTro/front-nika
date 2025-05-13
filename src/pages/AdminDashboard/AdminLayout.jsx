@@ -1,9 +1,22 @@
 import { Box, Tab, Tabs } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { logoutAdmin } from "../../redux/auth/adminAuth/operationsAdminAuth";
 
 const AdminLayout = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const handleLogout = () => {
+    dispatch(logoutAdmin())
+      .unwrap()
+      .then(() => {
+        navigate("/admin/auth/login"); // 🔀 Редирект після виходу
+      })
+      .catch((error) => console.error("Logout failed:", error));
+  };
 
   // ✅ Встановлення початкового значення вкладки на основі маршруту
   const getTabIndex = () => {
@@ -37,8 +50,9 @@ const AdminLayout = () => {
         <Tab label="Головна панель" component={Link} to="/admin/dashboard" />
         <Tab label="Товари" component={Link} to="/admin/products" />
         <Tab label="Користувачі" component={Link} to="/admin/users" />
+        <Tab label="Вихід" onClick={handleLogout} />
       </Tabs>
-
+      {/* <button onClick={handleLogout}>Logout</button> 🔴 Кнопка виходу */}
       {/* Відображення дочірніх маршрутів */}
       <Outlet />
     </Box>

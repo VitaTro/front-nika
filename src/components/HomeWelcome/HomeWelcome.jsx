@@ -1,10 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
-import {
-  ButtonContainer,
-  Container,
-  Register,
-  SignIn,
-} from "./HomeWelcome.styled";
+import { ButtonContainer, Container } from "./HomeWelcome.styled";
 import HomeImage from "./gold_1.png";
 const HomeWelcome = () => {
   return (
@@ -17,12 +11,12 @@ const HomeWelcome = () => {
           height={310}
         />
         <ButtonContainer>
-          <SignIn to="/auth/login" as={RouterLink}>
+          {/* <SignIn to="/auth/login" as={RouterLink}>
             Log In
           </SignIn>
           <Register to="/auth/register/user" as={RouterLink}>
             Register
-          </Register>
+          </Register> */}
         </ButtonContainer>
       </Container>
     </>
