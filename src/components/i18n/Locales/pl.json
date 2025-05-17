@@ -4,7 +4,7 @@
   "basket": "Koszyk",
   "contact": "Kontakty",
   "about": "O nas",
-  "login": "Zaloguj się",
+  "login": "LogIn",
   "logout": "wyloguj się",
   "catalog": "Katalog",
   "gold": "Chirurgiczne ZŁOTO",
@@ -46,5 +46,8 @@
   "login_here": "Zaloguj się tutaj",
   "reserved": "Wszelkie prawa zastrzeżone",
   "wishlist_page": "Lista życzeń",
-  "total": "Ogółem"
+  "total": "Ogółem",
+  "email_verified": "Twój e-mail został pomyślnie zweryfikowany ✅",
+  "verification_pending": "Trwa weryfikacja...",
+  "registration_success": "Rejestracja zakończona sukcesem"
 }

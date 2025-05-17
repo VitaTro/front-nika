@@ -46,5 +46,8 @@
   "login_here": "Login here",
   "reserved": "All right reserved",
   "wishlist_page": "Wishlist page",
-  "total": "Total"
+  "total": "Total",
+  "email_verified": "Email successfully verified ✅",
+  "verification_pending": "Verification is in progress...",
+  "registration_success": "Registration success"
 }

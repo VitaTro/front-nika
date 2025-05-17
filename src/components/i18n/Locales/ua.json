@@ -46,5 +46,8 @@
   "login_here": "Увійти тут",
   "reserved": "Всі права захищені",
   "wishlist_page": "Список бажань",
-  "total": "Загальна сума"
+  "total": "Загальна сума",
+  "email_verified": "Електронну пошту успішно підтверджено ✅",
+  "verification_pending": "Верифікація триває...",
+  "registration_success": "Pеєстрація успішна"
 }

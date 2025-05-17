@@ -25,8 +25,11 @@ import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import { selectIsAdminAuthenticated } from "../redux/auth/adminAuth/selectorsAdminAuth";
+import { selectIsUserAuthenticated } from "../redux/auth/userAuth/selectorsAuth";
 import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
+import UserLoginForm from "./AuthForm/UserAuthForm/UserLoginForm";
+import UserRegisterForm from "./AuthForm/UserAuthForm/UserRegisterForm";
 import Footer from "./Footer/Footer";
 import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
@@ -38,6 +41,9 @@ export const App = () => {
   const isAdminAuthenticated = useSelector(selectIsAdminAuthenticated);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const theme = { isDarkMode };
+  const isUserAuthenticated = useSelector((state) =>
+    state.auth ? selectIsUserAuthenticated(state) : false
+  );
 
   useGlobalNavigation();
   const { currentPage, handlePageChange } = useGlobalPagination();
@@ -60,20 +66,18 @@ export const App = () => {
       <GlobalStyles />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/main" element={<MainPage />} />
+        <Route path="/main" element={<MainPage />} />{" "}
+        {/* 🔥 Переконатися, що тут маршрут є */}
         <Route path="/products" element={<Products type="all" />} />
         <Route path="/products/:type" element={<ProductsPage />} />
         <Route path="/search" element={<SearchResults />} />
-        {/* <Route path="/auth/login" element={<AuthFormLogin />} /> */}
-        {/* <Route
-          path="/auth/register/user"
-          element={<AuthFormRegister isAdmin={false} />}
-        /> */}
-        <Route path="/admin/auth/register" element={<AdminRegisterForm />} />
-
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/shopping-cart" element={<ShoppingCartPage />} />
-
+        <Route path="/about" element={<AboutPage />} />
+        {/* Маршрути для автентифікації */}
+        <Route path="/user/auth/login" element={<UserLoginForm />} />
+        <Route path="/user/auth/register" element={<UserRegisterForm />} />
+        <Route path="/admin/auth/register" element={<AdminRegisterForm />} />
         {isAdminAuthenticated ? (
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="users" element={<UsersTab />} />
@@ -91,9 +95,7 @@ export const App = () => {
         ) : (
           <Route path="/admin/auth/login" element={<AdminLoginForm />} />
         )}
-
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />{" "}
       </Routes>
 
       {!location.pathname.startsWith("/admin") && <Footer />}

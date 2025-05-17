@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { toggleTheme } from "../../redux/themeSlice";
-import UserAvatar from "../UserAvatar/UserAvatar";
+// import UserAvatar from "../UserAvatar/UserAvatar";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  selectAuthUser,
+  selectIsUserAuthenticated,
+} from "../../redux/auth/userAuth/selectorsAuth";
 import {
   Container,
   HamburgerButton,
@@ -19,18 +24,20 @@ import {
   ThemeToggle,
   UtilityContainer,
 } from "./Header.styled";
-
-import { useLocation } from "react-router-dom";
 import MobileMenuHeader from "./MobileMenuHeader";
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
+  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const navigate = useNavigate();
   const location = useLocation();
   const [selectedLanguage, setSelectedLanguage] = useState("pl");
   const [menuOpen, setMenuOpen] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { t, i18n } = useTranslation();
+  const user = useSelector(selectAuthUser) || {};
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -103,13 +110,38 @@ const Header = () => {
             >
               {t("basket")}
             </NavLinkStyled>
+            {/* {isUserAuthenticated ? (
+              <>
+                <NavLinkStyled to="/profile">
+                  {user.username || t("my_account")}
+                </NavLinkStyled>
+                <NavLinkStyled to="/" onClick={handleLogout}>
+                  {t("logout")}
+                </NavLinkStyled>
+              </>
+            ) : (
+              <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
+            )} */}
           </NavItem>
         </NavList>
 
         {/* Utility: Теми та мови */}
         {!isMobile && (
           <UtilityContainer>
-            <UserAvatar />
+            {/* 🔥 Логін/профіль */}
+            {isUserAuthenticated ? (
+              <>
+                <NavLinkStyled to="/profile">
+                  {user.username || t("my_account")}
+                </NavLinkStyled>
+                <NavLinkStyled to="/" onClick={handleLogout}>
+                  {t("logout")}
+                </NavLinkStyled>
+              </>
+            ) : (
+              <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
+            )}
+            {/* <UserAvatar /> */}
             {/* Перемикач теми */}
             <ThemeToggle onClick={handleThemeToggle}>
               <Slider isDarkMode={isDarkMode}>

@@ -1,53 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  checkAdmin,
-  fetchAuthUser,
-  login,
-  logout,
-  refreshToken,
-  registerAdmin,
+  loginUser,
+  logoutUser,
   registerUser,
   resetPassword,
   updatePassword,
+  verifyEmail,
 } from "./operationAuth";
 
-const authSlice = createSlice({
-  name: "auth",
+const userAuthReducer = createSlice({
+  name: "userAuth",
   initialState: {
     isLoggedIn: false,
     user: null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
+    isEmailVerified: false,
   },
   reducers: {}, // Основні редюсери, якщо необхідно
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.user = action.payload.user;
-        state.token = action.payload.token;
-        localStorage.setItem("token", action.payload.token);
+        state.token = action.payload.accessToken;
       })
-      .addCase(checkAdmin.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(checkAdmin.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.user = { ...state.user, isAdmin: payload.isAdmin };
-      })
-      .addCase(checkAdmin.rejected, (state, { payload }) => {
-        state.loading = false;
+      .addCase(loginUser.rejected, (state, { payload }) => {
         state.error = payload;
       })
       .addCase(registerUser.fulfilled, (state, { payload }) => {
         state.user = payload.user;
       })
-      .addCase(registerAdmin.fulfilled, (state, { payload }) => {
-        state.user = payload.admin;
-      })
-      .addCase(logout.fulfilled, (state) => {
+
+      .addCase(logoutUser.fulfilled, (state) => {
         state.isLoggedIn = false;
         state.user = null;
         state.token = null;
@@ -58,13 +44,13 @@ const authSlice = createSlice({
       .addCase(updatePassword.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(refreshToken.fulfilled, (state, { payload }) => {
-        state.token = payload.token;
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.isEmailVerified = true;
       })
-      .addCase(fetchAuthUser.fulfilled, (state, { payload }) => {
-        state.user = payload;
+      .addCase(verifyEmail.rejected, (state, action) => {
+        state.error = action.payload;
       });
   },
 });
 
-export default authSlice.reducer;
+export default userAuthReducer.reducer;

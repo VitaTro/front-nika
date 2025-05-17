@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import axios from "../../../redux/axiosConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  registerUser,
+  verifyEmail,
+} from "../../../redux/auth/userAuth/operationAuth";
+import {
+  selectAuthError,
+  selectAuthLoading,
+} from "../../../redux/auth/userAuth/selectorsAuth";
 import Loader from "../../Loader";
 import {
   AuthForm,
@@ -11,71 +19,94 @@ import {
   ItemForm,
   LabelForm,
   ResponsiveContainer,
-} from "./AuthFormRegister.styled";
+} from "../AuthFormRegister.styled";
 
 const UserRegisterForm = () => {
   const { t } = useTranslation();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loading = useSelector(selectAuthLoading);
+  const errorMessage = useSelector(selectAuthError);
+  const [emailSent, setEmailSent] = useState(false);
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      await axios.post("/api/auth/register/user", {
-        username,
-        email,
-        password,
-      });
-      setSuccessMessage("User registered successfully!");
-    } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Registration error");
-    } finally {
-      setLoading(false);
+    const formData = new FormData(e.target);
+    const userData = Object.fromEntries(formData.entries());
+
+    const result = await dispatch(registerUser(userData));
+
+    if (result.payload?.verificationToken) {
+      dispatch(verifyEmail(result.payload.verificationToken));
+      setEmailSent(true); // Показати повідомлення про email
     }
+  };
+
+  const handleVerification = () => {
+    setVerificationSuccess(true);
   };
 
   return (
     <ResponsiveContainer>
       <HeaderForm>{t("user_register")}</HeaderForm>
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+
+      {/* 📌 Повідомлення про підтвердження email */}
+      {emailSent && !verificationSuccess && (
+        <div
+          style={{
+            backgroundColor: "#FFE6E6",
+            padding: "15px",
+            borderRadius: "8px",
+          }}
+        >
+          <p style={{ color: "blue", fontWeight: "bold" }}>
+            {t("please_verify_email")}
+          </p>
+          <p style={{ color: "gray", fontSize: "12px" }}>{t("check_spam")}</p>
+        </div>
+      )}
+
+      {/* ✅ Верифікація успішна */}
+      {verificationSuccess && (
+        <div
+          style={{
+            backgroundColor: "#DFFFD6",
+            padding: "15px",
+            borderRadius: "8px",
+          }}
+        >
+          <p style={{ color: "green", fontWeight: "bold" }}>
+            {t("email_verified_success")}
+          </p>
+          <ButtonForm onClick={() => navigate("/user/auth/login")}>
+            {t("ok")}
+          </ButtonForm>
+        </div>
+      )}
+
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {loading && <Loader />}
-      <AuthForm onSubmit={handleRegister}>
-        <LabelForm>{t("username_label")}</LabelForm>
-        <InputForm
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
 
-        <LabelForm>{t("email_label")}</LabelForm>
-        <InputForm
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      {!emailSent && (
+        <AuthForm onSubmit={handleRegister}>
+          <LabelForm>{t("username_label")}</LabelForm>
+          <InputForm name="username" type="text" required />
 
-        <LabelForm>{t("password_label")}</LabelForm>
-        <InputForm
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <LabelForm>{t("email_label")}</LabelForm>
+          <InputForm name="email" type="email" required />
 
-        <ButtonForm type="submit">{t("register_button")}</ButtonForm>
-        <ItemForm>
-          {t("already_registered")}{" "}
-          <Link to="/auth/login">{t("login_here")}</Link>
-        </ItemForm>
-      </AuthForm>
+          <LabelForm>{t("password_label")}</LabelForm>
+          <InputForm name="password" type="password" required />
+
+          <ButtonForm type="submit">{t("register_button")}</ButtonForm>
+          <ItemForm>
+            {t("already_registered")}{" "}
+            <Link to="/auth/login">{t("login_here")}</Link>
+          </ItemForm>
+        </AuthForm>
+      )}
     </ResponsiveContainer>
   );
 };
