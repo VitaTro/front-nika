@@ -80,6 +80,7 @@ const UserRegisterForm = () => {
           <p style={{ color: "green", fontWeight: "bold" }}>
             {t("email_verified_success")}
           </p>
+
           <ButtonForm onClick={() => navigate("/user/auth/login")}>
             {t("ok")}
           </ButtonForm>
@@ -103,9 +104,29 @@ const UserRegisterForm = () => {
           <ButtonForm type="submit">{t("register_button")}</ButtonForm>
           <ItemForm>
             {t("already_registered")}{" "}
-            <Link to="/auth/login">{t("login_here")}</Link>
+            <Link to="/user/auth/login">{t("login_here")}</Link>
           </ItemForm>
         </AuthForm>
+      )}
+      {emailSent && (
+        <div
+          style={{
+            backgroundColor: "#FFE6E6",
+            padding: "15px",
+            borderRadius: "8px",
+            textAlign: "center",
+          }}
+        >
+          <h2>📩 Check Your Email!</h2>
+          <p>
+            We've sent a confirmation link to your email. Please check your
+            inbox and click on the link to verify your account.
+          </p>
+          <p style={{ color: "red", fontWeight: "bold" }}>
+            ⚠️ If you don't see the email, check your Spam folder!
+          </p>
+          <button onClick={() => setEmailSent(false)}>OK</button>
+        </div>
       )}
     </ResponsiveContainer>
   );

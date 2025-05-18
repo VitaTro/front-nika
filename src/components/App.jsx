@@ -17,7 +17,6 @@ import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
-import HomePage from "../pages/HomePage/HomePage";
 import MainPage from "../pages/MainPage/MainPage";
 import { NotFoundPage } from "../pages/NotFountPage/NotFoundPage";
 import ProductsPage from "../pages/ProductsPage/ProductsPage";
@@ -65,7 +64,7 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/main" element={<MainPage />} />{" "}
         {/* 🔥 Переконатися, що тут маршрут є */}
         <Route path="/products" element={<Products type="all" />} />

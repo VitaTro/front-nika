@@ -34,6 +34,7 @@ const UserLoginForm = () => {
   };
 
   if (isLoggedIn) {
+    console.log("🔎 Redux state before login:", isLoggedIn);
     navigate("/main");
   }
 

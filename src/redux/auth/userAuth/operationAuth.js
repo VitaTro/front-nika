@@ -20,8 +20,11 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
     try {
+      console.log("🚀 Sending login request:", credentials);
+
       const response = await axios.post("/api/user/auth/login", credentials);
-      return response.data;
+      console.log("✅ Login response:", response.data);
+      return { ...response.data, isVerified: response.data.isVerified };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

@@ -79,6 +79,7 @@ const adminSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAdminDashboard.fulfilled, (state, { payload }) => {
+        console.log("🛠️ Dashboard Data in Redux:", payload);
         state.loading = false;
         state.dashboard = payload;
       })

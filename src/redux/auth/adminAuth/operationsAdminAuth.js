@@ -5,8 +5,11 @@ export const fetchAdminRegister = createAsyncThunk(
   "adminAuth/fetchAdminRegister",
   async (adminData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/admin/auth/register", adminData);
-      return data;
+      const response = await axios.post("/api/admin/auth/register", {
+        ...adminData,
+        adminSecret: process.env.ADMIN_SECRET_KEY, // Додай ключ у запит
+      });
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -15,13 +18,20 @@ export const fetchAdminRegister = createAsyncThunk(
 
 export const fetchAdminLogin = createAsyncThunk(
   "adminAuth/fetchAdminLogin",
-  async (loginData, { rejectWithValue }) => {
+  async (adminData, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/api/admin/auth/login", loginData);
-      localStorage.setItem("adminToken", data.token);
-      return data;
+      const response = await axios.post("/api/admin/auth/login", adminData);
+
+      if (!response.data.token) {
+        throw new Error("❌ No token received from server!");
+      }
+
+      localStorage.setItem("adminToken", response.data.token); // Використовуємо `token`
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
@@ -46,9 +56,9 @@ export const logoutAdmin = createAsyncThunk(
   "adminAuth/logoutAdmin",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post("/api/admin/auth/logout");
-      localStorage.removeItem("adminToken"); // Очищаємо токен
-      return { message: "Logout successful" };
+      const response = await axios.post("/api/admin/auth/logout");
+      // localStorage.removeItem("adminToken"); // Очищаємо токен
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

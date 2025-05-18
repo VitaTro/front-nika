@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   admin: null,
-  token: localStorage.getItem("token") || null,
+  // token: localStorage.getItem("adminToken") || null,
   loading: false,
   error: null,
 };
@@ -26,6 +26,7 @@ const adminAuthReducer = createSlice({
       })
       .addCase(fetchAdminRegister.fulfilled, (state, action) => {
         state.loading = false;
+        // state.token = localStorage.getItem("adminToken");
         state.admin = action.payload;
       })
       .addCase(fetchAdminRegister.rejected, (state, action) => {

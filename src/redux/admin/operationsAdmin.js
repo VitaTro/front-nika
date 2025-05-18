@@ -87,6 +87,7 @@ export const fetchAdminDashboard = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get("/api/admin/dashboard");
+      console.log("🔥 Dashboard Response:", response.data); // Дебагінг
       return response.data; // Повертаємо дані Dashboard
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
