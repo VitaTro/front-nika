@@ -29,6 +29,7 @@ import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
 import UserLoginForm from "./AuthForm/UserAuthForm/UserLoginForm";
 import UserRegisterForm from "./AuthForm/UserAuthForm/UserRegisterForm";
+import ErrorBoundary from "./ErrorBoundary";
 import Footer from "./Footer/Footer";
 import SearchResults from "./SearchBar/SearchResults";
 import "./i18n/i18n";
@@ -63,40 +64,52 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/main" element={<MainPage />} />{" "}
-        {/* 🔥 Переконатися, що тут маршрут є */}
-        <Route path="/products" element={<Products type="all" />} />
-        <Route path="/products/:type" element={<ProductsPage />} />
-        <Route path="/search" element={<SearchResults />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/shopping-cart" element={<ShoppingCartPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        {/* Маршрути для автентифікації */}
-        <Route path="/user/auth/login" element={<UserLoginForm />} />
-        <Route path="/user/auth/register" element={<UserRegisterForm />} />
-        <Route path="/admin/auth/register" element={<AdminRegisterForm />} />
-        {isAdminAuthenticated ? (
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="users" element={<UsersTab />} />
-            <Route path="products" element={<ProductsTab />} />
-            <Route path="dashboard" element={<DashboardTab />} />
-            <Route path="finance" element={<FinanceTab />}>
-              <Route path="offlineOrder" element={<OfflineOrder />} />
-              <Route path="offlineSale" element={<OfflineSale />} />
-              <Route path="onlineOrder" element={<OnlineOrder />} />
-              <Route path="onlineSale" element={<OnlineSale />} />
-              <Route path="overview" element={<FinanceOverview />} />
-              <Route path="settings" element={<FinanceSettings />} />
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="/products"
+            element={<Products type="all" isGuestMode={!isUserAuthenticated} />}
+          />
+          <Route path="/products/gold" element={<Products type="gold" />} />
+          <Route path="/products/silver" element={<Products type="silver" />} />
+          <Route path="/products/set" element={<Products type="set" />} />
+          <Route path="/products/box" element={<Products type="box" />} />
+          <Route path="/products/:type" element={<ProductsPage />} />
+          {isUserAuthenticated ? (
+            <>
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/shopping-cart" element={<ShoppingCartPage />} />
+            </>
+          ) : (
+            <Route path="/user/auth/login" element={<UserLoginForm />} />
+          )}
+          {/* Маршрути для автентифікації */}
+          <Route path="/user/auth/register" element={<UserRegisterForm />} />
+          <Route path="/admin/auth/register" element={<AdminRegisterForm />} />
+          {isAdminAuthenticated ? (
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="users" element={<UsersTab />} />
+              <Route path="products" element={<ProductsTab />} />
+              <Route path="dashboard" element={<DashboardTab />} />
+              <Route path="finance" element={<FinanceTab />}>
+                <Route path="offlineOrder" element={<OfflineOrder />} />
+                <Route path="offlineSale" element={<OfflineSale />} />
+                <Route path="onlineOrder" element={<OnlineOrder />} />
+                <Route path="onlineSale" element={<OnlineSale />} />
+                <Route path="overview" element={<FinanceOverview />} />
+                <Route path="settings" element={<FinanceSettings />} />
+              </Route>
             </Route>
-          </Route>
-        ) : (
-          <Route path="/admin/auth/login" element={<AdminLoginForm />} />
-        )}
-        <Route path="*" element={<NotFoundPage />} />{" "}
-      </Routes>
-
+          ) : (
+            <Route path="/admin/auth/login" element={<AdminLoginForm />} />
+          )}
+          <Route path="*" element={<NotFoundPage />} />{" "}
+        </Routes>
+      </ErrorBoundary>
       {!location.pathname.startsWith("/admin") && <Footer />}
     </ThemeProvider>
   );

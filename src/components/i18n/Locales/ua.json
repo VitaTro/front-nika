@@ -49,5 +49,8 @@
   "total": "Загальна сума",
   "email_verified": "Електронну пошту успішно підтверджено ✅",
   "verification_pending": "Верифікація триває...",
-  "registration_success": "Pеєстрація успішна"
+  "registration_success": "Pеєстрація успішна",
+  "login_to_see_price": "Будь ласка, увійдіть, щоб побачити ціну",
+  "please_login_to_add_to_cart": "Вам потрібно увійти, щоб додати товар до кошика",
+  "please_login_to_use_wishlist": "Увійдіть, щоб додати товар у список бажань"
 }

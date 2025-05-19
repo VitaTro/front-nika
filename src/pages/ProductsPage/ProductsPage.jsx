@@ -18,8 +18,10 @@ const ProductsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const handleProductClick = (route) => {
+    console.log("Navigating to:", route);
     navigate(route);
   };
+
   return (
     <div>
       <WelcomeGeneral>{t("catalog")}</WelcomeGeneral>

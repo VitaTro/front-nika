@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
-// import FiltersComponent from "../FiltersComponent/FiltersComponent";
-import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import Header from "../Header/Header";
 import Loader from "../Loader";
 import PaginationComponent from "../PaginationComponent/PaginationComponent";
@@ -18,13 +17,16 @@ import {
 } from "./Products.styled";
 
 const Products = ({ type }) => {
+  console.log("Products component mounted with type:", type);
+
+  // const = useParams(); // ✅ Виправлено: коректно витягуємо `type`
+  console.log("Products type:", type);
   const dispatch = useDispatch();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [activeCategory, setActiveCategory] = useState("all");
   const [errorMessage, setErrorMessage] = useState("");
@@ -45,19 +47,14 @@ const Products = ({ type }) => {
     setSearchQuery(query);
     setCurrentPage(1); // Скидаємо сторінку після пошуку
   };
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-    }
 
+  useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // Запит через axios
         const response = await axios.get("/api/products", {
           params: {
-            type: type,
+            type: type, // ✅ Виправлено: передаємо `type`
             category: activeCategory,
           },
         });
@@ -79,13 +76,11 @@ const Products = ({ type }) => {
           );
         }
 
-        const sortByDate = (a, b) => {
+        const sortedProducts = filteredProducts.sort((a, b) => {
           const dateA = new Date(a.createdAt || Date.now());
           const dateB = new Date(b.createdAt || Date.now());
           return dateB - dateA;
-        };
-
-        const sortedProducts = filteredProducts.sort(sortByDate);
+        });
 
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
@@ -99,7 +94,7 @@ const Products = ({ type }) => {
     };
 
     fetchData();
-  }, [type, activeCategory]);
+  }, [type, activeCategory]); // ✅ Виправлено: використовується `type`
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -153,7 +148,6 @@ const Products = ({ type }) => {
             ))}
           </Tabs>
         )}
-        {/* <FiltersComponent /> */}
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
         {isLoading ? (
@@ -163,11 +157,7 @@ const Products = ({ type }) => {
             <ProductsGrid>
               {currentProducts.map((product, index) => (
                 <ErrorBoundary key={`product-${product.id || index}`}>
-                  <ProductsCard
-                    product={product}
-                    isAuthenticated={isAuthenticated}
-                    t={t}
-                  />
+                  <ProductsCard product={product} t={t} />
                 </ErrorBoundary>
               ))}
             </ProductsGrid>
@@ -182,4 +172,5 @@ const Products = ({ type }) => {
     </>
   );
 };
+
 export default Products;

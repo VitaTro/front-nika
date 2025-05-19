@@ -41,24 +41,28 @@ const Header = () => {
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
-      dispatch(toggleTheme()); // Встановлюємо темну тему
+      dispatch(toggleTheme());
     }
   }, [dispatch]);
 
   const handleThemeToggle = () => {
-    const newTheme = !isDarkMode; // Перемикання теми
-    dispatch(toggleTheme()); // Оновлюємо стан Redux
-    localStorage.setItem("theme", newTheme ? "dark" : "light"); // Зберігаємо тему
+    const newTheme = !isDarkMode;
+    dispatch(toggleTheme());
+    localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
 
   const changeLanguage = (lang) => {
     setSelectedLanguage(lang);
     i18n.changeLanguage(lang);
   };
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate("/main");
+  };
+
   return (
     <Container>
       <HeaderComponent>
-        {/* Логотип */}
         <NavLinkStyled to="/main">
           <LogoImage
             src={
@@ -70,7 +74,6 @@ const Header = () => {
           />
         </NavLinkStyled>
 
-        {/* Гамбургер-кнопка */}
         <HamburgerButton onClick={() => setMenuOpen(!menuOpen)}>
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
@@ -89,60 +92,51 @@ const Header = () => {
           </NavItem>
           <NavItem>
             <NavLinkStyled
-              to="/wishlist"
-              $isActive={location.pathname === "/wishlist"}
-            >
-              {t("wishlist")}
-            </NavLinkStyled>
-          </NavItem>
-          <NavItem>
-            <NavLinkStyled
               to="/about"
               $isActive={location.pathname === "/about"}
             >
               {t("about")}
             </NavLinkStyled>
           </NavItem>
-          <NavItem>
-            <NavLinkStyled
-              to="/shopping-cart"
-              $isActive={location.pathname === "/shopping-cart"}
-            >
-              {t("basket")}
-            </NavLinkStyled>
-            {/* {isUserAuthenticated ? (
-              <>
+          {isUserAuthenticated && (
+            <>
+              <NavItem>
+                <NavLinkStyled
+                  to="/wishlist"
+                  $isActive={location.pathname === "/wishlist"}
+                >
+                  {t("wishlist")}
+                </NavLinkStyled>
+              </NavItem>{" "}
+              <NavItem>
+                <NavLinkStyled
+                  to="/shopping-cart"
+                  $isActive={location.pathname === "/shopping-cart"}
+                >
+                  {t("basket")}
+                </NavLinkStyled>
+              </NavItem>
+              <NavItem>
                 <NavLinkStyled to="/profile">
                   {user.username || t("my_account")}
                 </NavLinkStyled>
+              </NavItem>
+              <NavItem>
                 <NavLinkStyled to="/" onClick={handleLogout}>
                   {t("logout")}
                 </NavLinkStyled>
-              </>
-            ) : (
+              </NavItem>
+            </>
+          )}
+          {!isUserAuthenticated && (
+            <NavItem>
               <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
-            )} */}
-          </NavItem>
+            </NavItem>
+          )}
         </NavList>
 
-        {/* Utility: Теми та мови */}
         {!isMobile && (
           <UtilityContainer>
-            {/* 🔥 Логін/профіль */}
-            {isUserAuthenticated ? (
-              <>
-                <NavLinkStyled to="/profile">
-                  {user.username || t("my_account")}
-                </NavLinkStyled>
-                <NavLinkStyled to="/" onClick={handleLogout}>
-                  {t("logout")}
-                </NavLinkStyled>
-              </>
-            ) : (
-              <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
-            )}
-            {/* <UserAvatar /> */}
-            {/* Перемикач теми */}
             <ThemeToggle onClick={handleThemeToggle}>
               <Slider isDarkMode={isDarkMode}>
                 <ThemeIcon
@@ -187,6 +181,9 @@ const Header = () => {
         selectedLanguage={selectedLanguage}
         changeLanguage={changeLanguage}
         t={t}
+        isUserAuthenticated={isUserAuthenticated}
+        user={user}
+        handleLogout={handleLogout}
       />
     </Container>
   );

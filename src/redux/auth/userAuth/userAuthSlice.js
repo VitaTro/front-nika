@@ -25,6 +25,8 @@ const userAuthReducer = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.token = action.payload.accessToken;
+        localStorage.setItem("token", action.payload.accessToken);
+        console.log("🔍 Updated user:", state.user);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.error = payload;

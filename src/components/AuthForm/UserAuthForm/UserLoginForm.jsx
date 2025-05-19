@@ -26,17 +26,19 @@ const UserLoginForm = () => {
   const errorMessage = useSelector(selectAuthError);
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const credentials = Object.fromEntries(formData.entries());
-    dispatch(loginUser(credentials));
-  };
 
-  if (isLoggedIn) {
-    console.log("🔎 Redux state before login:", isLoggedIn);
-    navigate("/main");
-  }
+    dispatch(loginUser(credentials))
+      .unwrap()
+      .then(() => {
+        console.log("🚀 Redirecting to user dashboard...");
+        navigate("/main"); // Оновлений маршрут!
+      })
+      .catch((error) => console.error("❌ Login failed:", error));
+  };
 
   return (
     <ResponsiveContainer>

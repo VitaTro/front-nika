@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,7 +20,7 @@ import {
   ProductsHeader,
 } from "./ProductsCard.styled";
 
-const ProductsCard = ({ product }) => {
+const ProductsCard = ({ product, isUserAuthenticated }) => {
   const [productCount, setProductCount] = useState(1); // Кількість продукту
 
   const dispatch = useDispatch();
@@ -47,14 +47,16 @@ const ProductsCard = ({ product }) => {
 
   // Обробка кліку на сердечко
   const handleToggleWishlist = async () => {
+    if (!isUserAuthenticated) {
+      alert(t("please_login_to_use_wishlist"));
+      return;
+    }
     try {
       setLocalIsActive((prevState) => !prevState);
       if (isProductInWishlist) {
-        console.log("Removing from wishlist:", product._id);
-        await dispatch(removeProductFromWishlist(product._id)); // Передаємо `_id`
+        await dispatch(removeProductFromWishlist(product._id));
       } else {
-        console.log("Adding to wishlist:", product._id);
-        await dispatch(addProductToWishlist(product._id)); // Передаємо `_id`
+        await dispatch(addProductToWishlist(product._id));
       }
     } catch (error) {
       console.error("Error toggling wishlist:", error);
@@ -62,6 +64,10 @@ const ProductsCard = ({ product }) => {
   };
 
   const handleAddToCart = async () => {
+    if (!isUserAuthenticated) {
+      alert(t("please_login_to_add_to_cart"));
+      return;
+    }
     try {
       const productToAdd = {
         productId: product._id,
@@ -89,7 +95,11 @@ const ProductsCard = ({ product }) => {
           ) : (
             <div>{t("no_image")}</div>
           )}
-          <p>{product.price} zł</p>
+          {isUserAuthenticated ? (
+            <p className="price">{product.price} zł</p>
+          ) : (
+            <p className="price-placeholder">{t("login_to_see_price")}</p>
+          )}
           <ProductAction>
             <ButtonHeart
               onClick={handleToggleWishlist}

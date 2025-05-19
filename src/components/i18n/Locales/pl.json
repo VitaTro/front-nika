@@ -49,5 +49,8 @@
   "total": "Ogółem",
   "email_verified": "Twój e-mail został pomyślnie zweryfikowany ✅",
   "verification_pending": "Trwa weryfikacja...",
-  "registration_success": "Rejestracja zakończona sukcesem"
+  "registration_success": "Rejestracja zakończona sukcesem",
+  "login_to_see_price": "Proszę się zalogować, aby zobaczyć cenę",
+  "please_login_to_add_to_cart": "Musisz się zalogować, aby dodać produkt do koszyka",
+  "please_login_to_use_wishlist": "Zaloguj się, aby dodać produkt do listy życzeń"
 }

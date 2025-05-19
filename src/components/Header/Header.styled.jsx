@@ -12,13 +12,12 @@ export const Container = styled.div`
 export const HeaderComponent = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Лого зліва, навігація по центру, утилітарні справа */
+  justify-content: space-between;
   width: 100%;
   padding: 0 20px;
 
   @media (max-width: 768px) {
-    // flex-direction: column; /* Вертикальна структура для мобільного */
-    align-items: flex-start; /* Вирівнювання по краю */
+    align-items: flex-start;
     gap: 10px;
   }
 `;
@@ -249,9 +248,10 @@ export const HamburgerButton = styled.div`
   flex-direction: column;
   cursor: pointer;
   gap: 5px;
-  position: absolute;
-  top: 45px;
-  right: 55px;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  z-index: 1100;
   div {
     width: 30px;
     height: 3px;

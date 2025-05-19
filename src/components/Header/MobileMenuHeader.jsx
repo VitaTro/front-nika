@@ -1,5 +1,5 @@
-import React from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { toggleTheme } from "../../redux/themeSlice";
 import {
   CloseButton,
@@ -21,8 +21,12 @@ const MobileMenuHeader = ({
   selectedLanguage,
   changeLanguage,
   t,
+  isUserAuthenticated,
+  user,
+  handleLogout,
 }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   return (
     <MobileMenu
@@ -32,37 +36,26 @@ const MobileMenuHeader = ({
         transition: "background-color 0.3s ease-in-out",
       }}
       $isOpen={menuOpen}
-      className="mobile-menu"
       onClick={(e) => e.stopPropagation()} // Запобігаємо закриттю при кліку всередині
     >
-      <CloseButton
-        style={{
-          color: isDarkMode ? "green" : "black",
-          transition: "color 0.3s ease-in-out",
-        }}
-        onClick={() => setMenuOpen(false)}
-      >
-        ×
-      </CloseButton>
+      <CloseButton onClick={() => setMenuOpen(false)}>×</CloseButton>
+
+      {/* Тема + мова */}
       <MobileUtilityContainer>
         <ThemeToggle onClick={() => dispatch(toggleTheme())}>
           <Slider isDarkMode={isDarkMode}>
             <ThemeIcon
               src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/sun_prnb60.jpg"
               alt="Sun icon"
-              $position="right"
-              $visible={!isDarkMode}
             />
             <ThemeIcon
               src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/moon_krwywm.jpg"
               alt="Moon icon"
-              $position="left"
-              $visible={isDarkMode}
             />
           </Slider>
         </ThemeToggle>
+
         <Select
-          id="language-select"
           value={selectedLanguage}
           onChange={(e) => changeLanguage(e.target.value)}
         >
@@ -72,61 +65,67 @@ const MobileMenuHeader = ({
           <Option value="de">DE</Option>
         </Select>
       </MobileUtilityContainer>
+
+      {/* Навігація */}
       <NavItem>
         <NavLinkStyledMObile
           to="/products"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            color: isDarkMode ? "#E0E0E1" : "gray",
-          }}
+          $isActive={location.pathname === "/products"}
         >
           {t("products")}
         </NavLinkStyledMObile>
       </NavItem>
       <NavItem>
         <NavLinkStyledMObile
-          to="/wishlist"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            color: isDarkMode ? "#E0E0E1" : "gray",
-          }}
-        >
-          {t("wishlist")}
-        </NavLinkStyledMObile>
-      </NavItem>
-      <NavItem>
-        <NavLinkStyledMObile
           to="/about"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            color: isDarkMode ? "#E0E0E1" : "gray",
-          }}
+          $isActive={location.pathname === "/about"}
         >
           {t("about")}
         </NavLinkStyledMObile>
       </NavItem>
-      <NavItem>
-        <NavLinkStyledMObile
-          to="/shopping-cart"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            color: isDarkMode ? "#E0E0E1" : "gray",
-          }}
-        >
-          {t("basket")}
-        </NavLinkStyledMObile>
-      </NavItem>
-      <NavItem>
-        <NavLinkStyledMObile
-          to="/user/profile"
-          onClick={() => setMenuOpen(false)}
-          style={{
-            color: isDarkMode ? "#E0E0E1" : "gray",
-          }}
-        >
-          {t("user")}
-        </NavLinkStyledMObile>
-      </NavItem>
+
+      {isUserAuthenticated && (
+        <>
+          <NavItem>
+            <NavLinkStyledMObile
+              to="/wishlist"
+              $isActive={location.pathname === "/wishlist"}
+            >
+              {t("wishlist")}
+            </NavLinkStyledMObile>
+          </NavItem>
+          <NavItem>
+            <NavLinkStyledMObile
+              to="/shopping-cart"
+              $isActive={location.pathname === "/shopping-cart"}
+            >
+              {t("basket")}
+            </NavLinkStyledMObile>
+          </NavItem>
+        </>
+      )}
+
+      {/* Логін/Логаут */}
+      {isUserAuthenticated ? (
+        <>
+          <NavItem>
+            <NavLinkStyledMObile to="/profile">
+              {user.username || t("my_account")}
+            </NavLinkStyledMObile>
+          </NavItem>
+          <NavItem>
+            <NavLinkStyledMObile to="/" onClick={handleLogout}>
+              {t("logout")}
+            </NavLinkStyledMObile>
+          </NavItem>
+        </>
+      ) : (
+        <NavItem>
+          <NavLinkStyledMObile to="/user/auth/login">
+            {t("login")}
+          </NavLinkStyledMObile>
+        </NavItem>
+      )}
     </MobileMenu>
   );
 };
