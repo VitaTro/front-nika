@@ -6,7 +6,7 @@ export const getShoppingCart = createAsyncThunk(
   "shoppingCart/getShoppingCart",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get("/api/shopping-cart");
+      const { data } = await axios.get("/api/user/shopping-cart");
       console.log("Fetched shopping cart data:", data);
       // Сортування за часом додавання (нові зверху)
       const sortedShopping = (data.cart || []).sort(
@@ -28,7 +28,7 @@ export const addProductToShoppingCart = createAsyncThunk(
         throw new Error("Quantity must be greater than 0");
       }
 
-      const { data } = await axios.post("/api/shopping-cart/add", {
+      const { data } = await axios.post("/api/user/shopping-cart/add", {
         productId,
         quantity,
       });
@@ -45,7 +45,9 @@ export const removeProductFromShoppingCart = createAsyncThunk(
   async (id, thunkAPI) => {
     console.log("Sending DELETE request for ID:", id); // Лог
     try {
-      const response = await axios.delete(`/api/shopping-cart/remove/${id}`);
+      const response = await axios.delete(
+        `/api/user/shopping-cart/remove/${id}`
+      );
       if (response.status !== 200) {
         throw new Error("Failed to delete product from shopping cart");
       }
@@ -61,9 +63,12 @@ export const updateProductToShoppingCart = createAsyncThunk(
   "cart/updateCartItem",
   async ({ id, quantity }, thunkAPI) => {
     try {
-      const { data } = await axios.patch(`/api/shopping-cart/update/${id}`, {
-        quantity,
-      });
+      const { data } = await axios.patch(
+        `/api/user/shopping-cart/update/${id}`,
+        {
+          quantity,
+        }
+      );
       return data.item; // Сервер повертає оновлений продукт
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -80,7 +85,7 @@ export const moveProductToWishlist = createAsyncThunk(
     );
     try {
       const { data } = await axios.post(
-        `/api/shopping-cart/move-to-wishlist/${id}`
+        `/api/user/shopping-cart/move-to-wishlist/${id}`
       );
       return data.item; // Повертаємо переміщений товар
     } catch (error) {

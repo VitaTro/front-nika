@@ -51,7 +51,6 @@ export const sendAdminEmail = createAsyncThunk(
   }
 );
 
-// 🔥 Вихід адміністратора (логіка на фронті)
 export const logoutAdmin = createAsyncThunk(
   "adminAuth/logoutAdmin",
   async (_, { rejectWithValue }) => {

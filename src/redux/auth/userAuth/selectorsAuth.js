@@ -10,4 +10,4 @@ export const selectAuthLoading = (state) => state.auth?.loading ?? false; // С�
 export const selectAuthError = (state) => state.auth?.error ?? null; // Помилки
 export const selectIsLoggedIn = (state) => state.auth?.isLoggedIn ?? false; // Авторизація користувача
 export const selectIsUserAuthenticated = (state) =>
-  !!state.auth?.token && state.auth?.isLoggedIn && state.auth?.isVerified;
+  !!state.userAuth?.accessToken && state.userAuth?.isLoggedIn;

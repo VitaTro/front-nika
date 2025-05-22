@@ -5,7 +5,7 @@
   "contact": "Kontakty",
   "about": "O nas",
   "login": "LogIn",
-  "logout": "wyloguj się",
+  "logout": "Wyloguj się",
   "catalog": "Katalog",
   "gold": "Chirurgiczne ZŁOTO",
   "silver": "Chirurgiczne ŚREBRO",
@@ -52,5 +52,6 @@
   "registration_success": "Rejestracja zakończona sukcesem",
   "login_to_see_price": "Proszę się zalogować, aby zobaczyć cenę",
   "please_login_to_add_to_cart": "Musisz się zalogować, aby dodać produkt do koszyka",
-  "please_login_to_use_wishlist": "Zaloguj się, aby dodać produkt do listy życzeń"
+  "please_login_to_use_wishlist": "Zaloguj się, aby dodać produkt do listy życzeń",
+  "my_account": "Profil"
 }

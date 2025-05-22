@@ -1,6 +1,6 @@
-export const selectProfile = (state) => state.user.profile;
-export const selectPreferences = (state) => state.user.preferences;
-export const selectAvatar = (state) => state.user.avatar;
-export const selectUserPurchaseHistory = (state) => state.user.purchaseHistory;
-export const selectUserLoading = (state) => state.user.loading;
-export const selectUserError = (state) => state.user.error;
+export const selectUser = (state) => state.user.user;
+export const selectIsLoggedIn = (state) => state.user.isLoggedIn;
+export const selectUserAddress = (state) => state.user.user?.address || {};
+export const selectRecentViews = (state) => state.user.recentViews;
+export const selectAuthLoading = (state) => state.user.loading;
+export const selectAuthError = (state) => state.user.error;

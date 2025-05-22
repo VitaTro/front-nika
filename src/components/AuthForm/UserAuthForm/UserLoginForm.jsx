@@ -35,7 +35,7 @@ const UserLoginForm = () => {
       .unwrap()
       .then(() => {
         console.log("🚀 Redirecting to user dashboard...");
-        navigate("/main"); // Оновлений маршрут!
+        navigate("/main");
       })
       .catch((error) => console.error("❌ Login failed:", error));
   };

@@ -1,64 +1,77 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  fetchMainData,
-  fetchPurchaseHistory,
-  fetchUserProfile,
-  updateUserPreferences,
-  updateUserProfile,
-  uploadUserAvatar,
+  deleteUserAccount,
+  fetchRecentViews,
+  fetchUserAddress,
+  fetchUserInfo,
+  fetchUserMain,
+  sendAdminMessage,
+  updateUserAddress,
+  updateUserInfo,
 } from "./userOperations";
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    profile: null,
-    preferences: [],
-    avatar: null,
-    purchaseHistory: [],
+    isLoggedIn: false,
+    user: null,
+    token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
+    recentViews: [],
   },
-  reducers: {}, // Додайте потрібні синхронні редюсери, якщо необхідно
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserProfile.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(fetchUserMain.fulfilled, (state, action) => {
+        state.user = action.payload;
       })
-      .addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.profile = payload;
+      .addCase(fetchUserInfo.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoggedIn = true;
       })
-      .addCase(fetchUserProfile.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload;
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
+        state.user = { ...state.user, ...action.payload };
       })
-      .addCase(updateUserProfile.fulfilled, (state, { payload }) => {
-        state.profile = payload;
+      .addCase(fetchUserAddress.fulfilled, (state, action) => {
+        state.user.address = action.payload;
       })
-      .addCase(fetchMainData.fulfilled, (state, { payload }) => {
-        state.profile = payload.user;
-        state.preferences = payload.user.preferences;
+      .addCase(updateUserAddress.fulfilled, (state, action) => {
+        state.user.address = action.payload;
       })
-      .addCase(uploadUserAvatar.fulfilled, (state, { payload }) => {
-        state.avatar = payload.avatar;
+      .addCase(deleteUserAccount.fulfilled, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+        state.token = null;
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
       })
-
-      .addCase(fetchPurchaseHistory.fulfilled, (state, { payload }) => {
-        state.purchaseHistory = payload;
+      .addCase(sendAdminMessage.fulfilled, (state, action) => {
+        console.log("✅ Message sent to admin:", action.payload);
       })
-      .addCase(updateUserPreferences.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(fetchRecentViews.fulfilled, (state, action) => {
+        state.recentViews = action.payload;
       })
-      .addCase(updateUserPreferences.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.preferences = payload; // Оновлюємо уподобання
-      })
-      .addCase(updateUserPreferences.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload;
-      });
+      .addMatcher(
+        (action) => action.type.endsWith("/pending"),
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("/rejected"),
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("/fulfilled"),
+        (state) => {
+          state.loading = false;
+        }
+      );
   },
 });
 

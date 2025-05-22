@@ -33,7 +33,7 @@ import {
 } from "./Header.styled";
 import MobileMenuHeader from "./MobileMenuHeader";
 
-const Header = () => {
+const UserHeader = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
@@ -79,10 +79,11 @@ const Header = () => {
   };
   if (isLoading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
+
   return (
     <Container>
       <HeaderComponent>
-        <NavLinkStyled to="/main">
+        <NavLinkStyled to="user/main">
           <LogoImage
             src={
               isDarkMode
@@ -117,42 +118,31 @@ const Header = () => {
               {t("about")}
             </NavLinkStyled>
           </NavItem>
-          {/* {isUserAuthenticated ? (
-            <>
-              <NavItem>
-                <NavLinkStyled
-                  to="/wishlist"
-                  $isActive={location.pathname === "/wishlist"}
-                >
-                  {t("wishlist")}
-                </NavLinkStyled>
-              </NavItem>{" "}
-              <NavItem>
-                <NavLinkStyled
-                  to="/shopping-cart"
-                  $isActive={location.pathname === "/shopping-cart"}
-                >
-                  {t("basket")}
-                </NavLinkStyled>
-              </NavItem>
-              <NavItem>
-                <NavLinkStyled to="/profile">
-                  {user.username || t("my_account")}
-                </NavLinkStyled>
-              </NavItem>
-              <NavItem>
-                <NavLinkStyled to="/" onClick={handleLogout}>
-                  {t("logout")}
-                </NavLinkStyled>
-              </NavItem>
-            </>
-          ) : (
-            <NavItem>
-              <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
-            </NavItem>
-          )} */}
           <NavItem>
-            <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
+            <NavLinkStyled
+              to="/user/wishlist"
+              $isActive={location.pathname === "/wishlist"}
+            >
+              {t("wishlist")}
+            </NavLinkStyled>
+          </NavItem>{" "}
+          <NavItem>
+            <NavLinkStyled
+              to="/user/shopping-cart"
+              $isActive={location.pathname === "/shopping-cart"}
+            >
+              {t("basket")}
+            </NavLinkStyled>
+          </NavItem>
+          <NavItem>
+            <NavLinkStyled to="/user/profile/info">
+              {user.username || t("my_account")}
+            </NavLinkStyled>
+          </NavItem>
+          <NavItem>
+            <NavLinkStyled to="/" onClick={handleLogout}>
+              {t("logout")}
+            </NavLinkStyled>
           </NavItem>
         </NavList>
 
@@ -202,11 +192,11 @@ const Header = () => {
         selectedLanguage={selectedLanguage}
         changeLanguage={changeLanguage}
         t={t}
-        // isUserAuthenticated={isUserAuthenticated}
         user={user}
         handleLogout={handleLogout}
       />
     </Container>
   );
 };
-export default Header;
+
+export default UserHeader;

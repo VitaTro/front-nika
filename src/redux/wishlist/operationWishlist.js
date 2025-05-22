@@ -5,7 +5,7 @@ export const getWishlist = createAsyncThunk(
   "wishlist/getWishlist",
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get(`api/wishlist`);
+      const { data } = await axios.get(`api/user/wishlist`);
 
       // Сортування за часом додавання (нові зверху)
       const sortedWishlist = (data.wishlist || []).sort(
@@ -23,7 +23,7 @@ export const addProductToWishlist = createAsyncThunk(
   "wishlist/addProduct",
   async (productId, thunkAPI) => {
     try {
-      const { data } = await axios.post(`/api/wishlist/add`, {
+      const { data } = await axios.post(`/api/user/wishlist/add`, {
         productId,
       });
       return data.item;
@@ -38,7 +38,9 @@ export const removeProductFromWishlist = createAsyncThunk(
   async (productId, thunkAPI) => {
     try {
       console.log("Sending DELETE request for productId:", productId); // Логування
-      const response = await axios.delete(`/api/wishlist/remove/${productId}`); // Використовуємо productId
+      const response = await axios.delete(
+        `/api/user/wishlist/remove/${productId}`
+      ); // Використовуємо productId
       if (response.status !== 200) {
         throw new Error("Failed to delete product from wishlist");
       }
@@ -55,7 +57,9 @@ export const moveProductToShoppingCart = createAsyncThunk(
   async (id, thunkAPI) => {
     console.log("Moving product from wishlist to shopping cart with ID:", id); // Логування
     try {
-      const { data } = await axios.post(`/api/wishlist/move-to-cart/${id}`);
+      const { data } = await axios.post(
+        `/api/user/wishlist/move-to-cart/${id}`
+      );
       return data.item; // Повертаємо переміщений товар
     } catch (error) {
       console.error("Error moving product to shopping cart:", error.message);

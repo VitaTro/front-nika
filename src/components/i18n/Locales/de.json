@@ -52,5 +52,6 @@
   "registration_success": "Registrierung erfolgreich",
   "login_to_see_price": "Bitte melden Sie sich an, um den Preis zu sehen",
   "please_login_to_add_to_cart": "Sie müssen sich anmelden, um das Produkt in den Warenkorb zu legen",
-  "please_login_to_use_wishlist": "Melden Sie sich an, um das Produkt zur Wunschliste hinzuzufügen"
+  "please_login_to_use_wishlist": "Melden Sie sich an, um das Produkt zur Wunschliste hinzuzufügen",
+  "my_account": "Profil"
 }

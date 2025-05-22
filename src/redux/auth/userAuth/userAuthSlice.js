@@ -13,7 +13,7 @@ const userAuthReducer = createSlice({
   initialState: {
     isLoggedIn: false,
     user: null,
-    token: localStorage.getItem("token") || null,
+    accessToken: localStorage.getItem("accessToken") || null,
     loading: false,
     error: null,
     isEmailVerified: false,
@@ -24,8 +24,9 @@ const userAuthReducer = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoggedIn = true;
         state.user = action.payload.user;
-        state.token = action.payload.accessToken;
-        localStorage.setItem("token", action.payload.accessToken);
+        state.accessToken = action.payload.accessToken;
+        localStorage.setItem("accessToken", action.payload.accessToken);
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
         console.log("🔍 Updated user:", state.user);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
@@ -38,7 +39,9 @@ const userAuthReducer = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.isLoggedIn = false;
         state.user = null;
-        state.token = null;
+        state.accessToken = null;
+        localStorage.removeItem("accessToken"); // 🔹 Видаляємо токен із пам’яті
+        localStorage.removeItem("refreshToken"); // 🔹 Видаляємо refreshToken
       })
       .addCase(resetPassword.fulfilled, (state) => {
         state.loading = false;

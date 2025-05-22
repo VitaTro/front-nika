@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../components/Header/Header";
 import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
 import PaginationComponent from "../../components/PaginationComponent/PaginationComponent";
@@ -88,9 +87,7 @@ const WishlistPage = () => {
 
   return (
     <>
-      <Header />
       <WelcomeGeneral>{t("wishlist_page")}</WelcomeGeneral>
-
       {/* Показуємо різний контент залежно від стану */}
       {isLoading && <Loader />}
       {error && (

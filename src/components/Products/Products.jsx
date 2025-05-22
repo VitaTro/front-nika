@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
-import Header from "../Header/Header";
 import Loader from "../Loader";
 import PaginationComponent from "../PaginationComponent/PaginationComponent";
 import ProductsCard from "../ProductsCard/ProductsCard";
@@ -117,7 +116,7 @@ const Products = ({ type }) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <SearchBar onSearch={handleSearch} />
       <ProductsContainer>
         <WelcomeGeneral>

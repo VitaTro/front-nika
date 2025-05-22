@@ -52,5 +52,6 @@
   "registration_success": "Registration success",
   "login_to_see_price": "Please log in to see the price",
   "please_login_to_add_to_cart": "You must log in to add the product to the cart",
-  "please_login_to_use_wishlist": "Log in to add the product to your wishlist"
+  "please_login_to_use_wishlist": "Log in to add the product to your wishlist",
+  "my_account": "Profile"
 }

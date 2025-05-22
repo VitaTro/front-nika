@@ -3,7 +3,6 @@ import {
   HeaderForm,
   ItemForm,
 } from "../components/AuthForm/AuthFormRegister.styled";
-import Header from "../components/Header/Header";
 const AboutPage = () => {
   const { t } = useTranslation();
 
@@ -11,7 +10,7 @@ const AboutPage = () => {
     <div
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
-      <Header />
+      {/* <Header /> */}
 
       <HeaderForm>{t("about_us")}</HeaderForm>
       <ItemForm>{t("about_info")}</ItemForm>

@@ -32,6 +32,9 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   const isProductInWishlist = wishlist.some(
     (item) => item.productId === product._id // Звертаємося напряму до `productId`
   );
+  useEffect(() => {
+    console.log("🛒 Product data:", product);
+  }, [product]);
 
   // Синхронізація локального стану з Redux
   useEffect(() => {
@@ -68,6 +71,10 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       alert(t("please_login_to_add_to_cart"));
       return;
     }
+    if (!product.price) {
+      alert(t("product_price_not_available"));
+      return;
+    }
     try {
       const productToAdd = {
         productId: product._id,
@@ -95,11 +102,12 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           ) : (
             <div>{t("no_image")}</div>
           )}
-          {isUserAuthenticated ? (
+          {isUserAuthenticated && typeof product.price === "number" ? (
             <p className="price">{product.price} zł</p>
           ) : (
             <p className="price-placeholder">{t("login_to_see_price")}</p>
           )}
+
           <ProductAction>
             <ButtonHeart
               onClick={handleToggleWishlist}

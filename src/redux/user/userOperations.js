@@ -1,80 +1,115 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosConfig";
 
-export const fetchUserProfile = createAsyncThunk(
-  "user/fetchProfile",
-  async (_, thunkAPI) => {
+// ✅ Отримати основну інформацію про користувача
+export const fetchUserMain = createAsyncThunk(
+  "user/fetchMain",
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/user/profile");
-      return response.data; // Дані профілю
+      const { data } = await axios.get("/api/user/main");
+      return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-export const fetchMainData = createAsyncThunk(
-  "user/fetchMainData",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios.get("/api/user/main", {
-        headers: {
-          Authorization: `Bearer ${yourToken}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
-export const uploadUserAvatar = createAsyncThunk(
-  "user/uploadAvatar",
-  async (file, thunkAPI) => {
+// ✅ Отримати особисті дані користувача
+export const fetchUserInfo = createAsyncThunk(
+  "user/fetchInfo",
+  async (_, { rejectWithValue }) => {
     try {
-      const formData = new FormData();
-      formData.append("avatar", file);
+      const { data } = await axios.get("/api/user/profile/info");
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
-      const response = await axios.post("/api/user/avatar", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+// ✅ Оновити особисті дані користувача
+export const updateUserInfo = createAsyncThunk(
+  "user/updateInfo",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put("/api/user/profile/info", userData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// ✅ Отримати адресу користувача
+export const fetchUserAddress = createAsyncThunk(
+  "user/fetchAddress",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get("/api/user/profile/address");
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// ✅ Оновити адресу користувача
+export const updateUserAddress = createAsyncThunk(
+  "user/updateAddress",
+  async (addressData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        "/api/user/profile/address",
+        addressData
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// ❌ Видалити акаунт користувача
+export const deleteUserAccount = createAsyncThunk(
+  "user/deleteAccount",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete("/api/user/profile");
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+// ✅ Надіслати повідомлення адміну
+export const sendAdminMessage = createAsyncThunk(
+  "user/sendAdminMessage",
+  async ({ subject, message }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post("/api/user/profile/email", {
+        subject,
+        message,
       });
-      return response.data;
+      return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data?.error || "Error sending message"
+      );
     }
   }
 );
-// Отримати історію покупок
-export const fetchPurchaseHistory = createAsyncThunk(
-  "user/fetchPurchaseHistory",
-  async (_, thunkAPI) => {
+
+// ✅ Отримати історію переглядів
+export const fetchRecentViews = createAsyncThunk(
+  "user/fetchRecentViews",
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/api/user/purchase-history");
-      return response.data;
+      const { data } = await axios.get("/api/user/recent");
+      return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-export const updateUserPreferences = createAsyncThunk(
-  "user/updatePreferences",
-  async (preferences, thunkAPI) => {
-    try {
-      const response = await axios.post("/api/user/preferences", preferences);
-      return response.data; // Повертаємо оновлені уподобання
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-export const updateUserProfile = createAsyncThunk(
-  "user/updateProfile",
-  async (profileData, thunkAPI) => {
-    try {
-      const response = await axios.put("/api/user/profile", profileData);
-      return response.data; // Повертаємо оновлені дані профілю
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data?.error || "Error fetching recent views"
+      );
     }
   }
 );

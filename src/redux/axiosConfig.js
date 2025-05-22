@@ -21,9 +21,13 @@ axios.interceptors.response.use(
         const refreshToken = localStorage.getItem("refreshToken");
         if (!refreshToken) throw new Error("No refresh token available");
 
-        const { data } = await axios.post("/api/admin/auth/refresh", {
-          refreshToken,
-        });
+        const userRole = localStorage.getItem("userRole"); // Додай роль
+        const refreshUrl =
+          userRole === "admin"
+            ? "/api/admin/auth/refresh"
+            : "/api/user/auth/refresh"; // Вибір залежно від ролі
+
+        const { data } = await axios.post(refreshUrl, { refreshToken });
 
         localStorage.setItem("token", data.accessToken);
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
@@ -31,7 +35,8 @@ axios.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/admin/login"; // Перенаправлення на логін
+        window.location.href =
+          userRole === "admin" ? "/admin/auth/login" : "/user/auth/login"; // Залежно від ролі
         return Promise.reject(error);
       }
     }

@@ -24,7 +24,17 @@ export const loginUser = createAsyncThunk(
 
       const response = await axios.post("/api/user/auth/login", credentials);
       console.log("✅ Login response:", response.data);
-      return { ...response.data, isVerified: response.data.isVerified };
+      localStorage.setItem("token", response.data.accessToken);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+
+      const { data: userData } = await axios.get("/api/user/profile/info", {
+        headers: { Authorization: `Bearer ${response.data.accessToken}` },
+      });
+      return {
+        ...response.data,
+        isVerified: response.data.isVerified,
+        user: userData,
+      };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -36,7 +46,7 @@ export const logoutUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await axios.post("/api/user/auth/logout");
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
       return null;
     } catch (error) {
       return thunkAPI.rejectWithValue(

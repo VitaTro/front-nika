@@ -24,16 +24,40 @@
       "description": "CRUD операції, пошук, популярні товари і фільтри продуктів"
     },
     {
-      "name": "Auth",
+      "name": "Admin Auth",
+      "description": "Авторизація адміністраторів, токени і управління доступом"
+    },
+    {
+      "name": "User Auth",
       "description": "Авторизація користувачів, токени і управління доступом"
+    },
+    {
+      "name": "Admin",
+      "description": "Операції для адміністраторів, включаючи доступ до адмінської панелі, керування користувачами та продуктами."
     },
     {
       "name": "User",
       "description": "Операції з профілем користувача, включаючи список бажань і корзину"
     },
     {
-      "name": "Admin",
-      "description": "Операції для адміністраторів, включаючи доступ до адмінської панелі, керування користувачами та продуктами."
+      "name": "Finance - Online",
+      "description": "Операції з фінансами онлайн, включаючи замовлення та продажі."
+    },
+    {
+      "name": "Finance - Offline",
+      "description": "Операції з фінансами офлайн, включаючи замовлення та продажі."
+    },
+    {
+      "name": "Finance Settings",
+      "description": "Фінансові налаштування, включаючи податки, витрати та бюджет."
+    },
+    {
+      "name": "Finance Overview",
+      "description": "Фінансовий огляд, аналіз та управління бюджетом."
+    },
+    {
+      "name": "Search",
+      "description": "Пошук товарів за запитом, включаючи фільтрацію."
     }
   ],
 
@@ -72,9 +96,18 @@
                 "$ref": "#/components/schemas/Product"
               },
               "example": {
-                "name": "Example Product",
-                "price": 99.99,
-                "description": "This is an example product"
+                "name": "Rose red box",
+                "category": "box",
+                "subcategory": "box",
+                "price": 30,
+                "description": "Beautiful red rose in a box",
+                "photoUrl": "https://example.com/photo.jpg",
+                "size": "rose red",
+                "width": 100,
+                "length": 150,
+                "color": "red",
+                "inStock": true,
+                "visible": true
               }
             }
           },
@@ -289,8 +322,11 @@
               },
               "example": {
                 "priceRange": { "min": 10, "max": 100 },
-                "categories": ["jewelry", "rings"],
-                "materials": ["gold", "silver"]
+                "categories": ["bracelets", "chains"],
+                "materials": ["gold", "silver"],
+                "subcategory": ["box", "rings"],
+                "color": ["red", "white"],
+                "inStock": true
               }
             }
           }
@@ -378,204 +414,126 @@
         }
       }
     },
-    "/api/auth/check-admin": {
-      "get": {
-        "tags": ["Auth"],
-        "summary": "Перевірка першого адміністратора",
-        "responses": {
-          "200": {
-            "description": "Перевірка наявності першого адміністратора",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/inline_response_200"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/auth/register/user": {
+    "/api/admin/auth/register": {
       "post": {
-        "tags": ["Auth"],
-        "summary": "Реєстрація нового користувача",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Auth"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Користувача зареєстровано"
-          },
-          "400": {
-            "description": "Невірний запит"
-          }
-        }
-      }
-    },
-    "/api/auth/register/admin": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Реєстрація нового адміністратора",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Auth"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Адміністратора зареєстровано"
-          },
-          "400": {
-            "description": "Невірний запит"
-          }
-        }
-      }
-    },
-    "/api/auth/login": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Авторизація користувача",
+        "tags": ["Admin Auth"],
+        "summary": "Реєстрація адміністратора",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": { "type": "string", "example": "user@example.com" },
-                  "password": { "type": "string", "example": "password123" }
-                }
+                "$ref": "#/components/schemas/AdminRegister"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Адміністратор успішно зареєстрований"
+          },
+          "403": {
+            "description": "Невірний секретний ключ адміністратора"
+          },
+          "500": {
+            "description": "Помилка реєстрації"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/login": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Логін адміністратора",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLogin"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Успішна авторизація",
+            "description": "Успішний вхід, повертається токен",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "message": { "type": "string" },
                     "token": { "type": "string" },
-                    "user": {
-                      "$ref": "#/components/schemas/User"
-                    }
+                    "redirect": { "type": "string" }
                   }
                 }
               }
             }
           },
-          "401": { "description": "Неправильний логін або пароль" },
-          "500": { "description": "Внутрішня помилка сервера" }
+          "403": {
+            "description": "Невірний email або пароль"
+          },
+          "500": {
+            "description": "Помилка входу"
+          }
         }
       }
     },
-    "/api/auth/logout": {
+    "/api/admin/auth/send-email": {
       "post": {
-        "tags": ["Auth"],
-        "summary": "Вихід з системи",
-        "responses": {
-          "200": { "description": "Успішний вихід" },
-          "500": { "description": "Внутрішня помилка сервера" }
-        }
-      }
-    },
-    "/api/auth/reset-password": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Відновлення пароля",
-        "description": "Цей маршрут надсилає посилання для відновлення пароля на електронну пошту користувача.",
+        "tags": ["Admin Auth"],
+        "summary": "Надсилання email адміністратора",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "description": "Електронна пошта користувача",
-                    "format": "email",
-                    "example": "user@example.com"
-                  }
-                }
+                "$ref": "#/components/schemas/AdminEmail"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Посилання для відновлення пароля надіслано."
-          },
-          "404": {
-            "description": "Користувач із вказаною електронною поштою не знайдений."
+            "description": "Email успішно надіслано"
           },
           "500": {
-            "description": "Внутрішня помилка сервера."
+            "description": "Помилка надсилання email"
           }
         }
       }
     },
-    "/api/auth/update-password": {
+    "/api/admin/auth/logout": {
       "post": {
-        "tags": ["Auth"],
-        "summary": "Оновлення пароля",
-        "description": "Цей маршрут дозволяє користувачу оновити свій пароль за допомогою токена відновлення.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "token": {
-                    "type": "string",
-                    "description": "Токен відновлення пароля",
-                    "example": "reset-token-123"
-                  },
-                  "newPassword": {
-                    "type": "string",
-                    "description": "Новий пароль",
-                    "format": "password",
-                    "example": "newPassword123"
+        "tags": ["Admin Auth"],
+        "summary": "Вихід адміністратора",
+        "responses": {
+          "200": {
+            "description": "Адміністратор успішно вийшов із системи",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
                   }
                 }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Пароль оновлено успішно."
-          },
-          "400": {
-            "description": "Неправильний або прострочений токен."
           },
           "500": {
-            "description": "Внутрішня помилка сервера."
+            "description": "Помилка виходу"
           }
         }
       }
     },
-    "/api/auth/refresh-token": {
+    "/api/admin/auth/refresh": {
       "post": {
-        "tags": ["Auth"],
-        "summary": "Оновлення токена доступу",
-        "description": "Цей маршрут генерує новий токен доступу, використовуючи валідний refresh-токен.",
+        "summary": "Оновлення access-токена за допомогою refresh-токена",
+        "description": "Використовується для отримання нового access-токена.",
+        "tags": ["Admin Auth"],
+        "security": [{ "BearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": {
@@ -585,8 +543,130 @@
                 "properties": {
                   "refreshToken": {
                     "type": "string",
-                    "description": "Refresh-токен",
-                    "example": "refresh-token-123"
+                    "description": "Refresh-токен, виданий під час логіну",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR..."
+                  }
+                },
+                "required": ["refreshToken"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішне оновлення access-токена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "description": "Новий access-токен",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Немає refresh-токена у запиті"
+          },
+          "403": {
+            "description": "Refresh-токен недійсний або прострочений"
+          }
+        }
+      }
+    },
+    "/api/user/auth/verify-email": {
+      "get": {
+        "tags": ["User Auth"],
+        "summary": "Верифікація електронної пошти",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Електронну пошту успішно підтверджено"
+          },
+          "400": {
+            "description": "Недійсний або прострочений токен"
+          }
+        }
+      }
+    },
+    "/api/user/auth/register": {
+      "post": {
+        "tags": ["User Auth"],
+        "summary": "Реєстрація користувача",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Користувача успішно зареєстровано"
+          },
+          "400": {
+            "description": "Невірні вхідні дані"
+          }
+        }
+      }
+    },
+    "/api/user/auth/login": {
+      "post": {
+        "tags": ["User Auth"],
+        "summary": "Вхід користувача",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішний вхід, повертає access і refresh токени"
+          },
+          "401": {
+            "description": "Неправильна електронна пошта або пароль"
+          },
+          "403": {
+            "description": "Електронна пошта не підтверджена"
+          }
+        }
+      }
+    },
+    "/api/user/auth/logout": {
+      "post": {
+        "tags": ["User Auth"],
+        "summary": "Вихід користувача",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string"
                   }
                 }
               }
@@ -595,51 +675,86 @@
         },
         "responses": {
           "200": {
-            "description": "Новий токен доступу створено успішно.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "accessToken": {
-                      "type": "string",
-                      "description": "Новий токен доступу",
-                      "example": "new-access-token-123"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Користувача успішно вийшов"
           },
-          "401": {
-            "description": "Неправильний або прострочений refresh-токен."
+          "400": {
+            "description": "Не вказано refresh токен"
           },
-          "500": {
-            "description": "Внутрішня помилка сервера."
+          "403": {
+            "description": "Недійсний refresh токен"
           }
         }
       }
     },
-    "/api/auth/user": {
-      "get": {
-        "tags": ["User"],
-        "summary": "Отримати дані користувача",
-        "responses": {
-          "200": {
-            "description": "Дані про користувача",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+    "/api/user/auth/reset-password": {
+      "post": {
+        "tags": ["User Auth"],
+        "summary": "Запит на скидання паролю",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Посилання для скидання паролю надіслано"
           },
-          "401": { "description": "Неавторизований користувач" },
-          "500": { "description": "Внутрішня помилка сервера" }
+          "404": {
+            "description": "Користувача не знайдено"
+          },
+          "500": {
+            "description": "Помилка під час надсилання листа"
+          }
         }
       }
     },
+    "/api/user/auth/update-password": {
+      "post": {
+        "tags": ["User Auth"],
+        "summary": "Оновлення паролю користувача",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "oldPassword": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Пароль успішно змінено"
+          },
+          "401": {
+            "description": "Неправильний старий пароль"
+          },
+          "500": {
+            "description": "Помилка при зміні паролю"
+          }
+        }
+      }
+    },
+
     "/api/admin/users": {
       "get": {
         "tags": ["Admin"],
@@ -682,20 +797,108 @@
       }
     },
     "/api/admin/products": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Отримати список всіх продуктів",
+        "description": "Повертає список всіх продуктів з бази даних.",
+        "responses": {
+          "200": {
+            "description": "Список продуктів успішно отримано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "category": { "type": "string" },
+                      "subcategory": { "type": "string" },
+                      "price": { "type": "number" },
+                      "description": { "type": "string" },
+                      "photoUrl": { "type": "string" },
+                      "size": { "type": "string" },
+                      "width": { "type": "integer" },
+                      "length": { "type": "integer" },
+                      "color": { "type": "string" },
+                      "quantity": { "type": "integer" },
+                      "index": { "type": "string" },
+                      "purchasePrice": { "type": "number" },
+                      "inStock": { "type": "boolean" },
+                      "visible": { "type": "boolean" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Помилка сервера при отриманні продуктів."
+          }
+        }
+      },
       "post": {
         "tags": ["Admin"],
         "summary": "Додати новий продукт",
+        "description": "Додає новий продукт до бази даних.",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/Product" }
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Rose Box" },
+                  "category": { "type": "string", "example": "Box" },
+                  "subcategory": { "type": "string", "example": "Gift" },
+                  "price": { "type": "number", "example": 30 },
+                  "description": {
+                    "type": "string",
+                    "example": "Beautiful rose in a box"
+                  },
+                  "photoUrl": {
+                    "type": "string",
+                    "example": "https://example.com/photo.jpg"
+                  },
+                  "size": { "type": "string", "example": "Medium" },
+                  "width": { "type": "integer", "example": 100 },
+                  "length": { "type": "integer", "example": 150 },
+                  "color": { "type": "string", "example": "Red" },
+                  "quantity": { "type": "integer", "example": 10 },
+                  "index": { "type": "string", "example": "RBX-123" },
+                  "purchasePrice": { "type": "number", "example": 20 },
+                  "inStock": { "type": "boolean", "example": true },
+                  "visible": { "type": "boolean", "example": true }
+                },
+                "required": ["name", "category", "price", "description"]
+              }
             }
           }
         },
         "responses": {
-          "201": { "description": "Продукт додано" },
-          "500": { "description": "Внутрішня помилка сервера" }
+          "201": {
+            "description": "Продукт успішно додано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "message": {
+                      "type": "string",
+                      "example": "Product added successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некоректні дані у запиті."
+          },
+          "500": {
+            "description": "Помилка сервера."
+          }
         }
       }
     },
@@ -752,63 +955,1685 @@
         }
       }
     },
-
-    "/api/admin/dashboard": {
-      "get": {
+    "/api/admin/email": {
+      "post": {
         "tags": ["Admin"],
-        "summary": "Адмінська панель",
-        "description": "Цей маршрут надає доступ до адмінської панелі. Доступний лише для користувачів з роллю 'admin'.",
+        "summary": "Надсилання електронного листа адміністратору",
+        "description": "Дозволяє користувачеві надіслати повідомлення адміністратору.",
         "parameters": [
           {
             "name": "Authorization",
             "in": "header",
             "required": true,
-            "description": "Bearer-токен для авторизації",
-            "schema": { "type": "string" }
+            "description": "Bearer-токен для авторизації користувача.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "description": "Тема повідомлення",
+                    "example": "Проблема із замовленням #12345"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Текст повідомлення",
+                    "example": "У мене виникла проблема з виконанням мого замовлення. Чи можу я отримати допомогу?"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "Доступ надано. Повернено дані адмін-панелі.",
+          "201": {
+            "description": "Повідомлення успішно надіслано адміністратору.",
             "content": {
               "application/json": {
-                "examples": {
-                  "success": {
-                    "value": {
-                      "message": "Welcome to the dashboard, admin@example.com!",
-                      "stats": {
-                        "totalUsers": 123,
-                        "totalProducts": 456
-                      },
-                      "users": [
-                        {
-                          "id": "1",
-                          "name": "User 1",
-                          "email": "user1@example.com",
-                          "role": "user"
-                        },
-                        {
-                          "id": "2",
-                          "name": "User 2",
-                          "email": "user2@example.com",
-                          "role": "user"
-                        }
-                      ]
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Лист адміну успішно надіслано!"
                     }
                   }
                 }
               }
             }
           },
-          "403": {
-            "description": "Доступ заборонено. Тільки для адмінів."
+          "400": {
+            "description": "Не вказано тему або текст повідомлення."
           },
-          "401": {
-            "description": "Неавторизований. Токен відсутній або недійсний."
+          "500": {
+            "description": "Помилка сервера під час надсилання повідомлення."
           }
         }
       }
     },
+    "/api/admin/dashboard": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Адмінська панель",
+        "description": "Надає доступ до основної панелі адміністратора для перегляду статистики, популярних товарів, низьких залишків і списків бажань.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Дані адмінської панелі успішно отримано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Привітання з інформацією про адміністратора."
+                    },
+                    "stats": {
+                      "type": "object",
+                      "description": "Загальна статистика системи.",
+                      "properties": {
+                        "totalUsers": {
+                          "type": "integer",
+                          "description": "Кількість користувачів у системі."
+                        },
+                        "totalProducts": {
+                          "type": "integer",
+                          "description": "Кількість товарів у базі даних."
+                        },
+                        "activeUsers": {
+                          "type": "integer",
+                          "description": "Користувачі, які були активними за певний період."
+                        }
+                      }
+                    },
+                    "productsOverview": {
+                      "type": "object",
+                      "description": "Огляд продуктів.",
+                      "properties": {
+                        "lowStockItems": {
+                          "type": "array",
+                          "description": "Список товарів із низькими залишками.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": { "type": "string" },
+                              "stock": { "type": "integer" },
+                              "photo": { "type": "string" },
+                              "index": { "type": "string" }
+                            }
+                          }
+                        },
+                        "popularItems": {
+                          "type": "array",
+                          "description": "Список найпопулярніших товарів.",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": { "type": "string" },
+                              "popularity": { "type": "integer" },
+                              "photo": { "type": "string" },
+                              "index": { "type": "string" }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "wishlistOverview": {
+                      "type": "array",
+                      "description": "Список бажаних товарів.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": { "type": "string" },
+                          "count": { "type": "integer" },
+                          "photo": { "type": "string" },
+                          "index": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Токен відсутній або недійсний." },
+          "403": {
+            "description": "Доступ заборонено для неадміністративних користувачів."
+          }
+        }
+      }
+    },
+    "/api/admin/finance/overview": {
+      "get": {
+        "tags": ["Finance Overview"],
+        "summary": "Фінансовий огляд",
+        "description": "Повертає загальну фінансову аналітику компанії, включаючи продажі, прибуток, витрати та запаси.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Фінансові дані успішно отримані." },
+          "401": { "description": "Немає токена або недійсний." },
+          "403": {
+            "description": "Доступ заборонено для неадміністративних користувачів."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Finance Overview"],
+        "summary": "Створити нові фінансові налаштування",
+        "description": "Ініціалізує фінансові налаштування, включаючи ставку податку, операційні витрати та бюджет закупівлі.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "taxRate": 15,
+                "operatingCosts": 5000,
+                "budgetForProcurement": 10000
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Фінансові налаштування успішно створені." },
+          "400": { "description": "Недійсні дані у запиті." },
+          "500": { "description": "Помилка сервера." }
+        }
+      },
+      "patch": {
+        "tags": ["Finance Overview"],
+        "summary": "Оновити фінансові налаштування",
+        "description": "Дозволяє оновлювати параметри фінансів, такі як податкова ставка та операційні витрати.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "taxRate": 20,
+                "operatingCosts": 7000,
+                "budgetForProcurement": 12000
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Фінансові налаштування успішно оновлені." },
+          "400": { "description": "Недійсні дані у запиті." },
+          "404": { "description": "Фінансові налаштування не знайдені." },
+          "500": { "description": "Помилка сервера." }
+        }
+      }
+    },
+    "/api/admin/finance/settings": {
+      "get": {
+        "tags": ["Finance Settings"],
+        "summary": "Отримати фінансові налаштування",
+        "description": "Повертає поточні налаштування фінансів, такі як ставка податку, операційні витрати та бюджет закупівлі.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Фінансові налаштування успішно отримані.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "taxRate": 20,
+                  "operatingCosts": 5000,
+                  "budgetForProcurement": 15000,
+                  "lastUpdated": "2025-05-03T07:45:00.000Z"
+                }
+              }
+            }
+          },
+          "404": { "description": "Фінансові налаштування не знайдені." },
+          "500": { "description": "Помилка сервера." }
+        }
+      },
+      "patch": {
+        "tags": ["Finance Settings"],
+        "summary": "Оновити фінансові налаштування",
+        "description": "Дозволяє змінювати параметри фінансів, такі як податкова ставка та операційні витрати.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "taxRate": 18,
+                "operatingCosts": 4500,
+                "budgetForProcurement": 14000
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Налаштування успішно оновлені." },
+          "404": { "description": "Налаштування не знайдені." },
+          "500": { "description": "Помилка сервера." }
+        }
+      }
+    },
+    "/api/admin/finance/online/orders": {
+      "get": {
+        "tags": ["Finance - Online"],
+        "summary": "Отримати всі онлайн-замовлення",
+        "description": "Повертає список усіх онлайн-замовлень, включаючи їхній статус, продукти, загальну суму і методи оплати.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список онлайн-замовлень успішно отримано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID замовлення"
+                      },
+                      "products": {
+                        "type": "array",
+                        "description": "Список продуктів у замовленні.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "productId": {
+                              "type": "string",
+                              "description": "ID продукту"
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "description": "Кількість"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Назва продукту"
+                            }
+                          }
+                        }
+                      },
+                      "totalPrice": {
+                        "type": "number",
+                        "description": "Загальна сума замовлення"
+                      },
+                      "paymentMethod": {
+                        "type": "string",
+                        "description": "Метод оплати"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Статус замовлення"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Токен відсутній або недійсний." },
+          "403": {
+            "description": "Доступ заборонено для неадміністративних користувачів."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Finance - Online"],
+        "summary": "Створити нове онлайн-замовлення",
+        "description": "Додає нове онлайн-замовлення з вказаними продуктами, сумою і методом оплати.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "description": "Продукти у замовленні.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість продукту"
+                        }
+                      }
+                    }
+                  },
+                  "totalPrice": {
+                    "type": "number",
+                    "description": "Загальна сума замовлення"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Метод оплати"
+                  },
+                  "userId": {
+                    "type": "string",
+                    "description": "ID користувача"
+                  }
+                },
+                "example": {
+                  "products": [
+                    { "productId": "12345", "quantity": 2 },
+                    { "productId": "67890", "quantity": 1 }
+                  ],
+                  "totalPrice": 500,
+                  "paymentMethod": "card",
+                  "userId": "user123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Онлайн-замовлення успішно створено." },
+          "400": { "description": "Недійсні дані у запиті." }
+        }
+      }
+    },
+    "/api/admin/finance/online/orders/{id}": {
+      "get": {
+        "tags": ["Finance - Online"],
+        "summary": "Отримати конкретне онлайн-замовлення",
+        "description": "Повертає детальну інформацію про конкретне онлайн-замовлення за ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-замовлення.",
+            "schema": { "type": "string", "example": "order123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Деталі замовлення успішно отримано." },
+          "404": { "description": "Замовлення не знайдено." }
+        }
+      },
+      "patch": {
+        "tags": ["Finance - Online"],
+        "summary": "Оновити статус онлайн-замовлення",
+        "description": "Оновлює статус конкретного онлайн-замовлення (наприклад, 'completed' або 'cancelled').",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-замовлення.",
+            "schema": { "type": "string", "example": "order123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Новий статус замовлення.",
+                    "enum": ["new", "completed", "cancelled"]
+                  }
+                },
+                "example": { "status": "completed" }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Статус замовлення успішно оновлено." },
+          "400": { "description": "Недійсний статус." },
+          "404": { "description": "Замовлення не знайдено." }
+        }
+      },
+      "put": {
+        "tags": ["Finance - Online"],
+        "summary": "Оновити онлайн-замовлення",
+        "description": "Оновлює дані конкретного онлайн-замовлення, включаючи адресу доставки, статус та інші параметри.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-замовлення.",
+            "schema": { "type": "string", "example": "order123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Новий статус замовлення."
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Оновлений метод оплати."
+                  },
+                  "deliveryAddress": {
+                    "type": "string",
+                    "description": "Оновлена адреса доставки."
+                  }
+                },
+                "example": {
+                  "status": "assembled",
+                  "paymentMethod": "card",
+                  "deliveryAddress": "Новий проспект, 25"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "✅ Замовлення успішно оновлено." },
+          "400": { "description": "❌ Недійсні дані." },
+          "404": { "description": "❌ Замовлення не знайдено." }
+        }
+      }
+    },
+    "/api/admin/finance/online/orders/{id}/return": {
+      "put": {
+        "tags": ["Finance - Online"],
+        "summary": "Часткове повернення товару",
+        "description": "Дозволяє користувачеві повернути окремі товари із замовлення.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-замовлення.",
+            "schema": { "type": "string", "example": "order123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "returnedProducts": {
+                    "type": "array",
+                    "description": "Список товарів, що повертаються.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту."
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість поверненого товару."
+                        }
+                      }
+                    }
+                  },
+                  "refundAmount": {
+                    "type": "number",
+                    "description": "Сума відшкодування."
+                  },
+                  "updatedBy": {
+                    "type": "string",
+                    "description": "ID адміністратора, який обробив повернення."
+                  }
+                },
+                "example": {
+                  "returnedProducts": [
+                    { "productId": "product123", "quantity": 2 }
+                  ],
+                  "refundAmount": 150,
+                  "updatedBy": "admin789"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "✅ Часткове повернення виконано." },
+          "400": { "description": "❌ Некоректні дані." },
+          "404": { "description": "❌ Замовлення не знайдено." }
+        }
+      }
+    },
+    "/api/admin/finance/online/orders/{id}/status": {
+      "patch": {
+        "tags": ["Finance - Online"],
+        "summary": "Оновлення статусу онлайн-замовлення",
+        "description": "Дозволяє адміну змінювати статус замовлення (new, assembled, shipped, completed).",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-замовлення.",
+            "schema": { "type": "string", "example": "order123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": ["new", "assembled", "shipped", "completed"],
+                    "description": "Новий статус замовлення."
+                  }
+                },
+                "example": {
+                  "status": "assembled"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "✅ Статус успішно оновлено." },
+          "400": { "description": "❌ Некоректні дані." },
+          "404": { "description": "❌ Замовлення не знайдено." }
+        }
+      }
+    },
+    "/api/admin/finance/online/orders/{id}/sale": {
+      "put": {
+        "summary": "Конвертація онлайн-замовлення у продаж",
+        "description": "Перетворює завершене замовлення (`status: completed`) у продаж та оновлює фінансові показники.",
+        "tags": ["Finance - Online"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-замовлення для конвертації",
+            "schema": {
+              "type": "string",
+              "example": "664a20b4f9a39c51a2d124ab"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успішна конвертація замовлення у продаж",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Sale processed successfully!"
+                    },
+                    "sale": {
+                      "$ref": "#/components/schemas/OnlineSale"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Замовлення повинне бути завершене перед конвертацією",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Order must be completed before converting to sale"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Замовлення не знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Order not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Помилка сервера під час обробки продажу",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Failed to process sale"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/finance/online/sales": {
+      "get": {
+        "tags": ["Finance - Online"],
+        "summary": "Отримати всі онлайн-продажі",
+        "description": "Повертає список усіх онлайн-продажів із інформацією про продукти, кількість, метод оплати та оброблювача продажу.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список онлайн-продажів успішно отримано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "ID продажу" },
+                      "products": {
+                        "type": "array",
+                        "description": "Список продуктів у продажу.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "productId": {
+                              "type": "string",
+                              "description": "ID продукту"
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "description": "Кількість"
+                            },
+                            "salePrice": {
+                              "type": "number",
+                              "description": "Ціна продажу за одиницю"
+                            }
+                          }
+                        }
+                      },
+                      "totalAmount": {
+                        "type": "number",
+                        "description": "Загальна сума продажу"
+                      },
+                      "paymentMethod": {
+                        "type": "string",
+                        "description": "Метод оплати"
+                      },
+                      "processedBy": {
+                        "type": "string",
+                        "description": "ID адміністратора, який обробив продаж"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Токен відсутній або недійсний." },
+          "403": {
+            "description": "Доступ заборонено для неадміністративних користувачів."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Finance - Online"],
+        "summary": "Створити новий онлайн-продаж",
+        "description": "Додає новий запис про онлайн-продаж із вказаними продуктами, кількістю, методами оплати і оброблювачем.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "description": "Продукти у продажу.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість"
+                        },
+                        "salePrice": {
+                          "type": "number",
+                          "description": "Ціна продажу за одиницю"
+                        }
+                      }
+                    }
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "description": "Загальна сума продажу"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Метод оплати"
+                  },
+                  "processedBy": {
+                    "type": "string",
+                    "description": "ID адміністратора"
+                  }
+                },
+                "example": {
+                  "products": [
+                    { "productId": "12345", "quantity": 2, "salePrice": 250 },
+                    { "productId": "67890", "quantity": 1, "salePrice": 300 }
+                  ],
+                  "totalAmount": 800,
+                  "paymentMethod": "card",
+                  "processedBy": "admin123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Онлайн-продаж успішно створено." },
+          "400": { "description": "Недійсні дані у запиті." }
+        }
+      }
+    },
+    "/api/admin/finance/online/sales/{id}": {
+      "patch": {
+        "tags": ["Finance - Online"],
+        "summary": "Оновити дані онлайн-продажу",
+        "description": "Оновлює вказані дані конкретного онлайн-продажу за ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-продажу.",
+            "schema": { "type": "string", "example": "sale123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "totalAmount": {
+                    "type": "number",
+                    "description": "Оновлена загальна сума"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Оновлений метод оплати"
+                  },
+                  "products": {
+                    "type": "array",
+                    "description": "Оновлений список продуктів.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість"
+                        },
+                        "salePrice": {
+                          "type": "number",
+                          "description": "Ціна продажу за одиницю"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "totalAmount": 900,
+                  "paymentMethod": "bank_transfer",
+                  "products": [
+                    { "productId": "12345", "quantity": 1, "salePrice": 250 },
+                    { "productId": "67890", "quantity": 2, "salePrice": 300 }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Дані онлайн-продажу успішно оновлено." },
+          "400": { "description": "Недійсні дані у запиті." },
+          "404": { "description": "Онлайн-продаж не знайдено." }
+        }
+      }
+    },
+    "/api/admin/finance/online/sales/{id}/return": {
+      "put": {
+        "tags": ["Finance - Online"],
+        "summary": "Повернення онлайн-продажу",
+        "description": "Оновлює статус продажу на `returned`, повертає товари на склад і коригує фінансові показники.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID онлайн-продажу, що повертається.",
+            "schema": { "type": "string", "example": "sale123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refundAmount": {
+                    "type": "number",
+                    "description": "Сума повернення покупцю"
+                  }
+                },
+                "example": { "refundAmount": 500 }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Онлайн-продаж успішно повернуто." },
+          "400": { "description": "Недійсні дані у запиті." },
+          "404": { "description": "Онлайн-продаж не знайдено." }
+        }
+      }
+    },
+
+    "/api/admin/finance/offline/orders": {
+      "get": {
+        "tags": ["Finance - Offline"],
+        "summary": "Отримати всі офлайн-замовлення",
+        "description": "Повертає список усіх офлайн-замовлень із інформацією про продукти, статус, метод оплати і місце замовлення.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список офлайн-замовлень успішно отримано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ID замовлення"
+                      },
+                      "products": {
+                        "type": "array",
+                        "description": "Список продуктів у замовленні.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "productId": {
+                              "type": "string",
+                              "description": "ID продукту"
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "description": "Кількість"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "Назва продукту"
+                            }
+                          }
+                        }
+                      },
+                      "totalPrice": {
+                        "type": "number",
+                        "description": "Загальна сума замовлення"
+                      },
+                      "paymentMethod": {
+                        "type": "string",
+                        "description": "Метод оплати"
+                      },
+                      "saleLocation": {
+                        "type": "string",
+                        "description": "Місце замовлення"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Статус замовлення"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Токен відсутній або недійсний." },
+          "403": {
+            "description": "Доступ заборонено для неадміністративних користувачів."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Finance - Offline"],
+        "summary": "Створити нове офлайн-замовлення",
+        "description": "Додає нове офлайн-замовлення з вказаними продуктами, сумою, методом оплати і місцем замовлення.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "description": "Продукти у замовленні.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість продукту"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "Назва продукту"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "Ціна за одиницю"
+                        }
+                      }
+                    }
+                  },
+                  "totalPrice": {
+                    "type": "number",
+                    "description": "Загальна сума замовлення"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Метод оплати"
+                  },
+                  "saleLocation": {
+                    "type": "string",
+                    "description": "Місце замовлення"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Статус замовлення",
+                    "enum": ["pending", "completed", "cancelled"]
+                  }
+                },
+                "example": {
+                  "products": [
+                    {
+                      "productId": "12345",
+                      "quantity": 2,
+                      "name": "Product Name",
+                      "price": 250
+                    },
+                    {
+                      "productId": "67890",
+                      "quantity": 1,
+                      "name": "Another Product",
+                      "price": 300
+                    }
+                  ],
+                  "totalPrice": 800,
+                  "paymentMethod": "cash",
+                  "saleLocation": "Shop #45",
+                  "status": "pending"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Офлайн-замовлення успішно створено." },
+          "400": { "description": "Недійсні дані у запиті." }
+        }
+      }
+    },
+    "/api/admin/finance/offline/orders/{id}": {
+      "patch": {
+        "tags": ["Finance - Offline"],
+        "summary": "Оновити статус офлайн-замовлення",
+        "description": "Оновлює статус конкретного офлайн-замовлення за ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID офлайн-замовлення.",
+            "schema": { "type": "string", "example": "order123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "Новий статус замовлення.",
+                    "enum": ["pending", "completed", "cancelled"]
+                  }
+                },
+                "example": { "status": "completed" }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Статус офлайн-замовлення успішно оновлено."
+          },
+          "400": { "description": "Недійсний статус." },
+          "404": { "description": "Офлайн-замовлення не знайдено." }
+        }
+      },
+      "get": {
+        "summary": "Отримати офлайн-замовлення за ID",
+        "description": "Повертає деталі офлайн-замовлення та список товарів.",
+        "tags": ["Finance - Offline"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID офлайн-замовлення",
+            "schema": {
+              "type": "string",
+              "example": "664b34c2e12f87a5b2d598ac"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успішне отримання замовлення",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "offlineOrder": {
+                      "$ref": "#/components/schemas/OfflineOrder"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Замовлення не знайдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Offline order not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Помилка сервера при отриманні замовлення",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Failed to fetch offline order"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/finance/offline/sales": {
+      "get": {
+        "tags": ["Finance - Offline"],
+        "summary": "Отримати всі офлайн-продажі",
+        "description": "Повертає список усіх офлайн-продажів із інформацією про продукти, кількість, методи оплати та оброблювачів.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список офлайн-продажів успішно отримано.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "ID продажу" },
+                      "products": {
+                        "type": "array",
+                        "description": "Список продуктів у продажу.",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "productId": {
+                              "type": "string",
+                              "description": "ID продукту"
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "description": "Кількість"
+                            },
+                            "price": {
+                              "type": "number",
+                              "description": "Ціна продажу за одиницю"
+                            }
+                          }
+                        }
+                      },
+                      "totalAmount": {
+                        "type": "number",
+                        "description": "Загальна сума продажу"
+                      },
+                      "paymentMethod": {
+                        "type": "string",
+                        "description": "Метод оплати"
+                      },
+                      "saleLocation": {
+                        "type": "string",
+                        "description": "Місце продажу"
+                      },
+                      "processedBy": {
+                        "type": "string",
+                        "description": "ID адміністратора, який обробив продаж"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Токен відсутній або недійсний." },
+          "403": {
+            "description": "Доступ заборонено для неадміністративних користувачів."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Finance - Offline"],
+        "summary": "Створити новий офлайн-продаж",
+        "description": "Додає новий запис про офлайн-продаж із вказаними продуктами, кількістю, методами оплати і місцем продажу.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "description": "Продукти у продажу.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість продукту"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "Ціна продажу за одиницю"
+                        }
+                      }
+                    }
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "description": "Загальна сума продажу"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Метод оплати"
+                  },
+                  "saleLocation": {
+                    "type": "string",
+                    "description": "Місце продажу"
+                  },
+                  "processedBy": {
+                    "type": "string",
+                    "description": "ID адміністратора"
+                  }
+                },
+                "example": {
+                  "products": [
+                    { "productId": "12345", "quantity": 2, "price": 250 },
+                    { "productId": "67890", "quantity": 1, "price": 300 }
+                  ],
+                  "totalAmount": 800,
+                  "paymentMethod": "cash",
+                  "saleLocation": "Shop #45",
+                  "processedBy": "admin123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Офлайн-продаж успішно створено." },
+          "400": { "description": "Недійсні дані у запиті." }
+        }
+      }
+    },
+    "/api/admin/finance/offline/sales/{id}": {
+      "patch": {
+        "tags": ["Finance - Offline"],
+        "summary": "Оновити дані офлайн-продажу",
+        "description": "Оновлює вказані дані конкретного офлайн-продажу за ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID офлайн-продажу.",
+            "schema": { "type": "string", "example": "sale123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "totalAmount": {
+                    "type": "number",
+                    "description": "Оновлена загальна сума"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Оновлений метод оплати"
+                  },
+                  "products": {
+                    "type": "array",
+                    "description": "Оновлений список продуктів.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "productId": {
+                          "type": "string",
+                          "description": "ID продукту"
+                        },
+                        "quantity": {
+                          "type": "integer",
+                          "description": "Кількість"
+                        },
+                        "price": {
+                          "type": "number",
+                          "description": "Ціна продажу за одиницю"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "totalAmount": 900,
+                  "paymentMethod": "bank_transfer",
+                  "products": [
+                    { "productId": "12345", "quantity": 1, "price": 250 },
+                    { "productId": "67890", "quantity": 2, "price": 300 }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Дані офлайн-продажу успішно оновлено." },
+          "400": { "description": "Недійсні дані у запиті." },
+          "404": { "description": "Офлайн-продаж не знайдено." }
+        }
+      }
+    },
+    "/api/admin/finance/offline/sales/{id}/return": {
+      "put": {
+        "tags": ["Finance - Offline"],
+        "summary": "Повернення офлайн-продажу",
+        "description": "Оновлює статус продажу на `returned`, повертає товари на склад і коригує фінансові показники.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID офлайн-продажу, що повертається.",
+            "schema": { "type": "string", "example": "sale123" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації адміністратора.",
+            "schema": {
+              "type": "string",
+              "example": "Bearer eyJhbGciOiJI..."
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refundAmount": {
+                    "type": "number",
+                    "description": "Сума повернення покупцю"
+                  }
+                },
+                "example": { "refundAmount": 500 }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Офлайн-продаж успішно повернуто." },
+          "400": { "description": "Недійсні дані у запиті." },
+          "404": { "description": "Офлайн-продаж не знайдено." }
+        }
+      }
+    },
+
     "/api/user/main": {
       "get": {
         "tags": ["User"],
@@ -864,14 +2689,13 @@
         ]
       }
     },
-
-    "/api/user/profile": {
+    "/api/user/profile/info": {
       "get": {
         "tags": ["User"],
-        "summary": "Отримати профіль користувача",
+        "summary": "Отримати особисті дані користувача",
         "responses": {
           "200": {
-            "description": "Профіль користувача отримано успішно.",
+            "description": "Успішне отримання інформації про користувача",
             "content": {
               "application/json": {
                 "schema": {
@@ -880,13 +2704,13 @@
               }
             }
           },
-          "401": { "description": "Неавторизований користувач." },
-          "500": { "description": "Внутрішня помилка сервера." }
+          "401": { "description": "Неавторизований доступ" },
+          "500": { "description": "Помилка сервера" }
         }
       },
       "put": {
         "tags": ["User"],
-        "summary": "Оновити профіль користувача",
+        "summary": "Оновити особисті дані користувача",
         "requestBody": {
           "required": true,
           "content": {
@@ -895,20 +2719,187 @@
                 "$ref": "#/components/schemas/UserProfile"
               },
               "example": {
-                "username": "NewUsername",
-                "email": "newemail@example.com",
-                "avatar": "https://example.com/new-avatar.jpg"
+                "name": "New Name",
+                "email": "newemail@example.com"
               }
             }
           }
         },
         "responses": {
+          "200": { "description": "Дані успішно оновлені" },
+          "400": { "description": "Некоректний формат запиту" },
+          "401": { "description": "Неавторизований доступ" },
+          "500": { "description": "Помилка сервера" }
+        }
+      }
+    },
+    "/api/user/profile/address": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Отримати адресу користувача",
+        "responses": {
           "200": {
-            "description": "Профіль користувача оновлено успішно."
+            "description": "Успішне отримання адреси",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAddress"
+                }
+              }
+            }
           },
-          "400": { "description": "Некоректний формат запиту." },
-          "401": { "description": "Неавторизований користувач." },
-          "500": { "description": "Внутрішня помилка сервера." }
+          "401": { "description": "Неавторизований доступ" },
+          "500": { "description": "Помилка сервера" }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Оновити адресу користувача",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAddress"
+              },
+              "example": {
+                "street": "Новий Адреса",
+                "city": "Місто",
+                "zip": "12345"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Адреса успішно оновлена" },
+          "400": { "description": "Некоректний формат запиту" },
+          "401": { "description": "Неавторизований доступ" },
+          "500": { "description": "Помилка сервера" }
+        }
+      }
+    },
+    "/api/user/profile": {
+      "delete": {
+        "tags": ["User"],
+        "summary": "Видалити акаунт користувача",
+        "responses": {
+          "200": { "description": "Акаунт успішно видалено" },
+          "401": { "description": "Неавторизований доступ" },
+          "500": { "description": "Помилка сервера" }
+        }
+      }
+    },
+    "/api/user/profile/email": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Надсилання електронного листа адміністратору",
+        "description": "Дозволяє користувачеві надіслати повідомлення адміністратору зі сторінки профілю.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації користувача.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "description": "Тема повідомлення",
+                    "example": "Проблема із замовленням #12345"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Текст повідомлення",
+                    "example": "У мене виникла проблема з виконанням мого замовлення. Чи можу я отримати допомогу?"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Повідомлення успішно надіслано адміністратору.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Лист адміну успішно надіслано!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Не вказано тему або текст повідомлення."
+          },
+          "500": {
+            "description": "Помилка сервера під час надсилання повідомлення."
+          }
+        }
+      }
+    },
+    "/api/user/recent": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Отримати список останніх переглянутих товарів",
+        "description": "Повертає останні 120 товарів, які переглядав користувач.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації користувача.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Історія переглядів отримана.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "productId": {
+                        "type": "string",
+                        "example": "665acb1fd8477d002a8e2f49"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Золотий браслет"
+                      },
+                      "photoUrl": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                      },
+                      "price": { "type": "number", "example": 1500 },
+                      "viewedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-05-20T16:49:00Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "description": "Помилка отримання історії переглядів." }
         }
       }
     },
@@ -975,7 +2966,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "productId": {
+                  "_id": {
                     "type": "string",
                     "description": "ID товару."
                   }
@@ -1017,6 +3008,49 @@
         }
       }
     },
+    "/api/user/wishlist/move-to-cart/{id}": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Перемістити товар зі списку бажань до кошика",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID товару зі списку бажань, який потрібно перемістити.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Товар успішно переміщено до кошика."
+          },
+          "400": {
+            "description": "Некоректний запит."
+          },
+          "404": {
+            "description": "Товар не знайдено у списку бажань."
+          },
+          "500": {
+            "description": "Внутрішня помилка сервера."
+          }
+        }
+      }
+    },
+
     "/api/user/preferences": {
       "post": {
         "tags": ["User"],
@@ -1108,6 +3142,54 @@
         }
       }
     },
+    "/api/user/shopping-cart/update/{id}": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Оновити кількість товару у корзині",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID товару для оновлення кількості.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Нова кількість товару у корзині.",
+                    "example": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Кількість товару успішно оновлено."
+          },
+          "400": {
+            "description": "Некоректний запит."
+          },
+          "404": {
+            "description": "Товар не знайдено."
+          },
+          "500": {
+            "description": "Внутрішня помилка сервера."
+          }
+        }
+      }
+    },
     "/api/user/shopping-cart/remove/{id}": {
       "delete": {
         "tags": ["User"],
@@ -1123,36 +3205,257 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Товар успішно видалено з корзини."
-          },
-          "404": { "description": "Товар не знайдено." },
-          "500": { "description": "Внутрішня помилка сервера." }
-        }
-      }
-    },
-    "/api/user/purchase-history": {
-      "get": {
-        "tags": ["User"],
-        "summary": "Отримати історію покупок користувача",
-        "description": "Цей маршрут повертає список усіх минулих покупок користувача.",
-        "responses": {
-          "200": {
-            "description": "Історію покупок успішно отримано.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Purchase"
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "description": "Нова кількість товару у корзині.",
+                    "example": 2
                   }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Товар успішно видалено з корзини."
           },
-          "401": { "description": "Неавторизований користувач." },
-          "500": { "description": "Внутрішня помилка сервера." }
+          "400": {
+            "description": "Некоректний запит."
+          },
+          "404": {
+            "description": "Товар не знайдено."
+          },
+          "500": {
+            "description": "Внутрішня помилка сервера."
+          }
+        }
+      }
+    },
+    "/api/user/shopping-cart/move-to-wishlist/{id}": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Перемістити товар з корзини до списку бажань",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID товару у корзині, який потрібно перемістити.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Товар успішно переміщено до списку бажань."
+          },
+          "400": {
+            "description": "Некоректний запит."
+          },
+          "404": {
+            "description": "Товар не знайдено у корзині."
+          },
+          "500": {
+            "description": "Внутрішня помилка сервера."
+          }
+        }
+      }
+    },
+    "/api/user/orders": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Отримати всі замовлення користувача",
+        "description": "Повертає список усіх замовлень, відсортованих за датою.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer-токен для авторизації користувача.",
+            "schema": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список замовлень отримано.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "object" } }
+              }
+            }
+          },
+          "500": { "description": "Помилка отримання замовлень." }
+        }
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "Створити нове замовлення",
+        "description": "Додає нове замовлення в систему.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "products": {
+                    "type": "array",
+                    "description": "Список товарів"
+                  },
+                  "totalPrice": {
+                    "type": "number",
+                    "description": "Загальна сума"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "description": "Метод оплати"
+                  },
+                  "deliveryType": {
+                    "type": "string",
+                    "description": "Тип доставки"
+                  },
+                  "deliveryAddress": {
+                    "type": "string",
+                    "description": "Адреса доставки"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Замовлення створено." },
+          "500": { "description": "Помилка створення." }
+        }
+      }
+    },
+    "/api/user/orders/unpaid": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Отримати неоплачені замовлення",
+        "description": "Повертає список замовлень зі статусом `unpaid`.",
+        "responses": {
+          "200": { "description": "Успішно" },
+          "500": { "description": "Помилка" }
+        }
+      }
+    },
+    "/api/user/orders/processing": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Отримати оброблювані замовлення",
+        "description": "Повертає список замовлень зі статусом `processing`.",
+        "responses": {
+          "200": { "description": "Успішно" },
+          "500": { "description": "Помилка" }
+        }
+      }
+    },
+    "/api/user/orders/shipped": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Отримати надіслані замовлення",
+        "description": "Повертає список замовлень зі статусом `shipped`.",
+        "responses": {
+          "200": { "description": "Успішно" },
+          "500": { "description": "Помилка" }
+        }
+      }
+    },
+
+    "/api/user/orders/{orderId}/return": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Запит на повернення замовлення",
+        "description": "Оновлює статус замовлення на `returned`, повертає товари на склад і коригує фінансові показники.",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "ID замовлення, що повертається.",
+            "schema": {
+              "type": "string",
+              "example": "665acb1fd8477d002a8e2f49"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "returnedProducts": {
+                    "type": "array",
+                    "description": "Список повернутих товарів"
+                  },
+                  "refundAmount": {
+                    "type": "number",
+                    "description": "Сума повернення"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Замовлення повернуто." },
+          "500": { "description": "Помилка повернення." }
+        }
+      }
+    },
+    "/api/user/orders/{id}/received": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Підтвердження отримання товару",
+        "description": "Оновлює статус замовлення на `completed`.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID замовлення для підтвердження.",
+            "schema": {
+              "type": "string",
+              "example": "665acb1fd8477d002a8e2f49"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Отримання підтверджено." },
+          "500": { "description": "Помилка." }
+        }
+      }
+    },
+    "/api/user/orders/purchase-history": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Історія покупок користувача",
+        "description": "Повертає список завершених замовлень.",
+        "responses": {
+          "200": { "description": "Історія покупок отримана." },
+          "500": { "description": "Помилка." }
         }
       }
     },
@@ -1217,43 +3520,266 @@
   },
   "components": {
     "schemas": {
-      "Purchase": {
+      "Error": {
         "type": "object",
         "properties": {
-          "orderId": {
-            "type": "string",
-            "description": "Унікальний ідентифікатор замовлення."
+          "code": {
+            "type": "integer",
+            "description": "Код помилки.",
+            "example": 500
           },
-          "date": {
+          "message": {
             "type": "string",
-            "description": "Дата покупки.",
+            "description": "Опис помилки.",
+            "example": "Internal server error."
+          }
+        }
+      },
+      "AdminRegister": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "adminSecret": { "type": "string" }
+        },
+        "required": ["username", "email", "password", "adminSecret"]
+      },
+      "AdminLogin": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        },
+        "required": ["email", "password"]
+      },
+      "AdminEmail": {
+        "type": "object",
+        "properties": {
+          "to": { "type": "string" },
+          "subject": { "type": "string" },
+          "text": { "type": "string" }
+        },
+        "required": ["to", "subject", "text"]
+      },
+      "User": {
+        "required": ["email", "password", "username"],
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "654321abcdef" },
+          "username": { "type": "string", "description": "Ім'я користувача" },
+          "email": {
+            "type": "string",
+            "description": "Електронна пошта",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "Пароль",
+            "format": "password"
+          },
+          "avatar": { "type": "string", "description": "URL аватара" },
+          "basket": {
+            "type": "array",
+            "description": "Кошик користувача",
+            "items": { "type": "string" }
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Дата створення аккаунту",
             "format": "date-time"
           },
-          "totalAmount": {
-            "type": "number",
-            "description": "Загальна сума покупки.",
-            "example": 150.5
+          "role": {
+            "type": "string",
+            "description": "Роль ('user', 'admin')",
+            "example": "user"
           },
-          "items": {
-            "type": "array",
-            "description": "Список товарів у цьому замовленні.",
-            "items": {
-              "$ref": "#/components/schemas/Product"
+          "tokenStatus": {
+            "type": "string",
+            "description": "Статус токена (активний, прострочений)"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "description": "Чи верифікований email",
+            "example": true
+          }
+        }
+      },
+      "UserProfile": {
+        "allOf": [
+          { "$ref": "#/components/schemas/User" },
+          {
+            "type": "object",
+            "properties": {
+              "isActive": {
+                "type": "boolean",
+                "description": "Статус аккаунту (активний чи ні)",
+                "default": true
+              }
             }
-          },
-          "status": {
+          }
+        ]
+      },
+
+      "Product": {
+        "required": [
+          "name",
+          "category",
+          "subcategory",
+          "price",
+          "description",
+          "photoUrl",
+          "size",
+          "width",
+          "length",
+          "color",
+          "quantity",
+          "inStock",
+          "visible"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
             "type": "string",
-            "description": "Статус замовлення (наприклад, 'completed', 'cancelled').",
-            "example": "completed"
+            "description": "Назва продукту",
+            "example": "Rose red box"
           },
-          "shippingAddress": {
+          "category": {
             "type": "string",
-            "description": "Адреса доставки для замовлення."
+            "description": "Категорія продукту",
+            "example": "box"
           },
-          "paymentMethod": {
+          "subcategory": {
             "type": "string",
-            "description": "Спосіб оплати.",
-            "example": "Credit Card"
+            "description": "Підкатегорія продукту",
+            "example": "box"
+          },
+          "price": {
+            "type": "number",
+            "description": "Ціна продукту",
+            "example": 30
+          },
+          "description": {
+            "type": "string",
+            "description": "Опис продукту",
+            "example": "Beautiful red rose in a box"
+          },
+          "photoUrl": {
+            "type": "string",
+            "description": "Посилання на фото продукту",
+            "example": "https://example.com/photo.jpg"
+          },
+          "size": {
+            "type": "string",
+            "description": "Розмір продукту",
+            "example": "rose red"
+          },
+          "width": {
+            "type": "number",
+            "description": "Ширина продукту в мм",
+            "example": 100
+          },
+          "length": {
+            "type": "number",
+            "description": "Довжина продукту в см",
+            "example": 150
+          },
+          "color": {
+            "type": "string",
+            "description": "Колір продукту",
+            "example": "red"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Кількість продукту в наявності",
+            "example": 20
+          },
+          "inStock": {
+            "type": "boolean",
+            "description": "Чи є продукт в наявності",
+            "example": true
+          },
+          "visible": {
+            "type": "boolean",
+            "description": "Чи видимий продукт",
+            "example": true
+          },
+          "rating": {
+            "type": "number",
+            "description": "Середній рейтинг продукту",
+            "example": 4.5
+          },
+          "discount": {
+            "type": "number",
+            "description": "Знижка на продукт",
+            "example": 10
+          },
+          "popularity": {
+            "type": "number",
+            "description": "Популярність продукту",
+            "example": 100
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Дата створення продукту",
+            "example": "2025-04-05T16:08:53.968Z"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "reviewId": {
+            "type": "string",
+            "description": "ID відгуку."
+          },
+          "productId": {
+            "type": "string",
+            "description": "ID продукту, на який залишено відгук."
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID користувача, який залишив відгук."
+          },
+          "rating": {
+            "type": "number",
+            "description": "Рейтинг продукту.",
+            "example": 4.5
+          },
+          "comment": {
+            "type": "string",
+            "description": "Текст відгуку."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Дата створення відгуку.",
+            "format": "date-time"
+          }
+        }
+      },
+      "markupOverview": {
+        "type": "array",
+        "description": "Націнка на товари.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Назва товару."
+            },
+            "markup": {
+              "type": "number",
+              "description": "Націнка на товар."
+            },
+            "photo": {
+              "type": "string",
+              "description": "Посилання на фото товару."
+            },
+            "index": {
+              "type": "string",
+              "description": "Унікальний код товару."
+            }
           }
         }
       },
@@ -1291,162 +3817,396 @@
           }
         }
       },
-      "UserProfile": {
-        "required": ["email", "username"],
+
+      "AdminDashboard": {
         "type": "object",
+        "description": "Дані для адміністративної панелі, яка надає загальну статистику та інформацію про користувачів.",
         "properties": {
-          "username": {
+          "message": {
             "type": "string",
-            "description": "Ім'я користувача"
+            "description": "Привітання, яке включає ім'я або електронну адресу адміністратора."
           },
-          "email": {
-            "type": "string",
-            "description": "Електронна пошта користувача",
-            "format": "email"
+          "stats": {
+            "$ref": "#/components/schemas/DashboardStats",
+            "description": "Об'єкт, який містить загальну статистику системи."
           },
-          "avatar": {
-            "type": "string",
-            "description": "URL аватара користувача"
-          },
-          "basket": {
+          "users": {
             "type": "array",
-            "description": "Кошик користувача",
+            "description": "Список користувачів з базовою інформацією про них.",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserProfile"
             }
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "Дата створення аккаунту",
-            "format": "date-time"
-          },
-          "role": {
-            "type": "string",
-            "description": "Роль користувача (наприклад, 'admin', 'user')",
-            "example": "admin"
-          },
-          "isActive": {
-            "type": "boolean",
-            "description": "Статус аккаунту користувача (активний чи деактивований).",
-            "default": true
           }
         }
       },
-      "Product": {
-        "required": [
-          "category",
-          "description",
-          "name",
-          "photoUrl",
-          "price",
-          "size",
-          "subcategory"
-        ],
+      "DashboardStats": {
+        "type": "object",
+        "description": "Статистика адмін-панелі, яка включає дані про користувачів та продукти.",
+        "properties": {
+          "totalUsers": {
+            "type": "integer",
+            "description": "Загальна кількість зареєстрованих користувачів."
+          },
+          "totalProducts": {
+            "type": "integer",
+            "description": "Загальна кількість товарів у системі."
+          },
+          "activeUsers": {
+            "type": "integer",
+            "description": "Кількість користувачів, активних за останній період."
+          }
+        }
+      },
+      "LowStockItem": {
+        "type": "object",
+        "description": "Товар із низькими залишками.",
+        "properties": {
+          "name": { "type": "string", "description": "Назва товару." },
+          "stock": {
+            "type": "integer",
+            "description": "Кількість залишків на складі."
+          },
+          "photo": {
+            "type": "string",
+            "description": "Посилання на фото товару."
+          },
+          "index": {
+            "type": "string",
+            "description": "Унікальний код товару."
+          }
+        }
+      },
+      "PopularItem": {
+        "type": "object",
+        "description": "Популярний товар.",
+        "properties": {
+          "name": { "type": "string", "description": "Назва товару." },
+          "popularity": {
+            "type": "integer",
+            "description": "Рівень популярності товару."
+          },
+          "photo": {
+            "type": "string",
+            "description": "Посилання на фото товару."
+          },
+          "index": {
+            "type": "string",
+            "description": "Унікальний код товару."
+          }
+        }
+      },
+      "WishlistItem": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "Унікальний ідентифікатор елемента списку бажань."
+          },
           "name": {
             "type": "string",
-            "description": "Назва товару"
-          },
-          "category": {
-            "type": "string",
-            "description": "Категорія товару"
-          },
-          "subcategory": {
-            "type": "string",
-            "description": "Підкатегорія товару"
-          },
-          "price": {
-            "type": "number",
-            "description": "Ціна товару"
-          },
-          "description": {
-            "type": "string",
-            "description": "Опис товару"
+            "description": "Назва товару."
           },
           "photoUrl": {
             "type": "string",
-            "description": "URL фотографії товару"
+            "description": "Зображення товару."
           },
-          "size": {
+          "color": {
             "type": "string",
-            "description": "Розмір товару"
+            "description": "Колір товару.",
+            "example": "Red"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Кількість товару в списку бажань.",
+            "example": 2
+          },
+          "price": {
+            "type": "number",
+            "description": "Ціна товару.",
+            "example": 100.5
           },
           "inStock": {
             "type": "boolean",
-            "description": "Наявність на складі",
-            "default": true
-          },
-          "visible": {
-            "type": "boolean",
-            "description": "Видимість товару",
-            "default": true
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "Дата створення товару",
-            "format": "date-time"
-          },
-          "discount": {
-            "type": "number",
-            "description": "Розмір знижки на товар.",
-            "example": 10
-          },
-          "rating": {
-            "type": "number",
-            "description": "Середній рейтинг товару.",
-            "example": 4.5
-          }
-        }
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "description": "Код помилки.",
-            "example": 500
-          },
-          "message": {
-            "type": "string",
-            "description": "Опис помилки.",
-            "example": "Internal server error."
-          }
-        }
-      },
-      "Review": {
-        "type": "object",
-        "properties": {
-          "reviewId": {
-            "type": "string",
-            "description": "ID відгуку."
+            "description": "Чи є товар у наявності.",
+            "example": true
           },
           "productId": {
             "type": "string",
-            "description": "ID продукту, на який залишено відгук."
+            "description": "Унікальний ідентифікатор продукту."
+          },
+          "addedAt": {
+            "type": "string",
+            "description": "Дата додавання до списку бажань.",
+            "format": "date-time",
+            "example": "2023-04-01T12:34:56Z"
+          }
+        }
+      },
+      "SalesData": {
+        "type": "object",
+        "description": "Дані про продажі.",
+        "properties": {
+          "salesCount": {
+            "type": "integer",
+            "description": "Кількість проданих товарів."
+          },
+          "netProfit": {
+            "type": "number",
+            "description": "Чистий дохід від продажів."
+          },
+          "onlineSales": {
+            "type": "object",
+            "description": "Дані онлайн-продажів.",
+            "properties": {
+              "totalAmount": {
+                "type": "number",
+                "description": "Загальна сума онлайн-продажів."
+              },
+              "processedBy": {
+                "type": "string",
+                "description": "ID адміністратора, який обробив онлайн-продаж."
+              }
+            }
+          },
+          "offlineSales": {
+            "type": "object",
+            "description": "Дані офлайн-продажів.",
+            "properties": {
+              "totalAmount": {
+                "type": "number",
+                "description": "Загальна сума офлайн-продажів."
+              },
+              "saleLocation": {
+                "type": "string",
+                "description": "Місце продажу."
+              }
+            }
+          }
+        }
+      },
+      "FinancialOverview": {
+        "type": "object",
+        "description": "Огляд фінансів, що містить статистику продажів, способи оплати та фінансові налаштування.",
+        "properties": {
+          "stats": {
+            "type": "object",
+            "description": "Загальна статистика.",
+            "properties": {
+              "totalUsers": {
+                "type": "integer",
+                "description": "Кількість зареєстрованих користувачів."
+              },
+              "totalProducts": {
+                "type": "integer",
+                "description": "Кількість доступних продуктів."
+              },
+              "totalOnlineSales": {
+                "type": "integer",
+                "description": "Кількість онлайн-продажів."
+              },
+              "totalOfflineSales": {
+                "type": "integer",
+                "description": "Кількість офлайн-продажів."
+              }
+            }
+          },
+          "salesOverview": {
+            "type": "object",
+            "description": "Огляд продажів з розподілом між онлайн та офлайн.",
+            "properties": {
+              "online": {
+                "type": "object",
+                "description": "Аналіз онлайн-продажів.",
+                "properties": {
+                  "totalSales": {
+                    "type": "number",
+                    "description": "Загальна сума онлайн-продажів."
+                  },
+                  "netProfit": {
+                    "type": "number",
+                    "description": "Чистий прибуток від онлайн-продажів."
+                  }
+                }
+              },
+              "offline": {
+                "type": "object",
+                "description": "Аналіз офлайн-продажів.",
+                "properties": {
+                  "totalSales": {
+                    "type": "number",
+                    "description": "Загальна сума офлайн-продажів."
+                  },
+                  "netProfit": {
+                    "type": "number",
+                    "description": "Чистий прибуток від офлайн-продажів."
+                  }
+                }
+              }
+            }
+          },
+          "paymentMethods": {
+            "type": "object",
+            "description": "Розподіл продажів за способами оплати.",
+            "properties": {
+              "cash": {
+                "type": "number",
+                "description": "Загальна сума продажів готівкою."
+              },
+              "card": {
+                "type": "number",
+                "description": "Загальна сума продажів карткою."
+              },
+              "bank_transfer": {
+                "type": "number",
+                "description": "Загальна сума продажів через банківський переказ."
+              }
+            }
+          },
+          "financeSettings": {
+            "type": "object",
+            "description": "Налаштування фінансів, що визначають податкову політику та операційні витрати.",
+            "properties": {
+              "taxRate": {
+                "type": "number",
+                "description": "Ставка податку у відсотках."
+              },
+              "operatingCosts": {
+                "type": "number",
+                "description": "Загальні операційні витрати."
+              },
+              "budgetForProcurement": {
+                "type": "number",
+                "description": "Бюджет для закупівлі товарів."
+              }
+            }
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "description": "Дані про замовлення (онлайн та офлайн).",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Унікальний ідентифікатор замовлення.",
+            "example": "604b2f4a8fd3b341d8f9f2e6"
+          },
+          "products": {
+            "type": "array",
+            "description": "Список продуктів у замовленні.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "description": "ID продукту, пов'язаного із замовленням.",
+                  "example": "604b2f4a8fd3b341d8f9f2e7"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "description": "Кількість одиниць продукту у замовленні.",
+                  "example": 2
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Ціна за одиницю продукту.",
+                  "example": 250
+                }
+              }
+            }
           },
           "userId": {
             "type": "string",
-            "description": "ID користувача, який залишив відгук."
+            "description": "ID користувача, який зробив замовлення (тільки для онлайн-замовлень).",
+            "example": "604b2f4a8fd3b341d8f9f2e8",
+            "nullable": true
           },
-          "rating": {
+          "status": {
+            "type": "string",
+            "description": "Статус замовлення.",
+            "enum": ["new", "completed", "cancelled"],
+            "example": "new"
+          },
+          "totalPrice": {
             "type": "number",
-            "description": "Рейтинг продукту.",
-            "example": 4.5
+            "description": "Загальна сума замовлення.",
+            "example": 150.5
           },
-          "comment": {
+          "saleType": {
             "type": "string",
-            "description": "Текст відгуку."
+            "description": "Тип замовлення: онлайн або офлайн.",
+            "enum": ["online", "offline"],
+            "example": "online"
           },
-          "createdAt": {
+          "saleLocation": {
             "type": "string",
-            "description": "Дата створення відгуку.",
+            "description": "Місце здійснення замовлення (тільки для офлайн-замовлень).",
+            "example": "Shop #45",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Спосіб оплати.",
+            "enum": ["cash", "card", "bank_transfer"],
+            "example": "cash"
+          }
+        },
+        "required": [
+          "orderId",
+          "products",
+          "status",
+          "totalPrice",
+          "saleType",
+          "paymentMethod"
+        ]
+      },
+
+      "Sale": {
+        "type": "object",
+        "description": "Дані про завершений продаж (офлайн або онлайн).",
+        "properties": {
+          "saleId": {
+            "type": "string",
+            "description": "Унікальний ідентифікатор продажу."
+          },
+          "date": {
+            "type": "string",
+            "description": "Дата продажу.",
             "format": "date-time"
+          },
+          "totalAmount": {
+            "type": "number",
+            "description": "Загальна сума продажу.",
+            "example": 150.5
+          },
+          "items": {
+            "type": "array",
+            "description": "Список товарів у продажу.",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "Стан продажу (completed, cancelled).",
+            "example": "completed"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Спосіб оплати (cash, card, bank_transfer).",
+            "example": "cash"
+          },
+          "saleType": {
+            "type": "string",
+            "description": "Тип продажу: онлайн або офлайн.",
+            "enum": ["online", "offline"],
+            "example": "offline"
           }
         }
       },
       "Payment": {
         "type": "object",
+        "description": "Дані про платіж.",
         "properties": {
           "paymentId": {
             "type": "string",
@@ -1464,100 +4224,13 @@
           },
           "status": {
             "type": "string",
-            "description": "Статус платежу.",
+            "description": "Статус платежу (Completed, Failed).",
             "example": "Completed"
           },
           "date": {
             "type": "string",
             "description": "Дата платежу.",
             "format": "date-time"
-          }
-        }
-      },
-
-      "Auth": {
-        "required": ["email", "password", "username"],
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "description": "Ім'я користувача"
-          },
-          "email": {
-            "type": "string",
-            "description": "Електронна пошта користувача",
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "description": "Пароль користувача",
-            "format": "password"
-          },
-          "avatar": {
-            "type": "string",
-            "description": "URL аватара користувача"
-          },
-          "basket": {
-            "type": "array",
-            "description": "Кошик користувача",
-            "items": {
-              "type": "string"
-            }
-          },
-          "createdAt": {
-            "type": "string",
-            "description": "Дата створення аккаунту",
-            "format": "date-time"
-          },
-          "role": {
-            "type": "string",
-            "description": "Роль користувача",
-            "example": "user"
-          },
-          "tokenStatus": {
-            "type": "string",
-            "description": "Статус токена (активний, прострочений)."
-          }
-        }
-      },
-      "inline_response_200": {
-        "type": "object",
-        "properties": {
-          "isFirstAdmin": {
-            "type": "boolean"
-          },
-          "DashboardStats": {
-            "type": "object",
-            "description": "Статистика адмін-панелі",
-            "properties": {
-              "totalUsers": {
-                "type": "integer",
-                "description": "Загальна кількість користувачів"
-              },
-              "totalProducts": {
-                "type": "integer",
-                "description": "Загальна кількість продуктів"
-              }
-            }
-          },
-          "AdminDashboard": {
-            "type": "object",
-            "properties": {
-              "message": {
-                "type": "string",
-                "description": "Привітання в адмін-панелі"
-              },
-              "stats": {
-                "$ref": "#/components/schemas/DashboardStats"
-              },
-              "users": {
-                "type": "array",
-                "description": "Список користувачів",
-                "items": {
-                  "$ref": "#/components/schemas/UserProfile"
-                }
-              }
-            }
           }
         }
       }
