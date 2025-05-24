@@ -54,5 +54,10 @@
   "please_login_to_add_to_cart": "You must log in to add the product to the cart",
   "please_login_to_use_wishlist": "Log in to add the product to your wishlist",
   "my_account": "Profile",
-  "place_order": "Place order"
+  "place_order": "Place order",
+  "password_reset": "Password reset",
+  "send_request": "Send a request",
+  "new_password": "New password :",
+  "update_password": "Update password",
+  "forgot_password": "Forgot password ?"
 }

@@ -1,43 +1,75 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserOrder, fetchPurchaseHistory } from "./operationsUserOrders";
+import {
+  confirmOrderReceived,
+  createOrder,
+  fetchProcessingOrders,
+  fetchPurchaseHistory,
+  fetchShippedOrders,
+  fetchUnpaidOrders,
+  fetchUserOrders,
+  returnOrder,
+} from "./operationsUserOrders";
 
-const userOrdersSlice = createSlice({
+const initialState = {
+  orders: [],
+  purchaseHistory: [],
+  loading: false,
+  error: null,
+};
+
+const userOrdersReducer = createSlice({
   name: "userOrders",
-  initialState: {
-    orders: [], // Для списку замовлень
-    purchaseHistory: [], // Для історії покупок
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createUserOrder.pending, (state) => {
+      .addCase(fetchUserOrders.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
-      .addCase(createUserOrder.fulfilled, (state, { payload }) => {
+      .addCase(fetchUserOrders.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders.push(payload); // Додаємо нове замовлення до списку
+        state.orders = action.payload;
       })
-      .addCase(createUserOrder.rejected, (state, { payload }) => {
+      .addCase(fetchUserOrders.rejected, (state, action) => {
         state.loading = false;
-        state.error = payload;
+        state.error = action.payload;
       })
-      // Отримання історії покупок користувача
-      .addCase(fetchPurchaseHistory.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+
+      // 📌 Фільтри статусів
+      .addCase(fetchUnpaidOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
       })
-      .addCase(fetchPurchaseHistory.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.purchaseHistory = payload; // Зберігаємо історію покупок
+      .addCase(fetchProcessingOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
       })
-      .addCase(fetchPurchaseHistory.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload;
+      .addCase(fetchShippedOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+
+      // 📌 Створення замовлення
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.orders.unshift(action.payload);
+      })
+
+      // 📌 Повернення замовлення
+      .addCase(returnOrder.fulfilled, (state, action) => {
+        state.orders = state.orders.map((order) =>
+          order._id === action.payload._id ? action.payload : order
+        );
+      })
+
+      // 📌 Підтвердження отримання
+      .addCase(confirmOrderReceived.fulfilled, (state, action) => {
+        state.orders = state.orders.map((order) =>
+          order._id === action.payload._id ? action.payload : order
+        );
+      })
+
+      // 📌 Історія покупок
+      .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
+        state.purchaseHistory = action.payload;
       });
   },
 });
 
-export default userOrdersSlice.reducer;
+export default userOrdersReducer.reducer;

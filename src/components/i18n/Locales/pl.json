@@ -54,5 +54,10 @@
   "please_login_to_add_to_cart": "Musisz się zalogować, aby dodać produkt do koszyka",
   "please_login_to_use_wishlist": "Zaloguj się, aby dodać produkt do listy życzeń",
   "my_account": "Profil",
-  "place_order": "Złożyć zamówienie"
+  "place_order": "Złożyć zamówienie",
+  "password_reset": "Resetowanie hasła",
+  "send_request": "Wyślij prośbę",
+  "new_password": "Wprowadź nowe hasło :",
+  "update_password": "Zmień swoje hasło",
+  "forgot_password": "Zapomniałeś hasło ?"
 }

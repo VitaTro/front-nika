@@ -60,6 +60,9 @@ const UserLoginForm = () => {
           {t("no_account")}{" "}
           <Link to={"/user/auth/register"}>{t("register_here")}</Link>
         </ItemForm>
+        <ItemForm>
+          <Link to={"/user/auth/reset-password"}>{t("forgot_password")}</Link>
+        </ItemForm>
       </AuthForm>
     </ResponsiveContainer>
   );

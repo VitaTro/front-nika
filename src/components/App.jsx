@@ -20,9 +20,9 @@ import SearchResults from "./SearchBar/SearchResults";
 // 📌 Авторизація
 import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
+import ForgotPassword from "./AuthForm/UserAuthForm/ForgotPassword";
 import UserLoginForm from "./AuthForm/UserAuthForm/UserLoginForm";
 import UserRegisterForm from "./AuthForm/UserAuthForm/UserRegisterForm";
-
 // 📌 Адмін панель
 import AdminLayout from "../pages/AdminDashboard/AdminLayout";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab";
@@ -56,6 +56,7 @@ export const App = () => {
     "/user/auth/register",
     "/admin/auth/login",
     "/admin/auth/register",
+    "/user/auth/reset-password",
   ].some((route) => location.pathname.startsWith(route));
 
   return (
@@ -77,6 +78,10 @@ export const App = () => {
             />
             <Route path="/user/auth/login" element={<UserLoginForm />} />
             <Route path="/admin/auth/login" element={<AdminLoginForm />} />
+            <Route
+              path="/user/auth/reset-password"
+              element={<ForgotPassword />}
+            />
 
             {/* Інші маршрути */}
             <Route path="/" element={<MainPage />} />

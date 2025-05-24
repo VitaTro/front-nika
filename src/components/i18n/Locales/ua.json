@@ -54,5 +54,10 @@
   "please_login_to_add_to_cart": "Вам потрібно увійти, щоб додати товар до кошика",
   "please_login_to_use_wishlist": "Увійдіть, щоб додати товар у список бажань",
   "my_account": "Профіль",
-  "place_order": "Оформити замовлення"
+  "place_order": "Оформити замовлення",
+  "password_reset": "Скидання пароля",
+  "send_request": " Відправити запит",
+  "new_password": "Новий пароль :",
+  "update_password": "Оновити пароль",
+  "forgot_password": "Забули пароль ?"
 }

@@ -54,5 +54,10 @@
   "please_login_to_add_to_cart": "Sie müssen sich anmelden, um das Produkt in den Warenkorb zu legen",
   "please_login_to_use_wishlist": "Melden Sie sich an, um das Produkt zur Wunschliste hinzuzufügen",
   "my_account": "Profil",
-  "place_order": "Bestellung aufgeben"
+  "place_order": "Bestellung aufgeben",
+  "password_reset": "Passwort zurücksetzen",
+  "send_request": "Eine Anfrage senden",
+  "new_password": "Neues Passwort :",
+  "update_password": "Passwort aktualisieren",
+  "forgot_password": "Passwort vergessen ?"
 }
