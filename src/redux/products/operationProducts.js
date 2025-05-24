@@ -6,6 +6,16 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (_, thunkAPI) => {
     try {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        console.warn(
+          "❌ Unauthorized request: use /api/user/products instead."
+        ); // ✅ Логування
+        return thunkAPI.rejectWithValue(
+          "Unauthorized request. Use /api/user/products instead."
+        );
+      }
+
       const response = await axios.get("/api/products");
       return response.data;
     } catch (error) {

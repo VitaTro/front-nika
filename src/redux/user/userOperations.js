@@ -113,3 +113,23 @@ export const fetchRecentViews = createAsyncThunk(
     }
   }
 );
+
+export const getUserProducts = createAsyncThunk(
+  "products/getUserProducts",
+  async (_, thunkAPI) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get("/api/user/products", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log("🔄 API Response in getUserProducts:", response.data);
+      return response.data; // ✅ Тепер дані повертаються у Redux!
+    } catch (error) {
+      console.error("❌ Error fetching products:", error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || "Unexpected error"
+      );
+    }
+  }
+);

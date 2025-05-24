@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
@@ -17,18 +17,17 @@ import {
 
 const Products = ({ type }) => {
   console.log("Products component mounted with type:", type);
-
-  // const = useParams(); // ✅ Виправлено: коректно витягуємо `type`
-  console.log("Products type:", type);
   const dispatch = useDispatch();
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const { t } = useTranslation();
+  const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeCategory, setActiveCategory] = useState("all");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products); // ✅ Виправлено!
+
   const productsPerPage = 18;
 
   useEffect(() => {
@@ -46,14 +45,20 @@ const Products = ({ type }) => {
     setSearchQuery(query);
     setCurrentPage(1); // Скидаємо сторінку після пошуку
   };
-
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      isUserAuthenticated;
+    }
+
     const fetchData = async () => {
-      setIsLoading(true);
+      setIsLoading(true); // Починаємо завантаження
+      setError(""); // Очищуємо помилки перед запитом
       try {
+        // Запит через axios
         const response = await axios.get("/api/products", {
           params: {
-            type: type, // ✅ Виправлено: передаємо `type`
+            type: type,
             category: activeCategory,
           },
         });
@@ -75,25 +80,26 @@ const Products = ({ type }) => {
           );
         }
 
-        const sortedProducts = filteredProducts.sort((a, b) => {
+        const sortByDate = (a, b) => {
           const dateA = new Date(a.createdAt || Date.now());
           const dateB = new Date(b.createdAt || Date.now());
           return dateB - dateA;
-        });
+        };
+
+        const sortedProducts = filteredProducts.sort(sortByDate);
 
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
-        setErrorMessage("");
       } catch (error) {
-        console.error("Error fetching data from API:", error);
-        setErrorMessage("Failed to fetch products. Please try again.");
+        console.error("Error fetching data:", error);
+        setError("Failed to fetch products. Please try again.");
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); // Завершуємо завантаження
       }
     };
 
     fetchData();
-  }, [type, activeCategory]); // ✅ Виправлено: використовується `type`
+  }, [type, activeCategory]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -116,7 +122,6 @@ const Products = ({ type }) => {
 
   return (
     <>
-      {/* <Header /> */}
       <SearchBar onSearch={handleSearch} />
       <ProductsContainer>
         <WelcomeGeneral>
@@ -125,6 +130,11 @@ const Products = ({ type }) => {
             : t(`${type}_products`.toLowerCase())}
         </WelcomeGeneral>
 
+        {error && (
+          <p>
+            {t("error")}: {error}
+          </p>
+        )}
         {(type === "gold" || type === "silver") && (
           <Tabs>
             {[
@@ -147,7 +157,6 @@ const Products = ({ type }) => {
             ))}
           </Tabs>
         )}
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
         {isLoading ? (
           <Loader />
@@ -155,15 +164,21 @@ const Products = ({ type }) => {
           <>
             <ProductsGrid>
               {currentProducts.map((product, index) => (
-                <ErrorBoundary key={`product-${product.id || index}`}>
-                  <ProductsCard product={product} t={t} />
+                <ErrorBoundary key={`product-${product._id || index}`}>
+                  <ProductsCard
+                    product={product}
+                    t={t}
+                    isUserAuthenticated={isUserAuthenticated}
+                  />
+                  {console.log("💰 Product Price:", product.price)}{" "}
+                  {/* ✅ Додано лог для перевірки ціни */}
                 </ErrorBoundary>
               ))}
             </ProductsGrid>
             <PaginationComponent
               totalPages={totalPages}
               currentPage={currentPage}
-              onPageChange={paginate}
+              onPageChange={setCurrentPage}
             />
           </>
         )}

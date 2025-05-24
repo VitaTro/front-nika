@@ -20,7 +20,7 @@ import {
   Container,
   HamburgerButton,
   HeaderComponent,
-  LogoImage,
+  LogoImageUser,
   NavItem,
   NavLinkStyled,
   NavList,
@@ -84,7 +84,7 @@ const UserHeader = () => {
     <Container>
       <HeaderComponent>
         <NavLinkStyled to="user/main">
-          <LogoImage
+          <LogoImageUser
             src={
               isDarkMode
                 ? "https://res.cloudinary.com/dblh78pvc/image/upload/v1733218509/logoDark_d2zgpc.png"

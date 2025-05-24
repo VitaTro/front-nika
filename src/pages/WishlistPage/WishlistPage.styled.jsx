@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const WishlistContainer = styled.div`
-  width: 90%;
+  width: 100%;
   // margin: 0 auto;
-  padding: 10px 30px;
+  padding: 10px 30px 40px;
   font-family: Arial, sans-serif;
-
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 `;
 
@@ -13,8 +14,9 @@ export const WishlistItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 10px 40px;
   border-bottom: 1px solid #ddd;
+  ${(props) => props.$isLastItem && "padding-bottom: 40px;"}
 `;
 
 export const ProductImage = styled.img`

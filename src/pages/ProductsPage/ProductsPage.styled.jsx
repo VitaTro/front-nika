@@ -34,7 +34,7 @@ export const WelcomeGeneral = styled.h1`
   }
 `;
 export const WelcomeContainer = styled.div`
-  padding: 20px 190px;
+  padding: 20px 190px 40px;
 `;
 export const WelcomeList = styled.ul`
   list-style: none;

@@ -21,11 +21,32 @@ export const HeaderComponent = styled.header`
     gap: 10px;
   }
 `;
-
 export const LogoImage = styled.img`
   width: 90px;
   height: 90px;
   margin-right: 150px;
+
+  transition: all 0.5s linear;
+  @media (max-width: 968px) {
+    margin-right: 15px;
+    width: 70px;
+    height: 70px;
+  }
+  @media (max-width: 768px) {
+    margin-right: 0;
+    width: 60px;
+    height: 60px;
+  }
+  @media (max-width: 480px) {
+    margin-left: 5px;
+    width: 50px;
+    height: 50px;
+  }
+`;
+export const LogoImageUser = styled.img`
+  width: 90px;
+  height: 90px;
+  margin-right: 50px;
 
   transition: all 0.5s linear;
   @media (max-width: 968px) {

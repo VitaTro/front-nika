@@ -2,6 +2,7 @@ import styled from "styled-components";
 export const Pagination = styled.div`
   margin: 0 auto;
   padding-top: 20px;
+  padding-bottom: 40px;
 `;
 
 export const PageLink = styled.button`

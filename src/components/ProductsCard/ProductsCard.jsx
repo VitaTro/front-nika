@@ -10,6 +10,7 @@ import {
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
+import ProductDetailsModal from "../ProductDetailsModal/ProductDetailsModal";
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
   ButtonHeart,
@@ -21,51 +22,54 @@ import {
 } from "./ProductsCard.styled";
 
 const ProductsCard = ({ product, isUserAuthenticated }) => {
-  const [productCount, setProductCount] = useState(1); // Кількість продукту
-
+  const [productCount, setProductCount] = useState(1);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const wishlist = useSelector(selectWishlistProducts);
   const [localIsActive, setLocalIsActive] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // ✅ ЛОГИ: Перевіряємо, чи `product` взагалі передається
+  console.log("🛒 Rendering ProductCard for:", product);
 
-  // Перевірка, чи продукт у списку бажань
+  // ✅ ЛОГИ: Перевіряємо авторизацію користувача
+  console.log("🔑 User authenticated:", isUserAuthenticated);
+
+  // ✅ Перевірка, чи продукт у списку бажань
   const isProductInWishlist = wishlist.some(
-    (item) => item.productId === product._id // Звертаємося напряму до `productId`
+    (item) => item.productId === product._id
   );
-  useEffect(() => {
-    console.log("🛒 Product data:", product);
-  }, [product]);
 
-  // Синхронізація локального стану з Redux
   useEffect(() => {
     setLocalIsActive(isProductInWishlist);
-    console.log("Wishlist:", wishlist);
-    console.log(
-      "Current Product ID:",
-      product._id,
-      "Active:",
-      isProductInWishlist
-    );
-  }, [wishlist, isProductInWishlist, product._id]);
+    console.log("💖 Wishlist updated:", wishlist);
+  }, [wishlist, isProductInWishlist]);
 
-  // Обробка кліку на сердечко
+  // ✅ ЛОГИ: Відображення деталей продукту
+  console.log("📦 Product details:", {
+    name: product.name,
+    category: product.category,
+    price: product.price,
+  });
+
+  // ✅ Додавання/видалення з вішліста
   const handleToggleWishlist = async () => {
     if (!isUserAuthenticated) {
       alert(t("please_login_to_use_wishlist"));
       return;
     }
-    try {
-      setLocalIsActive((prevState) => !prevState);
-      if (isProductInWishlist) {
-        await dispatch(removeProductFromWishlist(product._id));
-      } else {
-        await dispatch(addProductToWishlist(product._id));
-      }
-    } catch (error) {
-      console.error("Error toggling wishlist:", error);
+    // setLocalIsActive((prevState) => !prevState);
+    if (isProductInWishlist) {
+      console.log("🗑 Removing from wishlist:", product._id);
+      await dispatch(removeProductFromWishlist(product._id));
+      setLocalIsActive(false);
+    } else {
+      console.log("➕ Adding to wishlist:", product._id);
+      await dispatch(addProductToWishlist(product._id));
+      setLocalIsActive(true);
     }
   };
 
+  // ✅ Додавання в кошик
   const handleAddToCart = async () => {
     if (!isUserAuthenticated) {
       alert(t("please_login_to_add_to_cart"));
@@ -75,25 +79,41 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       alert(t("product_price_not_available"));
       return;
     }
-    try {
-      const productToAdd = {
+    console.log("🛒 Adding to cart:", product);
+    await dispatch(
+      addProductToShoppingCart({
         productId: product._id,
         name: product.name,
         price: product.price,
         quantity: productCount,
-      };
-      await dispatch(addProductToShoppingCart(productToAdd));
-      dispatch(getShoppingCart());
-    } catch (error) {
-      console.error("Error adding to cart", error);
-    }
+      })
+    );
+    dispatch(getShoppingCart());
   };
+  useEffect(() => {
+    console.log("🛒 Rendering ProductCard for:", product);
+    console.log("🔑 User authenticated:", isUserAuthenticated);
+
+    console.log("📦 Full product object:", product);
+    console.log("💰 Product price:", product.price);
+    console.log("📢 FINAL CHECK - Product object:", product);
+    console.log("💰 FINAL CHECK - Product price:", product.price);
+
+    console.log("📦 Product details:", {
+      name: product.name,
+      category: product.category,
+      price: product.price,
+    });
+  }, [product, wishlist, isUserAuthenticated]);
+  const token = localStorage.getItem("accessToken");
+  console.log("🔑 Token exists in localStorage:", token);
 
   return (
     <ProductCardContainer>
       {product ? (
         <>
           <ProductsHeader>{product.name}</ProductsHeader>
+
           {product.photoUrl ? (
             <ProductImageWithLightbox
               src={product.photoUrl}
@@ -102,33 +122,44 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           ) : (
             <div>{t("no_image")}</div>
           )}
-          {isUserAuthenticated && typeof product.price === "number" ? (
-            <p className="price">{product.price} zł</p>
-          ) : (
-            <p className="price-placeholder">{t("login_to_see_price")}</p>
-          )}
 
-          <ProductAction>
-            <ButtonHeart
-              onClick={handleToggleWishlist}
-              $isActive={localIsActive}
-            >
-              {localIsActive ? "❤️" : "🖤"}
-            </ButtonHeart>
+          <p className="price">
+            {isUserAuthenticated
+              ? `${product.price} zł`
+              : t("login_to_see_price")}
+          </p>
 
-            <div>
-              <ButtonQuantity
-                onClick={() => setProductCount((c) => Math.max(c - 1, 1))}
+          {/* 🔹 Кнопки доступні тільки для авторизованих */}
+          {isUserAuthenticated && (
+            <ProductAction>
+              <ButtonHeart
+                onClick={handleToggleWishlist}
+                $isActive={localIsActive}
               >
-                ➖
-              </ButtonQuantity>
-              <span>{productCount}</span>
-              <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
-                ➕
-              </ButtonQuantity>
-            </div>
-            <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
-          </ProductAction>
+                {localIsActive ? "❤️" : "🖤"}
+              </ButtonHeart>
+              <div>
+                <ButtonQuantity
+                  onClick={() => setProductCount((c) => Math.max(c - 1, 1))}
+                >
+                  ➖
+                </ButtonQuantity>
+                <span>{productCount}</span>
+                <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
+                  ➕
+                </ButtonQuantity>
+              </div>
+              <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
+              <button onClick={() => setIsModalOpen(true)}>Details</button>
+            </ProductAction>
+          )}
+          {isModalOpen && (
+            <ProductDetailsModal
+              product={product}
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
         </>
       ) : (
         <div>{t("Product information unavailable")}</div>

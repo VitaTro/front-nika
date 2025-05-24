@@ -1,14 +1,13 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import { selectIsAdminAuthenticated } from "../redux/auth/adminAuth/selectorsAdminAuth";
 import { selectIsUserAuthenticated } from "../redux/auth/userAuth/selectorsAuth";
+import { Wrapper } from "./App.styled";
 import Header from "./Header/Header";
 import UserHeader from "./Header/UserHeader";
 import "./i18n/i18n";
-
 // 📌 Компоненти
 import AboutPage from "../pages/AboutPage";
 import MainPage from "../pages/MainPage/MainPage";
@@ -52,90 +51,92 @@ export const App = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const theme = { isDarkMode };
 
-  // 🔹 Лог для перевірки стану користувача
-  useEffect(() => {
-    console.log("🔎 isUserAuthenticated:", isUserAuthenticated);
-  }, [isUserAuthenticated]);
-
-  // ✅ Зберігаємо останню сторінку в `localStorage`
-  useEffect(() => {
-    localStorage.setItem("lastPage", location.pathname);
-  }, [location.pathname]);
-
-  // ✅ При перезапуску — повертаємо користувача на його останню сторінку
-  useEffect(() => {
-    const lastPage = localStorage.getItem("lastPage");
-    if (lastPage && lastPage !== location.pathname) {
-      navigate(lastPage);
-    }
-  }, [navigate, location.pathname]);
-  useEffect(() => {
-    console.log("🔎 isUserAuthenticated після logout:", isUserAuthenticated);
-  }, [isUserAuthenticated]);
+  const isAuthPage = [
+    "/user/auth/login",
+    "/user/auth/register",
+    "/admin/auth/login",
+    "/admin/auth/register",
+  ].some((route) => location.pathname.startsWith(route));
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <ErrorBoundary>
-        {/* 📌 Динамічний хедер */}
-        {isUserAuthenticated ? <UserHeader /> : <Header />}
+      <Wrapper>
+        <ErrorBoundary>
+          {/* ✅ Хедер не рендериться на сторінках логіну/реєстрації */}
+          {!isAdminAuthenticated &&
+            !isAuthPage &&
+            (isUserAuthenticated ? <UserHeader /> : <Header />)}
 
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/search" element={<SearchResults />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route
-            path="/products"
-            element={<Products type="all" isGuestMode={!isUserAuthenticated} />}
-          />
-          <Route path="/products/gold" element={<Products type="gold" />} />
-          <Route path="/products/silver" element={<Products type="silver" />} />
-          <Route path="/products/set" element={<Products type="set" />} />
-          <Route path="/products/box" element={<Products type="box" />} />
-          <Route path="/products/:type" element={<ProductsPage />} />
-
-          {/* Авторизація */}
-          <Route path="/user/auth/register" element={<UserRegisterForm />} />
-          <Route path="/admin/auth/register" element={<AdminRegisterForm />} />
-          {isUserAuthenticated ? (
-            <>
-              <Route path="/user/wishlist" element={<WishlistPage />} />
-              <Route
-                path="/user/shopping-cart"
-                element={<ShoppingCartPage />}
-              />
-              <Route path="/user/profile/info" element={<ProfilePage />} />
-            </>
-          ) : (
+          <Routes>
+            {/* Авторизація */}
+            <Route path="/user/auth/register" element={<UserRegisterForm />} />
+            <Route
+              path="/admin/auth/register"
+              element={<AdminRegisterForm />}
+            />
             <Route path="/user/auth/login" element={<UserLoginForm />} />
-          )}
-          {/* 📌 Захищена адмін панель */}
-          {isAdminAuthenticated ? (
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="users" element={<UsersTab />} />
-              <Route path="products" element={<ProductsTab />} />
-              <Route path="dashboard" element={<DashboardTab />} />
-              <Route path="finance" element={<FinanceTab />}>
-                <Route path="offlineOrder" element={<OfflineOrder />} />
-                <Route path="offlineSale" element={<OfflineSale />} />
-                <Route path="onlineOrder" element={<OnlineOrder />} />
-                <Route path="onlineSale" element={<OnlineSale />} />
-                <Route path="overview" element={<FinanceOverview />} />
-                <Route path="settings" element={<FinanceSettings />} />
-              </Route>
-            </Route>
-          ) : (
             <Route path="/admin/auth/login" element={<AdminLoginForm />} />
-          )}
 
-          {/* 📌 Сторінка 404 */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </ErrorBoundary>
+            {/* Інші маршрути */}
+            <Route path="/" element={<MainPage />} />
+            <Route path="/main" element={<MainPage />} />
+            <Route path="/search" element={<SearchResults />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route
+              path="/products"
+              element={
+                <Products type="all" isGuestMode={!isUserAuthenticated} />
+              }
+            />
+            <Route path="/products/gold" element={<Products type="gold" />} />
+            <Route
+              path="/products/silver"
+              element={<Products type="silver" />}
+            />
+            <Route path="/products/set" element={<Products type="set" />} />
+            <Route path="/products/box" element={<Products type="box" />} />
+            <Route path="/products/:type" element={<ProductsPage />} />
 
-      {/* ✅ Футер, якщо користувач не на адмін панелі */}
-      {!location.pathname.startsWith("/admin") && <Footer />}
+            {/* Захищена user панель */}
+            {isUserAuthenticated ? (
+              <>
+                <Route path="/user/main" element={<MainPage />} />
+                <Route path="/user/wishlist" element={<WishlistPage />} />
+                <Route
+                  path="/user/shopping-cart"
+                  element={<ShoppingCartPage />}
+                />
+                <Route path="/user/profile/info" element={<ProfilePage />} />
+              </>
+            ) : (
+              <Route path="/user/auth/login" element={<UserLoginForm />} />
+            )}
+            {/* Захищена адмін панель */}
+            {isAdminAuthenticated ? (
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="users" element={<UsersTab />} />
+                <Route path="products" element={<ProductsTab />} />
+                <Route path="dashboard" element={<DashboardTab />} />
+                <Route path="finance" element={<FinanceTab />}>
+                  <Route path="offlineOrder" element={<OfflineOrder />} />
+                  <Route path="offlineSale" element={<OfflineSale />} />
+                  <Route path="onlineOrder" element={<OnlineOrder />} />
+                  <Route path="onlineSale" element={<OnlineSale />} />
+                  <Route path="overview" element={<FinanceOverview />} />
+                  <Route path="settings" element={<FinanceSettings />} />
+                </Route>
+              </Route>
+            ) : null}
+
+            {/* 📌 Сторінка 404 */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </ErrorBoundary>
+
+        {/* ✅ Футер не рендериться на сторінках логіну/реєстрації */}
+        {!isAdminAuthenticated && !isAuthPage && <Footer />}
+      </Wrapper>
     </ThemeProvider>
   );
 };

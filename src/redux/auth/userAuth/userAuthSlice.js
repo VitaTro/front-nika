@@ -25,6 +25,7 @@ const userAuthReducer = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
+        state.isEmailVerified = action.payload.user.isVerified;
         localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
         console.log("🔍 Updated user:", state.user);

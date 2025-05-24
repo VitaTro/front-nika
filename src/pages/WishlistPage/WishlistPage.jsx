@@ -65,8 +65,14 @@ const WishlistPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const displayProducts = currentWishlist.map((product) => (
-    <WishlistItem key={`${product.productId}-${product.name}`}>
+  const displayProducts = currentWishlist.map((product, index) => (
+    <WishlistItem
+      key={`${product.productId}-${product.name}`}
+      $isLastItem={
+        wishlist.length <= productsPerPage &&
+        index === currentWishlist.length - 1
+      }
+    >
       <ZoomableProductImage
         src={product.photoUrl}
         alt={product.name}

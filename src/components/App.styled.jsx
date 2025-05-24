@@ -9,3 +9,6 @@ export const Wrapper = styled.div`
   flex-direction: column;
   min-height: 100vh; /* Контейнер займатиме всю висоту екрана */
 `;
+export const ContentWrapper = styled.div`
+  flex: 1; /* Контент розтягується і футер завжди внизу */
+`;

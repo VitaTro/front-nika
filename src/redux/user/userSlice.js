@@ -5,12 +5,13 @@ import {
   fetchUserAddress,
   fetchUserInfo,
   fetchUserMain,
+  getUserProducts,
   sendAdminMessage,
   updateUserAddress,
   updateUserInfo,
 } from "./userOperations";
 
-const userSlice = createSlice({
+const userReducer = createSlice({
   name: "user",
   initialState: {
     isLoggedIn: false,
@@ -19,6 +20,9 @@ const userSlice = createSlice({
     loading: false,
     error: null,
     recentViews: [],
+    products: [],
+    wishlist: [],
+    shoppingCart: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -52,27 +56,49 @@ const userSlice = createSlice({
       .addCase(fetchRecentViews.fulfilled, (state, action) => {
         state.recentViews = action.payload;
       })
-      .addMatcher(
-        (action) => action.type.endsWith("/pending"),
-        (state) => {
-          state.loading = true;
-          state.error = null;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/rejected"),
-        (state, action) => {
-          state.loading = false;
-          state.error = action.payload;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith("/fulfilled"),
-        (state) => {
-          state.loading = false;
-        }
-      );
+      // .addMatcher(
+      //   (action) => action.type.endsWith("/pending"),
+      //   (state) => {
+      //     state.loading = true;
+      //     state.error = null;
+      //   }
+      // )
+      // .addMatcher(
+      //   (action) => action.type.endsWith("/rejected"),
+      //   (state, action) => {
+      //     state.loading = false;
+      //     state.error = action.payload;
+      //   }
+      // )
+      .addCase(getUserProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getUserProducts.fulfilled, (state, action) => {
+        console.log("🚀 Updating Redux state with products:", action.payload);
+        state.loading = false;
+        state.products = action.payload || [];
+      })
+      .addCase(getUserProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to fetch products";
+      });
+    // .addCase(addProductToWishlist.fulfilled, (state, action) => {
+    //   state.wishlist.push(action.payload); // ✅ Додаємо товар у wishlist
+    // })
+    // .addCase(removeProductFromWishlist.fulfilled, (state, action) => {
+    //   state.wishlist = state.wishlist.filter(
+    //     (item) => item.productId !== action.payload.productId
+    //   );
+    // });
+
+    // .addMatcher(
+    //   (action) => action.type.endsWith("/fulfilled"),
+    //   (state) => {
+    //     state.loading = false;
+    //   }
+    // );
   },
 });
 
-export default userSlice.reducer;
+export default userReducer.reducer;
