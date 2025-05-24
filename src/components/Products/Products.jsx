@@ -16,7 +16,6 @@ import {
 } from "./Products.styled";
 
 const Products = ({ type }) => {
-  console.log("Products component mounted with type:", type);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
@@ -43,7 +42,7 @@ const Products = ({ type }) => {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    setCurrentPage(1); // Скидаємо сторінку після пошуку
+    setCurrentPage(1);
   };
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,10 +51,9 @@ const Products = ({ type }) => {
     }
 
     const fetchData = async () => {
-      setIsLoading(true); // Починаємо завантаження
-      setError(""); // Очищуємо помилки перед запитом
+      setIsLoading(true);
+      setError("");
       try {
-        // Запит через axios
         const response = await axios.get("/api/products", {
           params: {
             type: type,
@@ -64,16 +62,12 @@ const Products = ({ type }) => {
         });
 
         const data = response.data;
-        console.log("Fetched data:", data);
-
         let filteredProducts = data;
-
         if (type !== "all") {
           filteredProducts = filteredProducts.filter(
             (product) => product.category === type
           );
         }
-
         if (activeCategory !== "all") {
           filteredProducts = filteredProducts.filter(
             (product) => product.subcategory === activeCategory
@@ -170,7 +164,7 @@ const Products = ({ type }) => {
                     t={t}
                     isUserAuthenticated={isUserAuthenticated}
                   />
-                  {console.log("💰 Product Price:", product.price)}{" "}
+
                   {/* ✅ Додано лог для перевірки ціни */}
                 </ErrorBoundary>
               ))}

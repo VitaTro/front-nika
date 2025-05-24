@@ -78,6 +78,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       alert(t("product_price_not_available"));
       return;
     }
+    console.log("🛒 Sending request to add product:", product._id);
     console.log("🛒 Adding to cart:", product);
     await dispatch(
       addProductToShoppingCart({

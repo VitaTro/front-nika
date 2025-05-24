@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const ShoppingContainer = styled.div`
-  width: 90%;
+  width: 100%;
   // margin: 0 auto;
-  padding: 10px 30px;
+  padding: 10px 30px 40px;
   font-family: Arial, sans-serif;
 
   min-height: 100vh;
@@ -13,18 +13,18 @@ export const ShoppingItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 10px 40px;
   border-bottom: 1px solid #ddd;
 `;
 export const ProductImage = styled.img`
-  max-width: 50px; /* Маленьке фото */
+  max-width: 50px;
   height: auto;
   margin-right: 10px;
   cursor: pointer;
   &:focus {
-    outline: none; /* Приберемо стандартний контур */
-    transform: scale(2); /* Збільшення фото */
-    transition: transform 0.3s ease; /* Плавне збільшення */
+    outline: none;
+    transform: scale(2);
+    transition: transform 0.3s ease;
   }
 `;
 
@@ -87,16 +87,12 @@ export const ButtonHeart = styled.button`
   padding: 0;
   margin-left: 10px;
   font-size: 24px;
-
-  color: ${(props) =>
-    props.$isActive ? "red" : "gray"}; /* Колір залежить від стану */
-
+  color: ${(props) => (props.$isActive ? "red" : "gray")};
   &:hover {
-    transform: scale(1.2); /* Легке збільшення при наведенні */
+    transform: scale(1.1);
   }
-
   &:focus {
-    outline: none; /* Прибираємо стандартний контур */
+    outline: none;
   }
   @media (max-width: 768px) {
     font-size: 20px;
@@ -140,11 +136,22 @@ export const TotalHeader = styled.h3`
   font-family: "Noto Sans", sans-serif;
   font-size: 24px;
   font-weight: 500;
+  padding-right: 40px;
   text-align: right;
   color: gray;
   text-shadow: 0 0 5px rgb(167, 182, 208);
 `;
 export const TotalAmount = styled.span`
-  color: black; /* Задаємо специфічний колір для суми */
-  font-weight: bold; /* Наприклад, робимо суму жирною */
+  color: black;
+  font-weight: bold;
+`;
+export const ButtonOrder = styled.button`
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #ff8c00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 40px;
 `;

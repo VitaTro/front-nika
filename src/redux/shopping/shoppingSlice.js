@@ -7,116 +7,75 @@ import {
   updateProductToShoppingCart,
 } from "./operationShopping";
 
-const shoppingCartSlice = createSlice({
+const shoppingCartReducer = createSlice({
   name: "shoppingCart",
   initialState: {
-    products: [], // Товари у кошику
+    products: [],
     totalAmount: 0,
     totalQuantity: 0,
-    loading: false, // Стан завантаження
-    error: null, // Помилки
+    loading: false,
+    error: null,
   },
-  reducers: {}, // Можна додати синхронні редюсери, якщо потрібно
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getShoppingCart.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(getShoppingCart.fulfilled, (state, { payload }) => {
-        console.log("Redux state updated with payload:", payload);
         state.loading = false;
-        state.products = payload; // Оновлюємо стан з отриманими даними
+        state.products = payload;
         state.totalAmount = payload.reduce(
-          (sum, product) => sum + product.price * product.quantity,
+          (sum, p) => sum + p.price * p.quantity,
           0
         );
-        state.totalQuantity = payload.reduce(
-          (sum, product) => sum + product.quantity,
-          0
-        );
+        state.totalQuantity = payload.reduce((sum, p) => sum + p.quantity, 0);
       })
-
       .addCase(getShoppingCart.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       })
+
       .addCase(addProductToShoppingCart.fulfilled, (state, { payload }) => {
-        const exists = state.products.some(
-          (product) => product.productId === payload.productId
+        console.log("✅ Redux state updated with new product:", payload);
+        const existingProduct = state.products.find(
+          (p) => p.productId === payload.productId
         );
-        if (!exists) {
+        if (existingProduct) {
+          existingProduct.quantity += payload.quantity;
+        } else {
           state.products.push(payload);
-          state.totalAmount += payload.price * payload.quantity;
-          state.totalQuantity += payload.quantity;
         }
+        state.totalAmount += payload.price * payload.quantity;
+        state.totalQuantity += payload.quantity;
       })
 
-      .addCase(addProductToShoppingCart.rejected, (state, { payload }) => {
-        state.error = payload;
-      })
       .addCase(updateProductToShoppingCart.fulfilled, (state, { payload }) => {
-        const index = state.products.findIndex(
-          (product) => product._id === payload._id
-        );
+        const index = state.products.findIndex((p) => p._id === payload._id);
         if (index !== -1) {
-          const product = state.products[index];
-          state.totalAmount -= product.price * product.quantity;
-          state.totalQuantity -= product.quantity;
-
-          product.quantity = payload.quantity;
-
-          state.totalAmount += product.price * product.quantity;
-          state.totalQuantity += product.quantity;
+          state.products[index].quantity = payload.quantity;
         }
-      })
-
-      .addCase(updateProductToShoppingCart.rejected, (state, { payload }) => {
-        state.error = payload;
       })
       .addCase(
         removeProductFromShoppingCart.fulfilled,
         (state, { payload }) => {
-          console.log("Successfully removed product with ID:", payload);
-
-          // Шукаємо продукт за `_id`
-          const product = state.products.find(
-            (product) => product._id === payload
+          state.products = state.products.filter((p) => p._id !== payload);
+          state.totalAmount = state.products.reduce(
+            (sum, p) => sum + p.price * p.quantity,
+            0
           );
-
-          if (product) {
-            // Оновлюємо загальну суму та кількість
-            state.totalAmount -= product.price * product.quantity;
-            state.totalQuantity -= product.quantity;
-
-            // Видаляємо товар із списку
-            state.products = state.products.filter(
-              (product) => product._id !== payload
-            );
-          } else {
-            console.error("Product not found in state for ID:", payload);
-          }
+          state.totalQuantity = state.products.reduce(
+            (sum, p) => sum + p.quantity,
+            0
+          );
         }
       )
-      .addCase(removeProductFromShoppingCart.rejected, (state, { payload }) => {
-        state.error = payload;
-      })
       .addCase(moveProductToWishlist.fulfilled, (state, { payload }) => {
-        console.log("Successfully moved product to wishlist:", payload);
-
-        // Видаляємо товар з кошика
-        state.products = state.products.filter(
-          (product) => product._id !== payload._id
-        );
-
-        // Оновлюємо загальну суму та кількість товарів у кошику
+        state.products = state.products.filter((p) => p._id !== payload._id);
         state.totalAmount -= payload.price * payload.quantity;
         state.totalQuantity -= payload.quantity;
-      })
-      .addCase(moveProductToWishlist.rejected, (state, { payload }) => {
-        state.error = payload;
       });
   },
 });
 
-export default shoppingCartSlice.reducer;
+export default shoppingCartReducer.reducer;
