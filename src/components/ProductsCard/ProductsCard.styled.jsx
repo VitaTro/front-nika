@@ -6,14 +6,14 @@ export const ProductAction = styled.div`
   flex-wrap: wrap;
 
   @media (max-width: 1110px) and (min-width: 677px) {
-    gap: 15px; /* Трохи менший відступ для середніх екранів */
-    justify-content: center; /* Центруємо елементи */
+    gap: 15px;
+    justify-content: center;
   }
 
   @media (max-width: 676px) {
-    flex-direction: column; /* Розташовуємо елементи вертикально */
+    flex-direction: column;
     align-items: center;
-    gap: 10px; /* Ще менший відступ для мобільних пристроїв */
+    gap: 10px;
   }
 `;
 export const ProductCardContainer = styled.div`
@@ -32,11 +32,11 @@ export const ProductCardContainer = styled.div`
           : "rgba(0, 0, 0, 0.1)"};
   }
   @media (max-width: 676px) {
-    padding: 15px; /* Менший padding для мобільних */
+    padding: 15px;
   }
 
   @media (max-width: 1110px) and (min-width: 677px) {
-    padding: 18px; /* Трохи менший padding для планшетів */
+    padding: 18px;
   }
 `;
 export const ProductsHeader = styled.h3`
@@ -58,15 +58,14 @@ export const ButtonHeart = styled.button`
   margin-left: 10px;
   font-size: 24px;
 
-  color: ${(props) =>
-    props.$isActive ? "red" : "gray"}; /* Колір залежить від стану */
+  color: ${(props) => (props.$isActive ? "red" : "gray")};
 
   &:hover {
-    transform: scale(1.2); /* Легке збільшення при наведенні */
+    transform: scale(1.1);
   }
 
   &:focus {
-    outline: none; /* Прибираємо стандартний контур */
+    outline: none;
   }
 `;
 
@@ -77,11 +76,11 @@ export const ButtonShopping = styled.button`
   padding: 0;
   font-size: 24px;
   &:hover {
-    transform: scale(1.2); /* Легке збільшення при наведенні */
+    transform: scale(1.1);
   }
 
   &:focus {
-    outline: none; /* Прибираємо стандартний контур */
+    outline: none;
   }
 `;
 export const ButtonQuantity = styled.button`
@@ -91,6 +90,25 @@ export const ButtonQuantity = styled.button`
   padding: 5px 10px;
   font-size: 16px;
   margin: 0 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
+export const ButtonDetails = styled.button`
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 20px;
+  font-size: 14px;
+  margin: 0 5px;
+  margin-top: 10px;
   cursor: pointer;
 
   &:hover {

@@ -13,6 +13,7 @@ import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductDetailsModal from "../ProductDetailsModal/ProductDetailsModal";
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
+  ButtonDetails,
   ButtonHeart,
   ButtonQuantity,
   ButtonShopping,
@@ -28,11 +29,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   const wishlist = useSelector(selectWishlistProducts);
   const [localIsActive, setLocalIsActive] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // ✅ ЛОГИ: Перевіряємо, чи `product` взагалі передається
-  console.log("🛒 Rendering ProductCard for:", product);
-
-  // ✅ ЛОГИ: Перевіряємо авторизацію користувача
-  console.log("🔑 User authenticated:", isUserAuthenticated);
+  const [activeWishlist, setActiveWishlist] = useState({});
 
   // ✅ Перевірка, чи продукт у списку бажань
   const isProductInWishlist = wishlist.some(
@@ -51,21 +48,23 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
     price: product.price,
   });
 
-  // ✅ Додавання/видалення з вішліста
   const handleToggleWishlist = async () => {
     if (!isUserAuthenticated) {
       alert(t("please_login_to_use_wishlist"));
       return;
     }
-    // setLocalIsActive((prevState) => !prevState);
+
+    setActiveWishlist((prevState) => ({
+      ...prevState,
+      [product._id]: !prevState[product._id], // ✅ Сердечко змінюється миттєво на рівні конкретного продукту
+    }));
+
     if (isProductInWishlist) {
       console.log("🗑 Removing from wishlist:", product._id);
       await dispatch(removeProductFromWishlist(product._id));
-      setLocalIsActive(false);
     } else {
       console.log("➕ Adding to wishlist:", product._id);
       await dispatch(addProductToWishlist(product._id));
-      setLocalIsActive(true);
     }
   };
 
@@ -91,14 +90,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
     dispatch(getShoppingCart());
   };
   useEffect(() => {
-    console.log("🛒 Rendering ProductCard for:", product);
-    console.log("🔑 User authenticated:", isUserAuthenticated);
-
-    console.log("📦 Full product object:", product);
-    console.log("💰 Product price:", product.price);
-    console.log("📢 FINAL CHECK - Product object:", product);
-    console.log("💰 FINAL CHECK - Product price:", product.price);
-
     console.log("📦 Product details:", {
       name: product.name,
       category: product.category,
@@ -134,10 +125,13 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             <ProductAction>
               <ButtonHeart
                 onClick={handleToggleWishlist}
-                $isActive={localIsActive}
+                $isActive={activeWishlist[product._id] || isProductInWishlist} // 🔥 Перевіряємо стан для кожного товару
               >
-                {localIsActive ? "❤️" : "🖤"}
+                {activeWishlist[product._id] || isProductInWishlist
+                  ? "❤️"
+                  : "🖤"}
               </ButtonHeart>
+
               <div>
                 <ButtonQuantity
                   onClick={() => setProductCount((c) => Math.max(c - 1, 1))}
@@ -150,9 +144,11 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 </ButtonQuantity>
               </div>
               <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
-              <button onClick={() => setIsModalOpen(true)}>Details</button>
             </ProductAction>
           )}
+          <ButtonDetails onClick={() => setIsModalOpen(true)}>
+            Details
+          </ButtonDetails>
           {isModalOpen && (
             <ProductDetailsModal
               product={product}
