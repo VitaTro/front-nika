@@ -34,6 +34,7 @@
   "user_login": "Logowanie użytkownika",
   "email_label": "Email:",
   "password_label": "Hasło:",
+  "confirm_password": "Powtórz hasło:",
   "login_button": "Zaloguj się",
   "no_account": "Nie masz konta?",
   "register_here": "Zarejestruj się tutaj",
@@ -59,5 +60,7 @@
   "send_request": "Wyślij prośbę",
   "new_password": "Wprowadź nowe hasło :",
   "update_password": "Zmień swoje hasło",
-  "forgot_password": "Zapomniałeś hasło ?"
+  "forgot_password": "Zapomniałeś hasło ?",
+  "reset_code": "Kod resetowania",
+  "verify_code": "Zweryfikuj kod"
 }

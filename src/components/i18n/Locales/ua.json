@@ -34,6 +34,7 @@
   "user_login": "Вхід для користувача",
   "email_label": "Електронна пошта:",
   "password_label": "Пароль:",
+  "confirm_password": "Повторити пароль:",
   "login_button": "Увійти",
   "no_account": "Немає облікового запису?",
   "register_here": "Зареєструватися тут",
@@ -59,5 +60,7 @@
   "send_request": " Відправити запит",
   "new_password": "Новий пароль :",
   "update_password": "Оновити пароль",
-  "forgot_password": "Забули пароль ?"
+  "forgot_password": "Забули пароль ?",
+  "reset_code": "Код скидання",
+  "verify_code": "Перевірити код"
 }

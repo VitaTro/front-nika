@@ -17,6 +17,7 @@ import {
   ButtonHeart,
   ButtonQuantity,
   ButtonShopping,
+  ItemPrice,
   ProductAction,
   ProductCardContainer,
   ProductsHeader,
@@ -115,11 +116,11 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             <div>{t("no_image")}</div>
           )}
 
-          <p className="price">
+          <ItemPrice className="price">
             {isUserAuthenticated
               ? `${product.price} zł`
               : t("login_to_see_price")}
-          </p>
+          </ItemPrice>
 
           {/* 🔹 Кнопки доступні тільки для авторизованих */}
           {isUserAuthenticated && (
@@ -145,11 +146,14 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 </ButtonQuantity>
               </div>
               <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
+              <div style={{ textAlign: "center", margin: "0 auto" }}>
+                <ButtonDetails onClick={() => setIsModalOpen(true)}>
+                  Details
+                </ButtonDetails>
+              </div>
             </ProductAction>
           )}
-          <ButtonDetails onClick={() => setIsModalOpen(true)}>
-            Details
-          </ButtonDetails>
+
           {isModalOpen && (
             <ProductDetailsModal
               product={product}

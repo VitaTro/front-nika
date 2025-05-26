@@ -76,11 +76,13 @@ export const resetPassword = createAsyncThunk(
 // Оновлення пароля
 export const updatePassword = createAsyncThunk(
   "auth/updatePassword",
-  async ({ oldPassword, newPassword }, thunkAPI) => {
+  async ({ email, resetCode, newPassword, confirmNewPassword }, thunkAPI) => {
     try {
       const response = await axios.post("/api/user/auth/update-password", {
-        oldPassword,
+        email,
+        resetCode,
         newPassword,
+        confirmNewPassword,
       });
       return response.data;
     } catch (error) {
@@ -90,6 +92,7 @@ export const updatePassword = createAsyncThunk(
     }
   }
 );
+
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
   async (token, thunkAPI) => {

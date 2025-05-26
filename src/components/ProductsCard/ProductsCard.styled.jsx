@@ -107,10 +107,10 @@ export const ButtonDetails = styled.button`
   border-radius: 5px;
   padding: 5px 20px;
   font-size: 14px;
-  margin: 0 5px;
+  margin: 0 2px;
   margin-top: 10px;
   cursor: pointer;
-
+  font-family: "Noto Sans", sans-serif;
   &:hover {
     background-color: #e0e0e0;
   }
@@ -119,4 +119,8 @@ export const ButtonDetails = styled.button`
     background-color: #ccc;
     cursor: not-allowed;
   }
+`;
+export const ItemPrice = styled.p`
+  font-size: 18px;
+  font-family: "Noto Sans", sans-serif;
 `;

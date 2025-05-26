@@ -20,33 +20,63 @@ import {
   LabelForm,
   ResponsiveContainer,
 } from "../AuthFormRegister.styled";
+import PasswordValidator from "./PasswordValidator";
 
 const UserRegisterForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [isFocused, setIsFocused] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMatchError, setPasswordMatchError] = useState("");
+  const [error, setError] = useState("");
   const loading = useSelector(selectAuthLoading);
   const errorMessage = useSelector(selectAuthError);
   const [emailSent, setEmailSent] = useState(false);
   const [verificationSuccess, setVerificationSuccess] = useState(false);
+  const [password, setPassword] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const userData = Object.fromEntries(formData.entries());
 
+    if (
+      !userData.username ||
+      !userData.email ||
+      !userData.password ||
+      !userData.confirmPassword
+    ) {
+      setError("Wszystkie pola muszą być wypełnione!");
+      return;
+    }
+
+    if (userData.password.length < 10) {
+      setError("Hasło musi zawierać co najmniej 10 znaków!");
+      return;
+    }
+    // 🔹 Перевіряємо, чи паролі співпадають
+    if (userData.password !== userData.confirmPassword) {
+      setError("Hasła nie pasują. Spróbuj ponownie!");
+      return;
+    }
+
     const result = await dispatch(registerUser(userData));
 
     if (result.payload?.verificationToken) {
       dispatch(verifyEmail(result.payload.verificationToken));
-      setEmailSent(true); // Показати повідомлення про email
+      setEmailSent(true);
     }
   };
-
   const handleVerification = () => {
     setVerificationSuccess(true);
   };
+
+  {
+    errorMessage && (
+      <p style={{ color: "red", fontWeight: "bold" }}>{error.errorMessage}</p>
+    );
+  }
 
   return (
     <ResponsiveContainer>
@@ -99,8 +129,29 @@ const UserRegisterForm = () => {
           <InputForm name="email" type="email" required />
 
           <LabelForm>{t("password_label")}</LabelForm>
-          <InputForm name="password" type="password" required />
-
+          <InputForm
+            name="password"
+            type="password"
+            value={password}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <PasswordValidator password={password} isFocused={isFocused} />
+          <LabelForm>{t("confirm_password")}</LabelForm>
+          <InputForm
+            name="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          {password !== confirmPassword && (
+            <p style={{ color: "red", fontWeight: "bold" }}>
+              ❌ Hasła nie pasują. Spróbuj ponownie!
+            </p>
+          )}
           <ButtonForm type="submit">{t("register_button")}</ButtonForm>
           <ItemForm>
             {t("already_registered")}{" "}
