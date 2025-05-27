@@ -62,5 +62,14 @@
   "update_password": "Passwort aktualisieren",
   "forgot_password": "Passwort vergessen ?",
   "reset_code": "Zurücksetzen-Code",
-  "verify_code": "Bestätigen-Code"
+  "verify_code": "Bestätigen-Code",
+  "edit_profile": "Profil bearbeiten",
+  "basic_information": "Hauptinformation",
+  "edit_data": "Daten bearbeiten",
+  "save_changes": "Änderungen speichern",
+  "first_name": "Vorname",
+  "last_name": "Nachname",
+  "phone": " Telefonnummer",
+  "your_address": "Deine Adresse",
+  "shipping_address": "Versandadresse"
 }

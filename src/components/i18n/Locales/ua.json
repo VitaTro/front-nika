@@ -62,5 +62,14 @@
   "update_password": "Оновити пароль",
   "forgot_password": "Забули пароль ?",
   "reset_code": "Код скидання",
-  "verify_code": "Перевірити код"
+  "verify_code": "Перевірити код",
+  "edit_profile": "Редагувати профіль",
+  "basic_information": "Основна інформація",
+  "edit_data": "Редагувати дані",
+  "save_changes": "Зберегти зміни",
+  "first_name": "Ім'я",
+  "last_name": "Прізвище",
+  "phone": "Номер телефону",
+  "your_address": "Ваша адреса",
+  "shipping_address": "Адреса доставки"
 }
