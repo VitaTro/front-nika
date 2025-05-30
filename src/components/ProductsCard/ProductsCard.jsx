@@ -12,6 +12,9 @@ import {
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 // import ProductDetailsModal from "../ProductDetailsModal/ProductDetailsModal";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
   ButtonDetails,
@@ -51,7 +54,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
     setActiveWishlist((prevState) => ({
       ...prevState,
-      [product._id]: !prevState[product._id], // ✅ Сердечко змінюється миттєво на рівні конкретного продукту
+      [product._id]: !prevState[product._id],
     }));
 
     if (isProductInWishlist) {
@@ -63,26 +66,42 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
   // ✅ Додавання в кошик
   const handleAddToCart = async () => {
-    if (!isUserAuthenticated) {
-      alert(t("please_login_to_add_to_cart"));
-      return;
-    }
-    if (!product.price) {
-      alert(t("product_price_not_available"));
-      return;
-    }
-    await dispatch(
-      addProductToShoppingCart({
+    try {
+      console.log("🚀 Trying to add to cart:", {
         productId: product._id,
         name: product.name,
         price: product.price,
         quantity: productCount,
-      })
-    );
-    dispatch(getShoppingCart());
+      });
+
+      await dispatch(
+        addProductToShoppingCart({
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          quantity: productCount,
+        })
+      );
+
+      console.log("⚡ Calling toast.success()!");
+      toast.success(t("productAdded"), {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      dispatch(getShoppingCart());
+    } catch (error) {
+      console.error("❌ Error in handleAddToCart:", error);
+    }
   };
+
   useEffect(() => {}, [product, wishlist, isUserAuthenticated]);
   const token = localStorage.getItem("accessToken");
+  console.log("🧐 Checking product in ProductsCard:", product);
 
   return (
     <ProductCardContainer>
@@ -148,6 +167,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       ) : (
         <div>{t("Product information unavailable")}</div>
       )}
+      <ToastContainer />
     </ProductCardContainer>
   );
 };

@@ -71,5 +71,6 @@
   "last_name": "Nachname",
   "phone": " Telefonnummer",
   "your_address": "Deine Adresse",
-  "shipping_address": "Versandadresse"
+  "shipping_address": "Versandadresse",
+  "productAdded": "Das Produkt befindet sich im Warenkorb!"
 }

@@ -71,5 +71,6 @@
   "last_name": "Last name",
   "phone": "Phone number",
   "your_address": "Your address",
-  "shipping_address": "Shipping address"
+  "shipping_address": "Shipping address",
+  " productAdded": "Our product is in the shopping cart!"
 }

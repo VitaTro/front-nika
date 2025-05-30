@@ -14,12 +14,21 @@ import Gold from "./gold.png";
 import Set from "./set.png";
 import Silver from "./silver.png";
 
-const ProductsPage = () => {
+const ProductsPage = ({ isUserAuthenticated }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const handleProductClick = (route) => {
-    console.log("Navigating to:", route);
-    navigate(route);
+    const formattedRoute = route.split("/")[2]; // Отримуємо "gold", "silver" тощо
+    if (!formattedRoute) {
+      console.warn("❌ Type is missing in navigation!");
+      return;
+    }
+    const userRoute = isUserAuthenticated
+      ? `/user/products/${formattedRoute}`
+      : `/products/${formattedRoute}`;
+    console.log("🔗 Navigating to:", userRoute);
+    navigate(userRoute);
   };
 
   return (

@@ -71,5 +71,6 @@
   "last_name": "Nazwisko",
   "phone": "Numer telefonu",
   "your_address": "Twój adres",
-  "shipping_address": "Adresy do wysyłki"
+  "shipping_address": "Adresy do wysyłki",
+  "productAdded": "Produkt znajduje się w koszyku!"
 }

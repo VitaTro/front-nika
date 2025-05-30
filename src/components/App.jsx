@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import { selectIsAdminAuthenticated } from "../redux/auth/adminAuth/selectorsAdminAuth";
@@ -16,11 +18,11 @@ import "./i18n/i18n";
 import AboutPage from "../pages/AboutPage";
 import MainPage from "../pages/MainPage/MainPage";
 import NotFoundPage from "../pages/NotFountPage/NotFoundPage";
-import ProductsPage from "../pages/ProductsPage/ProductsPage";
 import ErrorBoundary from "./ErrorBoundary";
 import Footer from "./Footer/Footer";
 import Products from "./Products/Products";
 import SearchResults from "./SearchBar/SearchResults";
+
 // 📌 Авторизація
 import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
@@ -55,6 +57,7 @@ export const App = () => {
   const isAdminAuthenticated = useSelector(selectIsAdminAuthenticated);
   const user = useSelector(selectAuthUser) || {};
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const theme = { isDarkMode };
 
@@ -87,6 +90,7 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
+      <ToastContainer />
       <Wrapper>
         <ErrorBoundary>
           {/* ✅ Хедер не рендериться на сторінках логіну/реєстрації */}
@@ -126,7 +130,7 @@ export const App = () => {
             />
             <Route path="/products/set" element={<Products type="set" />} />
             <Route path="/products/box" element={<Products type="box" />} />
-            <Route path="/products/:type" element={<ProductsPage />} />
+            <Route path="/products/:type" element={<Products />} />
 
             {/* Захищена user панель */}
             {isUserAuthenticated ? (
@@ -142,6 +146,27 @@ export const App = () => {
                   path="/user/products/:id"
                   element={<ProductDetailsPage />}
                 />
+                <Route
+                  path="/user/products"
+                  element={<Products type="all" />}
+                />
+                <Route
+                  path="/user/products/gold"
+                  element={<Products type="gold" />}
+                />
+                <Route
+                  path="/user/products/silver"
+                  element={<Products type="silver" />}
+                />
+                <Route
+                  path="/user/products/set"
+                  element={<Products type="set" />}
+                />
+                <Route
+                  path="/user/products/box"
+                  element={<Products type="box" />}
+                />
+                <Route path="/user/products/:type" element={<Products />} />
               </>
             ) : (
               <Route path="/user/auth/login" element={<UserLoginForm />} />

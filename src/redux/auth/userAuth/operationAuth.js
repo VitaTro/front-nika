@@ -17,13 +17,10 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  "auth/login",
+  "auth/loginUser",
   async (credentials, thunkAPI) => {
     try {
-      console.log("🚀 Sending login request:", credentials);
-
       const response = await axios.post("/api/user/auth/login", credentials);
-      console.log("✅ Login response:", response.data);
       localStorage.setItem("token", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
 
@@ -111,6 +108,28 @@ export const verifyEmail = createAsyncThunk(
         return thunkAPI.rejectWithValue(data.message);
       }
     } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+export const refreshSession = createAsyncThunk(
+  "auth/refreshSession",
+  async (_, thunkAPI) => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) throw new Error("❌ No refresh token");
+
+      console.log("🔄 Refreshing access token...");
+
+      const response = await axios.post("/api/user/auth/refresh", {
+        refreshToken,
+      });
+
+      localStorage.setItem("token", response.data.accessToken);
+
+      return response.data;
+    } catch (error) {
+      console.error("❌ Refresh token failed:", error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

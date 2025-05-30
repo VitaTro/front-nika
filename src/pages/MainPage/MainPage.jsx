@@ -6,6 +6,7 @@ import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductsPage from "../ProductsPage/ProductsPage";
 
 const MainPage = () => {
+  const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
   const dispatch = useDispatch();
 
   const wishlist = useSelector(selectWishlistProducts);
@@ -23,7 +24,7 @@ const MainPage = () => {
     <>
       {/* <Header /> */}
       {/* // <ImageWork src={HoursOfWork} alt="hours of work" /> */}
-      <ProductsPage />
+      <ProductsPage isUserAuthenticated={isUserAuthenticated} />
     </>
   );
 };

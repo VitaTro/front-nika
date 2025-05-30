@@ -39,6 +39,28 @@ export const updateUserInfo = createAsyncThunk(
     }
   }
 );
+export const restoreSession = createAsyncThunk(
+  "auth/restoreSession",
+  async (_, thunkAPI) => {
+    try {
+      const accessToken = localStorage.getItem("token");
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!accessToken || !refreshToken) throw new Error("❌ No tokens found");
+
+      console.log("🔄 Restoring session with access token:", accessToken);
+
+      const { data: userData } = await axios.get("/api/user/profile/info", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      return { accessToken, refreshToken, user: userData };
+    } catch (error) {
+      console.error("⚠️ Access token expired, trying refresh...");
+      return thunkAPI.dispatch(refreshSession());
+    }
+  }
+);
 
 // ✅ Отримати адресу користувача
 export const fetchUserAddress = createAsyncThunk(
@@ -116,15 +138,18 @@ export const fetchRecentViews = createAsyncThunk(
 
 export const getUserProducts = createAsyncThunk(
   "products/getUserProducts",
-  async (_, thunkAPI) => {
+  async (type, thunkAPI) => {
+    // ✅ Передаємо `type`
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.get("/api/user/products", {
         headers: { Authorization: `Bearer ${token}` },
+        params: { type }, // ✅ Передаємо `type`
       });
 
-      console.log("🔄 API Response in getUserProducts:", response.data);
-      return response.data; // ✅ Тепер дані повертаються у Redux!
+      console.log(`🔄 Fetching user products of type: ${type}`);
+      console.log("✅ API Response in getUserProducts:", response.data);
+      return response.data;
     } catch (error) {
       console.error("❌ Error fetching products:", error);
       return thunkAPI.rejectWithValue(
@@ -133,6 +158,7 @@ export const getUserProducts = createAsyncThunk(
     }
   }
 );
+
 export const getUserProductsById = createAsyncThunk(
   "products/getUserProductsById",
   async (id, thunkAPI) => {

@@ -53,16 +53,21 @@ const Products = ({ type }) => {
     const fetchData = async () => {
       setIsLoading(true);
       setError("");
+
       try {
+        const endpoint = isUserAuthenticated
+          ? "/api/user/products"
+          : "/api/products";
+        console.log("🔄 Fetching products from:", endpoint, "with type:", type);
         const response = await axios.get("/api/products", {
           params: {
             type: type,
             category: activeCategory,
           },
         });
-
         const data = response.data;
         let filteredProducts = data;
+
         if (type !== "all") {
           filteredProducts = filteredProducts.filter(
             (product) => product.category === type
@@ -112,7 +117,7 @@ const Products = ({ type }) => {
   };
 
   const totalPages = Math.ceil(products.length / productsPerPage);
-
+  console.log("🔗 Extracted type in Products:", type);
   return (
     <>
       <SearchBar onSearch={handleSearch} />
@@ -128,6 +133,7 @@ const Products = ({ type }) => {
             {t("error")}: {error}
           </p>
         )}
+
         {(type === "gold" || type === "silver") && (
           <Tabs>
             {[

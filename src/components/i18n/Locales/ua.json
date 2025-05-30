@@ -71,5 +71,6 @@
   "last_name": "Прізвище",
   "phone": "Номер телефону",
   "your_address": "Ваша адреса",
-  "shipping_address": "Адреса доставки"
+  "shipping_address": "Адреса доставки",
+  "productAdded": "Товар додано до кошика!"
 }
