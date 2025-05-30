@@ -49,6 +49,7 @@ export const getProductByType = createAsyncThunk(
     }
   }
 );
+
 // Отримати продукт за ID
 export const getProductById = createAsyncThunk(
   "products/getProductById",

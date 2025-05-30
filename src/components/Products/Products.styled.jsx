@@ -35,6 +35,11 @@ export const ProductCard = styled.div`
   background-color: ${(props) => (props.theme.$isDarkMode ? "#222" : "#fff")};
   color: ${(props) => (props.theme.$isDarkMode ? "#fff" : "#000")};
   transition: all 0.3s ease;
+  // max-width: 350px; /* 🔹 Обмежуємо ширину картки */
+  // max-height: 450px; /* 🔹 Обмежуємо висоту картки */
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center; /* 🔹 Вирівнюємо елементи по центру */
 
   &:hover {
     box-shadow: 0 4px 8px
@@ -113,4 +118,12 @@ export const TabButton = styled.button`
         ? "linear-gradient(135deg, #666, #333)"
         : "linear-gradient(135deg, #4682b4, #add8e6)"};
   }
+`;
+export const ProductImageWithLightbox = styled.img`
+  width: 100%;
+  max-width: 300px; /* Запобігаємо розтягуванню фото */
+  height: auto;
+  max-height: 250px; /* Обмежуємо висоту */
+  object-fit: contain; /* Запобігаємо обтинанню */
+  border-radius: 5px;
 `;

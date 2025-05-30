@@ -6,6 +6,7 @@ import {
   fetchUserInfo,
   fetchUserMain,
   getUserProducts,
+  getUserProductsById,
   sendAdminMessage,
   updateUserAddress,
   updateUserInfo,
@@ -23,6 +24,7 @@ const userReducer = createSlice({
     products: [],
     wishlist: [],
     shoppingCart: [],
+    selectedProduct: null,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -56,20 +58,20 @@ const userReducer = createSlice({
       .addCase(fetchRecentViews.fulfilled, (state, action) => {
         state.recentViews = action.payload;
       })
-      // .addMatcher(
-      //   (action) => action.type.endsWith("/pending"),
-      //   (state) => {
-      //     state.loading = true;
-      //     state.error = null;
-      //   }
-      // )
-      // .addMatcher(
-      //   (action) => action.type.endsWith("/rejected"),
-      //   (state, action) => {
-      //     state.loading = false;
-      //     state.error = action.payload;
-      //   }
-      // )
+      .addCase(getUserProductsById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getUserProductsById.fulfilled, (state, action) => {
+        console.log("✅ Storing selected product in Redux:", action.payload);
+        state.loading = false;
+        state.selectedProduct = action.payload; // ✅ Записуємо отриманий товар
+      })
+      .addCase(getUserProductsById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       .addCase(getUserProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -91,13 +93,6 @@ const userReducer = createSlice({
     //     (item) => item.productId !== action.payload.productId
     //   );
     // });
-
-    // .addMatcher(
-    //   (action) => action.type.endsWith("/fulfilled"),
-    //   (state) => {
-    //     state.loading = false;
-    //   }
-    // );
   },
 });
 

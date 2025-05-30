@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserInfo } from "../../redux/user/userOperations";
@@ -23,11 +23,21 @@ const ProfileMainEdit = () => {
     email: user?.email || "",
     phone: user?.phone || "",
   });
-
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        username: user.username || "",
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+      });
+    }
+  });
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  console.log(formData);
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUserInfo(formData));

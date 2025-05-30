@@ -133,3 +133,21 @@ export const getUserProducts = createAsyncThunk(
     }
   }
 );
+export const getUserProductsById = createAsyncThunk(
+  "products/getUserProductsById",
+  async (id, thunkAPI) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.get(`/api/user/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log("🔄 API Response in getUserProductsById:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("❌ Error fetching products:", error);
+      return thunkAPI.rejectWithValue(
+        error.response?.data || "Unexpected error"
+      );
+    }
+  }
+);

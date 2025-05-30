@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import { selectIsAdminAuthenticated } from "../redux/auth/adminAuth/selectorsAdminAuth";
-import { selectIsUserAuthenticated } from "../redux/auth/userAuth/selectorsAuth";
+import {
+  selectAuthUser,
+  selectIsUserAuthenticated,
+} from "../redux/auth/userAuth/selectorsAuth";
 import { Wrapper } from "./App.styled";
 import Header from "./Header/Header";
 import UserHeader from "./Header/UserHeader";
@@ -37,16 +41,19 @@ import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 
 // 📌 User панель
+import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import ProfilePage from "../pages/profileUser/ProfilePage";
+import MobileMenuHeader from "./Header/MobileMenuHeader";
 
 export const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const isMobile = useMediaQuery({ maxWidth: 768 });
   const isAdminAuthenticated = useSelector(selectIsAdminAuthenticated);
+  const user = useSelector(selectAuthUser) || {};
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const theme = { isDarkMode };
@@ -58,6 +65,24 @@ export const App = () => {
     "/admin/auth/register",
     "/user/auth/reset-password",
   ].some((route) => location.pathname.startsWith(route));
+
+  {
+    !isAdminAuthenticated &&
+      !isAuthPage &&
+      (isUserAuthenticated ? (
+        isMobile ? (
+          <MobileMenuHeader
+            isUserAuthenticated={isUserAuthenticated}
+            user={user}
+            isAuthPage={isAuthPage}
+          />
+        ) : (
+          <UserHeader />
+        )
+      ) : (
+        <Header />
+      ));
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -113,6 +138,10 @@ export const App = () => {
                   element={<ShoppingCartPage />}
                 />
                 <Route path="/user/profile/info" element={<ProfilePage />} />
+                <Route
+                  path="/user/products/:id"
+                  element={<ProductDetailsPage />}
+                />
               </>
             ) : (
               <Route path="/user/auth/login" element={<UserLoginForm />} />

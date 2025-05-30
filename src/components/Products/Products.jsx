@@ -85,10 +85,9 @@ const Products = ({ type }) => {
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
       } catch (error) {
-        console.error("Error fetching data:", error);
         setError("Failed to fetch products. Please try again.");
       } finally {
-        setIsLoading(false); // Завершуємо завантаження
+        setIsLoading(false);
       }
     };
 

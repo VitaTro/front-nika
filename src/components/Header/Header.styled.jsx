@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 60px;
-  gap: 15px; /* Відстань між секціями */
+  gap: 15px;
 `;
 
 export const HeaderComponent = styled.header`
@@ -281,7 +281,7 @@ export const HamburgerButton = styled.div`
   }
 
   @media (max-width: 767px) {
-    display: flex;
+    display: ${({ $isOpen }) => ($isOpen ? "none" : "flex")};
   }
 `;
 export const NavLinkStyledMObile = styled(Link)`

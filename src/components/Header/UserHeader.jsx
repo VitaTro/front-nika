@@ -55,7 +55,7 @@ const UserHeader = () => {
   }, [dispatch]);
   useEffect(() => {
     if (isUserAuthenticated) {
-      dispatch(fetchUserMain()); // 🔹 Запит до `/api/user/main`
+      dispatch(fetchUserMain());
     }
   }, [dispatch, isUserAuthenticated]);
   const handleThemeToggle = () => {
@@ -63,11 +63,6 @@ const UserHeader = () => {
     dispatch(toggleTheme());
     localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
-  // useEffect(() => {
-  //   if (isUserAuthenticated) {
-  //     dispatch(fetchUserInfo()); // ✅ Завантажуємо дані користувача після входу
-  //   }
-  // }, [dispatch, isUserAuthenticated]);
 
   const changeLanguage = (lang) => {
     setSelectedLanguage(lang);
@@ -94,7 +89,10 @@ const UserHeader = () => {
           />
         </NavLinkStyled>
 
-        <HamburgerButton onClick={() => setMenuOpen(!menuOpen)}>
+        <HamburgerButton
+          $isOpen={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
@@ -179,12 +177,7 @@ const UserHeader = () => {
           </UtilityContainer>
         )}
       </HeaderComponent>
-      {/* Пошук знизу */}
-      {/* <SearchContainer>
-        <SearchBar onSearch={(query) => console.log("Searching for:", query)} />
-      </SearchContainer> */}
 
-      {/* Мобільне меню */}
       <MobileMenuHeader
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
@@ -193,6 +186,7 @@ const UserHeader = () => {
         changeLanguage={changeLanguage}
         t={t}
         user={user}
+        isUserAuthenticated={isUserAuthenticated}
         handleLogout={handleLogout}
       />
     </Container>

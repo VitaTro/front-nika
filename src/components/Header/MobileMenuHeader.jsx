@@ -15,14 +15,15 @@ import {
 } from "./Header.styled";
 
 const MobileMenuHeader = ({
+  user,
+  isUserAuthenticated,
+  isAuthPage,
   menuOpen,
   setMenuOpen,
   isDarkMode,
   selectedLanguage,
   changeLanguage,
   t,
-  isUserAuthenticated,
-  user,
   handleLogout,
 }) => {
   const dispatch = useDispatch();
@@ -36,11 +37,11 @@ const MobileMenuHeader = ({
         transition: "background-color 0.3s ease-in-out",
       }}
       $isOpen={menuOpen}
-      onClick={(e) => e.stopPropagation()} // Запобігаємо закриттю при кліку всередині
+      onClick={(e) => e.stopPropagation()}
     >
       <CloseButton onClick={() => setMenuOpen(false)}>×</CloseButton>
 
-      {/* Тема + мова */}
+      {/* 🔹 Тема + мова */}
       <MobileUtilityContainer>
         <ThemeToggle onClick={() => dispatch(toggleTheme())}>
           <Slider isDarkMode={isDarkMode}>
@@ -54,7 +55,6 @@ const MobileMenuHeader = ({
             />
           </Slider>
         </ThemeToggle>
-
         <Select
           value={selectedLanguage}
           onChange={(e) => changeLanguage(e.target.value)}
@@ -66,7 +66,15 @@ const MobileMenuHeader = ({
         </Select>
       </MobileUtilityContainer>
 
-      {/* Навігація */}
+      {isUserAuthenticated && (
+        <>
+          <NavItem>
+            <NavLinkStyledMObile to="/profile">
+              {user.username || t("my_account")}
+            </NavLinkStyledMObile>
+          </NavItem>
+        </>
+      )}
       <NavItem>
         <NavLinkStyledMObile
           to="/products"
@@ -104,21 +112,12 @@ const MobileMenuHeader = ({
           </NavItem>
         </>
       )}
-
-      {/* Логін/Логаут */}
       {isUserAuthenticated ? (
-        <>
-          <NavItem>
-            <NavLinkStyledMObile to="/profile">
-              {user.username || t("my_account")}
-            </NavLinkStyledMObile>
-          </NavItem>
-          <NavItem>
-            <NavLinkStyledMObile to="/" onClick={handleLogout}>
-              {t("logout")}
-            </NavLinkStyledMObile>
-          </NavItem>
-        </>
+        <NavItem>
+          <NavLinkStyledMObile to="/" onClick={handleLogout}>
+            {t("logout")}
+          </NavLinkStyledMObile>
+        </NavItem>
       ) : (
         <NavItem>
           <NavLinkStyledMObile to="/user/auth/login">

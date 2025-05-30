@@ -10,10 +10,12 @@ import {
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
-import ProductDetailsModal from "../ProductDetailsModal/ProductDetailsModal";
+// import ProductDetailsModal from "../ProductDetailsModal/ProductDetailsModal";
+import { Link } from "react-router-dom";
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
   ButtonDetails,
+  ButtonDetailsWrapper,
   ButtonHeart,
   ButtonQuantity,
   ButtonShopping,
@@ -39,15 +41,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
   useEffect(() => {
     setLocalIsActive(isProductInWishlist);
-    console.log("💖 Wishlist updated:", wishlist);
   }, [wishlist, isProductInWishlist]);
-
-  // ✅ ЛОГИ: Відображення деталей продукту
-  console.log("📦 Product details:", {
-    name: product.name,
-    category: product.category,
-    price: product.price,
-  });
 
   const handleToggleWishlist = async () => {
     if (!isUserAuthenticated) {
@@ -61,10 +55,8 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
     }));
 
     if (isProductInWishlist) {
-      console.log("🗑 Removing from wishlist:", product._id);
       await dispatch(removeProductFromWishlist(product._id));
     } else {
-      console.log("➕ Adding to wishlist:", product._id);
       await dispatch(addProductToWishlist(product._id));
     }
   };
@@ -79,8 +71,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       alert(t("product_price_not_available"));
       return;
     }
-    console.log("🛒 Sending request to add product:", product._id);
-    console.log("🛒 Adding to cart:", product);
     await dispatch(
       addProductToShoppingCart({
         productId: product._id,
@@ -91,15 +81,8 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
     );
     dispatch(getShoppingCart());
   };
-  useEffect(() => {
-    console.log("📦 Product details:", {
-      name: product.name,
-      category: product.category,
-      price: product.price,
-    });
-  }, [product, wishlist, isUserAuthenticated]);
+  useEffect(() => {}, [product, wishlist, isUserAuthenticated]);
   const token = localStorage.getItem("accessToken");
-  console.log("🔑 Token exists in localStorage:", token);
 
   return (
     <ProductCardContainer>
@@ -146,11 +129,11 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 </ButtonQuantity>
               </div>
               <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
-              <div style={{ textAlign: "center", margin: "0 auto" }}>
-                <ButtonDetails onClick={() => setIsModalOpen(true)}>
-                  Details
-                </ButtonDetails>
-              </div>
+              <ButtonDetailsWrapper>
+                <Link to={`/user/products/${product._id}`}>
+                  <ButtonDetails>Details</ButtonDetails>
+                </Link>
+              </ButtonDetailsWrapper>
             </ProductAction>
           )}
 

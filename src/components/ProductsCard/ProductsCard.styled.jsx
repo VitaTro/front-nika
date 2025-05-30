@@ -2,21 +2,24 @@ import styled from "styled-components";
 export const ProductAction = styled.div`
   display: flex;
   gap: 20px;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 
-  @media (max-width: 1110px) and (min-width: 677px) {
+  @media (max-width: 1110px) and (min-width: 480px) {
     gap: 15px;
     justify-content: center;
   }
 
-  @media (max-width: 676px) {
+  @media (max-width: 479px) {
     flex-direction: column;
     align-items: center;
     gap: 10px;
   }
 `;
 export const ProductCardContainer = styled.div`
+  flex: 1 1 300px;
+  max-width: 1200px;
+  overflow: hidden;
   border: 1px solid ${(props) => (props.theme.$isDarkMode ? "#555" : "#ccc")};
   padding: 20px;
   border-radius: 10px;
@@ -31,6 +34,7 @@ export const ProductCardContainer = styled.div`
           ? "rgba(255, 255, 255, 0.2)"
           : "rgba(0, 0, 0, 0.1)"};
   }
+
   @media (max-width: 676px) {
     padding: 15px;
   }
@@ -39,6 +43,7 @@ export const ProductCardContainer = styled.div`
     padding: 18px;
   }
 `;
+
 export const ProductsHeader = styled.h3`
   font-size: 18px;
   text-shadow: ${(props) =>
@@ -105,10 +110,10 @@ export const ButtonDetails = styled.button`
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 5px 20px;
+  padding: 5px 30px;
   font-size: 14px;
   margin: 0 2px;
-  margin-top: 10px;
+  // margin-top: -30px;
   cursor: pointer;
   font-family: "Noto Sans", sans-serif;
   &:hover {
@@ -123,4 +128,10 @@ export const ButtonDetails = styled.button`
 export const ItemPrice = styled.p`
   font-size: 18px;
   font-family: "Noto Sans", sans-serif;
+`;
+export const ButtonDetailsWrapper = styled.div`
+  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
