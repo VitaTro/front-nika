@@ -15,7 +15,7 @@ import Header from "./Header/Header";
 import UserHeader from "./Header/UserHeader";
 import "./i18n/i18n";
 // 📌 Компоненти
-import AboutPage from "../pages/AboutPage";
+import AboutPage from "../pages/About/AboutPage";
 import MainPage from "../pages/MainPage/MainPage";
 import NotFoundPage from "../pages/NotFountPage/NotFoundPage";
 import ErrorBoundary from "./ErrorBoundary";

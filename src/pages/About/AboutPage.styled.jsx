@@ -1,0 +1,196 @@
+import styled from "styled-components";
+
+export const SectionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  @media (max-width: 1024px) {
+    padding: 0 15px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
+`;
+
+export const BlockContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 900px;
+  text-align: left;
+  @media (max-width: 1024px) {
+    max-width: 800px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    max-width: 100%;
+  }
+`;
+
+export const BlockContainerSecond = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 900px;
+  text-align: left;
+  flex-direction: row-reverse; /* Фото справа, текст зліва */
+
+  @media (max-width: 1024px) {
+    max-width: 800px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Для мобільних: картинка нагорі, текст знизу */
+    text-align: center;
+    max-width: 100%;
+  }
+`;
+export const TextContainer = styled.div`
+  max-width: 600px;
+  flex: 1;
+  text-align: justify;
+  @media (max-width: 768px) {
+    text-align: center;
+    text-align: justify;
+    max-width: 100%;
+  }
+`;
+export const AboutHeader = styled.h4`
+  font-family: "Noto Sans", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  @media (min-width: 928px and max-width: 1024px) {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px max-width: 927px) {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  @media (min-width: 468px max-width: 767px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
+export const AboutItem = styled.p`
+  font-family: "Noto Sans", sans-serif;
+  font-size: 16px;
+  @media (min-width: 928px and max-width: 1024px) {
+    font-size: 14px;
+  }
+
+  @media (min-width: 768px max-width: 927px) {
+    font-size: 14x;
+  }
+  @media (min-width: 468px max-width: 767px) {
+    font-size: 12px;
+  }
+`;
+export const AboutItemStrong = styled.strong`
+  font-family: "Noto Sans", sans-serif;
+  font-size: 18px;
+  @media (min-width: 928px and max-width: 1024px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px max-width: 927px) {
+    font-size: 14x;
+  }
+  @media (min-width: 468px max-width: 767px) {
+    font-size: 12px;
+  }
+`;
+export const ImageOne = styled.img`
+  border-radius: 10px;
+  width: auto;
+  height: 270px;
+  @media (min-width: 928px and max-width: 1024px) {
+    width: auto;
+    height: 230px;
+  }
+
+  @media (min-width: 768px max-width: 927px) {
+    width: auto;
+    height: 170px;
+  }
+  @media (min-width: 468px max-width: 767px) {
+    width: auto;
+    height: 140px;
+  }
+`;
+export const ImageTwo = styled.img`
+  width: auto;
+  height: 350px;
+  border-radius: 10px;
+
+  @media (max-width: 1024px) {
+    height: 300px;
+  }
+
+  @media (max-width: 768px) {
+    height: 270px;
+  }
+
+  @media (max-width: 468px) {
+    height: 230px;
+    width: 100%;
+  }
+`;
+
+export const ContactContainer = styled.div`
+  background: rgb(235, 242, 249);
+  padding: 100px;
+  margin: 0 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 30px;
+  font-family: "Noto Sans", sans-serif;
+  color: #000;
+
+  @media (max-width: 1024px) {
+    padding: 60px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 40px;
+    margin: 0 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 30px;
+    margin: 0 10px;
+  }
+`;
+
+export const ContactItem = styled.div`
+  font-size: 18px;
+  font-family: "Noto Sans", sans-serif;
+  margin: 15px 0;
+  border-bottom: 1px solid #ecf0f1;
+  padding-bottom: 10px;
+  width: 80%;
+  text-align: center;
+
+  @media (max-width: 1024px) {
+    font-size: 17px;
+    width: 90%;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    width: 100%;
+  }
+`;
