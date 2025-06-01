@@ -8,11 +8,13 @@ import {
   fetchUnpaidOrders,
   fetchUserOrders,
   returnOrder,
+  trackOrder,
 } from "./operationsUserOrders";
 
 const initialState = {
   orders: [],
   purchaseHistory: [],
+  trackingInfo: null,
   loading: false,
   error: null,
 };
@@ -20,7 +22,11 @@ const initialState = {
 const userOrdersReducer = createSlice({
   name: "userOrders",
   initialState,
-  reducers: {},
+  reducers: {
+    resetTracking: (state) => {
+      state.trackingInfo = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserOrders.pending, (state) => {
@@ -68,8 +74,20 @@ const userOrdersReducer = createSlice({
       // 📌 Історія покупок
       .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
         state.purchaseHistory = action.payload;
+      })
+      // 📌 Трекінг замовлення через InPost
+      .addCase(trackOrder.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(trackOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.trackingInfo = action.payload;
+      })
+      .addCase(trackOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
-
+export const { resetTracking } = userOrdersReducer.actions;
 export default userOrdersReducer.reducer;

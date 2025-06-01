@@ -28,3 +28,6 @@ export const isProductInShoppingCart = createSelector(
         item.productId?._id === productId || item.productId === productId
     )
 );
+export const selectTotalAmount = createSelector([selectShopping], (shopping) =>
+  shopping.reduce((acc, item) => acc + item.price * item.quantity, 0)
+);

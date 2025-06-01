@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
 import PaginationComponent from "../../components/PaginationComponent/PaginationComponent";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
+import { getShoppingCart } from "../../redux/shopping/operationShopping";
 import {
   getWishlist,
   moveProductToShoppingCart,
@@ -45,9 +48,35 @@ const WishlistPage = () => {
     });
   };
 
-  const handleMoveToCart = (id) => {
-    console.log("Moving product to cart with ID:", id);
-    dispatch(moveProductToShoppingCart(id));
+  const handleMoveToCart = async (id) => {
+    try {
+      const response = await dispatch(moveProductToShoppingCart(id)).unwrap();
+      console.log("✅ Product successfully moved!", response);
+
+      // 🎉 Відображаємо повідомлення
+      toast.success(t("productAdded"), {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      // 🔄 Оновлюємо кошик і вішліст
+      dispatch(getShoppingCart());
+      dispatch(getWishlist());
+    } catch (error) {
+      console.error("❌ Error moving product to cart:", error);
+      toast.error(t("errorMessage"), {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   };
 
   // Pagination
@@ -117,6 +146,7 @@ const WishlistPage = () => {
             currentPage={currentPage}
             onPageChange={paginate}
           />
+          <ToastContainer />
         </div>
       )}
     </>

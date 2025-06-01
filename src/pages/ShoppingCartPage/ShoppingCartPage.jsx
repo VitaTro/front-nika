@@ -1,9 +1,24 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
-import axios from "../../redux/axiosConfig";
+import {
+  getShoppingCart,
+  moveProductToWishlist,
+  removeProductFromShoppingCart,
+  updateProductToShoppingCart,
+} from "../../redux/shopping/operationShopping";
+import {
+  selectShoppingCartError,
+  selectShoppingCartItems,
+  selectShoppingCartLoading,
+  selectTotalAmount,
+} from "../../redux/shopping/selectorsShopping";
+import { getWishlist } from "../../redux/wishlist/operationWishlist";
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
 import {
   ButtonHeart,
@@ -23,121 +38,85 @@ import {
 
 const ShoppingCartPage = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist.items || []);
+  const shoppingCart = useSelector(selectShoppingCartItems) || [];
+  const totalAmount = useSelector(selectTotalAmount);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 18;
-  const [shoppingCart, setShoppingCart] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [totalAmount, setTotalAmount] = useState(0);
+  const error = useSelector(selectShoppingCartError);
+  const isLoading = useSelector(selectShoppingCartLoading);
 
   useEffect(() => {
-    fetchShoppingCart();
-    fetchWishlist();
-  }, []);
-
-  const fetchShoppingCart = async () => {
-    try {
-      const { data } = await axios.get("/api/user/shopping-cart");
-      setShoppingCart(data.cart || []);
-      calculateTotalAmount(data.cart || []);
-      setIsLoading(false);
-    } catch (err) {
-      setError("Failed to load shopping cart");
-    }
-  };
-
-  const fetchWishlist = async () => {
-    try {
-      const { data } = await axios.get("/api/user/wishlist");
-      setWishlist(data.wishlist || []);
-    } catch (err) {
-      setError("Failed to load wishlist");
-    }
-  };
-
-  const calculateTotalAmount = (cart) => {
-    let total = 0;
-    cart.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    setTotalAmount(total);
-  };
+    dispatch(getShoppingCart());
+    dispatch(getWishlist());
+  }, [dispatch]);
 
   const handleToggleWishlist = async (product) => {
-    if (!product) {
-      console.error("❌ Invalid product:", product);
+    if (!product || !product.productId) {
+      console.error("⚠️ Missing productId, cannot move to wishlist!");
       return;
     }
 
-    const productId = product.productId || product._id;
-    if (!productId) {
-      console.error("❌ Product ID is missing:", product);
-      return;
-    }
+    console.log(
+      "📌 Moving product:",
+      product.name,
+      "to wishlist with ID:",
+      product._id
+    );
 
-    if (wishlist.some((w) => w.productId === productId)) {
-      console.log("🗑 Removing from wishlist:", productId);
-      try {
-        await axios.post(`/api/user/wishlist/remove`, { productId });
-        fetchWishlist();
-      } catch (error) {
-        console.error("❌ Error removing from wishlist:", error.message);
-      }
-    } else if (shoppingCart.some((sc) => sc.productId === productId)) {
-      console.log("🔄 Moving from cart to wishlist:", productId);
-      try {
-        await axios.post(
-          `/api/user/shopping-cart/move-to-wishlist/${product._id}`
-        );
-        fetchShoppingCart();
-        fetchWishlist();
-      } catch (error) {
-        console.error("❌ Error moving to wishlist:", error.message);
-      }
-    } else {
-      console.log("❤️ Adding to wishlist:", productId);
-      try {
-        await axios.post(`/api/user/wishlist/add`, { productId });
-        fetchWishlist();
-      } catch (error) {
-        console.error("❌ Error adding to wishlist:", error.message);
-      }
-    }
-  };
-
-  const handleQuantityChange = async (id, quantity) => {
-    if (quantity < 1) return;
-    console.log("🔄 Updating quantity:", id, "New quantity:", quantity);
     try {
-      await axios.patch(`/api/user/shopping-cart/update/${id}`, { quantity });
-      fetchShoppingCart();
+      const response = await dispatch(
+        moveProductToWishlist(product._id)
+      ).unwrap();
+      console.log("✅ Moved to wishlist:", response);
+      dispatch(getWishlist());
+
+      toast.success(t("productAddedWishlist"), {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (error) {
-      console.error("❌ Error updating quantity:", error.message);
+      console.error("❌ Error moving product to wishlist:", error);
+      toast.error(t("errorMessage"), {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
-  const handleRemove = async (id) => {
-    console.log("❌ Removing product:", id);
-    try {
-      await axios.delete(`/api/user/shopping-cart/remove/${id}`);
-      fetchShoppingCart();
-    } catch (error) {
-      console.error("❌ Error removing product:", error.message);
-    }
-  };
+  // Сортування кошика за датою додавання
+  const sortedCart = shoppingCart.slice().sort((a, b) => {
+    const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
+    const dateB = b.addedAt ? new Date(b.addedAt) : new Date(0);
+    return dateB - dateA;
+  });
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentCart = shoppingCart.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const currentCart = sortedCart.slice(indexOfFirstProduct, indexOfLastProduct);
   const totalPages = Math.ceil(shoppingCart.length / productsPerPage);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleQuantityChange = async (id, quantity) => {
+    if (quantity < 1) return;
+    dispatch(updateProductToShoppingCart({ id, quantity }));
+  };
+
+  const handleRemove = async (id) => {
+    dispatch(removeProductFromShoppingCart(id));
   };
 
   const displayProducts = currentCart.map((item) => (
@@ -202,6 +181,7 @@ const ShoppingCartPage = () => {
         <ButtonOrder onClick={() => navigate("/user/orders")}>
           {t("place_order")}
         </ButtonOrder>
+        <ToastContainer />
       </div>
     </>
   );

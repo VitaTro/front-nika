@@ -1,11 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axiosConfig";
+import {
+  selectShoppingCartItems,
+  selectTotalAmount,
+} from "../../shopping/selectorsShopping";
 
 export const fetchUserOrders = createAsyncThunk(
   "userOrders/fetchOrders",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("/api/user/orders");
+      console.log("🚀 Отримані замовлення:", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -53,9 +58,29 @@ export const fetchShippedOrders = createAsyncThunk(
 // ✅ Створити замовлення
 export const createOrder = createAsyncThunk(
   "userOrders/createOrder",
-  async (orderData, { rejectWithValue }) => {
+  async ({ paymentMethod }, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/user/orders", orderData);
+      const state = getState();
+      const products = selectShoppingCartItems(state);
+      const pickupPointId = state.inPost.selectedPickupPoint;
+
+      if (!products || products.length === 0) {
+        return rejectWithValue("Кошик порожній, неможливо оформити замовлення");
+      }
+      if (!pickupPointId) {
+        return rejectWithValue("Не вибрано пункт видачі");
+      }
+      if (!["blik", "transfer"].includes(paymentMethod)) {
+        return rejectWithValue("Неправильний спосіб оплати");
+      }
+
+      const response = await axios.post("/api/user/orders", {
+        products,
+        totalPrice: selectTotalAmount(state),
+        paymentMethod, // ✅ Передаємо вибраний спосіб оплати
+        pickupPointId,
+      });
+
       return response.data.order;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -100,6 +125,20 @@ export const fetchPurchaseHistory = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("/api/user/orders/purchase-history");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const trackOrder = createAsyncThunk(
+  "userOrders/trackOrder",
+  async (trackingNumber, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `/api/user/orders/track/${trackingNumber}`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

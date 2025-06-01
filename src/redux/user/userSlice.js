@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getShoppingCart } from "../shopping/operationShopping";
+import { getWishlist } from "../wishlist/operationWishlist";
 import {
   deleteUserAccount,
   fetchRecentViews,
@@ -12,7 +14,10 @@ import {
   updateUserAddress,
   updateUserInfo,
 } from "./userOperations";
-
+import {
+  fetchPurchaseHistory,
+  fetchUserOrders,
+} from "./userOrders/operationsUserOrders";
 const userReducer = createSlice({
   name: "user",
   initialState: {
@@ -26,8 +31,22 @@ const userReducer = createSlice({
     wishlist: [],
     shoppingCart: [],
     selectedProduct: null,
+    orders: [],
+    purchaseHistory: [],
   },
-  reducers: {},
+  reducers: {
+    logoutUser(state) {
+      console.log("🚪 Logging out user...");
+      state.isLoggedIn = false;
+      state.user = null;
+      state.token = null;
+      state.orders = [];
+      state.purchaseHistory = [];
+      // ❌ Не видаляємо кошик і вішліст
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserMain.pending, (state) => {
@@ -119,17 +138,20 @@ const userReducer = createSlice({
         state.token = null;
         state.user = null;
         state.isLoggedIn = false;
+      })
+      .addCase(getShoppingCart.fulfilled, (state, action) => {
+        state.shoppingCart = action.payload;
+      })
+      .addCase(getWishlist.fulfilled, (state, action) => {
+        state.wishlist = action.payload;
+      })
+      .addCase(fetchUserOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+      .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
+        state.purchaseHistory = action.payload;
       });
-
-    // .addCase(addProductToWishlist.fulfilled, (state, action) => {
-    //   state.wishlist.push(action.payload); // ✅ Додаємо товар у wishlist
-    // })
-    // .addCase(removeProductFromWishlist.fulfilled, (state, action) => {
-    //   state.wishlist = state.wishlist.filter(
-    //     (item) => item.productId !== action.payload.productId
-    //   );
-    // });
   },
 });
-
+export const { logoutUser } = userReducer.actions;
 export default userReducer.reducer;
