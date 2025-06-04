@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import pointsData1 from "../../../data/points.json";
+import pointsData10 from "../../../data/points10.json";
 import pointsData2 from "../../../data/points2.json";
 import pointsData3 from "../../../data/points3.json";
 import pointsData4 from "../../../data/points4.json";
 import pointsData5 from "../../../data/points5.json";
+import pointsData6 from "../../../data/points6.json";
+import pointsData7 from "../../../data/points7.json";
+import pointsData8 from "../../../data/points8.json";
+import pointsData9 from "../../../data/points9.json";
 import {
   CheckboxStyled,
   FormContainerAddress,
@@ -20,6 +25,11 @@ const fetchPickupPointsLocally = (city) => {
     ...pointsData3.items,
     ...pointsData4.items,
     ...pointsData5.items,
+    ...pointsData6.items,
+    ...pointsData7.items,
+    ...pointsData8.items,
+    ...pointsData9.items,
+    ...pointsData10.items,
   ];
   return allPoints.filter(
     (point) =>
