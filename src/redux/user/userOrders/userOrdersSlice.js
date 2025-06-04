@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   confirmOrderReceived,
   createOrder,
+  fetchPickupPoints,
   fetchProcessingOrders,
   fetchPurchaseHistory,
   fetchShippedOrders,
@@ -15,6 +16,7 @@ const initialState = {
   orders: [],
   purchaseHistory: [],
   trackingInfo: null,
+  pickupPoints: [],
   loading: false,
   error: null,
 };
@@ -40,8 +42,6 @@ const userOrdersReducer = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
-      // 📌 Фільтри статусів
       .addCase(fetchUnpaidOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       })
@@ -51,31 +51,22 @@ const userOrdersReducer = createSlice({
       .addCase(fetchShippedOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       })
-
-      // 📌 Створення замовлення
       .addCase(createOrder.fulfilled, (state, action) => {
         state.orders.unshift(action.payload);
       })
-
-      // 📌 Повернення замовлення
       .addCase(returnOrder.fulfilled, (state, action) => {
         state.orders = state.orders.map((order) =>
           order._id === action.payload._id ? action.payload : order
         );
       })
-
-      // 📌 Підтвердження отримання
       .addCase(confirmOrderReceived.fulfilled, (state, action) => {
         state.orders = state.orders.map((order) =>
           order._id === action.payload._id ? action.payload : order
         );
       })
-
-      // 📌 Історія покупок
       .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
         state.purchaseHistory = action.payload;
       })
-      // 📌 Трекінг замовлення через InPost
       .addCase(trackOrder.pending, (state) => {
         state.loading = true;
       })
@@ -84,6 +75,18 @@ const userOrdersReducer = createSlice({
         state.trackingInfo = action.payload;
       })
       .addCase(trackOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchPickupPoints.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchPickupPoints.fulfilled, (state, action) => {
+        state.loading = false;
+        state.pickupPoints = action.payload; // Збереження точок видачі
+        console.log("✅ Точки додані в Redux:", action.payload);
+      })
+      .addCase(fetchPickupPoints.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

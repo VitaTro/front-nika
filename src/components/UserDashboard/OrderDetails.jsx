@@ -6,14 +6,20 @@ import {
   fetchUserOrders,
   returnOrder,
 } from "../../redux/user/userOrders/operationsUserOrders";
+import {
+  selectUserOrders,
+  selectUserOrdersError,
+  selectUserOrdersLoading,
+} from "../../redux/user/userOrders/selectorsUserOrders";
 import Loader from "../Loader";
 import NoResults from "../NoResults/NoResults";
+
 const UserOrderDetails = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.userOrders.orders);
-  const loading = useSelector((state) => userOrders.loading);
-  const error = useSelector((state) => state.userOrders.error);
+  const orders = useSelector(selectUserOrders);
+  const loading = useSelector(selectUserOrdersLoading);
+  const error = useSelector(selectUserOrdersError);
 
   useEffect(() => {
     dispatch(fetchUserOrders());

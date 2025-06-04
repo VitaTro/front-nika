@@ -44,6 +44,7 @@ import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 
 // 📌 User панель
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
+import UserOrderPage from "../pages/ProfileUser/OrderPage";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import ProfilePage from "../pages/profileUser/ProfilePage";
@@ -141,6 +142,8 @@ export const App = () => {
                   path="/user/shopping-cart"
                   element={<ShoppingCartPage />}
                 />
+                <Route path="/user/orders" element={<UserOrderPage />} />
+                {/* <Route path="/user/orders" element={<UserOrderDetails />} /> */}
                 <Route path="/user/profile/info" element={<ProfilePage />} />
                 <Route
                   path="/user/products/:id"

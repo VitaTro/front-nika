@@ -23,7 +23,6 @@ const store = configureStore({
     userOrders: userOrdersReducer,
     adminAuth: adminAuthReducer,
     userAuth: userAuthReducer,
-    userOrders: userOrdersReducer,
     admin: adminReducer,
     onlineOrders: onlineOrdersReducer,
     onlineSales: onlineSalesReducer,

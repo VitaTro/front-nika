@@ -145,3 +145,17 @@ export const trackOrder = createAsyncThunk(
     }
   }
 );
+
+export const fetchPickupPoints = createAsyncThunk(
+  "pickupPoints/fetchPoints",
+  async (_, { rejectWithValue }) => {
+    console.log(response.data.items);
+    try {
+      const response = await axios.get("/api/user/orders/pickup-points");
+      console.log("🔥 Отримані точки з API:", response.data.items);
+      return response.data.items;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

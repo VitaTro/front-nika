@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
@@ -18,6 +19,7 @@ import {
   selectShoppingCartLoading,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
+import { fetchUserOrders } from "../../redux/user/userOrders/operationsUserOrders";
 import { getWishlist } from "../../redux/wishlist/operationWishlist";
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
 import {
@@ -39,17 +41,19 @@ import {
 const ShoppingCartPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const wishlist = useSelector((state) => state.wishlist.items || []);
   const shoppingCart = useSelector(selectShoppingCartItems) || [];
   const totalAmount = useSelector(selectTotalAmount);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 18;
   const error = useSelector(selectShoppingCartError);
   const isLoading = useSelector(selectShoppingCartLoading);
 
   useEffect(() => {
     dispatch(getShoppingCart());
     dispatch(getWishlist());
+    dispatch(fetchUserOrders());
+    console.log("🔄 Fetching orders after new order...");
   }, [dispatch]);
 
   const handleToggleWishlist = async (product) => {
@@ -71,43 +75,9 @@ const ShoppingCartPage = () => {
       ).unwrap();
       console.log("✅ Moved to wishlist:", response);
       dispatch(getWishlist());
-
-      toast.success(t("productAddedWishlist"), {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     } catch (error) {
       console.error("❌ Error moving product to wishlist:", error);
-      toast.error(t("errorMessage"), {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     }
-  };
-
-  // Сортування кошика за датою додавання
-  const sortedCart = shoppingCart.slice().sort((a, b) => {
-    const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
-    const dateB = b.addedAt ? new Date(b.addedAt) : new Date(0);
-    return dateB - dateA;
-  });
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentCart = sortedCart.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(shoppingCart.length / productsPerPage);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleQuantityChange = async (id, quantity) => {
@@ -119,7 +89,42 @@ const ShoppingCartPage = () => {
     dispatch(removeProductFromShoppingCart(id));
   };
 
-  const displayProducts = currentCart.map((item) => (
+  // const handlePlaceOrder = async () => {
+  //   try {
+  //     const orderData = {
+  //       paymentMethod: "transfer",
+  //       products: shoppingCart.map((item) => ({
+  //         productId: item.productId,
+  //         quantity: item.quantity,
+  //         price: item.price,
+  //       })),
+  //       totalPrice: totalAmount,
+  //     };
+
+  //     console.log("📦 Sending order data:", orderData);
+
+  //     const response = await dispatch(createOrder(orderData)).unwrap();
+  //     console.log("✅ Order placed successfully!", response);
+  //     if (!response || !response.order) {
+  //       throw new Error("Invalid response from server");
+  //     }
+
+  //     console.log("✅ Order dispatched, no errors");
+  //     console.log("🔄 Navigating to /user/orders...");
+  //     navigate("/user/orders");
+  //   } catch (error) {
+  //     console.error("❌ Error placing order:", error);
+  //   }
+  // };
+
+  // Сортування кошика за датою додавання
+  const sortedCart = shoppingCart.slice().sort((a, b) => {
+    const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
+    const dateB = b.addedAt ? new Date(b.addedAt) : new Date(0);
+    return dateB - dateA;
+  });
+
+  const displayProducts = sortedCart.map((item) => (
     <ShoppingItem key={item._id}>
       <ItemHeader>
         <ZoomableProductImage
@@ -178,11 +183,11 @@ const ShoppingCartPage = () => {
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
       >
-        <ButtonOrder onClick={() => navigate("/user/orders")}>
-          {t("place_order")}
+        <ButtonOrder>
+          <Link to="/user/orders">{t("place_order")}</Link>
         </ButtonOrder>
-        <ToastContainer />
       </div>
+      <ToastContainer />
     </>
   );
 };
