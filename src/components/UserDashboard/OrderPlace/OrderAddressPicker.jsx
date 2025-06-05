@@ -13,6 +13,11 @@ import pointsData18 from "../../../data/points18.json";
 import pointsData19 from "../../../data/points19.json";
 import pointsData2 from "../../../data/points2.json";
 import pointsData20 from "../../../data/points20.json";
+import pointsData21 from "../../../data/points21.json";
+import pointsData22 from "../../../data/points22.json";
+import pointsData23 from "../../../data/points23.json";
+import pointsData24 from "../../../data/points24.json";
+import pointsData25 from "../../../data/points25.json";
 import pointsData3 from "../../../data/points3.json";
 import pointsData4 from "../../../data/points4.json";
 import pointsData5 from "../../../data/points5.json";
@@ -50,6 +55,11 @@ const fetchPickupPointsLocally = (city) => {
     ...pointsData18.items,
     ...pointsData19.items,
     ...pointsData20.items,
+    ...pointsData21.items,
+    ...pointsData22.items,
+    ...pointsData23.items,
+    ...pointsData24.items,
+    ...pointsData25.items,
   ];
   return allPoints.filter(
     (point) =>
