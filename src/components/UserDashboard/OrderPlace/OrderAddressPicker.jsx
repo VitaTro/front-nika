@@ -2,7 +2,17 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import pointsData1 from "../../../data/points.json";
 import pointsData10 from "../../../data/points10.json";
+import pointsData11 from "../../../data/points11.json";
+import pointsData12 from "../../../data/points12.json";
+import pointsData13 from "../../../data/points13.json";
+import pointsData14 from "../../../data/points14.json";
+import pointsData15 from "../../../data/points15.json";
+import pointsData16 from "../../../data/points16.json";
+import pointsData17 from "../../../data/points17.json";
+import pointsData18 from "../../../data/points18.json";
+import pointsData19 from "../../../data/points19.json";
 import pointsData2 from "../../../data/points2.json";
+import pointsData20 from "../../../data/points20.json";
 import pointsData3 from "../../../data/points3.json";
 import pointsData4 from "../../../data/points4.json";
 import pointsData5 from "../../../data/points5.json";
@@ -30,6 +40,16 @@ const fetchPickupPointsLocally = (city) => {
     ...pointsData8.items,
     ...pointsData9.items,
     ...pointsData10.items,
+    ...pointsData11.items,
+    ...pointsData12.items,
+    ...pointsData13.items,
+    ...pointsData14.items,
+    ...pointsData15.items,
+    ...pointsData16.items,
+    ...pointsData17.items,
+    ...pointsData18.items,
+    ...pointsData19.items,
+    ...pointsData20.items,
   ];
   return allPoints.filter(
     (point) =>
