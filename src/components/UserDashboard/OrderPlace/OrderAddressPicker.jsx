@@ -18,7 +18,15 @@ import pointsData22 from "../../../data/points22.json";
 import pointsData23 from "../../../data/points23.json";
 import pointsData24 from "../../../data/points24.json";
 import pointsData25 from "../../../data/points25.json";
+import pointsData26 from "../../../data/points26.json";
+import pointsData27 from "../../../data/points27.json";
+import pointsData28 from "../../../data/points28.json";
+import pointsData29 from "../../../data/points29.json";
 import pointsData3 from "../../../data/points3.json";
+import pointsData30 from "../../../data/points30.json";
+import pointsData31 from "../../../data/points31.json";
+import pointsData32 from "../../../data/points32.json";
+import pointsData33 from "../../../data/points33.json";
 import pointsData4 from "../../../data/points4.json";
 import pointsData5 from "../../../data/points5.json";
 import pointsData6 from "../../../data/points6.json";
@@ -60,6 +68,14 @@ const fetchPickupPointsLocally = (city) => {
     ...pointsData23.items,
     ...pointsData24.items,
     ...pointsData25.items,
+    ...pointsData26.items,
+    ...pointsData27.items,
+    ...pointsData28.items,
+    ...pointsData29.items,
+    ...pointsData30.items,
+    ...pointsData31.items,
+    ...pointsData32.items,
+    ...pointsData33.items,
   ];
   return allPoints.filter(
     (point) =>

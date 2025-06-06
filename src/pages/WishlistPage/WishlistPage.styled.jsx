@@ -41,10 +41,10 @@ export const ProductName = styled.span`
 
 export const ProductPrice = styled.span`
   flex: 1;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: 16px;
   }
 `;
 

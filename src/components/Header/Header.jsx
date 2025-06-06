@@ -93,7 +93,10 @@ const Header = () => {
           />
         </NavLinkStyled>
 
-        <HamburgerButton onClick={() => setMenuOpen(!menuOpen)}>
+        <HamburgerButton
+          $isOpen={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />

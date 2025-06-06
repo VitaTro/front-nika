@@ -24,7 +24,6 @@ export const WelcomeGeneral = styled.h1`
         : "0 0 12px rgba(167, 182, 208, 0.9)"
       : "0 0 6px rgba(0, 0, 0, 0.1)"};
   transition: all 0.5s ease-in-out;
-
   &:hover {
     transform: scale(1.1); /* Невелике збільшення */
     text-shadow: ${(props) =>
@@ -34,28 +33,37 @@ export const WelcomeGeneral = styled.h1`
   }
 `;
 export const WelcomeContainer = styled.div`
-  padding: 20px 190px 40px;
+  padding: 20px 20px 40px;
+  @media (max-width: 768px) {
+    padding: 20px 10px 40px;
+  }
+  @media (max-width: 480px) {
+    padding: 20px 15px 40px;
+  }
 `;
+
 export const WelcomeList = styled.ul`
-  list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  row-gap: 70px;
-  gap: 70px;
+  gap: 24px;
+  padding: 0;
+  margin: 0;
+  align-items: stretch;
 `;
+
 export const WelcomeItem = styled.li`
+list-style: none;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 20px;
 `;
+
 export const ImageBox = styled.img`
-  // width: 100%;
-  // height: auto;
-  // max-height: 90%;
   object-fit: contain;
   margin: 15px;
 `;
+
 export const BoxContainer = styled.div`
   height: 250px;
   width: 300px;
@@ -67,6 +75,7 @@ export const BoxContainer = styled.div`
   &:hover {
     transform: scale(1.05);
 `;
+
 export const BoxHeader = styled.h2`
   font-family: "Nunito", sans-serif;
   color: darkred;

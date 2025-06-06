@@ -75,8 +75,9 @@ export const WelcomeHeader = styled.h2`
 export const Tabs = styled.div`
   margin-bottom: 40px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  // flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 
   @media (max-width: 1110px) and (min-width: 677px) {
     display: grid;

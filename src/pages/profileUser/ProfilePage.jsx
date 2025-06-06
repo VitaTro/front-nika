@@ -8,6 +8,7 @@ import { selectUser } from "../../redux/user/userSelectors";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const user = useSelector(selectUser);
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -28,11 +29,11 @@ const ProfilePage = () => {
         onChange={handleChange}
         sx={{ minWidth: 200, alignItems: "start", fontFamily: "Arial" }}
       >
-        <Tab label="Twoje dane" />
-        <Tab label="Adresy do wysyłki" />
-        <Tab label="Moje zamówienia" />
-        <Tab label="Historia zamówień" />
-        <Tab label="Karty płatnicze" />
+        <Tab label="Twoje dane" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
+        <Tab label="Adresy do wysyłki" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
+        <Tab label="Moje zamówienia" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
+        <Tab label="Historia zamówień" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
+        <Tab label="Karty płatnicze" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
       </Tabs>
 
       <Box>

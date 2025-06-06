@@ -126,6 +126,10 @@ export const App = () => {
             />
             <Route path="/products/gold" element={<Products type="gold" />} />
             <Route
+              path="/products/gold-light"
+              element={<Products type="gold-light" />}
+            />
+            <Route
               path="/products/silver"
               element={<Products type="silver" />}
             />
@@ -156,6 +160,10 @@ export const App = () => {
                 <Route
                   path="/user/products/gold"
                   element={<Products type="gold" />}
+                />
+                <Route
+                  path="/user/products/gold-light"
+                  element={<Products type="gold-light" />}
                 />
                 <Route
                   path="/user/products/silver"

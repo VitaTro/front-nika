@@ -38,13 +38,13 @@ export const ProductName = styled.span`
 
 export const ProductPrice = styled.span`
   flex: 1;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
   margin-left: 20px;
 
   @media (max-width: 768px) {
     margin-left: 5px;
-    font-size: 12px;
+    font-size: 16px;
   }
 `;
 
@@ -139,10 +139,10 @@ export const TotalHeader = styled.h3`
   padding-right: 40px;
   text-align: right;
   color: gray;
-  text-shadow: 0 0 5px rgb(167, 182, 208);
+  // text-shadow: 0 0 5px rgb(167, 182, 208);
 `;
 export const TotalAmount = styled.span`
-  color: black;
+  // color: black;
   font-weight: bold;
 `;
 export const ButtonOrder = styled.button`

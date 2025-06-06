@@ -39,6 +39,7 @@ import {
 } from "./ShoppingCartPage.styled";
 
 const ShoppingCartPage = () => {
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -155,6 +156,7 @@ const ShoppingCartPage = () => {
         </ProductPrice>
         <ButtonHeart
           onClick={() => handleToggleWishlist(item)}
+       
           $isActive={wishlist.some((w) => w.productId === item.productId)}
         >
           {wishlist.some((w) => w.productId === item.productId) ? "❤️" : "🖤"}
@@ -177,8 +179,11 @@ const ShoppingCartPage = () => {
       {shoppingCart.length > 0 && (
         <ShoppingList>{displayProducts}</ShoppingList>
       )}
-      <TotalHeader>
-        {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
+      <TotalHeader style={{ color: isDarkMode ? "#0c0" : "#333" }}>
+        {t("total")}:{" "}
+        <TotalAmount style={{ color: isDarkMode ? "#e1a42b"  : "#333" }}>
+          {totalAmount} zł
+        </TotalAmount>
       </TotalHeader>
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}

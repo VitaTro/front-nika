@@ -134,7 +134,7 @@ const Products = ({ type }) => {
           </p>
         )}
 
-        {(type === "gold" || type === "silver") && (
+        {(type === "gold" || type === "silver" || type === "goldLight") && (
           <Tabs>
             {[
               "all",

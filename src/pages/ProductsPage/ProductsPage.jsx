@@ -13,6 +13,7 @@ import Box from "./box.png";
 import Gold from "./gold.png";
 import Set from "./set.png";
 import Silver from "./silver.png";
+import GoldLight from "./goldLight.png";
 
 const ProductsPage = ({ isUserAuthenticated }) => {
   const { t } = useTranslation();
@@ -41,9 +42,21 @@ const ProductsPage = ({ isUserAuthenticated }) => {
               <ImageBox
                 src={Gold}
                 alt="gold earrings"
-                style={{ width: "220px" }}
+                 style={{ width: "220px" }}
               />
               <BoxHeader>{t("gold")}</BoxHeader>
+            </BoxContainer>
+          </WelcomeItem>
+          <WelcomeItem className="no-theme">
+            <BoxContainer
+              onClick={() => handleProductClick("/products/gold-light")}
+            >
+              <ImageBox
+                src={GoldLight}
+                alt="gold earrings"
+                 style={{ width: "220px" }}
+              />
+              <BoxHeader>{t("goldLight")}</BoxHeader>
             </BoxContainer>
           </WelcomeItem>
           <WelcomeItem className="no-theme">
