@@ -72,6 +72,8 @@
   "last_name": "Nazwisko",
   "phone": "Numer telefonu",
   "your_address": "Twój adres dostawy",
+  "region": "Wojewódstwo",
+  "select_region": "Wybierz wojewódstwo",
   "city": "Miasto",
   "street": "Ulica",
   "postal_code": "Kod pocztowy",

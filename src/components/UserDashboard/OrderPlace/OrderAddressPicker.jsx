@@ -40,48 +40,48 @@ import {
   InputField,
   SelectField,
 } from "./OrderPlace.styled";
+const regions = [
+  "Dolnośląskie",
+  "Kujawsko-Pomorskie",
+  "Lubelskie",
+  "Lubuskie",
+  "Łódzkie",
+  "Małopolskie",
+  "Mazowieckie",
+  "Opolskie",
+  "Podkarpackie",
+  "Podlaskie",
+  "Pomorskie",
+  "Śląskie",
+  "Świętokrzyskie",
+  "Warmińsko-Mazurskie",
+  "Wielkopolskie",
+  "Zachodniopomorskie",
+];
 
 const fetchPickupPointsLocally = (city) => {
+  if (!city || city.length < 3) {
+    return []; // Якщо введено менше ніж 3 літери, повертаємо пустий масив
+  }
+
   const allPoints = [
-    ...pointsData1.items,
-    ...pointsData2.items,
-    ...pointsData3.items,
-    ...pointsData4.items,
-    ...pointsData5.items,
-    ...pointsData6.items,
-    ...pointsData7.items,
-    ...pointsData8.items,
-    ...pointsData9.items,
-    ...pointsData10.items,
-    ...pointsData11.items,
-    ...pointsData12.items,
-    ...pointsData13.items,
-    ...pointsData14.items,
-    ...pointsData15.items,
-    ...pointsData16.items,
-    ...pointsData17.items,
-    ...pointsData18.items,
-    ...pointsData19.items,
-    ...pointsData20.items,
-    ...pointsData21.items,
-    ...pointsData22.items,
-    ...pointsData23.items,
-    ...pointsData24.items,
-    ...pointsData25.items,
-    ...pointsData26.items,
-    ...pointsData27.items,
-    ...pointsData28.items,
-    ...pointsData29.items,
-    ...pointsData30.items,
-    ...pointsData31.items,
-    ...pointsData32.items,
-    ...pointsData33.items,
+    ...pointsData1.items, ...pointsData2.items, ...pointsData3.items,
+    ...pointsData4.items, ...pointsData5.items, ...pointsData6.items,
+    ...pointsData7.items, ...pointsData8.items, ...pointsData9.items,
+    ...pointsData10.items, ...pointsData11.items, ...pointsData12.items,
+    ...pointsData13.items, ...pointsData14.items, ...pointsData15.items,
+    ...pointsData16.items, ...pointsData17.items, ...pointsData18.items,
+    ...pointsData19.items, ...pointsData20.items, ...pointsData21.items,
+    ...pointsData22.items, ...pointsData23.items, ...pointsData24.items,
+    ...pointsData25.items, ...pointsData26.items, ...pointsData27.items,
+    ...pointsData28.items, ...pointsData29.items, ...pointsData30.items,
+    ...pointsData31.items, ...pointsData32.items, ...pointsData33.items,
   ];
-  return allPoints.filter(
-    (point) =>
-      point.address_details.city?.toLowerCase() === city.toLowerCase() &&
-      point.type.includes("parcel_locker") &&
-      point.status === "Operating"
+
+  return allPoints.filter((point) => 
+    point.address_details.city?.toLowerCase().startsWith(city.toLowerCase())
+    && point.type.includes("parcel_locker")
+    && point.status === "Operating"
   );
 };
 
@@ -92,12 +92,15 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    if (!formData.city || formData.city.length < 3) return;
+
     const fetchData = async () => {
       setLoading(true);
 
       try {
-        const points = fetchPickupPointsLocally(formData.city); // Використовуємо локальний JSON
+        const points = fetchPickupPointsLocally(formData.city);
         setPickupPoints(points);
+        setError(points.length === 0 ? "🚫 Немає доступних поштоматів у цьому місті." : "");
       } catch (err) {
         setError("❌ Помилка завантаження поштоматів.");
         console.error("❌ Помилка:", err);
@@ -120,11 +123,26 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   return (
     <div>
       <HeaderOrderAddress>{t("your_address")} </HeaderOrderAddress>
-      <FormContainerAddress>
+      <div>
+        <label>{t("region")}</label>
+        <SelectField
+          name="region"
+          value={formData.region}
+          onChange={handleChange}
+          required
+        >
+          <option value="">-- {t("select_region")} --</option>
+          {regions.map((region) => (
+            <option key={region} value={region}>
+              {region}
+            </option>
+          ))}
+        </SelectField>
+      </div>
+     <FormContainerAddress>
         <div>
           <label>{t("city")}</label>
           <InputField

@@ -156,7 +156,6 @@ const ShoppingCartPage = () => {
         </ProductPrice>
         <ButtonHeart
           onClick={() => handleToggleWishlist(item)}
-       
           $isActive={wishlist.some((w) => w.productId === item.productId)}
         >
           {wishlist.some((w) => w.productId === item.productId) ? "❤️" : "🖤"}
@@ -181,7 +180,7 @@ const ShoppingCartPage = () => {
       )}
       <TotalHeader style={{ color: isDarkMode ? "#0c0" : "#333" }}>
         {t("total")}:{" "}
-        <TotalAmount style={{ color: isDarkMode ? "#e1a42b"  : "#333" }}>
+        <TotalAmount style={{ color: isDarkMode ? "#e1a42b" : "#333" }}>
           {totalAmount} zł
         </TotalAmount>
       </TotalHeader>
@@ -189,7 +188,9 @@ const ShoppingCartPage = () => {
         style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
       >
         <ButtonOrder>
-          <Link to="/user/orders">{t("place_order")}</Link>
+          <Link to="/user/orders" style={{ textDecoration: "none" }}>
+            {t("place_order")}
+          </Link>
         </ButtonOrder>
       </div>
       <ToastContainer />

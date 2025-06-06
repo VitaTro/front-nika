@@ -72,6 +72,8 @@
   "last_name": "Last name",
   "phone": "Phone number",
   "your_address": "Your delivery address",
+  "region": "Voivodeship",
+  "select_region": "Select voivodeship",
   "city": "City",
   "street": "Street",
   "postal_code": "Postal Code",

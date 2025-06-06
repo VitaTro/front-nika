@@ -72,6 +72,8 @@
   "last_name": "Nachname",
   "phone": " Telefonnummer",
   "your_address": "Ihre Lieferadresse",
+  "region": "Woiwodschaft",
+  "select_region": "Wählen Sie die Woiwodschaft",
   "city": "Stadt",
   "street": "Straße",
   "postal_code": "Postleitzahl",
