@@ -4,7 +4,6 @@ export const FormContainer = styled.div`
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
-  background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   display: flex;
@@ -16,15 +15,47 @@ export const FormContainerAddress = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   width: 95%;
+
+  @media (max-width: 1024px) {
+    width: 95%;
+    gap: 8px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; /* На планшетах і мобілках елементи в один стовпчик */
+    width: 95%;
+    gap: 6px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    width: 95%;
+  }
 `;
 
 export const InputField = styled.input`
   width: 90%;
   padding: 10px;
-  margin: 8px 0;
+  margin: 6px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+
+  @media (max-width: 1024px) {
+    padding: 8px;
+    font-size: 15px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px;
+    font-size: 13px;
+  }
 `;
 export const CheckboxStyled = styled.input`
   width: 20px;
@@ -36,11 +67,26 @@ export const CheckboxStyled = styled.input`
 export const SelectField = styled.select`
   width: 95%;
   padding: 10px;
-  margin: 8px 0;
+  margin: 6px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
   background: #fff;
+
+  @media (max-width: 1024px) {
+    padding: 8px;
+    font-size: 15px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 5px;
+    font-size: 13px;
+  }
 `;
 
 export const SubmitButton = styled.button`

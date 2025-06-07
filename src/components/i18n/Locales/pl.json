@@ -107,5 +107,10 @@
   "contact_info": "Informacje kontaktowe",
   "questions_any_time": "Masz pytania? Skontaktuj się z nami w dowolny sposób!",
   "working_hours": "Pon-Pt: 8:00 - 18:00 | Sob: 8:00 - 15:00",
-  "order_processing_24_7": "Przetwarzanie zamówień 24/7!"
+  "order_processing_24_7": "Przetwarzanie zamówień 24/7!",
+  "your_data": "Twoje dane",
+  "shipping_addresses": "Adresy do wysyłki",
+  "my_orders": "Moje zamówienia",
+  "order_history": "Historia zamówień",
+  "payment_cards": "Karty płatnicze"
 }

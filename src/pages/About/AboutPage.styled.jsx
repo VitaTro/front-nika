@@ -37,14 +37,14 @@ export const BlockContainerSecond = styled.div`
   gap: 20px;
   max-width: 900px;
   text-align: left;
-  flex-direction: row-reverse; /* Фото справа, текст зліва */
+  flex-direction: row-reverse;
 
   @media (max-width: 1024px) {
     max-width: 800px;
   }
 
   @media (max-width: 768px) {
-    flex-direction: column; /* Для мобільних: картинка нагорі, текст знизу */
+    flex-direction: column;
     text-align: center;
     max-width: 100%;
   }
@@ -138,35 +138,36 @@ export const ImageTwo = styled.img`
 
   @media (max-width: 468px) {
     height: 230px;
-    width: 100%;
   }
 `;
 
 export const ContactContainer = styled.div`
   background: rgb(235, 242, 249);
-  padding: 100px;
-  margin: 0 30px;
+  padding: 80px;
+  margin: 0 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 30px;
+  padding-top: 20px;
   font-family: "Noto Sans", sans-serif;
   color: #000;
 
   @media (max-width: 1024px) {
-    padding: 60px;
+    padding: 50px;
   }
 
   @media (max-width: 768px) {
-    padding: 40px;
-    margin: 0 15px;
+    padding: 30px;
+    margin: 0 10px;
+    width: 95%;
   }
 
   @media (max-width: 480px) {
-    padding: 30px;
-    margin: 0 10px;
+    padding: 20px;
+    margin: 0 2px;
+    width: 90%;
   }
 `;
 
@@ -185,12 +186,13 @@ export const ContactItem = styled.div`
   }
 
   @media (max-width: 768px) {
-    font-size: 16px;
-    width: 100%;
+    font-size: 15px;
+    width: 95%;
   }
 
   @media (max-width: 480px) {
     font-size: 14px;
     width: 100%;
+    padding-bottom: 5px;
   }
 `;

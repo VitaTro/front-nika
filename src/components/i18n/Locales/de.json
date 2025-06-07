@@ -107,5 +107,10 @@
   "contact_info": "Kontaktinformationen",
   "questions_any_time": "Haben Sie Fragen? Kontaktieren Sie uns jederzeit!",
   "working_hours": "Mo-Fr: 08:00 - 18:00 | Sa: 08:00 - 15:00",
-  "order_processing_24_7": "Bestellbearbeitung rund um die Uhr!"
+  "order_processing_24_7": "Bestellbearbeitung rund um die Uhr!",
+  "your_data": "Deine Daten",
+  "shipping_addresses": "Versandadressen",
+  "my_orders": "Meine Bestellungen",
+  "order_history": "Bestellverlauf",
+  "payment_cards": "Zahlungsarten"
 }

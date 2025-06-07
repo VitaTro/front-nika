@@ -11,7 +11,7 @@ const ProfilePage = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const user = useSelector(selectUser);
   const [selectedTab, setSelectedTab] = useState(0);
-
+  const isMobile = useMediaQuery("(max-width:600px)");
   useEffect(() => {
     dispatch(fetchUserInfo());
   }, [dispatch]);
@@ -21,19 +21,46 @@ const ProfilePage = () => {
     setSelectedTab(newValue);
   };
   return (
-    <Box style={{ display: "flex", gap: 3, padding: "20px" }}>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        gap: 3,
+        padding: "20px",
+      }}
+    >
       <Tabs
         value={selectedTab}
-        orientation="vertical"
+        orientation={isMobile ? "horizontal" : "vertical"}
         variant="scrollable"
         onChange={handleChange}
-        sx={{ minWidth: 200, alignItems: "start", fontFamily: "Arial" }}
+        sx={{
+          minWidth: isMobile ? "100%" : 200,
+          alignItems: isMobile ? "center" : "start",
+          fontFamily: "Arial",
+          order: isMobile ? -1 : 0,
+        }}
       >
-        <Tab label="Twoje dane" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
-        <Tab label="Adresy do wysyłki" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
-        <Tab label="Moje zamówienia" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
-        <Tab label="Historia zamówień" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
-        <Tab label="Karty płatnicze" style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}/>
+        <Tab
+          label="Twoje dane"
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
+        <Tab
+          label="Adresy do wysyłki"
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
+        <Tab
+          label="Moje zamówienia"
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
+        <Tab
+          label="Historia zamówień"
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
+        <Tab
+          label="Karty płatnicze"
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
       </Tabs>
 
       <Box>

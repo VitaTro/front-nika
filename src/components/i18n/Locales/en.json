@@ -107,5 +107,10 @@
   "contact_info": "Contact Information",
   "questions_any_time": "If you have any questions, feel free to contact us anytime!",
   "working_hours": "Mon-Fri: 8:00 AM - 6:00 PM | Sat: 8:00 AM - 3:00 PM",
-  "order_processing_24_7": "Order processing is available 24/7!"
+  "order_processing_24_7": "Order processing is available 24/7!",
+  "your_data": "Your data",
+  "shipping_addresses": "Shipping addresses",
+  "my_orders": "My orders",
+  "order_history": "Order history",
+  "payment_cards": "Payment cards"
 }

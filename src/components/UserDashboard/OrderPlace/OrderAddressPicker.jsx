@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import pointsData1 from "../../../data/points.json";
 import pointsData10 from "../../../data/points10.json";
 import pointsData11 from "../../../data/points11.json";
@@ -33,6 +34,7 @@ import pointsData6 from "../../../data/points6.json";
 import pointsData7 from "../../../data/points7.json";
 import pointsData8 from "../../../data/points8.json";
 import pointsData9 from "../../../data/points9.json";
+import { useSelector } from "react-redux";
 import {
   CheckboxStyled,
   FormContainerAddress,
@@ -40,6 +42,7 @@ import {
   InputField,
   SelectField,
 } from "./OrderPlace.styled";
+
 const regions = [
   "Dolnośląskie",
   "Kujawsko-Pomorskie",
@@ -61,7 +64,7 @@ const regions = [
 
 const fetchPickupPointsLocally = (city) => {
   if (!city || city.length < 3) {
-    return []; // Якщо введено менше ніж 3 літери, повертаємо пустий масив
+    return []; 
   }
 
   const allPoints = [
@@ -86,6 +89,7 @@ const fetchPickupPointsLocally = (city) => {
 };
 
 const OrderAddressPicker = ({ formData, setFormData }) => {
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
   const [pickupPoints, setPickupPoints] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -127,7 +131,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
     <div>
       <HeaderOrderAddress>{t("your_address")} </HeaderOrderAddress>
       <div>
-        <label>{t("region")}</label>
+        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("region")}</label>
         <SelectField
           name="region"
           value={formData.region}
@@ -144,7 +148,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
       </div>
      <FormContainerAddress>
         <div>
-          <label>{t("city")}</label>
+           <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("city")}</label>
           <InputField
             name="city"
             value={formData.city}
@@ -153,7 +157,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
           />
         </div>
         <div>
-          <label>{t("street")}</label>
+           <label style={{ color: isDarkMode ?" #060270" : "#1f871a" }}>{t("street")}</label>
           <InputField
             name="street"
             value={formData.street}
@@ -164,7 +168,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
       </FormContainerAddress>
       <FormContainerAddress>
         <div>
-          <label>{t("postal_code")}</label>
+          <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("postal_code")}</label>
           <InputField
             name="postalCode"
             value={formData.postalCode}
@@ -173,7 +177,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
           />
         </div>
         <div>
-          <label>{t("house_number")}</label>
+           <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("house_number")}</label>
           <InputField
             name="houseNumber"
             value={formData.houseNumber}
@@ -181,7 +185,9 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
             required
           />
         </div>
-        <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <label style={{ display: "flex", alignItems: "center", gap: "10px", color: isDarkMode ? "#060270" : "#1f871a" }}>
+
+
           <CheckboxStyled
             type="checkbox"
             name="isPrivateHouse"
@@ -192,7 +198,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
         </label>
         {!formData.isPrivateHouse && (
           <div>
-            <label>{t("apartment_number")}</label>
+            <label style={{ color: isDarkMode ?" #060270" : "#1f871a" }}>{t("apartment_number")}</label>
             <InputField
               name="apartmentNumber"
               value={formData.apartmentNumber}
@@ -201,7 +207,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
           </div>
         )}
       </FormContainerAddress>
-      <label>{t("parcel_locker")}</label>
+      <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("parcel_locker")}</label>
       {loading ? (
         <p>🔄 Завантаження поштоматів...</p>
       ) : error ? (
