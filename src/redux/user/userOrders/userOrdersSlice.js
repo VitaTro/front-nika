@@ -19,6 +19,8 @@ const initialState = {
   pickupPoints: [],
   loading: false,
   error: null,
+  selectedOrder: null,
+  paymentStatus: null,
 };
 
 const userOrdersReducer = createSlice({

@@ -25,7 +25,7 @@ export const LogoImage = styled.img`
   width: 90px;
   height: 90px;
   margin-right: 100px;
-
+   margin-bottom: 10px;
   transition: all 0.5s linear;
   @media (max-width: 968px) {
     margin-right: 15px;
@@ -33,14 +33,12 @@ export const LogoImage = styled.img`
     height: 80px;
   }
   @media (max-width: 768px) {
-    position: absolute;
     top: 20px;
     left: 30px;
     width: 80px;
     height: 80px;
   }
   @media (max-width: 480px) {
-    position: absolute;
     top: 20px;
     left: 30px;
     width: 70px;
@@ -51,7 +49,7 @@ export const LogoImageUser = styled.img`
   width: 90px;
   height: 90px;
   margin-right: 50px;
-
+  margin-bottom: 10px;
   transition: all 0.5s linear;
   @media (max-width: 968px) {
     margin-right: 15px;
@@ -59,14 +57,12 @@ export const LogoImageUser = styled.img`
     height: 80px;
   }
   @media (max-width: 768px) {
-    position: absolute;
     top: 20px;
     left: 30px;
     width: 80px;
     height: 80px;
   }
   @media (max-width: 480px) {
-    position: absolute;
     top: 20px;
     left: 30px;
     width: 70px;

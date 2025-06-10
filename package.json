@@ -19,6 +19,7 @@
     "chart.js": "^4.4.9",
     "i18next": "^24.2.3",
     "lodash": "^4.17.21",
+    "pdfmake": "^0.2.20",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",

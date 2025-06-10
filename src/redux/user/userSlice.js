@@ -33,6 +33,7 @@ const userReducer = createSlice({
     selectedProduct: null,
     orders: [],
     purchaseHistory: [],
+    payments: [],
   },
   reducers: {
     logoutUser(state) {

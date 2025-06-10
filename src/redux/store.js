@@ -9,6 +9,7 @@ import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
 import onlineSalesReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
 import settingsReducer from "./finance/settings/settingsSlice";
+import paymentReducer from "./payment/paymentSlice";
 import popularProductsReducer from "./popular/popularSlice";
 import productsReducer from "./products/productsSlice";
 import searchReducer from "./search/searchSlice";
@@ -22,6 +23,7 @@ const store = configureStore({
     user: userReducer,
     userOrders: userOrdersReducer,
     adminAuth: adminAuthReducer,
+    payment: paymentReducer,
     userAuth: userAuthReducer,
     admin: adminReducer,
     onlineOrders: onlineOrdersReducer,

@@ -18,7 +18,7 @@ import {
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
-   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const totalAmount = useSelector(selectTotalAmount);
   const { t } = useTranslation();
   const [formData, setFormData] = useState(() => {
@@ -37,6 +37,19 @@ const UserOrderPage = () => {
       pickupPointId: savedData.pickupPointId || "",
     };
   });
+  useEffect(() => {
+    localStorage.setItem("orderForm", JSON.stringify(formData));
+
+    fetch("/api/user/profile/info", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("User data saved:", data))
+      .catch((error) => console.error("Error saving user data:", error));
+  }, [formData]);
+
   useEffect(() => {
     dispatch(fetchPickupPoints({ cache: "reload" }));
   }, [dispatch]);
@@ -58,10 +71,22 @@ const UserOrderPage = () => {
         totalPrice: totalAmount,
       })
     );
+    if (formData.paymentMethod === "blik") {
+      // Перехід на сторінку Blik
+      window.location.href = "/payment/blik";
+    } else {
+      // Перехід на сторінку переказу
+      window.location.href = "/payment/transfer";
+    }
   };
 
   return (
-    <FormContainer style={{ backgroundColor:  isDarkMode ? "#E8E8E8" : "#fff", marginBottom: "40px"}}>
+    <FormContainer
+      style={{
+        backgroundColor: isDarkMode ? "#E8E8E8" : "#ffffff",
+        marginBottom: "40px",
+      }}
+    >
       <HeaderOrder>{t("order_placement")}</HeaderOrder>
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />

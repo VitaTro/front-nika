@@ -92,10 +92,11 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
   const [pickupPoints, setPickupPoints] = useState([]);
+  const [selectedPickupPoint, setSelectedPickupPoint] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
+   useEffect(() => {
     if (!formData.city || formData.city.length < 3) return;
 
     const fetchData = async () => {
@@ -104,6 +105,12 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
       try {
         const points = fetchPickupPointsLocally(formData.city);
         setPickupPoints(points);
+
+        // Якщо список пустий, очищаємо вибраний пункт
+        if (points.length === 0) {
+          setSelectedPickupPoint("");
+        }
+
         setError(points.length === 0 ? "🚫 Немає доступних поштоматів у цьому місті." : "");
       } catch (err) {
         setError("❌ Помилка завантаження поштоматів.");
@@ -115,6 +122,11 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
 
     fetchData();
   }, [formData.city]);
+
+ const handlePickupPointChange = (e) => {
+    setSelectedPickupPoint(e.target.value); // ✅ Запам'ятовуємо вибраний пункт
+    setFormData({ ...formData, pickupPointId: e.target.value }); // ✅ Змінюємо formData
+  };
 
   const handleCheckboxChange = (e) => {
     setFormData({
@@ -215,8 +227,8 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
       ) : (
         <SelectField
           name="pickupPointId"
-          value={formData.pickupPointId}
-          onChange={handleChange}
+          value={selectedPickupPoint}
+          onChange={handlePickupPointChange}
           required
         >
           {pickupPoints.map((point) => (

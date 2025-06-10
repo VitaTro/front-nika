@@ -24,6 +24,7 @@ const AboutPage = () => {
         flexDirection: isMobile ? "column" : "row",
         gap: 3,
         padding: "20px",
+     
       }}
     >
       <Tabs
@@ -36,6 +37,7 @@ const AboutPage = () => {
           alignItems: isMobile ? "center" : "start",
           fontFamily: "Arial",
           order: isMobile ? -1 : 0,
+          marginBottom: "40px"
         }}
       >
         <Tab

@@ -1,12 +1,15 @@
 import axios from "axios";
 
 axios.defaults.baseURL = "https://nika-gold-back-fe0ff35469d7.herokuapp.com/";
+
 axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => {
@@ -31,10 +34,12 @@ axios.interceptors.response.use(
         const { data } = await axios.post(refreshUrl, { refreshToken });
 
         localStorage.setItem("token", data.accessToken);
+
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
         return axios(error.config);
       } catch (refreshError) {
         localStorage.removeItem("token");
+
         localStorage.removeItem("refreshToken");
         window.location.href =
           userRole === "admin" ? "/admin/auth/login" : "/user/auth/login"; // Залежно від ролі

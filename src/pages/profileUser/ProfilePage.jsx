@@ -1,12 +1,13 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileAddressEdit from "../../components/UserDashboard/ProfileAddressEdit";
 import ProfileMainEdit from "../../components/UserDashboard/ProfileMainEdit";
 import { fetchUserInfo } from "../../redux/user/userOperations";
 import { selectUser } from "../../redux/user/userSelectors";
-
 const ProfilePage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const user = useSelector(selectUser);
@@ -42,23 +43,23 @@ const ProfilePage = () => {
         }}
       >
         <Tab
-          label="Twoje dane"
+          label={t("your_data")}
           style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
         />
         <Tab
-          label="Adresy do wysyłki"
+          label={t("shipping_addresses")}
           style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
         />
         <Tab
-          label="Moje zamówienia"
+          label={t("my_orders")}
           style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
         />
         <Tab
-          label="Historia zamówień"
+          label={t("order_history")}
           style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
         />
         <Tab
-          label="Karty płatnicze"
+          label={t("payment_cards")}
           style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
         />
       </Tabs>
