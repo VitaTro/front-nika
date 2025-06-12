@@ -57,6 +57,7 @@ const adminSlice = createSlice({
         state.error = null;
       })
       .addCase(updateAdminProduct.fulfilled, (state, { payload }) => {
+        console.log("🚀 Отриманий payload після PATCH:", payload);
         state.loading = false;
         const index = state.products.findIndex(
           (product) => product.id === payload.updatedProduct.id

@@ -111,10 +111,10 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
           setSelectedPickupPoint("");
         }
 
-        setError(points.length === 0 ? "🚫 Немає доступних поштоматів у цьому місті." : "");
+        setError(points.length === 0 ? "🚫 Nie ma dostępnych paczkomatów w tym mieście." : "");
       } catch (err) {
-        setError("❌ Помилка завантаження поштоматів.");
-        console.error("❌ Помилка:", err);
+        setError("❌Błąd ładowania paczkomatów.");
+        console.error("❌ Błąd:", err);
       }
 
       setLoading(false);

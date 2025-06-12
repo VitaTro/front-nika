@@ -74,6 +74,7 @@ export const updateAdminProduct = createAsyncThunk(
         `/api/admin/products/${id}`,
         updatedData
       );
+      console.log("📦 Надсилаємо запит:", id, updatedData);
       return response.data; // Повертаємо оновлені дані товару
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

@@ -1,20 +1,30 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "../axiosConfig";
+
+const PAYMENT_METHODS = {
+  BLIK: "blik",
+  TRANSFER: "transfer",
+};
 
 // ✅ 1️⃣ Ініціація платежу
 export const initiatePayment = createAsyncThunk(
   "payment/initiate",
   async ({ orderId, amount, paymentMethod }, { rejectWithValue }) => {
+    // 🔹 Перевіряємо, чи метод оплати коректний
+    if (!Object.values(PAYMENT_METHODS).includes(paymentMethod)) {
+      return rejectWithValue("Nieprawidłowy metod opłaty");
+    }
     try {
-      const response = await fetch("/api/user/payments/initiate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId, amount, paymentMethod }),
+      const { data } = await axios.post(`/api/user/payments/initiate`, {
+        orderId,
+        amount,
+        paymentMethod,
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
       return data.payment;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data || "Błąd inicjacji płatności"
+      );
     }
   }
 );
@@ -24,12 +34,12 @@ export const checkPaymentStatus = createAsyncThunk(
   "payment/status",
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/user/payments/status/${orderId}`);
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      const { data } = await axios.get(`/api/user/payments/status/${orderId}`);
       return data.status;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data || "Błąd weryfikacji statusu płatności"
+      );
     }
   }
 );
@@ -39,16 +49,65 @@ export const confirmPayment = createAsyncThunk(
   "payment/confirm",
   async ({ orderId, paymentCode }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/api/user/payments/confirm/${orderId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentCode }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
+      const { data } = await axios.post(
+        `/api/user/payments/confirm/${orderId}`,
+        {
+          paymentCode,
+        }
+      );
       return data.userInvoice;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data || "Błąd potwierdzenia płatności"
+      );
+    }
+  }
+);
+
+// ✅ 4️⃣ Скасування платежу
+export const cancelPayment = createAsyncThunk(
+  "payment/cancel",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`/api/user/payments/cancel/${orderId}`);
+      return data.payment;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Błąd anulowania płatności"
+      );
+    }
+  }
+);
+
+// ✅ 5️⃣ Запит на повернення грошей
+export const requestRefund = createAsyncThunk(
+  "payment/refund",
+  async ({ orderId, refundAmount }, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(
+        `/api/user/payments/refund/${orderId}`,
+        {
+          refundAmount,
+        }
+      );
+      return data.payment;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Błąd zwrotu pieniędzyв");
+    }
+  }
+);
+
+// ✅ 6️⃣ Отримати доступні методи оплати
+export const getPaymentMethods = createAsyncThunk(
+  "payment/methods",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/api/user/payments/methods`);
+      return data.methods;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Błąd pobierania metod płatności"
+      );
     }
   }
 );

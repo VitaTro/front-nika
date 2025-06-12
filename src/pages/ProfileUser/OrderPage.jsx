@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import OrderAddressPicker from "../../components/UserDashboard/OrderPlace/OrderAddressPicker";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import {
+  checkPaymentStatus,
+  initiatePayment,
+} from "../../redux/payment/operationPayment";
+import {
   selectShoppingCartItems,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
@@ -18,6 +22,7 @@ import {
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
+
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const totalAmount = useSelector(selectTotalAmount);
   const { t } = useTranslation();
@@ -58,7 +63,7 @@ const UserOrderPage = () => {
     localStorage.setItem("orderForm", JSON.stringify(formData));
   }, [formData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.pickupPointId) {
       alert("Proszę wybrać paczkomat!");
@@ -71,12 +76,16 @@ const UserOrderPage = () => {
         totalPrice: totalAmount,
       })
     );
-    if (formData.paymentMethod === "blik") {
-      // Перехід на сторінку Blik
-      window.location.href = "/payment/blik";
-    } else {
-      // Перехід на сторінку переказу
-      window.location.href = "/payment/transfer";
+    const response = await dispatch(
+      initiatePayment({
+        orderId: formData.orderId,
+        amount: totalAmount,
+        paymentMethod: formData.paymentMethod,
+      })
+    );
+
+    if (response.payload) {
+      dispatch(checkPaymentStatus(formData.orderId));
     }
   };
 

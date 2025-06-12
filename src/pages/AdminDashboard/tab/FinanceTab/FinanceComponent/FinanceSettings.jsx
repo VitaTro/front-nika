@@ -9,7 +9,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchFinanceSettings,
@@ -20,12 +20,16 @@ import { selectFinanceSettings } from "../../../../../redux/finance/settings/sel
 const FinanceSettings = () => {
   const dispatch = useDispatch();
   const settings = useSelector(selectFinanceSettings);
+  console.log("ЩО настпавді в редюкс?", settings);
   const [editableSettings, setEditableSettings] = useState(settings);
 
   useEffect(() => {
     dispatch(fetchFinanceSettings());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log("✅ Завантажені налаштування фінансів:", settings);
+  }, [settings]);
   useEffect(() => {
     setEditableSettings(settings);
   }, [settings]);
@@ -35,9 +39,11 @@ const FinanceSettings = () => {
       ...editableSettings,
       [event.target.name]: event.target.value,
     });
+    console.log("✏️ Нове значення:", event.target.name, event.target.value);
   };
 
   const handleSave = () => {
+    console.log("🚀 Відправка даних:", editableSettings);
     dispatch(updateFinanceSettings(editableSettings));
   };
 

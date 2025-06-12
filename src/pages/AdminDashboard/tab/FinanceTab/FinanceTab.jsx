@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import FinanceOverview from "./FinanceComponent/FinanceOverview";
 import FinanceSettings from "./FinanceComponent/FinanceSettings";
 import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
@@ -70,6 +71,7 @@ const FinanceTab = () => {
       {viewMode === "online-sales" && <OnlineSale />}
       {viewMode === "offline-orders" && <OfflineOrder />}
       {viewMode === "offline-sales" && <OfflineSale />}
+      <Outlet />
     </div>
   );
 };

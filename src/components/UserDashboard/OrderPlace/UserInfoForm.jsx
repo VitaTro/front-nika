@@ -1,14 +1,21 @@
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { useEffect } from "react";
+import { getPaymentMethods } from "../../../redux/payment/operationPayment";
+import { selectPaymentMethods } from "../../../redux/payment/selectorPayment";
 import { InputField, SelectField } from "./OrderPlace.styled";
 const UserInfoForm = ({ formData, setFormData }) => {
+  const paymentMethods = useSelector(selectPaymentMethods);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  useEffect(() => {
+    dispatch(getPaymentMethods());
+  }, [dispatch]);
   return (
     <div>
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -56,8 +63,13 @@ const UserInfoForm = ({ formData, setFormData }) => {
           value={formData.paymentMethod}
           onChange={handleChange}
         >
-          <option value="blik">BLIK</option>
-          <option value="transfer">{t("bank_transfer")}</option>
+          {/* <option value="blik">BLIK</option>
+          <option value="transfer">{t("bank_transfer")}</option> */}
+          {paymentMethods.map((method) => {
+            <option key={method} value={method}>
+              {method === "blik" ? "BLIK" : "Bank transfer"}
+            </option>;
+          })}
         </SelectField>
       </div>
     </div>

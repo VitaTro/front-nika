@@ -27,7 +27,7 @@ const financeSettingsSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(updateFinanceSettings.fulfilled, (state, action) => {
-        state.settings = action.payload;
+        state.settings = action.payload.settings;
       });
   },
 });

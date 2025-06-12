@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminProducts } from "../../../../redux/admin/operationsAdmin";
 import AddProductForm from "./products/AddProductForm";
@@ -16,6 +16,7 @@ const ProductsTab = () => {
   const [showCriticalStock, setShowCriticalStock] = useState(false);
   const [showOutOfStock, setShowOutOfStock] = useState(false);
   const [notOrderGoods, setNotOrderGoods] = useState(false);
+  const [openCategories, setOpenCategories] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "",
@@ -71,14 +72,15 @@ const ProductsTab = () => {
       results = results.filter((product) => product.isNotOrderable); // Фільтруємо по стану
     }
 
-    if (filterCategory) {
-      results = results.filter((product) =>
-        product.index.toLowerCase().includes(filterCategory.toLowerCase())
-      );
-    }
+    // if (filterCategory) {
+    //   results = results.filter((product) =>
+    //     product.index.toLowerCase().includes(filterCategory.toLowerCase())
+    //   );
+    // }
 
     setFilteredProducts(results);
-  }, [products, notOrderGoods, filterCategory]);
+  }, [products, notOrderGoods]);
+
   useEffect(() => {
     // Фільтруємо продукти на основі пошуку та категорії
     let results = products;
@@ -87,13 +89,13 @@ const ProductsTab = () => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    if (filterCategory) {
-      results = results.filter(
-        (product) => product.category === filterCategory
-      );
-    }
+    // if (filterCategory) {
+    //   results = results.filter(
+    //     (product) => product.category === filterCategory
+    //   );
+    // }
     setFilteredProducts(results);
-  }, [products, searchTerm, filterCategory]);
+  }, [products, searchTerm]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -134,9 +136,9 @@ const ProductsTab = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleFilterChange = (e) => {
-    setFilterCategory(e.target.value);
-  };
+  // const handleFilterChange = (e) => {
+  //   setFilterCategory(e.target.value);
+  // };
 
   const toggleCriticalStockFilter = () => {
     setShowCriticalStock(!showCriticalStock);
@@ -206,8 +208,8 @@ const ProductsTab = () => {
           <FilterPanel
             searchTerm={searchTerm}
             handleSearchChange={handleSearchChange}
-            filterCategory={filterCategory}
-            handleFilterChange={handleFilterChange}
+            // filterCategory={filterCategory}
+            // handleFilterChange={handleFilterChange}
           />
           <ProductsTable
             filteredProducts={filteredProducts}
