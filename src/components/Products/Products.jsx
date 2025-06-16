@@ -123,9 +123,7 @@ const Products = ({ type }) => {
       <SearchBar onSearch={handleSearch} />
       <ProductsContainer>
         <WelcomeGeneral>
-          {type === "all"
-            ? t("all_products")
-            : t(`${type}_products`.toLowerCase())}
+          {type === "all" ? t("all_products") : t(`${type}_products`)}
         </WelcomeGeneral>
 
         {error && (
