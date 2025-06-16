@@ -126,8 +126,8 @@ export const App = () => {
             />
             <Route path="/products/gold" element={<Products type="gold" />} />
             <Route
-              path="/products/gold-light"
-              element={<Products type="gold-light" />}
+              path="/products/goldLight"
+              element={<Products type="goldLight" />}
             />
             <Route
               path="/products/silver"
@@ -162,8 +162,8 @@ export const App = () => {
                   element={<Products type="gold" />}
                 />
                 <Route
-                  path="/user/products/gold-light"
-                  element={<Products type="gold-light" />}
+                  path="/user/products/goldLight"
+                  element={<Products type="goldLight" />}
                 />
                 <Route
                   path="/user/products/silver"
