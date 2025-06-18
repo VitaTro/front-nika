@@ -101,8 +101,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
   useEffect(() => {}, [product, wishlist, isUserAuthenticated]);
   const token = localStorage.getItem("accessToken");
-  console.log("🧐 Checking product in ProductsCard:", product);
-
   return (
     <ProductCardContainer>
       {product ? (

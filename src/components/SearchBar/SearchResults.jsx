@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { searchProducts } from "../../redux/search/operationSearch";
@@ -8,6 +8,7 @@ import {
   selectSearchResults,
 } from "../../redux/search/selectorsSearch";
 import Loader from "../Loader";
+import NoResults from "../NoResults/NoResults";
 import {
   ProductsContainer,
   ProductsGrid,
@@ -30,9 +31,9 @@ const SearchResults = () => {
   const searchQuery = params.get("query") || "";
 
   // Фільтрація результатів на основі query
-  const filteredResults = searchResults.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // const filteredResults = searchResults.filter((product) =>
+  //   product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
 
   useEffect(() => {
     if (searchQuery && searchQuery.trim().length >= 3) {
@@ -44,10 +45,10 @@ const SearchResults = () => {
     <ProductsContainer>
       <WelcomeHeader>Search Results for "{searchQuery}"</WelcomeHeader>
       {loading && <Loader />}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {Array.isArray(filteredResults) && filteredResults.length > 0 ? (
+      {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+      {Array.isArray(searchResults) && searchResults.length > 0 ? (
         <ProductsGrid>
-          {filteredResults.map((product) => (
+          {searchResults.map((product) => (
             <ProductsCard
               key={product._id}
               product={product}
@@ -56,7 +57,7 @@ const SearchResults = () => {
           ))}
         </ProductsGrid>
       ) : (
-        !loading && <p>No results found for "{searchQuery}".</p>
+        !loading && <NoResults />
       )}
     </ProductsContainer>
   );

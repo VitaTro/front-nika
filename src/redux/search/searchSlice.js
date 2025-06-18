@@ -14,6 +14,7 @@ const searchSlice = createSlice({
       .addCase(searchProducts.pending, (state) => {
         state.loading = true; // Встановлюємо стан завантаження
         state.error = null; // Очищуємо попередні помилки
+        state.results = [];
       })
       .addCase(searchProducts.fulfilled, (state, action) => {
         console.log("Payload from backend:", action.payload);
@@ -23,6 +24,7 @@ const searchSlice = createSlice({
       .addCase(searchProducts.rejected, (state, action) => {
         state.loading = false; // Помилка завершення запиту
         state.error = action.payload; // Зберігаємо помилку
+        state.results = [];
       });
   },
 });

@@ -31,9 +31,15 @@ const Products = ({ type }) => {
 
   useEffect(() => {
     if (searchQuery) {
-      const filtered = products.filter((product) =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const query = searchQuery.toLowerCase();
+
+      const filtered = products.filter((product) => {
+        const name = product.name?.toLowerCase() || "";
+        const description = product.description?.toLowerCase() || "";
+
+        return name.includes(query) || description.includes(query);
+      });
+
       setFilteredProducts(filtered);
     } else {
       setFilteredProducts(products);
@@ -58,7 +64,6 @@ const Products = ({ type }) => {
         const endpoint = isUserAuthenticated
           ? "/api/user/products"
           : "/api/products";
-        console.log("🔄 Fetching products from:", endpoint, "with type:", type);
         const response = await axios.get("/api/products", {
           params: {
             type: type,
@@ -117,7 +122,6 @@ const Products = ({ type }) => {
   };
 
   const totalPages = Math.ceil(products.length / productsPerPage);
-  console.log("🔗 Extracted type in Products:", type);
   return (
     <>
       <SearchBar onSearch={handleSearch} />
