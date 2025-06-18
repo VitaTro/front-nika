@@ -112,5 +112,16 @@
   "shipping_addresses": "Shipping addresses",
   "my_orders": "My orders",
   "order_history": "Order history",
-  "payment_cards": "Payment cards"
+  "payment_cards": "Payment cards",
+  "search": "Search",
+  "details": "Details",
+  "color": "Color",
+  "size": "Size",
+  "width": "Width",
+  "height": "Height",
+  "price": "Price",
+  "in_stock": "In Stock",
+  "yes": "Yes",
+  "no": "No",
+  "not_available": "Not specified"
 }

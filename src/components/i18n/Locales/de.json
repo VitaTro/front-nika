@@ -112,5 +112,16 @@
   "shipping_addresses": "Versandadressen",
   "my_orders": "Meine Bestellungen",
   "order_history": "Bestellverlauf",
-  "payment_cards": "Zahlungsarten"
+  "payment_cards": "Zahlungsarten",
+  "search": "Suche",
+  "details": "Einzelheiten",
+  "color": "Farbe",
+  "size": "Größe",
+  "width": "Breite",
+  "height": "Höhe",
+  "price": "Preis",
+  "in_stock": "Verfügbar",
+  "yes": "Ja",
+  "no": "Nein",
+  "not_available": "Nicht angegeben"
 }

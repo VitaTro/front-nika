@@ -112,5 +112,16 @@
   "shipping_addresses": "Адреси для доставки",
   "my_orders": "Ваші замовлення",
   "order_history": "Історія замовлень",
-  "payment_cards": "Платіжні картки"
+  "payment_cards": "Платіжні картки",
+  "search": "Пошук",
+  "details": "Деталі",
+  "color": "Колір",
+  "size": "Розмір",
+  "width": "Ширина",
+  "height": "Висота",
+  "price": "Ціна",
+  "in_stock": "В наявності",
+  "yes": "Так",
+  "no": "Ні",
+  "not_available": "Не вказано"
 }

@@ -34,6 +34,11 @@ const ProductDetailsPage = () => {
 
   const [isZoomed, setIsZoomed] = useState(false);
 
+  const displayValue = (val, t) =>
+    val === undefined || val === null || val === "" || val === "N/A"
+      ? t("not_available")
+      : val;
+
   useEffect(() => {
     dispatch(getUserProductsById(id));
   }, [dispatch, id]);
@@ -68,12 +73,24 @@ const ProductDetailsPage = () => {
         <InfoContainer>
           <DetailsHeader>{product.name}</DetailsHeader>
           <InfoList>
-            <InfoItem>🌈 Color: {product.color || "N/A"}</InfoItem>
-            <InfoItem>📏 Size: {product.size || "N/A"}</InfoItem>
-            <InfoItem>📏 Width: {product.width || "N/A"}</InfoItem>
-            <InfoItem>📏 Height: {product.height || "N/A"}</InfoItem>
-            <InfoItem>💰 Price: {product.price} zł</InfoItem>
-            <InfoItem>📦 In Stock: {product.inStock ? "Yes" : "No"}</InfoItem>
+            <InfoItem>
+              🎨 {t("color")}: {product.color || t("not_available")}
+            </InfoItem>
+            <InfoItem>
+              ↔️ {t("size")}: {displayValue(product.size, t)}
+            </InfoItem>
+            <InfoItem>
+              📐 {t("width")}: {product.width || t("not_available")}
+            </InfoItem>
+            <InfoItem>
+              ↕️ {t("height")}: {product.height || t("not_available")}
+            </InfoItem>
+            <InfoItem>
+              💰 {t("price")}: {product.price} zł
+            </InfoItem>
+            <InfoItem>
+              📦 {t("in_stock")}: {product.inStock ? t("yes") : t("no")}
+            </InfoItem>
           </InfoList>
         </InfoContainer>
       </DetailsWrapper>

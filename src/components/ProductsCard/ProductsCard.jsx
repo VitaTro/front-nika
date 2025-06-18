@@ -148,7 +148,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
               <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
               <ButtonDetailsWrapper>
                 <Link to={`/user/products/${product._id}`}>
-                  <ButtonDetails>Details</ButtonDetails>
+                  <ButtonDetails>{t("details")}</ButtonDetails>
                 </Link>
               </ButtonDetailsWrapper>
             </ProductAction>
