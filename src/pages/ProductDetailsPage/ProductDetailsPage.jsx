@@ -46,6 +46,16 @@ const ProductDetailsPage = () => {
   const handleImageClick = () => {
     setIsZoomed(!isZoomed);
   };
+  const getLengthWithUnit = (product, t) => {
+    if (!product?.length) return t("not_available");
+
+    const mmCategories = ["pendants", "crosses", "incense"];
+    const unit = mmCategories.includes(product.subcategory?.toLowerCase())
+      ? "mm"
+      : "cm";
+
+    return `${product.length}${unit}`;
+  };
 
   if (loading) return <Loader />;
   if (error) return <p>❌ Error: {error.message}</p>;
@@ -74,16 +84,16 @@ const ProductDetailsPage = () => {
           <DetailsHeader>{product.name}</DetailsHeader>
           <InfoList>
             <InfoItem>
-              🎨 {t("color")}: {product.color || t("not_available")}
+              🎨 {t("color")}: {displayValue(product.color, t)}
             </InfoItem>
             <InfoItem>
-              ↔️ {t("size")}: {displayValue(product.size, t)}
+              📐 {t("size")}: {displayValue(product.size, t)}
             </InfoItem>
             <InfoItem>
-              📐 {t("width")}: {product.width || t("not_available")}
+              ↔️ {t("width")}: {displayValue(product.width, t)}mm
             </InfoItem>
             <InfoItem>
-              ↕️ {t("height")}: {product.height || t("not_available")}
+              ↕️ {t("length")}: {getLengthWithUnit(product, t)}
             </InfoItem>
             <InfoItem>
               💰 {t("price")}: {product.price} zł
