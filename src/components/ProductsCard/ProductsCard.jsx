@@ -66,14 +66,11 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
   // ✅ Додавання в кошик
   const handleAddToCart = async () => {
+    if (!product.inStock) {
+      toast.warn("Produkt jest niedostępny!");
+      return;
+    }
     try {
-      console.log("🚀 Trying to add to cart:", {
-        productId: product._id,
-        name: product.name,
-        price: product.price,
-        quantity: productCount,
-      });
-
       await dispatch(
         addProductToShoppingCart({
           productId: product._id,
@@ -83,7 +80,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
         })
       );
 
-      console.log("⚡ Calling toast.success()!");
       toast.success(t("productAdded"), {
         position: "top-right",
         autoClose: 3000,
@@ -145,7 +141,15 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                   ➕
                 </ButtonQuantity>
               </div>
-              <ButtonShopping onClick={handleAddToCart}>🛒</ButtonShopping>
+              <ButtonShopping
+                onClick={product.inStock ? handleAddToCart : null}
+                disabled={!product.inStock}
+                style={{
+                  cursor: product.inStock ? "pointer" : "not-allowed",
+                }}
+              >
+                {product.inStock ? "🛒" : "🚫"}
+              </ButtonShopping>
               <ButtonDetailsWrapper>
                 <Link to={`/user/products/${product._id}`}>
                   <ButtonDetails>{t("details")}</ButtonDetails>
