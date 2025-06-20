@@ -11,7 +11,10 @@ import {
   selectShoppingCartItems,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
-import { fetchPickupPoints } from "../../redux/user/userOrders/operationsUserOrders";
+import {
+  createOrder,
+  fetchPickupPoints,
+} from "../../redux/user/userOrders/operationsUserOrders";
 import {
   ButtonWrapper,
   FormContainer,
@@ -22,7 +25,6 @@ import {
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
-
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const totalAmount = useSelector(selectTotalAmount);
   const { t } = useTranslation();
@@ -42,33 +44,93 @@ const UserOrderPage = () => {
       pickupPointId: savedData.pickupPointId || "",
     };
   });
-  useEffect(() => {
-    localStorage.setItem("orderForm", JSON.stringify(formData));
+  // useEffect(() => {
+  //   localStorage.setItem("orderForm", JSON.stringify(formData));
 
-    fetch("/api/user/profile/info", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("User data saved:", data))
-      .catch((error) => console.error("Error saving user data:", error));
-  }, [formData]);
+  //   fetch("/api/user/profile/info", {
+  //     method: "PUT",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(formData),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => console.log("User data saved:", data))
+  //     .catch((error) => console.error("Error saving user data:", error));
+  // }, [formData]);
 
+  // useEffect(() => {
+  //   dispatch(fetchPickupPoints({ cache: "reload" }));
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   localStorage.setItem("orderForm", JSON.stringify(formData));
+  // }, [formData]);
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!formData.pickupPointId) {
+  //     alert("Proszę wybrać paczkomat!");
+  //     return;
+  //   }
+  //   dispatch(
+  //     createOrder({
+  //       ...formData,
+  //       products: shoppingCart,
+  //       totalPrice: totalAmount,
+  //     })
+  //   );
+  //   const response = await dispatch(
+  //     initiatePayment({
+  //       orderId: formData.orderId,
+  //       amount: totalAmount,
+  //       paymentMethod: formData.paymentMethod,
+  //     })
+  //   );
+
+  //   if (response.payload) {
+  //     dispatch(checkPaymentStatus(formData.orderId));
+  //   }
+  // };
   useEffect(() => {
     dispatch(fetchPickupPoints({ cache: "reload" }));
   }, [dispatch]);
 
-  useEffect(() => {
-    localStorage.setItem("orderForm", JSON.stringify(formData));
-  }, [formData]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.pickupPointId) {
       alert("Proszę wybrać paczkomat!");
       return;
     }
+
+    localStorage.setItem("orderForm", JSON.stringify(formData));
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("/api/user/profile/info", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+        }),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.warn("Update response:", text);
+        throw new Error("Błąd przy zapisie danych użytkownika.");
+      }
+
+      const updatedUser = await response.json();
+      console.log("✅ User updated:", updatedUser);
+    } catch (error) {
+      console.error("❌ Error updating user:", error);
+    }
+
     dispatch(
       createOrder({
         ...formData,
@@ -76,7 +138,8 @@ const UserOrderPage = () => {
         totalPrice: totalAmount,
       })
     );
-    const response = await dispatch(
+
+    const result = await dispatch(
       initiatePayment({
         orderId: formData.orderId,
         amount: totalAmount,
@@ -84,11 +147,10 @@ const UserOrderPage = () => {
       })
     );
 
-    if (response.payload) {
+    if (result.payload) {
       dispatch(checkPaymentStatus(formData.orderId));
     }
   };
-
   return (
     <FormContainer
       style={{

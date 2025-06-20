@@ -2,10 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  registerUser,
-  verifyEmail,
-} from "../../../redux/auth/userAuth/operationAuth";
+import { registerUser } from "../../../redux/auth/userAuth/operationAuth";
 import {
   selectAuthError,
   selectAuthLoading,
@@ -21,6 +18,7 @@ import {
   ResponsiveContainer,
 } from "../AuthFormRegister.styled";
 import PasswordValidator from "./PasswordValidator";
+import VerificationNotice from "./VerificationNotice";
 
 const UserRegisterForm = () => {
   const { t } = useTranslation();
@@ -35,6 +33,7 @@ const UserRegisterForm = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [verificationSuccess, setVerificationSuccess] = useState(false);
   const [password, setPassword] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -61,11 +60,15 @@ const UserRegisterForm = () => {
       return;
     }
 
-    const result = await dispatch(registerUser(userData));
+    try {
+      const result = await dispatch(registerUser(userData)).unwrap();
+      console.log("📦 Registration result:", result);
 
-    if (result.payload?.verificationToken) {
-      dispatch(verifyEmail(result.payload.verificationToken));
       setEmailSent(true);
+      setTimeout(() => setShowModal(true), 1500);
+    } catch (err) {
+      console.error("❌ Registration error:", err);
+      setError("Rejestracja nie powiodła się. Spróbuj ponownie.");
     }
   };
   const handleVerification = () => {
@@ -83,7 +86,7 @@ const UserRegisterForm = () => {
       <HeaderForm>{t("user_register")}</HeaderForm>
 
       {/* 📌 Повідомлення про підтвердження email */}
-      {emailSent && !verificationSuccess && (
+      {/* {emailSent && !verificationSuccess && (
         <div
           style={{
             backgroundColor: "#FFE6E6",
@@ -96,7 +99,7 @@ const UserRegisterForm = () => {
           </p>
           <p style={{ color: "gray", fontSize: "12px" }}>{t("check_spam")}</p>
         </div>
-      )}
+      )} */}
 
       {/* ✅ Верифікація успішна */}
       {verificationSuccess && (
@@ -159,7 +162,8 @@ const UserRegisterForm = () => {
           </ItemForm>
         </AuthForm>
       )}
-      {emailSent && (
+      {emailSent && showModal && <VerificationNotice />}
+      {/* {emailSent && (
         <div
           style={{
             backgroundColor: "#FFE6E6",
@@ -178,7 +182,7 @@ const UserRegisterForm = () => {
           </p>
           <button onClick={() => setEmailSent(false)}>OK</button>
         </div>
-      )}
+      )} */}
     </ResponsiveContainer>
   );
 };

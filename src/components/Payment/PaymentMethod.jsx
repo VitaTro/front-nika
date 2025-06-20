@@ -57,3 +57,4 @@ const PaymentMethod = () => {
     </BankContainer>
   );
 };
+export default PaymentMethod;

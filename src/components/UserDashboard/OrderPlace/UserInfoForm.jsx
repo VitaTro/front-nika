@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getPaymentMethods } from "../../../redux/payment/operationPayment";
 import { selectPaymentMethods } from "../../../redux/payment/selectorPayment";
+import PaymentBlik from "../../Payment/PaymentBlik";
+import PaymentMethod from "../../Payment/PaymentMethod";
 import { InputField, SelectField } from "./OrderPlace.styled";
 const UserInfoForm = ({ formData, setFormData }) => {
   const paymentMethods = useSelector(selectPaymentMethods);
@@ -13,6 +15,20 @@ const UserInfoForm = ({ formData, setFormData }) => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const renderPaymentSection = () => {
+    switch (formData.paymentMethod) {
+      case "blik":
+        return <PaymentBlik />;
+      case "transfer":
+        return <PaymentMethod />;
+      default:
+        return null;
+    }
+  };
+  {
+    renderPaymentSection();
+  }
+
   useEffect(() => {
     dispatch(getPaymentMethods());
   }, [dispatch]);
