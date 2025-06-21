@@ -38,7 +38,7 @@ const ContactSection = () => {
       >
         <FaInstagram size={24} color="#E4405F" />
         <a
-          href="https://www.instagram.com/vitylja.trojan/"
+          href="https://www.instagram.com/nika_gold_huping/"
           style={{
             color: "#000",
             fontSize: "18px",
