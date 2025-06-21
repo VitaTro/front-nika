@@ -1,7 +1,6 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { Chart, registerables } from "chart.js";
 import { useEffect, useRef, useState } from "react";
-import { Line } from "react-chartjs-2"; // 📊 Графік продажів
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
 import {
@@ -10,6 +9,7 @@ import {
 } from "../../../../../redux/finance/overview/operationOverview";
 import {
   selectCompletedSales,
+  selectExpensesSummary,
   selectFinanceError,
   selectFinanceLoading,
   selectFinanceSettings,
@@ -28,7 +28,7 @@ const FinanceOverview = () => {
   const completedSales = useSelector(selectCompletedSales);
   const isLoading = useSelector(selectFinanceLoading);
   const error = useSelector(selectFinanceError);
-
+  const expenses = useSelector(selectExpensesSummary);
   // 🔥 Локальний стан для оновлення налаштувань фінансів
   const [updatedSettings, setUpdatedSettings] = useState(financeSettings);
   const chartRef = useRef(null);
@@ -118,7 +118,7 @@ const FinanceOverview = () => {
         </Typography>
       </Paper>
 
-      {/* 🔹 Редагування фінансових налаштувань */}
+      {/* 🔹 Редагування фінансових налаштувань
       <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
         <Typography variant="h6">Фінансові налаштування</Typography>
         <TextField
@@ -129,6 +129,7 @@ const FinanceOverview = () => {
             setUpdatedSettings({ ...updatedSettings, taxRate: e.target.value })
           }
         />
+
         <TextField
           label="Операційні витрати (zł)"
           type="number"
@@ -159,6 +160,20 @@ const FinanceOverview = () => {
         >
           Зберегти налаштування
         </Button>
+      </Paper> */}
+      <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
+        <Typography variant="h6">Витрати та прибуток</Typography>
+        <Typography>
+          💸 Витрати: {expenses?.totalFromRecords ?? 0} zł
+        </Typography>
+        <Typography
+          sx={{
+            color: salesOverview?.profitForecast > 0 ? "green" : "red",
+            mt: 1,
+          }}
+        >
+          💰 Прибуток: {salesOverview?.profitForecast ?? "—"} zł
+        </Typography>
       </Paper>
 
       {/* 🔹 Огляд продажів (з кольоровими індикаторами) */}
@@ -178,29 +193,6 @@ const FinanceOverview = () => {
           zł
         </Typography>
       </Paper>
-
-      {/* 🔹 Графік динаміки продажів */}
-      <Paper
-        elevation={3}
-        sx={{
-          padding: "20px",
-          marginBottom: "20px",
-          maxHeight: "300px",
-          overflowY: "auto",
-        }}
-      >
-        <Typography variant="h6">Графік продажів</Typography>
-        <Line
-          data={chartData}
-          options={{
-            maintainAspectRatio: false,
-            responsive: true,
-          }}
-          height={200}
-          width={350}
-        />
-      </Paper>
-
       {/* 🔹 Виконані продажі (з сортуванням) */}
       {completedSales.length === 0 ? (
         <Typography variant="h6">Немає виконаних продажів</Typography>

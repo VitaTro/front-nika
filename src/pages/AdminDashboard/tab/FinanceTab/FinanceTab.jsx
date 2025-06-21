@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import ExpenseManager from "./FinanceComponent/ExpenseManager";
 import FinanceOverview from "./FinanceComponent/FinanceOverview";
 import FinanceSettings from "./FinanceComponent/FinanceSettings";
 import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
@@ -61,6 +62,14 @@ const FinanceTab = () => {
         >
           Налаштування
         </Button>
+        <Button
+          variant={viewMode === "expenses" ? "contained" : "outlined"}
+          color="error"
+          onClick={() => setViewMode("expenses")}
+          style={{ marginLeft: "10px" }}
+        >
+          Витрати
+        </Button>
       </div>
 
       {/* Відображення відповідної секції */}
@@ -71,6 +80,7 @@ const FinanceTab = () => {
       {viewMode === "online-sales" && <OnlineSale />}
       {viewMode === "offline-orders" && <OfflineOrder />}
       {viewMode === "offline-sales" && <OfflineSale />}
+      {viewMode === "expenses" && <ExpenseManager />}
       <Outlet />
     </div>
   );

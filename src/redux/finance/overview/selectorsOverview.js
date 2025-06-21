@@ -36,3 +36,7 @@ export const selectFinanceError = createSelector(
   [selectFinanceState],
   (finance) => finance.error || null
 );
+export const selectExpensesSummary = createSelector(
+  [selectFinanceState],
+  (finance) => finance.expenses || {}
+);

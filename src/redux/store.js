@@ -3,6 +3,7 @@ import adminReducer from "./admin/adminSlice";
 import adminAuthReducer from "./auth/adminAuth/adminAuthSlice";
 import userAuthReducer from "./auth/userAuth/userAuthSlice";
 import filtersReducer from "./filters/filterSlice";
+import { expenseReducer } from "./finance/expense/expenseSlice";
 import offlineOrdersReducer from "./finance/offlineOrder/offlineOrderSlice";
 import offlineSalesReducer from "./finance/offlineSale/offlineSaleSlice";
 import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
@@ -30,6 +31,7 @@ const store = configureStore({
     onlineSales: onlineSalesReducer,
     offlineOrders: offlineOrdersReducer,
     offlineSales: offlineSalesReducer,
+    expenses: expenseReducer,
     overview: overviewReducer,
     settings: settingsReducer,
     products: productsReducer,

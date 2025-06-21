@@ -13,6 +13,7 @@ const overviewSlice = createSlice({
     lowStockItems: [],
     salesOverview: {},
     financeSettings: {},
+    expenses: {},
     loading: false,
     error: null,
   },
@@ -30,6 +31,7 @@ const overviewSlice = createSlice({
         state.lowStockItems = action.payload.lowStockItems;
         state.salesOverview = action.payload.salesOverview;
         state.financeSettings = action.payload.financeSettings;
+        state.expenses = action.payload.expenses || {};
       })
       .addCase(fetchFinanceOverview.rejected, (state, action) => {
         state.loading = false;
