@@ -48,6 +48,21 @@ const DashboardTab = () => {
           Список бажань
         </Button>
       </div>
+      <div>
+        <Button
+          variant={viewMode === "invoices" ? "contained" : "outlined"}
+          color="info"
+          onClick={() =>
+            window.open(
+              "https://drive.google.com/drive/u/1/folders/1TkHWa-aTjUWVRn8BxkpFZD8rAekKO7Kx",
+              "_blank"
+            )
+          }
+          style={{ marginLeft: "10px" }}
+        >
+          📂 Інвойси (Google Drive)
+        </Button>
+      </div>
 
       {/* Відображення вибраного режиму */}
       {viewMode === "stats" && <StatisticsSection stats={dashboard.stats} />}
@@ -58,6 +73,13 @@ const DashboardTab = () => {
       )}
       {viewMode === "wishlist" && (
         <WishlistSection wishlist={dashboard.wishlistOverview} />
+      )}
+      {viewMode === "invoices" && (
+        <iframe
+          title="Google Drive Invoice Folder"
+          src="https://drive.google.com/embeddedfolderview?id=1TkHWa-aTjUWVRn8BxkpFZD8rAekKO7Kx#grid"
+          style={{ width: "100%", height: "80vh", border: "none" }}
+        />
       )}
     </div>
   );

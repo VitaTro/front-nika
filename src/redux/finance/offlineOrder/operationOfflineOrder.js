@@ -1,5 +1,8 @@
 import axios from "../../axiosConfig";
 import {
+  createOfflineOrderFailure,
+  createOfflineOrderRequest,
+  createOfflineOrderSuccess,
   fetchOfflineOrdersFailure,
   fetchOfflineOrdersRequest,
   fetchOfflineOrdersSuccess,
@@ -27,9 +30,16 @@ export const createOfflineOrder = (orderData) => async (dispatch) => {
       "/api/admin/finance/offline/orders",
       orderData
     );
+
     dispatch(createOfflineOrderSuccess(response.data.order));
   } catch (error) {
-    dispatch(createOfflineOrderFailure(error.message));
+    console.error(
+      "❌ createOfflineOrder помилка:",
+      error.response?.data || error.message
+    );
+    dispatch(
+      createOfflineOrderFailure(error.response?.data?.error || error.message)
+    );
   }
 };
 

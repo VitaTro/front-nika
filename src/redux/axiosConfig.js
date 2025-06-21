@@ -34,7 +34,10 @@ axios.interceptors.response.use(
         const { data } = await axios.post(refreshUrl, { refreshToken });
 
         localStorage.setItem("token", data.accessToken);
-
+        const tokenPayload = JSON.parse(atob(data.accessToken.split(".")[1]));
+        if (tokenPayload?.role) {
+          localStorage.setItem("userRole", tokenPayload.role);
+        }
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
         return axios(error.config);
       } catch (refreshError) {
