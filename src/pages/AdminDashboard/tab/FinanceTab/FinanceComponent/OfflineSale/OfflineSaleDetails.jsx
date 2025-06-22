@@ -11,43 +11,35 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import ReturnOfflineSale from "./ReturnOfflineSale";
 
 const OfflineSaleDetails = ({ sale, onClose }) => {
   const [openReturnDialog, setOpenReturnDialog] = useState(false);
+  const isMobile = useMediaQuery("(max-width:768px)");
   return (
-    <Dialog open={!!sale} onClose={onClose}>
+    <Dialog open={!!sale} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>🛍 Деталі продажу</DialogTitle>
       <DialogContent>
-        <p>
+        <Typography>
           <strong>Сума:</strong> {sale?.totalAmount} zł
-        </p>
-        <p>
+        </Typography>
+        <Typography>
           <strong>Метод оплати:</strong> {sale?.paymentMethod}
-        </p>
+        </Typography>
 
-        {/* 🏪 Таблиця товарів */}
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer component={Paper} sx={{ mt: 2 }}>
+          <Table size={isMobile ? "small" : "medium"}>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  <strong>Фото</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Назва товару</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Кількість</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Ціна за одиницю</strong>
-                </TableCell>
-                <TableCell>
-                  <strong>Загальна сума</strong>
-                </TableCell>
+                <TableCell>Фото</TableCell>
+                <TableCell>Назва</TableCell>
+                <TableCell>К-сть</TableCell>
+                <TableCell>Ціна</TableCell>
+                <TableCell>Сума</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -58,7 +50,7 @@ const OfflineSaleDetails = ({ sale, onClose }) => {
                       src={item.photoUrl}
                       alt={item.name}
                       width="50"
-                      style={{ borderRadius: "5px" }}
+                      style={{ borderRadius: 5 }}
                     />
                   </TableCell>
                   <TableCell>{item.name}</TableCell>
@@ -71,15 +63,20 @@ const OfflineSaleDetails = ({ sale, onClose }) => {
           </Table>
         </TableContainer>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="error">
+
+      <DialogActions sx={{ flexWrap: isMobile ? "wrap" : "nowrap", gap: 1 }}>
+        <Button onClick={onClose} color="error" fullWidth={isMobile}>
           ❌ Закрити
         </Button>
-        <Button onClick={() => setOpenReturnDialog(true)} variant="contained">
+        <Button
+          onClick={() => setOpenReturnDialog(true)}
+          variant="contained"
+          fullWidth={isMobile}
+        >
           🔄 Повернути товар
         </Button>
       </DialogActions>
-      {/* ✅ Вбудовуємо компонент повернення */}
+
       {openReturnDialog && (
         <ReturnOfflineSale
           sale={sale}

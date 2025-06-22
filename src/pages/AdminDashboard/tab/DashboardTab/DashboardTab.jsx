@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PopularProductsSection from "../../../../components/AdminDashboard/PopularProductsSection";
@@ -11,7 +11,8 @@ import { selectAdminData } from "../../../../redux/admin/selectorsAdmin";
 const DashboardTab = () => {
   const dispatch = useDispatch();
   const { loading, error, dashboard } = useSelector(selectAdminData);
-  const [viewMode, setViewMode] = useState("stats"); // Управління підзакладками
+  const [viewMode, setViewMode] = useState("stats");
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     dispatch(fetchAdminDashboard());
@@ -21,9 +22,17 @@ const DashboardTab = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div style={{ marginLeft: "10px" }}>
-      {/* Кнопки для переключення між секціями */}
-      <div style={{ marginBottom: "20px", marginLeft: "10px" }}>
+    <Box sx={{ padding: isMobile ? 1 : 2 }}>
+      {/* Кнопки навігації */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          gap: 2,
+          marginBottom: 2,
+          alignItems: isMobile ? "stretch" : "center",
+        }}
+      >
         <Button
           variant={viewMode === "stats" ? "contained" : "outlined"}
           color="primary"
@@ -35,7 +44,6 @@ const DashboardTab = () => {
           variant={viewMode === "popular" ? "contained" : "outlined"}
           color="secondary"
           onClick={() => setViewMode("popular")}
-          style={{ marginLeft: "10px" }}
         >
           Популярні товари
         </Button>
@@ -43,28 +51,19 @@ const DashboardTab = () => {
           variant={viewMode === "wishlist" ? "contained" : "outlined"}
           color="success"
           onClick={() => setViewMode("wishlist")}
-          style={{ marginLeft: "10px" }}
         >
           Список бажань
         </Button>
-      </div>
-      <div>
         <Button
           variant={viewMode === "invoices" ? "contained" : "outlined"}
           color="info"
-          onClick={() =>
-            window.open(
-              "https://drive.google.com/drive/u/1/folders/1TkHWa-aTjUWVRn8BxkpFZD8rAekKO7Kx",
-              "_blank"
-            )
-          }
-          style={{ marginLeft: "10px" }}
+          onClick={() => setViewMode("invoices")}
         >
-          📂 Інвойси (Google Drive)
+          📂 Інвойси
         </Button>
-      </div>
+      </Box>
 
-      {/* Відображення вибраного режиму */}
+      {/* Відображення вибраного контенту */}
       {viewMode === "stats" && <StatisticsSection stats={dashboard.stats} />}
       {viewMode === "popular" && (
         <PopularProductsSection
@@ -81,7 +80,7 @@ const DashboardTab = () => {
           style={{ width: "100%", height: "80vh", border: "none" }}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

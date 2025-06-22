@@ -6,15 +6,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   returnOnlineOrder,
@@ -23,58 +24,52 @@ import {
 import MissingProductModal from "./MissingProductModal";
 
 const OnlineOrderDetails = ({ order, onClose }) => {
-  const [missingProduct, setMissingProduct] = useState(null);
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery("(max-width:768px)");
+  const [missingProduct, setMissingProduct] = useState(null);
   const [checkedItems, setCheckedItems] = useState(
     order?.products?.reduce((acc, item) => {
-      const productId = item.productId?._id || item._id || `unknown_product`;
-
+      const productId = item?.productId?._id || item?._id || `unknown`;
       acc[productId] = false;
-
       return acc;
     }, {}) || {}
   );
 
-  // ✅ Функція зміни статусу кожного товару
   const handleToggle = (productId) => {
     setCheckedItems((prev) => ({ ...prev, [productId]: !prev[productId] }));
   };
 
-  // ✅ Перевірка, чи всі товари зібрані
   const allItemsChecked = Object.values(checkedItems).every(Boolean);
 
-  // ✅ Оновлення статусу замовлення на "assembled"
   const handleConfirmAssembly = () => {
     dispatch(updateOnlineOrder(order._id, { status: "assembled" }));
     onClose();
   };
 
-  // ✅ Оновлення статусу на "shipped" або "ready_for_pickup"
   const handleConfirmShipment = () => {
-    let nextStatus =
+    const nextStatus =
       order.deliveryType === "pickup" ? "ready_for_pickup" : "shipped";
     dispatch(updateOnlineOrder(order._id, { status: nextStatus }));
     onClose();
   };
 
-  // ✅ Повернення замовлення
   const handleReturnOrder = () => {
     dispatch(returnOnlineOrder(order._id, { reason: "Клієнт відмовився" }));
     onClose();
   };
 
   return (
-    <Dialog open={!!order} onClose={onClose} maxWidth="md">
+    <Dialog open={!!order} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>📦 Деталі замовлення ({order.status})</DialogTitle>
 
       <DialogContent>
-        <TableContainer component={Paper}>
-          <Table>
+        <TableContainer sx={{ overflowX: "auto" }}>
+          <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell>✅ Зібрано?</TableCell>
+                <TableCell>✅</TableCell>
                 <TableCell>Фото</TableCell>
-                <TableCell>Назва товару</TableCell>
+                <TableCell>Назва</TableCell>
                 <TableCell>Кількість</TableCell>
                 <TableCell>Дія</TableCell>
               </TableRow>
@@ -82,7 +77,7 @@ const OnlineOrderDetails = ({ order, onClose }) => {
             <TableBody>
               {order.products.map((item) => {
                 const productId =
-                  item?.productId?._id || item?._id || `unknown_product`;
+                  item?.productId?._id || item?._id || `unknown`;
 
                 return (
                   <TableRow key={productId}>
@@ -92,12 +87,14 @@ const OnlineOrderDetails = ({ order, onClose }) => {
                           checked={checkedItems[productId]}
                           onChange={() => handleToggle(productId)}
                           color="success"
+                          size={isMobile ? "small" : "medium"}
                         />
                       ) : (
                         <Chip
                           label="❌ Немає в наявності"
                           color="error"
                           onClick={() => setMissingProduct(item)}
+                          size="small"
                         />
                       )}
                     </TableCell>
@@ -108,27 +105,24 @@ const OnlineOrderDetails = ({ order, onClose }) => {
                           item?.photoUrl ||
                           "placeholder.jpg"
                         }
-                        alt={
-                          item?.productId?.name ||
-                          item?.name ||
-                          "Товар відсутній"
-                        }
-                        width="50"
-                        style={{ borderRadius: "5px" }}
+                        alt={item?.productId?.name || item?.name || "Товар"}
+                        width={40}
+                        style={{ borderRadius: 4 }}
                       />
                     </TableCell>
                     <TableCell>
-                      {item?.productId?.name || item?.name || "Невідомий товар"}
+                      {item?.productId?.name || item?.name || "—"}
                     </TableCell>
-                    <TableCell>{item?.quantity || "?"}</TableCell>
+                    <TableCell>{item?.quantity || "—"}</TableCell>
                     <TableCell>
-                      {item?.productId ? null : (
+                      {!item?.productId && (
                         <Button
-                          variant="contained"
+                          variant="outlined"
+                          size="small"
                           color="error"
                           onClick={() => setMissingProduct(item)}
                         >
-                          ❌ Видалити
+                          Видалити
                         </Button>
                       )}
                     </TableCell>
@@ -138,24 +132,50 @@ const OnlineOrderDetails = ({ order, onClose }) => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <Stack
+          direction={isMobile ? "column" : "row"}
+          spacing={1}
+          sx={{ mt: 2 }}
+        >
+          <Button
+            variant="contained"
+            fullWidth={isMobile}
+            onClick={handleConfirmAssembly}
+            disabled={!allItemsChecked}
+          >
+            🛠 Підтвердити зібране
+          </Button>
+          <Button
+            variant="contained"
+            fullWidth={isMobile}
+            color="success"
+            onClick={handleConfirmShipment}
+          >
+            📤 Відправити
+          </Button>
+          <Button
+            variant="outlined"
+            fullWidth={isMobile}
+            color="error"
+            onClick={handleReturnOrder}
+          >
+            ❌ Повернення
+          </Button>
+        </Stack>
       </DialogContent>
+
       <DialogActions>
-        <Button onClick={onClose} color="error">
-          ❌ Закрити
+        <Button onClick={onClose} color="secondary">
+          Закрити
         </Button>
       </DialogActions>
 
-      {/* ✅ Інтегроване модальне вікно для відсутнього товару */}
       <MissingProductModal
         open={!!missingProduct}
         onClose={() => setMissingProduct(null)}
         missingProduct={missingProduct}
         onConfirm={(product, comment) => {
-          console.log(
-            `✅ Внесено зміни для: ${
-              product?.name || "Невідомий товар"
-            } Коментар: ${comment}`
-          );
           setMissingProduct(null);
         }}
       />

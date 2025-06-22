@@ -4,7 +4,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -14,34 +16,39 @@ const MissingProductModal = ({ open, onClose, missingProduct, onConfirm }) => {
   if (!missingProduct) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>❌ Товар відсутній: {missingProduct.name}</DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle>
+        ❌ Товар відсутній: {missingProduct?.name || "Невідомий"}
+      </DialogTitle>
       <DialogContent>
-        <p>
-          <strong>Кількість запитана:</strong> {missingProduct.quantity}
-        </p>
-        <TextField
-          label="Коментар адміністратора"
-          fullWidth
-          variant="outlined"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          sx={{ marginTop: 2 }}
-        />
+        <Stack spacing={2}>
+          <Typography>
+            <strong>Кількість запитана:</strong>{" "}
+            {missingProduct.quantity || "?"}
+          </Typography>
+          <TextField
+            label="Коментар адміністратора"
+            fullWidth
+            variant="outlined"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+        </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="error">
-          Закрити
+          ❌ Закрити
         </Button>
         <Button
           onClick={() => onConfirm(missingProduct, comment)}
           variant="contained"
           color="success"
         >
-          ✅ Підтвердити зміни
+          ✅ Підтвердити
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
+
 export default MissingProductModal;

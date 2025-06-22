@@ -11,24 +11,28 @@ const statuses = [
   { key: "cancelled", label: "❌ Скасовано", color: "error" },
 ];
 
-const OrderStatus = ({ order }) => {
+const OrderStatus = ({ order, isMobile }) => {
   const dispatch = useDispatch();
-
-  const handleStatusChange = (newStatus) => {
-    dispatch(
-      updateOnlineOrderStatus({ orderId: order._id, status: newStatus })
-    );
+  const handleStatusChange = (status) => {
+    dispatch(updateOnlineOrderStatus({ orderId: order._id, status }));
   };
 
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack
+      direction={isMobile ? "column" : "row"}
+      spacing={1}
+      flexWrap="wrap"
+      maxWidth={isMobile ? "100%" : "fit-content"}
+    >
       {statuses.map(({ key, label, color }) => (
         <Button
           key={key}
+          size="small"
           variant="contained"
           color={color}
           onClick={() => handleStatusChange(key)}
-          disabled={order.status === key} // ✅ Вимикаємо кнопку, якщо статус уже встановлено
+          disabled={order.status === key}
+          fullWidth={isMobile}
         >
           {label}
         </Button>

@@ -4,9 +4,11 @@ import {
   Card,
   CardContent,
   Chip,
+  Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../../components/Loader";
 import { fetchOnlineSales } from "../../../../../../redux/finance/onlineSale/operationOnlineSale";
@@ -29,7 +31,7 @@ const OnlineSale = () => {
   const onlineSales = useSelector(selectOnlineSales);
   const loading = useSelector(selectOnlineSalesLoading);
   const error = useSelector(selectOnlineSalesError);
-
+  const isMobile = useMediaQuery("(max-width:768px)");
   const [selectedSale, setSelectedSale] = useState(null);
 
   useEffect(() => {
@@ -40,43 +42,50 @@ const OnlineSale = () => {
   if (error) return <p>❌ Помилка: {error}</p>;
 
   return (
-    <div>
-      <h2>💰 Онлайн-продажі</h2>
+    <Box sx={{ px: isMobile ? 1 : 3 }}>
+      <Typography variant="h5" gutterBottom>
+        💰 Онлайн-продажі
+      </Typography>
 
-      {onlineSales.map((sale) => (
-        <Card key={sale._id} sx={{ marginBottom: 2, padding: 2 }}>
-          <CardContent
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <Typography variant="h6">ID: {sale._id}</Typography>
-              <Chip
-                label={sale.status}
-                color={statusColors[sale.status] || "default"}
-                sx={{ marginBottom: 1 }}
-              />
-            </Box>
-            <Button
-              variant="contained"
-              onClick={() => setSelectedSale(sale)}
-              sx={{ marginLeft: "auto" }}
-            >
-              👀 Переглянути деталі
-            </Button>
-          </CardContent>
-        </Card>
-      ))}
+      <Stack spacing={2}>
+        {onlineSales.map((sale) => (
+          <Card key={sale._id}>
+            <CardContent>
+              <Stack
+                direction={isMobile ? "column" : "row"}
+                alignItems={isMobile ? "flex-start" : "center"}
+                justifyContent="space-between"
+                spacing={2}
+              >
+                <Box>
+                  <Typography>ID: {sale._id}</Typography>
+                  <Chip
+                    label={sale.status}
+                    color={statusColors[sale.status] || "default"}
+                    sx={{ mt: 1 }}
+                  />
+                </Box>
+
+                <Button
+                  variant="contained"
+                  onClick={() => setSelectedSale(sale)}
+                  fullWidth={isMobile}
+                >
+                  👀 Переглянути
+                </Button>
+              </Stack>
+            </CardContent>
+          </Card>
+        ))}
+      </Stack>
+
       {selectedSale && (
         <OnlineSaleDetails
           sale={selectedSale}
           onClose={() => setSelectedSale(null)}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

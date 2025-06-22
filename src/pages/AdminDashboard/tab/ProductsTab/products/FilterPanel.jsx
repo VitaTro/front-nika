@@ -1,14 +1,15 @@
 // Components/FilterPanel.js
-import { TextField } from "@mui/material";
-import React from "react";
+import { Box, TextField } from "@mui/material";
 
 const FilterPanel = ({
   searchTerm,
-  handleSearchChange,
   filterCategory,
-  handleFilterChange,
+  filterIndex,
+  handleSearchChange,
+  handleCategoryChange,
+  handleIndexChange,
 }) => (
-  <div style={{ marginBottom: "20px" }}>
+  <Box sx={{ mb: 3 }}>
     <TextField
       label="Пошук за назвою"
       value={searchTerm}
@@ -19,18 +20,18 @@ const FilterPanel = ({
     <TextField
       label="Фільтр за категорією"
       value={filterCategory}
-      onChange={handleFilterChange}
+      onChange={handleCategoryChange}
       fullWidth
       margin="normal"
     />
     <TextField
       label="Індекс товару"
-      value={filterCategory}
-      onChange={handleFilterChange}
+      value={filterIndex}
+      onChange={handleIndexChange}
       fullWidth
       margin="normal"
     />
-  </div>
+  </Box>
 );
 
 export default FilterPanel;

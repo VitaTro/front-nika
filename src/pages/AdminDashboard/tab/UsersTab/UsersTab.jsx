@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Paper,
   Table,
@@ -7,8 +8,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
@@ -19,7 +21,7 @@ import { selectAdminData } from "../../../../redux/admin/selectorsAdmin";
 const UsersTab = () => {
   const dispatch = useDispatch();
   const { users } = useSelector(selectAdminData);
-
+  const isMobile = useMediaQuery("(max-width: 768px)");
   useEffect(() => {
     dispatch(fetchAdminUsers());
   }, [dispatch]);
@@ -28,7 +30,35 @@ const UsersTab = () => {
     dispatch(deleteAdminUser(id));
   };
 
-  return (
+  return isMobile ? (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      {users.map((user, index) => (
+        <Paper key={user.id || `user-${index}`} sx={{ padding: 2 }}>
+          <div>
+            <strong>Ім’я:</strong> {user.username}
+          </div>
+          <div>
+            <strong>Email:</strong> {user.email}
+          </div>
+          <div>
+            <strong>Роль:</strong> {user.role}
+          </div>
+          <Box mt={1}>
+            <Button
+              onClick={() => handleDelete(user.id)}
+              color="error"
+              size="small"
+            >
+              Видалити
+            </Button>
+            <Button color="primary" size="small" sx={{ ml: 1 }}>
+              Редагувати
+            </Button>
+          </Box>
+        </Paper>
+      ))}
+    </Box>
+  ) : (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>

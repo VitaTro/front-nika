@@ -1,215 +1,154 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, useMediaQuery } from "@mui/material";
 import { Chart, registerables } from "chart.js";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
-import {
-  fetchFinanceOverview,
-  updateFinanceOverview,
-} from "../../../../../redux/finance/overview/operationOverview";
+import { fetchFinanceOverview } from "../../../../../redux/finance/overview/operationOverview";
 import {
   selectCompletedSales,
   selectExpensesSummary,
   selectFinanceError,
   selectFinanceLoading,
-  selectFinanceSettings,
   selectFinanceStats,
-  selectLowStockItems,
-  selectSalesOverview,
 } from "../../../../../redux/finance/overview/selectorsOverview";
+
 Chart.register(...registerables);
 
 const FinanceOverview = () => {
   const dispatch = useDispatch();
   const stats = useSelector(selectFinanceStats);
-  const salesOverview = useSelector(selectSalesOverview);
-  const financeSettings = useSelector(selectFinanceSettings);
-  const lowStockItems = useSelector(selectLowStockItems);
   const completedSales = useSelector(selectCompletedSales);
   const isLoading = useSelector(selectFinanceLoading);
   const error = useSelector(selectFinanceError);
   const expenses = useSelector(selectExpensesSummary);
-  // 🔥 Локальний стан для оновлення налаштувань фінансів
-  const [updatedSettings, setUpdatedSettings] = useState(financeSettings);
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const chartRef = useRef(null);
-  useEffect(() => {
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-  }, []);
+  const conversionRates = {
+    USD: 0.25,
+    PLN: 1,
+  };
+
+  const getNetProfit = (sale) => {
+    const products = sale.products || [];
+    let profit = 0;
+
+    products.forEach((p) => {
+      const quantity = Number(p.quantity) || 0;
+      const price = Number(p.price) || 0;
+      const purchase = Number(p.purchasePrice) || 0;
+      const currency = p.currency || "USD";
+      const rate = conversionRates[currency] || 1;
+
+      profit += quantity * (price - purchase * rate);
+    });
+
+    return profit;
+  };
+
+  const getTotalPrice = (sale) => {
+    return (sale.products || []).reduce((sum, p) => {
+      return sum + (Number(p.price) || 0) * (Number(p.quantity) || 1);
+    }, 0);
+  };
+
   useEffect(() => {
     dispatch(fetchFinanceOverview());
   }, [dispatch]);
 
-  const handleUpdateSettings = () => {
-    dispatch(updateFinanceOverview(updatedSettings));
-  };
+  const onlineProfit = completedSales
+    .filter((s) => s.source === "online")
+    .reduce((sum, s) => sum + getNetProfit(s), 0);
 
-  // 🔥 Сортування виконаних продажів за датою
-  const sortedCompletedSales = [...completedSales].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const offlineProfit = completedSales
+    .filter((s) => s.source === "offline")
+    .reduce((sum, s) => sum + getNetProfit(s), 0);
 
   if (isLoading) return <Loader />;
-  if (error) {
+  if (error)
     return (
       <Typography color="error">Помилка завантаження даних: {error}</Typography>
     );
-  }
-  const onlineSales = Array(12).fill(0); // Масив для онлайн-продажів
-  const offlineSales = Array(12).fill(0); // Масив для офлайн-продажів
-
-  sortedCompletedSales.forEach((sale) => {
-    const saleMonth = new Date(sale.createdAt).getMonth(); // Отримуємо місяць продажу
-    if (sale.source === "online") {
-      onlineSales[saleMonth] += sale.totalPrice; // Додаємо до онлайн-продажів
-    } else {
-      offlineSales[saleMonth] += sale.totalPrice; // Додаємо до офлайн-продажів
-    }
-  });
-
-  const chartData = {
-    labels: [
-      "Січень",
-      "Лютий",
-      "Березень",
-      "Квітень",
-      "Травень",
-      "Червень",
-      "Липень",
-      "Серпень",
-      "Вересень",
-      "Жовтень",
-      "Листопад",
-      "Грудень",
-    ],
-    datasets: [
-      {
-        label: "Онлайн-продажі",
-        data: onlineSales, // ✅ Реальні онлайн-продажі
-        borderColor: "blue",
-        backgroundColor: "rgba(0, 0, 255, 0.2)",
-      },
-      {
-        label: "Офлайн-продажі",
-        data: offlineSales, // ✅ Реальні офлайн-продажі
-        borderColor: "green",
-        backgroundColor: "rgba(0, 255, 0, 0.2)",
-      },
-    ],
-  };
 
   return (
-    <Box sx={{ maxHeight: "85vh", overflowY: "auto", padding: "10px" }}>
-      <Typography variant="h4" gutterBottom textAlign="center">
-        Фінансовий огляд
+    <Box sx={{ maxHeight: "85vh", overflowY: "auto", p: isMobile ? 1 : 2 }}>
+      <Typography variant="h5" align="center" gutterBottom>
+        📊 Фінансовий огляд
       </Typography>
 
-      {/* 🔹 Загальна статистика */}
-      <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
+      {/* Загальна статистика */}
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Загальна статистика</Typography>
-        <Typography>Користувачі: {stats?.totalUsers ?? "N/A"}</Typography>
-        <Typography>Продукти: {stats?.totalProducts ?? "N/A"}</Typography>
+        <Typography>📦 Продукти: {stats?.totalProducts ?? "—"}</Typography>
         <Typography>
-          Онлайн-продажі: {stats?.totalOnlineSales ?? "N/A"}
+          🛒 Онлайн-продажі: {stats?.totalOnlineSales ?? "—"}
         </Typography>
         <Typography>
-          Офлайн-продажі: {stats?.totalOfflineSales ?? "N/A"}
+          🏪 Офлайн-продажі: {stats?.totalOfflineSales ?? "—"}
         </Typography>
       </Paper>
 
-      {/* 🔹 Редагування фінансових налаштувань
-      <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
-        <Typography variant="h6">Фінансові налаштування</Typography>
-        <TextField
-          label="Податкова ставка (%)"
-          type="number"
-          value={updatedSettings?.taxRate || ""}
-          onChange={(e) =>
-            setUpdatedSettings({ ...updatedSettings, taxRate: e.target.value })
-          }
-        />
-
-        <TextField
-          label="Операційні витрати (zł)"
-          type="number"
-          value={updatedSettings?.operatingCosts || ""}
-          onChange={(e) =>
-            setUpdatedSettings({
-              ...updatedSettings,
-              operatingCosts: e.target.value,
-            })
-          }
-        />
-        <TextField
-          label="Бюджет на закупівлю (zł)"
-          type="number"
-          value={updatedSettings?.budgetForProcurement || ""}
-          onChange={(e) =>
-            setUpdatedSettings({
-              ...updatedSettings,
-              budgetForProcurement: e.target.value,
-            })
-          }
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleUpdateSettings}
-          sx={{ marginLeft: "50px" }}
-        >
-          Зберегти налаштування
-        </Button>
-      </Paper> */}
-      <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
-        <Typography variant="h6">Витрати та прибуток</Typography>
+      {/* Витрати та прибуток */}
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">💰 Витрати та прибуток</Typography>
         <Typography>
           💸 Витрати: {expenses?.totalFromRecords ?? 0} zł
         </Typography>
         <Typography
           sx={{
-            color: salesOverview?.profitForecast > 0 ? "green" : "red",
+            color: onlineProfit + offlineProfit > 0 ? "green" : "red",
             mt: 1,
           }}
         >
-          💰 Прибуток: {salesOverview?.profitForecast ?? "—"} zł
-        </Typography>
-      </Paper>
-
-      {/* 🔹 Огляд продажів (з кольоровими індикаторами) */}
-      <Paper elevation={3} sx={{ padding: "20px", marginBottom: "20px" }}>
-        <Typography variant="h6">Огляд продажів</Typography>
-        <Typography
-          sx={{ color: salesOverview?.online?.netProfit > 0 ? "green" : "red" }}
-        >
-          Чистий прибуток онлайн: {salesOverview?.online?.netProfit ?? "N/A"} zł
+          💹 Загальний прибуток: {(onlineProfit + offlineProfit).toFixed(2)} zł
         </Typography>
         <Typography
           sx={{
-            color: salesOverview?.offline?.netProfit > 0 ? "green" : "red",
+            color:
+              onlineProfit +
+                offlineProfit -
+                (expenses?.totalFromRecords || 0) >=
+              0
+                ? "green"
+                : "red",
+            mt: 1,
           }}
         >
-          Чистий прибуток офлайн: {salesOverview?.offline?.netProfit ?? "N/A"}{" "}
+          🧾 Чистий фінансовий результат:{" "}
+          {(
+            onlineProfit +
+            offlineProfit -
+            (expenses?.totalFromRecords || 0)
+          ).toFixed(2)}{" "}
           zł
         </Typography>
       </Paper>
-      {/* 🔹 Виконані продажі (з сортуванням) */}
-      {completedSales.length === 0 ? (
-        <Typography variant="h6">Немає виконаних продажів</Typography>
-      ) : (
-        <Paper
-          elevation={3}
-          sx={{ padding: "20px", maxHeight: "300px", overflowY: "auto" }}
-        >
-          <Typography variant="h6">Виконані продажі</Typography>
-          {sortedCompletedSales.map((sale, index) => (
-            <Typography key={index}>
-              {new Date(sale.createdAt).toLocaleDateString()} -{" "}
-              {sale.totalPrice} zł ({sale.paymentMethod})
+
+      {/* Огляд продажів */}
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">📈 Огляд продажів</Typography>
+        <Typography sx={{ color: onlineProfit > 0 ? "green" : "red" }}>
+          Онлайн чистий прибуток: {onlineProfit.toFixed(2)} zł
+        </Typography>
+        <Typography sx={{ color: offlineProfit > 0 ? "green" : "red" }}>
+          Офлайн чистий прибуток: {offlineProfit.toFixed(2)} zł
+        </Typography>
+      </Paper>
+      {/* Виконані продажі */}
+      <Paper elevation={3} sx={{ p: 2, maxHeight: 300, overflowY: "auto" }}>
+        <Typography variant="h6" gutterBottom>
+          ✅ Виконані продажі
+        </Typography>
+        {completedSales.length === 0 ? (
+          <Typography>Немає виконаних продажів</Typography>
+        ) : (
+          completedSales.map((sale, idx) => (
+            <Typography key={idx}>
+              {new Date(sale.createdAt).toLocaleDateString()} —{" "}
+              {getTotalPrice(sale).toFixed(2)} zł ({sale.paymentMethod})
             </Typography>
-          ))}
-        </Paper>
-      )}
+          ))
+        )}
+      </Paper>
     </Box>
   );
 };

@@ -4,15 +4,14 @@ import {
   Card,
   CardContent,
   Chip,
+  Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../../components/Loader";
-import {
-  fetchOnlineOrderById,
-  fetchOnlineOrders,
-} from "../../../../../../redux/finance/onlineOrder/operationOnlineOrder";
+import { fetchOnlineOrders } from "../../../../../../redux/finance/onlineOrder/operationOnlineOrder";
 import {
   selectOnlineOrders,
   selectOnlineOrdersError,
@@ -35,73 +34,73 @@ const OnlineOrder = () => {
   const onlineOrders = useSelector(selectOnlineOrders);
   const loading = useSelector(selectOnlineOrdersLoading);
   const error = useSelector(selectOnlineOrdersError);
-
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
     dispatch(fetchOnlineOrders());
   }, [dispatch]);
-  const handleSelectOrder = (orderId) => {
-    dispatch(fetchOnlineOrderById(orderId)); // ✅ Отримуємо конкретне замовлення
-    setSelectedOrder(orderId);
-  };
-  if (loading) return <Loader />;
-  if (error) return <p>❌ Помилка: {error}</p>;
 
-  const handleCloseDetails = () => {
-    setSelectedOrder(null);
-  };
+  const handleCloseDetails = () => setSelectedOrder(null);
+
+  if (loading) return <Loader />;
+  if (error) return <Typography color="error">❌ Помилка: {error}</Typography>;
 
   return (
-    <div>
-      <h2>📦 Онлайн-замовлення</h2>
+    <Box sx={{ p: isMobile ? 1 : 3 }}>
+      <Typography variant="h5" gutterBottom>
+        📦 Онлайн-замовлення
+      </Typography>
 
-      {onlineOrders.map((order) => (
-        <Card key={order._id} sx={{ marginBottom: 2, padding: 2 }}>
-          <CardContent
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <Typography variant="h6">ID: {order.orderId}</Typography>
-              <Chip
-                label={order.status}
-                color={statusColors[order.status]}
-                sx={{ marginBottom: 1 }}
-              />
-            </Box>
+      <Stack spacing={2}>
+        {onlineOrders.map((order) => (
+          <Card key={order._id}>
+            <CardContent>
+              <Stack
+                direction={isMobile ? "column" : "row"}
+                spacing={2}
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Box>
+                  <Typography variant="subtitle1">
+                    ID: {order.orderId}
+                  </Typography>
+                  <Chip
+                    label={order.status}
+                    color={statusColors[order.status]}
+                    sx={{ mt: 1 }}
+                  />
+                </Box>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setSelectedOrder(order)}
-            >
-              🔎 Переглянути деталі
-            </Button>
+                <Stack
+                  direction={isMobile ? "column" : "row"}
+                  spacing={1}
+                  alignItems={isMobile ? "stretch" : "center"}
+                >
+                  <Button
+                    variant="contained"
+                    onClick={() => setSelectedOrder(order)}
+                    fullWidth={isMobile}
+                  >
+                    🔎 Деталі
+                  </Button>
 
-            {selectedOrder && (
-              <OnlineOrderDetails
-                order={selectedOrder}
-                onClose={handleCloseDetails}
-              />
-            )}
-
-            {/* ✅ Використовуємо новий компонент `OrderStatus` замість старих кнопок */}
-            <OrderStatus order={order} />
-          </CardContent>
-        </Card>
-      ))}
+                  <OrderStatus order={order} isMobile={isMobile} />
+                </Stack>
+              </Stack>
+            </CardContent>
+          </Card>
+        ))}
+      </Stack>
 
       {selectedOrder && (
         <OnlineOrderDetails
           order={selectedOrder}
-          onClose={() => setSelectedOrder(null)}
+          onClose={handleCloseDetails}
         />
       )}
-    </div>
+    </Box>
   );
 };
 
