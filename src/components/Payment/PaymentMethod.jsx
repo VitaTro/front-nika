@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { BankContainer, BankInput } from "./Payment.styled";
+
 const PaymentMethod = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({

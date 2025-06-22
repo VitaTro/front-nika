@@ -73,29 +73,6 @@ const OrderForm = ({ cart, setCart }) => {
     setCart([]);
     localStorage.removeItem("cart");
   };
-  // try {
-  //   const response = await axios.post(
-  //     "/api/admin/finance/offline/orders",
-  //     orderData
-  //   );
-  //   console.log("✅ Замовлення успішно оформлене!", response.data);
-
-  //   const orderId = response.data?.order?._id;
-  //   помилки;
-  //   if (!orderId) {
-  //     throw new Error("❌ Не вдалося отримати `orderId`!");
-  //   }
-
-  // 🔥 Оновлюємо статус замовлення
-  //     await updateOrderStatus(orderId);
-
-  //     setCart([]);
-  //     localStorage.removeItem("cart");
-  //   } catch (error) {
-  //     console.error("🔥 Помилка при оформленні замовлення:", error);
-  //     alert("❌ Сервер не прийняв запит. Перевір структуру даних.");
-  //   }
-  // };
 
   return (
     <div style={{ textAlign: "center", padding: "16px" }}>

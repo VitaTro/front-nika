@@ -123,5 +123,7 @@
   "in_stock": "Dostępność",
   "yes": "Tak",
   "no": "Nie",
-  "not_available": "Brak danych"
+  "not_available": "Brak danych",
+  "wallet": "Mój portfel",
+  "settings": "Ustawienia"
 }

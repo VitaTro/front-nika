@@ -177,3 +177,36 @@ export const getUserProductsById = createAsyncThunk(
     }
   }
 );
+export const fetchWallet = createAsyncThunk(
+  "user/fetchWallet",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get("/api/user/wallet");
+      return data.wallet;
+    } catch (error) {
+      return rejectWithValue("Failed to fetch wallet balance");
+    }
+  }
+);
+export const fetchUserSettings = createAsyncThunk(
+  "user/fetchSettings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get("/api/user/settings");
+      return data;
+    } catch (error) {
+      return rejectWithValue("Failed to load settings");
+    }
+  }
+);
+export const updateUserSettings = createAsyncThunk(
+  "user/updateSettings",
+  async (newSettings, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put("/api/user/settings", newSettings);
+      return data;
+    } catch (error) {
+      return rejectWithValue("Failed to update settings");
+    }
+  }
+);

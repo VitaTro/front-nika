@@ -62,6 +62,14 @@ const ProfilePage = () => {
           label={t("payment_cards")}
           style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
         />
+        <Tab
+          label={t("wallet")}
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
+        <Tab
+          label={t("settings")}
+          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+        />
       </Tabs>
 
       <Box>

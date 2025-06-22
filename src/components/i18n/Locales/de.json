@@ -123,5 +123,7 @@
   "in_stock": "Verfügbar",
   "yes": "Ja",
   "no": "Nein",
-  "not_available": "Nicht angegeben"
+  "not_available": "Nicht angegeben",
+  "wallet": "Brieftasche",
+  "settings": "Einstellungen"
 }

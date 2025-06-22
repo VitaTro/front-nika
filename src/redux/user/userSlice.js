@@ -7,12 +7,15 @@ import {
   fetchUserAddress,
   fetchUserInfo,
   fetchUserMain,
+  fetchUserSettings,
+  fetchWallet,
   getUserProducts,
   getUserProductsById,
   restoreSession,
   sendAdminMessage,
   updateUserAddress,
   updateUserInfo,
+  updateUserSettings,
 } from "./userOperations";
 import {
   fetchPurchaseHistory,
@@ -34,6 +37,10 @@ const userReducer = createSlice({
     orders: [],
     purchaseHistory: [],
     payments: [],
+    wallet: 0,
+    settings: {
+      allowWalletUsage: true,
+    },
   },
   reducers: {
     logoutUser(state) {
@@ -151,6 +158,15 @@ const userReducer = createSlice({
       })
       .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
         state.purchaseHistory = action.payload;
+      })
+      .addCase(fetchWallet.fulfilled, (state, action) => {
+        state.wallet = action.payload;
+      })
+      .addCase(fetchUserSettings.fulfilled, (state, action) => {
+        state.settings = action.payload;
+      })
+      .addCase(updateUserSettings.fulfilled, (state, action) => {
+        state.settings = action.payload;
       });
   },
 });

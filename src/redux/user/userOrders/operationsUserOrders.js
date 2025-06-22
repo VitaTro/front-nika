@@ -1,9 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axiosConfig";
-import {
-  selectShoppingCartItems,
-  selectTotalAmount,
-} from "../../shopping/selectorsShopping";
 
 export const fetchUserOrders = createAsyncThunk(
   "userOrders/fetchOrders",
@@ -58,32 +54,47 @@ export const fetchShippedOrders = createAsyncThunk(
 // ✅ Створити замовлення
 export const createOrder = createAsyncThunk(
   "userOrders/createOrder",
-  async ({ paymentMethod }, { getState, rejectWithValue }) => {
+  async ({ formData, cleanedProducts, totalPrice }, { rejectWithValue }) => {
     try {
-      const state = getState();
-      const products = selectShoppingCartItems(state);
-      const pickupPointId = state.inPost.selectedPickupPoint;
+      const {
+        paymentMethod,
+        pickupPointId,
+        postalCode,
+        city,
+        street,
+        houseNumber,
+        apartmentNumber,
+        isPrivateHouse,
+        deliveryType,
+      } = formData;
 
-      if (!products || products.length === 0) {
+      if (!cleanedProducts || !cleanedProducts.length) {
         return rejectWithValue("Кошик порожній, неможливо оформити замовлення");
       }
+
       if (!pickupPointId) {
         return rejectWithValue("Не вибрано пункт видачі");
       }
-      if (!["blik", "transfer"].includes(paymentMethod)) {
-        return rejectWithValue("Неправильний спосіб оплати");
-      }
 
       const response = await axios.post("/api/user/orders", {
-        products,
-        totalPrice: selectTotalAmount(state),
-        paymentMethod, // ✅ Передаємо вибраний спосіб оплати
+        products: cleanedProducts,
+        totalPrice,
+        paymentMethod,
         pickupPointId,
+        deliveryType,
+        postalCode,
+        city,
+        street,
+        houseNumber,
+        apartmentNumber,
+        isPrivateHouse,
       });
 
       return response.data.order;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      const message =
+        error.response?.data?.error || "❌ Order creation failed on server";
+      return rejectWithValue(message);
     }
   }
 );

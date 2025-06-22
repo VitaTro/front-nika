@@ -17,9 +17,9 @@ const UserInfoForm = ({ formData, setFormData }) => {
   };
   const renderPaymentSection = () => {
     switch (formData.paymentMethod) {
-      case "blik":
+      case "BLIK":
         return <PaymentBlik />;
-      case "transfer":
+      case "bank_transfer":
         return <PaymentMethod />;
       default:
         return null;
@@ -79,13 +79,13 @@ const UserInfoForm = ({ formData, setFormData }) => {
           value={formData.paymentMethod}
           onChange={handleChange}
         >
-          {/* <option value="blik">BLIK</option>
-          <option value="transfer">{t("bank_transfer")}</option> */}
-          {paymentMethods.map((method) => {
+          <option value="BLIK">BLIK</option>
+          <option value="bank_transfer">{t("bank_transfer")}</option>
+          {/* {paymentMethods.map((method) => {
             <option key={method} value={method}>
-              {method === "blik" ? "BLIK" : "Bank transfer"}
+              {method === "blik" ? "BLIK" : "bank_transfer"}
             </option>;
-          })}
+          })} */}
         </SelectField>
       </div>
     </div>

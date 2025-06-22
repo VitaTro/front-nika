@@ -3,7 +3,7 @@ import axios from "../axiosConfig";
 
 const PAYMENT_METHODS = {
   BLIK: "blik",
-  TRANSFER: "transfer",
+  TRANSFER: "bank_transfer",
 };
 
 // ✅ 1️⃣ Ініціація платежу

@@ -123,5 +123,7 @@
   "in_stock": "In Stock",
   "yes": "Yes",
   "no": "No",
-  "not_available": "Not specified"
+  "not_available": "Not specified",
+  "wallet": "Wallet",
+  "settings": "Settings"
 }

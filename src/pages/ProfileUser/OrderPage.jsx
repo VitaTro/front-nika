@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import BankTransferInfo from "../../components/Payment/BankTransferInfo";
+import BlikPhoneTransferInfo from "../../components/Payment/BlikPhoneTransferInfo";
 import OrderAddressPicker from "../../components/UserDashboard/OrderPlace/OrderAddressPicker";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import {
@@ -11,6 +13,7 @@ import {
   selectShoppingCartItems,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
+import { updateUserInfo } from "../../redux/user/userOperations";
 import {
   createOrder,
   fetchPickupPoints,
@@ -21,13 +24,13 @@ import {
   HeaderOrder,
   SubmitButton,
 } from "./ProfileUser.styled";
-
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const totalAmount = useSelector(selectTotalAmount);
   const { t } = useTranslation();
+
   const [formData, setFormData] = useState(() => {
     const savedData = JSON.parse(localStorage.getItem("orderForm")) || {};
     return {
@@ -40,56 +43,13 @@ const UserOrderPage = () => {
       houseNumber: savedData.houseNumber || "",
       apartmentNumber: savedData.apartmentNumber || "",
       isPrivateHouse: savedData.isPrivateHouse || false,
-      paymentMethod: savedData.paymentMethod || "blik",
+      paymentMethod: savedData.paymentMethod || "BLIK",
       pickupPointId: savedData.pickupPointId || "",
     };
   });
-  // useEffect(() => {
-  //   localStorage.setItem("orderForm", JSON.stringify(formData));
 
-  //   fetch("/api/user/profile/info", {
-  //     method: "PUT",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(formData),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => console.log("User data saved:", data))
-  //     .catch((error) => console.error("Error saving user data:", error));
-  // }, [formData]);
+  const [createdOrderId, setCreatedOrderId] = useState(null);
 
-  // useEffect(() => {
-  //   dispatch(fetchPickupPoints({ cache: "reload" }));
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("orderForm", JSON.stringify(formData));
-  // }, [formData]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!formData.pickupPointId) {
-  //     alert("Proszę wybrać paczkomat!");
-  //     return;
-  //   }
-  //   dispatch(
-  //     createOrder({
-  //       ...formData,
-  //       products: shoppingCart,
-  //       totalPrice: totalAmount,
-  //     })
-  //   );
-  //   const response = await dispatch(
-  //     initiatePayment({
-  //       orderId: formData.orderId,
-  //       amount: totalAmount,
-  //       paymentMethod: formData.paymentMethod,
-  //     })
-  //   );
-
-  //   if (response.payload) {
-  //     dispatch(checkPaymentStatus(formData.orderId));
-  //   }
-  // };
   useEffect(() => {
     dispatch(fetchPickupPoints({ cache: "reload" }));
   }, [dispatch]);
@@ -104,53 +64,63 @@ const UserOrderPage = () => {
 
     localStorage.setItem("orderForm", JSON.stringify(formData));
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("/api/user/profile/info", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phone: formData.phone,
-        }),
-      });
+    await dispatch(
+      updateUserInfo({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+      })
+    );
 
-      if (!response.ok) {
-        const text = await response.text();
-        console.warn("Update response:", text);
-        throw new Error("Błąd przy zapisie danych użytkownika.");
-      }
+    const cleanedProducts = shoppingCart.map((item) => ({
+      productId: item.productId?._id || item.productId,
+      quantity: item.quantity,
+    }));
 
-      const updatedUser = await response.json();
-      console.log("✅ User updated:", updatedUser);
-    } catch (error) {
-      console.error("❌ Error updating user:", error);
-    }
+    console.log("🟡 Sending order data:", {
+      ...formData,
+      products: cleanedProducts,
+      totalPrice: totalAmount,
+      deliveryType: "pickup",
+    });
 
-    dispatch(
+    const orderResponse = await dispatch(
       createOrder({
-        ...formData,
-        products: shoppingCart,
+        formData: {
+          ...formData,
+          deliveryType: "pickup", // або "courier", коли буде потрібно
+        },
+        cleanedProducts,
         totalPrice: totalAmount,
       })
     );
 
+    console.log("📦 Order response:", orderResponse);
+
+    const createdOrder = orderResponse.payload?.order || orderResponse.payload;
+
+    if (!createdOrder?._id) {
+      alert("❌ Błąd przy tworzeniu zamówienia.");
+      return;
+    }
+
+    setCreatedOrderId(createdOrder._id);
+
     const result = await dispatch(
       initiatePayment({
-        orderId: formData.orderId,
+        orderId: createdOrder._id,
         amount: totalAmount,
         paymentMethod: formData.paymentMethod,
       })
     );
 
     if (result.payload) {
-      dispatch(checkPaymentStatus(formData.orderId));
+      dispatch(checkPaymentStatus(createdOrder._id));
     }
+
+    alert("✅ Zamówienie zostało złożone!"); // 🎉 Побачити це — коштує всіх зусиль
   };
+
   return (
     <FormContainer
       style={{
@@ -166,6 +136,17 @@ const UserOrderPage = () => {
           <SubmitButton type="submit">{t("place_order")}</SubmitButton>
         </ButtonWrapper>
       </form>
+
+      {/* 🧾 Відображення оплати */}
+      {createdOrderId && formData.paymentMethod === "BLIK" && (
+        <BlikPhoneTransferInfo
+          orderId={createdOrderId}
+          totalPrice={totalAmount}
+        />
+      )}
+      {createdOrderId && formData.paymentMethod === "bank_transfer" && (
+        <BankTransferInfo orderId={createdOrderId} totalPrice={totalAmount} />
+      )}
     </FormContainer>
   );
 };
