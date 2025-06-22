@@ -5,14 +5,14 @@ import {
   confirmOrderReceived,
   fetchUserOrders,
   returnOrder,
-} from "../../redux/user/userOrders/operationsUserOrders";
+} from "../../../redux/user/userOrders/operationsUserOrders";
 import {
   selectUserOrders,
   selectUserOrdersError,
   selectUserOrdersLoading,
-} from "../../redux/user/userOrders/selectorsUserOrders";
-import Loader from "../Loader";
-import NoResults from "../NoResults/NoResults";
+} from "../../../redux/user/userOrders/selectorsUserOrders";
+import Loader from "../../Loader";
+import NoResults from "../../NoResults/NoResults";
 
 const UserOrderDetails = () => {
   const { t } = useTranslation();

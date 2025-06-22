@@ -4,7 +4,7 @@ import {
   UserDashboardButtonForm,
   UserDashboardHeaderAddress,
   UserDashboardHeaderAddress2,
-} from "./UserDashboard.styled";
+} from "../UserDashboard.styled";
 
 const ProfileAddressEdit = () => {
   const { t } = useTranslation();
