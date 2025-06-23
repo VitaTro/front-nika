@@ -2,8 +2,9 @@ import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import ProfileAddressEdit from "../../components/UserDashboard/tab/ProfileAddressEdit";
 import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
+
+import ProfileAddress from "../../components/UserDashboard/tab/ProfileMain/ProfileAddress";
 import { fetchUserInfo } from "../../redux/user/userOperations";
 import { selectUser } from "../../redux/user/userSelectors";
 const ProfilePage = () => {
@@ -74,7 +75,7 @@ const ProfilePage = () => {
 
       <Box>
         {selectedTab === 0 && <ProfileMain />}
-        {selectedTab === 1 && <ProfileAddressEdit />}
+        {selectedTab === 1 && <ProfileAddress />}
 
         {selectedTab === 2 && (
           <p>Тут буде історія покупок та поточні замовлення...</p>

@@ -81,6 +81,7 @@
   "private_house": "It's a private house",
   "house_number": "House Number",
   "apartment_number": "Apartment Number",
+  "edit_address": "Edit address",
   "payment_method": "Payment method",
   "bank_transfer": "Bank transfer",
   "parcel_locker": "Parcel locker",

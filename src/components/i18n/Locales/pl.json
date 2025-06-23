@@ -81,6 +81,7 @@
   "private_house": "To jest dom wolnostojący",
   "house_number": "Numer domu",
   "apartment_number": "Numer mieszkania",
+  "edit_address": "Edytuj adres",
   "payment_method": "Metoda płatności",
   "bank_transfer": "Przelew bankowy",
   "parcel_locker": "Paczkomat",

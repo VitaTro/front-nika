@@ -81,6 +81,7 @@
   "private_house": "Це приватний будинок",
   "house_number": "Номер будинку",
   "apartment_number": "Номер квартири",
+  "edit_address": "Редагувати адресу",
   "payment_method": "Метод оплати",
   "bank_transfer": "Банківський переказ",
   "parcel_locker": "Поштомат",

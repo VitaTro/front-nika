@@ -59,21 +59,35 @@ export const createOrder = createAsyncThunk(
       const {
         paymentMethod,
         pickupPointId,
-        postalCode,
-        city,
-        street,
-        houseNumber,
-        apartmentNumber,
-        isPrivateHouse,
         deliveryType,
+        deliveryAddress,
+        smartboxDetails,
+        notes,
       } = formData;
 
       if (!cleanedProducts || !cleanedProducts.length) {
-        return rejectWithValue("Кошик порожній, неможливо оформити замовлення");
+        return rejectWithValue(
+          "🛒 The basket is empty, it is not possible to place an order."
+        );
       }
 
-      if (!pickupPointId) {
-        return rejectWithValue("Не вибрано пункт видачі");
+      if (deliveryType === "pickup" && !pickupPointId) {
+        return rejectWithValue("📦 No pickup point selected");
+      }
+
+      if (deliveryType === "courier") {
+        const { postalCode, city, street, houseNumber } = deliveryAddress || {};
+        if (!postalCode || !city || !street || !houseNumber) {
+          return rejectWithValue(
+            "🏠 Please fill in all the required fields of the delivery address."
+          );
+        }
+      }
+
+      if (deliveryType === "smartbox") {
+        if (!smartboxDetails?.boxId || !smartboxDetails?.location) {
+          return rejectWithValue("📬 Specify the details of the parcel locker");
+        }
       }
 
       const response = await axios.post("/api/user/orders", {
@@ -82,12 +96,9 @@ export const createOrder = createAsyncThunk(
         paymentMethod,
         pickupPointId,
         deliveryType,
-        postalCode,
-        city,
-        street,
-        houseNumber,
-        apartmentNumber,
-        isPrivateHouse,
+        deliveryAddress,
+        smartboxDetails,
+        notes,
       });
 
       return response.data.order;

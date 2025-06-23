@@ -123,22 +123,37 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
     fetchData();
   }, [formData.city]);
 
- const handlePickupPointChange = (e) => {
-    setSelectedPickupPoint(e.target.value); // ✅ Запам'ятовуємо вибраний пункт
-    setFormData({ ...formData, pickupPointId: e.target.value }); // ✅ Змінюємо formData
-  };
+const handlePickupPointChange = (e) => {
+  setSelectedPickupPoint(e.target.value);
+  setFormData((prev) => ({
+    ...prev,
+    pickupPointId: e.target.value,
+  }));
+};
 
-  const handleCheckboxChange = (e) => {
-    setFormData({
-      ...formData,
+const handleCheckboxChange = (e) => {
+  setFormData((prev) => ({
+    ...prev,
+    deliveryAddress: {
+      ...prev.deliveryAddress,
       isPrivateHouse: e.target.checked,
       apartmentNumber: "",
-    });
-  };
+    },
+  }));
+};
+
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const { name, value } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    deliveryAddress: {
+      ...prev.deliveryAddress,
+      [name]: value,
+    },
+  }));
+};
+
   return (
     <div>
       <HeaderOrderAddress>{t("your_address")} </HeaderOrderAddress>
@@ -163,7 +178,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
            <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("city")}</label>
           <InputField
             name="city"
-            value={formData.city}
+            value={formData.deliveryAddress?.city || ""}
             onChange={handleChange}
             required
           />
@@ -172,7 +187,9 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
            <label style={{ color: isDarkMode ?" #060270" : "#1f871a" }}>{t("street")}</label>
           <InputField
             name="street"
-            value={formData.street}
+            value={formData.deliveryAddress?.street 
+              || ""
+            }
             onChange={handleChange}
             required
           />
@@ -183,7 +200,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
           <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("postal_code")}</label>
           <InputField
             name="postalCode"
-            value={formData.postalCode}
+            value={formData.deliveryAddress?.postalCode || ""}
             onChange={handleChange}
             required
           />
@@ -192,7 +209,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
            <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("house_number")}</label>
           <InputField
             name="houseNumber"
-            value={formData.houseNumber}
+            value={formData.deliveryAddress?.houseNumber ||""}
             onChange={handleChange}
             required
           />
@@ -213,7 +230,7 @@ const OrderAddressPicker = ({ formData, setFormData }) => {
             <label style={{ color: isDarkMode ?" #060270" : "#1f871a" }}>{t("apartment_number")}</label>
             <InputField
               name="apartmentNumber"
-              value={formData.apartmentNumber}
+              value={formData.deliveryAddress?.apartmentNumber ||""}
               onChange={handleChange}
             />
           </div>
