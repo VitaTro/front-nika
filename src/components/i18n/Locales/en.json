@@ -139,5 +139,9 @@
   "quantity": "Quantity",
   "item_total": "Subtotal",
   "hide_details": "Hide details",
-  "show_details": "Show details"
+  "show_details": "Show details",
+  "no_purchase_history": "No purchase history",
+  "no_orders_description": "Your completed orders will appear here",
+  "empty_cart": "Your cart is empty",
+  "add_products_hint": "Add products to place an order"
 }

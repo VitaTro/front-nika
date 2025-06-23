@@ -139,5 +139,9 @@
   "quantity": "Ilość",
   "item_total": "Razem",
   "hide_details": "Ukryj szczegóły",
-  "show_details": "Pokaż szczegóły"
+  "show_details": "Pokaż szczegóły",
+  "no_purchase_history": "Brak historii zakupów",
+  "no_orders_description": "Twoje zrealizowane zamówienia pojawią się tutaj",
+  "empty_cart": "Twój koszyk jest pusty",
+  "add_products_hint": "Dodaj produkty, aby złożyć zamówienie"
 }

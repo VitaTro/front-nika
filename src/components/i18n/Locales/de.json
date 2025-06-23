@@ -138,5 +138,9 @@
   "quantity": "Menge",
   "item_total": "Zwischensumme",
   "hide_details": "Details ausblenden",
-  "show_details": "Details anzeigen"
+  "show_details": "Details anzeigen",
+  "no_purchase_history": "Keine Kaufhistorie",
+  "no_orders_description": "Deine abgeschlossenen Bestellungen erscheinen hier",
+  "empty_cart": "Dein Warenkorb ist leer",
+  "add_products_hint": "Füge Produkte hinzu, um eine Bestellung aufzugeben"
 }

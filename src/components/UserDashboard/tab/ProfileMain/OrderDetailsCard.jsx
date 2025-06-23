@@ -96,7 +96,7 @@ const OrderDetailsCard = ({ order }) => {
       ) : (
         <Box sx={{ p: 3, backgroundColor: "#f9f9f9", borderRadius: 2 }}>
           <Typography variant="h6" gutterBottom>
-            🧾 {t("my_orders")}: {order.orderId}
+            {t("my_orders")}: {order.orderId}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Data: {formatDate(order.createdAt)}

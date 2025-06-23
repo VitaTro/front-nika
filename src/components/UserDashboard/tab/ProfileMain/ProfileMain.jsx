@@ -73,7 +73,7 @@ const ProfileMain = () => {
       }}
     >
       <Paper elevation={3} sx={{ p: 3, width: "100%", maxWidth: 400 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom align="center">
           👤 {t("basic_information")}
         </Typography>
 

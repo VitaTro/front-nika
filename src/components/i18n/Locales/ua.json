@@ -139,5 +139,9 @@
   "quantity": "Кількість",
   "item_total": "Сума позиції",
   "hide_details": "Закрити деталі",
-  "show_details": "Показати деталі"
+  "show_details": "Показати деталі",
+  "no_purchase_history": "Немає історії покупок",
+  "no_orders_description": "Завершені замовлення з’являться тут",
+  "empty_cart": "Твій кошик порожній",
+  "add_products_hint": "Додай товари, щоб оформити замовлення"
 }

@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/Loader";
-import NoResults from "../../components/NoResults/NoResults";
+import noShopImg from "../../components/UserDashboard/tab/ProfileMain/No_shop.png";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
 import {
   getShoppingCart,
@@ -90,34 +91,6 @@ const ShoppingCartPage = () => {
     dispatch(removeProductFromShoppingCart(id));
   };
 
-  // const handlePlaceOrder = async () => {
-  //   try {
-  //     const orderData = {
-  //       paymentMethod: "transfer",
-  //       products: shoppingCart.map((item) => ({
-  //         productId: item.productId,
-  //         quantity: item.quantity,
-  //         price: item.price,
-  //       })),
-  //       totalPrice: totalAmount,
-  //     };
-
-  //     console.log("📦 Sending order data:", orderData);
-
-  //     const response = await dispatch(createOrder(orderData)).unwrap();
-  //     console.log("✅ Order placed successfully!", response);
-  //     if (!response || !response.order) {
-  //       throw new Error("Invalid response from server");
-  //     }
-
-  //     console.log("✅ Order dispatched, no errors");
-  //     console.log("🔄 Navigating to /user/orders...");
-  //     navigate("/user/orders");
-  //   } catch (error) {
-  //     console.error("❌ Error placing order:", error);
-  //   }
-  // };
-
   // Сортування кошика за датою додавання
   const sortedCart = shoppingCart.slice().sort((a, b) => {
     const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
@@ -174,25 +147,59 @@ const ShoppingCartPage = () => {
           {t("error")}: {error}
         </p>
       )}
-      {!shoppingCart.length && !isLoading && <NoResults />}
+
+      {!shoppingCart.length && !isLoading && (
+        <Box
+          sx={{
+            textAlign: "center",
+            py: 6,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <img
+            src={noShopImg}
+            alt="No orders"
+            style={{ width: 200, maxWidth: "80%", opacity: 0.8 }}
+          />
+          <Typography variant="h6" color="text.secondary">
+            {t("empty_cart")}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {t("add_products_hint")}
+          </Typography>
+        </Box>
+      )}
       {shoppingCart.length > 0 && (
         <ShoppingList>{displayProducts}</ShoppingList>
       )}
-      <TotalHeader style={{ color: isDarkMode ? "#0c0" : "#333" }}>
-        {t("total")}:{" "}
-        <TotalAmount style={{ color: isDarkMode ? "#e1a42b" : "#333" }}>
-          {totalAmount} zł
-        </TotalAmount>
-      </TotalHeader>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
-      >
-        <ButtonOrder>
-          <Link to="/user/orders" style={{ textDecoration: "none" }}>
-            {t("place_order")}
-          </Link>
-        </ButtonOrder>
-      </div>
+      {shoppingCart.length > 0 && (
+        <TotalHeader style={{ color: isDarkMode ? "#0c0" : "#333" }}>
+          {t("total")}:{" "}
+          <TotalAmount style={{ color: isDarkMode ? "#e1a42b" : "#333" }}>
+            {totalAmount} zł
+          </TotalAmount>
+        </TotalHeader>
+      )}
+
+      {shoppingCart.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <ButtonOrder>
+            <Link to="/user/orders" style={{ textDecoration: "none" }}>
+              {t("place_order")}
+            </Link>
+          </ButtonOrder>
+        </div>
+      )}
+
       <ToastContainer />
     </>
   );

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UserOrderDetails from "../../components/UserDashboard/tab/ProfileMain/OrderDetails";
 import ProfileAddress from "../../components/UserDashboard/tab/ProfileMain/ProfileAddress";
 import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
+import UserPurchaseHistory from "../../components/UserDashboard/tab/ProfileMain/UserPurchaseHistory";
 import { fetchUserInfo } from "../../redux/user/userOperations";
 import { selectUser } from "../../redux/user/userSelectors";
 
@@ -24,10 +25,7 @@ const ProfilePage = () => {
     { label: t("your_data"), component: <ProfileMain /> },
     { label: t("shipping_addresses"), component: <ProfileAddress /> },
     { label: t("my_orders"), component: <UserOrderDetails /> },
-    {
-      label: t("order_history"),
-      component: <p>📜 Тут буде історія покупок…</p>,
-    },
+    { label: t("order_history"), component: <UserPurchaseHistory /> },
     {
       label: t("payment_cards"),
       component: <p>💳 Тут будуть платіжні картки…</p>,
@@ -70,7 +68,6 @@ const ProfilePage = () => {
           ))}
         </Box>
       ) : (
-        // 🖥️ Desktop Tabs
         <Tabs
           value={selectedTab}
           orientation="vertical"

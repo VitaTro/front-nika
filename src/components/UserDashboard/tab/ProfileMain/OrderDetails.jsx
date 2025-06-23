@@ -62,8 +62,8 @@ const UserOrderDetails = () => {
 
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>
-        🛒 {t("your_orders")}
+      <Typography variant="h5" gutterBottom align="center">
+        🧾{t("your_orders")}
       </Typography>
 
       {loading && <Loader />}
@@ -124,7 +124,7 @@ const UserOrderDetails = () => {
                   setSelected(selected?._id === order._id ? null : order)
                 }
               >
-                📄{" "}
+                {" "}
                 {selected?._id === order._id
                   ? t("hide_details")
                   : t("show_details")}

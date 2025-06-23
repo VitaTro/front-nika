@@ -79,8 +79,8 @@ const ProfileAddress = () => {
       }}
     >
       <Paper elevation={3} sx={{ p: 3, width: "100%", maxWidth: 400 }}>
-        <Typography variant="h6" gutterBottom>
-          🏠 {t("your_address")}
+        <Typography variant="h6" gutterBottom align="center">
+          🏠{t("your_address")}
         </Typography>
 
         <Box sx={{ mb: 2 }}>
