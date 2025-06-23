@@ -164,3 +164,26 @@ export const UserDashboardLabelForm = styled.label`
   font-weight: 500;
   font-family: "Roboto", sans-serif;
 `;
+
+export const CardContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 24px;
+  border-radius: 8px;
+  background: #fff;
+  max-width: 500px;
+`;
+
+export const CardField = styled.div`
+  margin-bottom: 12px;
+`;
+
+export const CardLabel = styled.span`
+  font-weight: bold;
+  margin-right: 8px;
+`;
+
+export const EditButton = styled.button`
+  margin-top: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+`;
