@@ -127,5 +127,17 @@
   "no": "Nie",
   "not_available": "Brak danych",
   "wallet": "Mój portfel",
-  "settings": "Ustawienia"
+  "settings": "Ustawienia",
+  "your_orders": "Twoje zamówienia",
+  "no_orders": "Brak zamówień",
+  "order_id": "Numer zamówienia",
+  "total_price": "Łączna kwota",
+  "confirm_received": "Potwierdź odbior",
+  "return_order": "Zwróć zamówienie",
+  "product_name": "Nazwa towaru",
+  "photo": "Zdjęcie",
+  "quantity": "Ilość",
+  "item_total": "Razem",
+  "hide_details": "Ukryj szczegóły",
+  "show_details": "Pokaż szczegóły"
 }

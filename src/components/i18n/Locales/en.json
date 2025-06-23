@@ -86,7 +86,7 @@
   "bank_transfer": "Bank transfer",
   "parcel_locker": "Parcel locker",
   "shipping_address": "Shipping address",
-  " productAdded": "Our product is in the shopping cart!",
+  "productAdded": "Our product is in the shopping cart!",
   "productAddedWishlist": "Our product is in the wishlist!",
   "Craftsmanship": "💎 Craftsmanship and innovation in every detail",
   "Craftsmanship_item": "Our jewelry is created using advanced technologies that ensure their exceptional quality. Medical gold undergoes a special treatment that makes it not only hypoallergenic but also extremely wear-resistant.",
@@ -127,5 +127,17 @@
   "no": "No",
   "not_available": "Not specified",
   "wallet": "Wallet",
-  "settings": "Settings"
+  "settings": "Settings",
+  "your_orders": "Yours orders",
+  "no_orders": "No Orders",
+  "order_id": "Order ID",
+  "total_price": "Total price",
+  "confirm_received": "Confirm received",
+  "return_order": "Return order",
+  "product_name": "Product name",
+  "photo": "Photo",
+  "quantity": "Quantity",
+  "item_total": "Subtotal",
+  "hide_details": "Hide details",
+  "show_details": "Show details"
 }

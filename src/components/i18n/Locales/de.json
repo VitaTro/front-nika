@@ -127,5 +127,16 @@
   "no": "Nein",
   "not_available": "Nicht angegeben",
   "wallet": "Brieftasche",
-  "settings": "Einstellungen"
+  "settings": "Einstellungen",
+  "your_orders": "Ihre Bestellungen",
+  "no_orders": "Keine Aufträge",
+  "order_id": "Bestellungen",
+  "total_price": "Gesamtbetrag",
+  "confirm_received": "Empfang bestätigen",
+  "return_order": "Bestellung zurückgeben",
+  "product_name": "Foto",
+  "quantity": "Menge",
+  "item_total": "Zwischensumme",
+  "hide_details": "Details ausblenden",
+  "show_details": "Details anzeigen"
 }

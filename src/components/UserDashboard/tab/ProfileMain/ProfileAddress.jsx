@@ -22,7 +22,6 @@ const ProfileAddress = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showDialog, setShowDialog] = useState(false);
-  const [savedAddress, setSavedAddress] = useState("");
   const [address, setAddress] = useState({
     postalCode: "",
     city: "",
@@ -35,16 +34,15 @@ const ProfileAddress = () => {
   useEffect(() => {
     dispatch(fetchUserAddress()).then((res) => {
       if (res.payload) {
-        const safeAddress = {
-          postalCode: res.payload?.postalCode || "",
-          city: res.payload?.city || "",
-          street: res.payload?.street || "",
-          houseNumber: res.payload?.houseNumber || "",
-          apartmentNumber: res.payload?.apartmentNumber || "",
-          isPrivateHouse: res.payload?.isPrivateHouse || false,
-        };
-        setAddress(safeAddress);
-        setSavedAddress(safeAddress);
+        const safe = res.payload;
+        setAddress({
+          postalCode: safe?.postalCode || "",
+          city: safe?.city || "",
+          street: safe?.street || "",
+          houseNumber: safe?.houseNumber || "",
+          apartmentNumber: safe?.apartmentNumber || "",
+          isPrivateHouse: safe?.isPrivateHouse || false,
+        });
       }
     });
   }, [dispatch]);
@@ -63,6 +61,13 @@ const ProfileAddress = () => {
     setShowDialog(false);
   };
 
+  const formatAddress = (addr) => {
+    if (!addr?.city) return t("not_specified");
+    return `${addr.street} ${addr.houseNumber}${
+      addr.apartmentNumber ? "/" + addr.apartmentNumber : ""
+    }, ${addr.postalCode} ${addr.city}`;
+  };
+
   return (
     <Box
       sx={{
@@ -79,23 +84,13 @@ const ProfileAddress = () => {
         </Typography>
 
         <Box sx={{ mb: 2 }}>
-          <Typography variant="subtitle2" color="text.secondary">
-            {t("shipping_address")}
-          </Typography>
-          <Typography>
-            {savedAddress.city
-              ? `${savedAddress.street} ${savedAddress.houseNumber}${
-                  savedAddress.apartmentNumber
-                    ? "/" + savedAddress.apartmentNumber
-                    : ""
-                }, ${savedAddress.postalCode} ${savedAddress.city}`
-              : t("not_specified")}
-          </Typography>
+          <Typography>{formatAddress(address)}</Typography>
         </Box>
 
         <Button
           variant="contained"
           onClick={() => setShowDialog(true)}
+          sx={{ mt: 2 }}
           fullWidth
         >
           ✏️ {t("edit_address")}
@@ -109,64 +104,58 @@ const ProfileAddress = () => {
         maxWidth="sm"
         disableEnforceFocus
       >
-        <Box component="form" onSubmit={handleSubmit} noValidate>
-          <DialogContent dividers sx={{ maxHeight: "70vh", overflowY: "auto" }}>
-            <Typography>
-              {`${savedAddress.street} ${savedAddress.houseNumber}${
-                savedAddress.apartmentNumber
-                  ? "/" + savedAddress.apartmentNumber
-                  : ""
-              }, ${savedAddress.postalCode} ${savedAddress.city}`}
-            </Typography>
-
+        <Box component="form" noValidate onSubmit={handleSubmit}>
+          <DialogContent
+            dividers
+            sx={{
+              maxHeight: "70vh",
+              overflowY: "auto",
+            }}
+          >
             <Typography variant="h6" align="center" gutterBottom sx={{ mb: 3 }}>
               {t("edit_address")}
             </Typography>
+
             <TextField
-              name="postalCode"
-              label={t("postal_code")}
               fullWidth
+              label={t("postal_code")}
+              name="postalCode"
               value={address.postalCode}
               onChange={handleChange}
               sx={{ mb: 2 }}
             />
-
             <TextField
-              name="city"
-              label={t("city")}
               fullWidth
+              label={t("city")}
+              name="city"
               value={address.city}
               onChange={handleChange}
               sx={{ mb: 2 }}
             />
-
             <TextField
-              name="street"
-              label={t("street")}
               fullWidth
+              label={t("street")}
+              name="street"
               value={address.street}
               onChange={handleChange}
               sx={{ mb: 2 }}
             />
-
             <TextField
-              name="houseNumber"
-              label={t("house_number")}
               fullWidth
+              label={t("house_number")}
+              name="houseNumber"
               value={address.houseNumber}
               onChange={handleChange}
               sx={{ mb: 2 }}
             />
-
             <TextField
-              name="apartmentNumber"
-              label={t("apartment_number")}
               fullWidth
+              label={t("apartment_number")}
+              name="apartmentNumber"
               value={address.apartmentNumber}
               onChange={handleChange}
               sx={{ mb: 2 }}
             />
-
             <FormControlLabel
               control={
                 <Checkbox

@@ -127,5 +127,17 @@
   "no": "Ні",
   "not_available": "Не вказано",
   "wallet": "Гаманець",
-  "settings": "Налаштування"
+  "settings": "Налаштування",
+  "your_orders": "Ваші замовлення",
+  "no_orders": "Немає замовлень",
+  "order_id": "Номер замовлення",
+  "total_price": "Загальна сума",
+  "confirm_received": "підтвердити замовлення",
+  "return_order": "Повернути замовлення",
+  "product_name": "Назва товару",
+  "photo": "Фото",
+  "quantity": "Кількість",
+  "item_total": "Сума позиції",
+  "hide_details": "Закрити деталі",
+  "show_details": "Показати деталі"
 }

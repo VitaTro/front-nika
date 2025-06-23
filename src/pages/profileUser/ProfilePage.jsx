@@ -1,86 +1,102 @@
-import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
+import { Box, Button, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
-
+import UserOrderDetails from "../../components/UserDashboard/tab/ProfileMain/OrderDetails";
 import ProfileAddress from "../../components/UserDashboard/tab/ProfileMain/ProfileAddress";
+import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
 import { fetchUserInfo } from "../../redux/user/userOperations";
 import { selectUser } from "../../redux/user/userSelectors";
+
 const ProfilePage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const user = useSelector(selectUser);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [selectedTab, setSelectedTab] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
+
   useEffect(() => {
     dispatch(fetchUserInfo());
   }, [dispatch]);
 
+  const tabItems = [
+    { label: t("your_data"), component: <ProfileMain /> },
+    { label: t("shipping_addresses"), component: <ProfileAddress /> },
+    { label: t("my_orders"), component: <UserOrderDetails /> },
+    {
+      label: t("order_history"),
+      component: <p>📜 Тут буде історія покупок…</p>,
+    },
+    {
+      label: t("payment_cards"),
+      component: <p>💳 Тут будуть платіжні картки…</p>,
+    },
+    {
+      label: t("wallet"),
+      component: <p>👛 Баланс гаманця та історія поповнень…</p>,
+    },
+    { label: t("settings"), component: <p>⚙️ Налаштування профілю…</p> },
+  ];
+
   if (!user) return <p>Loading profile...</p>;
-  const handleChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
+
   return (
     <Box
-      style={{
+      sx={{
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
         gap: 3,
         padding: "20px",
       }}
     >
-      <Tabs
-        value={selectedTab}
-        orientation={isMobile ? "horizontal" : "vertical"}
-        variant="scrollable"
-        onChange={handleChange}
-        sx={{
-          minWidth: isMobile ? "100%" : 200,
-          alignItems: isMobile ? "center" : "start",
-          fontFamily: "Arial",
-          order: isMobile ? -1 : 0,
-        }}
-      >
-        <Tab
-          label={t("your_data")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-        <Tab
-          label={t("shipping_addresses")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-        <Tab
-          label={t("my_orders")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-        <Tab
-          label={t("order_history")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-        <Tab
-          label={t("payment_cards")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-        <Tab
-          label={t("wallet")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-        <Tab
-          label={t("settings")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-        />
-      </Tabs>
+      {isMobile ? (
+        // 📱 Mobile navigation
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          {tabItems.map((tab, index) => (
+            <Button
+              key={index}
+              variant={selectedTab === index ? "contained" : "outlined"}
+              onClick={() => setSelectedTab(index)}
+              sx={{
+                justifyContent: "flex-start",
+                color: isDarkMode ? "#0c0" : "#1f871a",
+                textTransform: "none",
+              }}
+              fullWidth
+            >
+              {tab.label}
+            </Button>
+          ))}
+        </Box>
+      ) : (
+        // 🖥️ Desktop Tabs
+        <Tabs
+          value={selectedTab}
+          orientation="vertical"
+          variant="scrollable"
+          onChange={(e, newVal) => setSelectedTab(newVal)}
+          sx={{
+            minWidth: 200,
+            borderRight: 1,
+            borderColor: "divider",
+          }}
+        >
+          {tabItems.map((tab, index) => (
+            <Tab
+              key={index}
+              label={tab.label}
+              sx={{
+                color: isDarkMode ? "#0c0" : "#1f871a",
+                alignItems: "flex-start",
+              }}
+            />
+          ))}
+        </Tabs>
+      )}
 
-      <Box>
-        {selectedTab === 0 && <ProfileMain />}
-        {selectedTab === 1 && <ProfileAddress />}
-
-        {selectedTab === 2 && (
-          <p>Тут буде історія покупок та поточні замовлення...</p>
-        )}
-      </Box>
+      {/* 🔽 Активний контент вкладки */}
+      <Box sx={{ flexGrow: 1 }}>{tabItems[selectedTab].component}</Box>
     </Box>
   );
 };
