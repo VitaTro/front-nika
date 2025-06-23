@@ -143,5 +143,8 @@
   "no_purchase_history": "Brak historii zakupów",
   "no_orders_description": "Twoje zrealizowane zamówienia pojawią się tutaj",
   "empty_cart": "Twój koszyk jest pusty",
-  "add_products_hint": "Dodaj produkty, aby złożyć zamówienie"
+  "add_products_hint": "Dodaj produkty, aby złożyć zamówienie",
+  "profile_settings_placeholder": "Ustawienia profilu będą wkrótce dostępne.",
+  "payment_cards_placeholder": "Tutaj wkrótce pojawią się Twoje karty płatnicze",
+  "wallet_placeholder": "Tutaj pojawi się saldo portfela i historia transakcji"
 }

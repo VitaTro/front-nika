@@ -142,5 +142,8 @@
   "no_purchase_history": "Keine Kaufhistorie",
   "no_orders_description": "Deine abgeschlossenen Bestellungen erscheinen hier",
   "empty_cart": "Dein Warenkorb ist leer",
-  "add_products_hint": "Füge Produkte hinzu, um eine Bestellung aufzugeben"
+  "add_products_hint": "Füge Produkte hinzu, um eine Bestellung aufzugeben",
+  "profile_settings_placeholder": "Profile-Einstellungen werden bald verfügbar sein.",
+  "payment_cards_placeholder": "Hier werden bald Ihre Zahlungsmethoden angezeigt",
+  "wallet_placeholder": "Hier wird Ihr Wallet-Guthaben und die Transaktionshistorie angezeigt"
 }

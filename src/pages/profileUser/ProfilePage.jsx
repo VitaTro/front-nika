@@ -28,13 +28,16 @@ const ProfilePage = () => {
     { label: t("order_history"), component: <UserPurchaseHistory /> },
     {
       label: t("payment_cards"),
-      component: <p>💳 Тут будуть платіжні картки…</p>,
+      component: <p>💳 {t("payment_cards_placeholder")}</p>,
     },
     {
       label: t("wallet"),
-      component: <p>👛 Баланс гаманця та історія поповнень…</p>,
+      component: <p>👛 {t("wallet_placeholder")}</p>,
     },
-    { label: t("settings"), component: <p>⚙️ Налаштування профілю…</p> },
+    {
+      label: t("settings"),
+      component: <p>⚙️ {t("profile_settings_placeholder")}</p>,
+    },
   ];
 
   if (!user) return <p>Loading profile...</p>;
