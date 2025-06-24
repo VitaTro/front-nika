@@ -99,7 +99,7 @@ const MobileMenuHeader = ({
         <>
           <NavItem>
             <NavLinkStyledMObile
-              to="/wishlist"
+              to="/user/wishlist"
               $isActive={location.pathname === "/user/wishlist"}
             >
               {t("wishlist")}
@@ -107,7 +107,7 @@ const MobileMenuHeader = ({
           </NavItem>
           <NavItem>
             <NavLinkStyledMObile
-              to="/shopping-cart"
+              to="/user/shopping-cart"
               $isActive={location.pathname === "/user/shopping-cart"}
             >
               {t("basket")}
