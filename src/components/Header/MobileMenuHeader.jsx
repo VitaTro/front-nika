@@ -69,7 +69,10 @@ const MobileMenuHeader = ({
       {isUserAuthenticated && (
         <>
           <NavItem>
-            <NavLinkStyledMObile to="/user/profile/info">
+            <NavLinkStyledMObile
+              to="/user/profile/info"
+              onClick={() => setMenuOpen(false)}
+            >
               {user.username || t("my_account")}
             </NavLinkStyledMObile>
           </NavItem>
@@ -82,6 +85,7 @@ const MobileMenuHeader = ({
             location.pathname === "/products" ||
             location.pathname === "/user/products"
           }
+          onClick={() => setMenuOpen(false)}
         >
           {t("products")}
         </NavLinkStyledMObile>
@@ -90,6 +94,7 @@ const MobileMenuHeader = ({
         <NavLinkStyledMObile
           to="/about"
           $isActive={location.pathname === "/about"}
+          onClick={() => setMenuOpen(false)}
         >
           {t("about")}
         </NavLinkStyledMObile>
@@ -101,6 +106,7 @@ const MobileMenuHeader = ({
             <NavLinkStyledMObile
               to="/user/wishlist"
               $isActive={location.pathname === "/user/wishlist"}
+              onClick={() => setMenuOpen(false)}
             >
               {t("wishlist")}
             </NavLinkStyledMObile>
@@ -109,6 +115,7 @@ const MobileMenuHeader = ({
             <NavLinkStyledMObile
               to="/user/shopping-cart"
               $isActive={location.pathname === "/user/shopping-cart"}
+              onClick={() => setMenuOpen(false)}
             >
               {t("basket")}
             </NavLinkStyledMObile>
@@ -117,13 +124,22 @@ const MobileMenuHeader = ({
       )}
       {isUserAuthenticated ? (
         <NavItem>
-          <NavLinkStyledMObile to="/" onClick={handleLogout}>
+          <NavLinkStyledMObile
+            to="/"
+            onClick={() => {
+              handleLogout();
+              setMenuOpen(false);
+            }}
+          >
             {t("logout")}
           </NavLinkStyledMObile>
         </NavItem>
       ) : (
         <NavItem>
-          <NavLinkStyledMObile to="/user/auth/login">
+          <NavLinkStyledMObile
+            to="/user/auth/login"
+            onClick={() => setMenuOpen(false)}
+          >
             {t("login")}
           </NavLinkStyledMObile>
         </NavItem>
