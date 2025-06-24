@@ -69,7 +69,7 @@ const MobileMenuHeader = ({
       {isUserAuthenticated && (
         <>
           <NavItem>
-            <NavLinkStyledMObile to="/profile">
+            <NavLinkStyledMObile to="/user/profile/info">
               {user.username || t("my_account")}
             </NavLinkStyledMObile>
           </NavItem>
@@ -78,7 +78,10 @@ const MobileMenuHeader = ({
       <NavItem>
         <NavLinkStyledMObile
           to="/products"
-          $isActive={location.pathname === "/products"}
+          $isActive={
+            location.pathname === "/products" ||
+            location.pathname === "/user/products"
+          }
         >
           {t("products")}
         </NavLinkStyledMObile>
@@ -97,7 +100,7 @@ const MobileMenuHeader = ({
           <NavItem>
             <NavLinkStyledMObile
               to="/wishlist"
-              $isActive={location.pathname === "/wishlist"}
+              $isActive={location.pathname === "/user/wishlist"}
             >
               {t("wishlist")}
             </NavLinkStyledMObile>
@@ -105,7 +108,7 @@ const MobileMenuHeader = ({
           <NavItem>
             <NavLinkStyledMObile
               to="/shopping-cart"
-              $isActive={location.pathname === "/shopping-cart"}
+              $isActive={location.pathname === "/user/shopping-cart"}
             >
               {t("basket")}
             </NavLinkStyledMObile>
