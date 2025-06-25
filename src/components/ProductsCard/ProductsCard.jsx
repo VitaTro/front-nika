@@ -12,7 +12,6 @@ import {
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
-
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
   ButtonDetailsWrapper,
@@ -104,9 +103,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             <div>{t("no_image")}</div>
           )}
 
-          <ItemPrice className="price">
-            {product.price?.toFixed(2)} zł
-          </ItemPrice>
+          <ItemPrice className="price">{product.price} zł</ItemPrice>
 
           <ProductAction>
             <ButtonHeart
@@ -137,7 +134,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             >
               {product.inStock ? "🛒" : "🚫"}
             </ButtonShopping>
-
             <ButtonDetailsWrapper>
               <button
                 onClick={() => {
@@ -145,8 +141,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                     toast.info(t("please_login_to_view_details"));
                     return;
                   }
-
-                  // Якщо все ок — переходимо
                   window.location.href = `/user/products/${product._id}`;
                 }}
               >
