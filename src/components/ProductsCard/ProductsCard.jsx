@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   addProductToShoppingCart,
   getShoppingCart,
@@ -10,14 +12,9 @@ import {
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
-// import ProductDetailsModal from "../ProductDetailsModal/ProductDetailsModal";
-import { Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
-  ButtonDetails,
   ButtonDetailsWrapper,
   ButtonHeart,
   ButtonQuantity,
@@ -33,28 +30,28 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const wishlist = useSelector(selectWishlistProducts);
-  const [localIsActive, setLocalIsActive] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeWishlist, setActiveWishlist] = useState({});
 
-  // ✅ Перевірка, чи продукт у списку бажань
   const isProductInWishlist = wishlist.some(
     (item) => item.productId === product._id
   );
 
   useEffect(() => {
-    setLocalIsActive(isProductInWishlist);
-  }, [wishlist, isProductInWishlist]);
+    setActiveWishlist((prev) => ({
+      ...prev,
+      [product._id]: isProductInWishlist,
+    }));
+  }, [wishlist, isProductInWishlist, product._id]);
 
   const handleToggleWishlist = async () => {
     if (!isUserAuthenticated) {
-      alert(t("please_login_to_use_wishlist"));
+      toast.info(t("please_login_to_use_wishlist"));
       return;
     }
 
-    setActiveWishlist((prevState) => ({
-      ...prevState,
-      [product._id]: !prevState[product._id],
+    setActiveWishlist((prev) => ({
+      ...prev,
+      [product._id]: !prev[product._id],
     }));
 
     if (isProductInWishlist) {
@@ -64,12 +61,17 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
     }
   };
 
-  // ✅ Додавання в кошик
   const handleAddToCart = async () => {
-    if (!product.inStock) {
-      toast.warn("Produkt jest niedostępny!");
+    if (!isUserAuthenticated) {
+      toast.info(t("please_login_to_add_to_cart"));
       return;
     }
+
+    if (!product.inStock) {
+      toast.warn(t("product_not_available"));
+      return;
+    }
+
     try {
       await dispatch(
         addProductToShoppingCart({
@@ -80,23 +82,13 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
         })
       );
 
-      toast.success(t("productAdded"), {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-
+      toast.success(t("productAdded"), { autoClose: 3000 });
       dispatch(getShoppingCart());
     } catch (error) {
       console.error("❌ Error in handleAddToCart:", error);
     }
   };
 
-  useEffect(() => {}, [product, wishlist, isUserAuthenticated]);
-  const token = localStorage.getItem("accessToken");
   return (
     <ProductCardContainer>
       {product ? (
@@ -113,58 +105,55 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           )}
 
           <ItemPrice className="price">
-            {isUserAuthenticated
-              ? `${product.price} zł`
-              : t("login_to_see_price")}
+            {product.price?.toFixed(2)} zł
           </ItemPrice>
 
-          {/* 🔹 Кнопки доступні тільки для авторизованих */}
-          {isUserAuthenticated && (
-            <ProductAction>
-              <ButtonHeart
-                onClick={handleToggleWishlist}
-                $isActive={activeWishlist[product._id] || isProductInWishlist} // 🔥 Перевіряємо стан для кожного товару
-              >
-                {activeWishlist[product._id] || isProductInWishlist
-                  ? "❤️"
-                  : "🖤"}
-              </ButtonHeart>
+          <ProductAction>
+            <ButtonHeart
+              onClick={handleToggleWishlist}
+              $isActive={activeWishlist[product._id]}
+            >
+              {activeWishlist[product._id] ? "❤️" : "🖤"}
+            </ButtonHeart>
 
-              <div>
-                <ButtonQuantity
-                  onClick={() => setProductCount((c) => Math.max(c - 1, 1))}
-                >
-                  ➖
-                </ButtonQuantity>
-                <span>{productCount}</span>
-                <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
-                  ➕
-                </ButtonQuantity>
-              </div>
-              <ButtonShopping
-                onClick={product.inStock ? handleAddToCart : null}
-                disabled={!product.inStock}
-                style={{
-                  cursor: product.inStock ? "pointer" : "not-allowed",
+            <div>
+              <ButtonQuantity
+                onClick={() => setProductCount((c) => Math.max(c - 1, 1))}
+              >
+                ➖
+              </ButtonQuantity>
+              <span>{productCount}</span>
+              <ButtonQuantity onClick={() => setProductCount((c) => c + 1)}>
+                ➕
+              </ButtonQuantity>
+            </div>
+
+            <ButtonShopping
+              onClick={handleAddToCart}
+              disabled={!product.inStock}
+              style={{
+                cursor: product.inStock ? "pointer" : "not-allowed",
+              }}
+            >
+              {product.inStock ? "🛒" : "🚫"}
+            </ButtonShopping>
+
+            <ButtonDetailsWrapper>
+              <button
+                onClick={() => {
+                  if (!isUserAuthenticated) {
+                    toast.info(t("please_login_to_view_details"));
+                    return;
+                  }
+
+                  // Якщо все ок — переходимо
+                  window.location.href = `/user/products/${product._id}`;
                 }}
               >
-                {product.inStock ? "🛒" : "🚫"}
-              </ButtonShopping>
-              <ButtonDetailsWrapper>
-                <Link to={`/user/products/${product._id}`}>
-                  <ButtonDetails>{t("details")}</ButtonDetails>
-                </Link>
-              </ButtonDetailsWrapper>
-            </ProductAction>
-          )}
-
-          {isModalOpen && (
-            <ProductDetailsModal
-              product={product}
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-            />
-          )}
+                {t("details")}
+              </button>
+            </ButtonDetailsWrapper>
+          </ProductAction>
         </>
       ) : (
         <div>{t("Product information unavailable")}</div>
