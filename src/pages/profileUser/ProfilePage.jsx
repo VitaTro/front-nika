@@ -2,7 +2,7 @@ import { Box, Button, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import UserOrderDetails from "../../components/UserDashboard/tab/ProfileMain/OrderDetails";
+import UserOrderDetails from "../../components/UserDashboard/tab/ProfileMain/orderUser/OrderDetails";
 import ProfileAddress from "../../components/UserDashboard/tab/ProfileMain/ProfileAddress";
 import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
 import UserPurchaseHistory from "../../components/UserDashboard/tab/ProfileMain/UserPurchaseHistory";

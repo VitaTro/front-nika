@@ -4,16 +4,16 @@ export const HeaderForm = styled.h2`
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center; /* Центрування тексту */
+  text-align: center;
   font-family: "Roboto", sans-serif;
   font-size: 36px;
   font-weight: 700;
   color: rgb(184, 195, 125);
   text-shadow: 0 0 5px rgb(173, 226, 160);
   margin-bottom: 20px;
-  word-wrap: break-word; /* Дозволяє тексту переноситися на новий рядок */
-  max-width: 90%; /* Задає максимальну ширину для заголовка */
-  transition: color 0.4s ease, text-shadow 0.4s ease; /* Плавний перехід */
+  word-wrap: break-word;
+  max-width: 90%;
+  transition: color 0.4s ease, text-shadow 0.4s ease;
 `;
 
 export const AuthForm = styled.form`
@@ -21,19 +21,23 @@ export const AuthForm = styled.form`
   flex-direction: column;
   width: 100%;
   max-width: 400px;
+  box-sizing: border-box;
   padding: 25px;
   border: 1px solid #dcdcdc;
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: auto;
+  margin-bottom: 40px;
   @media (max-width: 768px) {
     padding: 20px;
     max-width: 90%;
+    margin-bottom: 50px;
   }
   @media (max-width: 480px) {
     padding: 15px;
     max-width: 100%;
+    margin-bottom: 60px;
   }
 `;
 export const LabelForm = styled.label`
@@ -47,7 +51,8 @@ export const LabelForm = styled.label`
 
 export const InputForm = styled.input`
   padding: 10px 14px;
-  width: 90%;
+  box-sizing: border-box;
+  width: 100%;
   font-size: 16px;
   color: #333;
   border: 1px solid #ccc;

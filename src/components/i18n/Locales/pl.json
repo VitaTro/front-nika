@@ -146,5 +146,15 @@
   "add_products_hint": "Dodaj produkty, aby złożyć zamówienie",
   "profile_settings_placeholder": "Ustawienia profilu będą wkrótce dostępne.",
   "payment_cards_placeholder": "Tutaj wkrótce pojawią się Twoje karty płatnicze",
-  "wallet_placeholder": "Tutaj pojawi się saldo portfela i historia transakcji"
+  "wallet_placeholder": "Tutaj pojawi się saldo portfela i historia transakcji",
+  "status": {
+    "unpaid": "Nieopłacone",
+    "processing": "W realizacji",
+    "shipped": "Wysłano",
+    "completed": "Zrealizowane",
+    "returned": "Zwrócone",
+    "assembled": "Złożone",
+    "received": "Odebrane",
+    "cancelled": "Anulowane"
+  }
 }

@@ -1,6 +1,6 @@
 import {
   Box,
-  Chip,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -10,6 +10,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import StatusChip from "./StatusChip";
 
 const OrderDetailsCard = ({ order }) => {
   const { t } = useTranslation();
@@ -98,18 +99,16 @@ const OrderDetailsCard = ({ order }) => {
           <Typography variant="h6" gutterBottom>
             {t("my_orders")}: {order.orderId}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Data: {formatDate(order.createdAt)}
-          </Typography>
+          <Stack direction="row" spacing={2} alignItems="center" mt={1}>
+            <Typography variant="body2" color="text.secondary">
+              {formatDate(order.createdAt)}
+            </Typography>
+            <StatusChip status={order.status} />
+          </Stack>
+
           <Typography variant="body2">
             {t("total")}: {order.totalPrice} zł
           </Typography>
-          <Chip
-            label={order.status}
-            color="primary"
-            size="small"
-            sx={{ mt: 1, mb: 2 }}
-          />
 
           <Table size="small">
             <TableHead>

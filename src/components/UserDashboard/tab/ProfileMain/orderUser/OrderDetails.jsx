@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   CardContent,
-  Chip,
   Stack,
   Typography,
 } from "@mui/material";
@@ -14,15 +13,17 @@ import {
   confirmOrderReceived,
   fetchUserOrders,
   returnOrder,
-} from "../../../../redux/user/userOrders/operationsUserOrders";
+} from "../../../../../redux/user/userOrders/operationsUserOrders";
 import {
   selectUserOrders,
   selectUserOrdersError,
   selectUserOrdersLoading,
-} from "../../../../redux/user/userOrders/selectorsUserOrders";
-import Loader from "../../../Loader";
-import NoResults from "../../../NoResults/NoResults";
+} from "../../../../../redux/user/userOrders/selectorsUserOrders";
+import Loader from "../../../../Loader";
+import NoResults from "../../../../NoResults/NoResults";
 import OrderDetailsCard from "./OrderDetailsCard";
+import StatusChip from "./StatusChip";
+
 const UserOrderDetails = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -86,11 +87,7 @@ const UserOrderDetails = () => {
                 <Typography variant="h6">
                   {t("total_price")}: {order.totalPrice} zł
                 </Typography>
-                <Chip
-                  label={t(order.status)}
-                  color={getStatusColor(order.status)}
-                  variant="outlined"
-                />
+                <StatusChip status={order.status} />
               </Stack>
 
               <Typography sx={{ mt: 1 }} color="text.secondary">

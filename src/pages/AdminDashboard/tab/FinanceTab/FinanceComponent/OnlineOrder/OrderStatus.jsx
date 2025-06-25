@@ -13,8 +13,14 @@ const statuses = [
 
 const OrderStatus = ({ order, isMobile }) => {
   const dispatch = useDispatch();
+
   const handleStatusChange = (status) => {
-    dispatch(updateOnlineOrderStatus({ orderId: order._id, status }));
+    dispatch(
+      updateOnlineOrderStatus({
+        orderId: order._id,
+        status,
+      })
+    );
   };
 
   return (
@@ -24,7 +30,7 @@ const OrderStatus = ({ order, isMobile }) => {
       flexWrap="wrap"
       maxWidth={isMobile ? "100%" : "fit-content"}
     >
-      {statuses.map(({ key, label, color }) => (
+      {statuses.map(({ key, color }) => (
         <Button
           key={key}
           size="small"

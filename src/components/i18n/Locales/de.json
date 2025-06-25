@@ -145,5 +145,15 @@
   "add_products_hint": "Füge Produkte hinzu, um eine Bestellung aufzugeben",
   "profile_settings_placeholder": "Profile-Einstellungen werden bald verfügbar sein.",
   "payment_cards_placeholder": "Hier werden bald Ihre Zahlungsmethoden angezeigt",
-  "wallet_placeholder": "Hier wird Ihr Wallet-Guthaben und die Transaktionshistorie angezeigt"
+  "wallet_placeholder": "Hier wird Ihr Wallet-Guthaben und die Transaktionshistorie angezeigt",
+  "status": {
+    "unpaid": "Unbezahlt",
+    "processing": "In Bearbeitung",
+    "shipped": "Versendet",
+    "completed": "Abgeschlossen",
+    "returned": "Zurückgegeben",
+    "assembled": "Zusammengestellt",
+    "received": "Erhalten",
+    "cancelled": "Storniert"
+  }
 }

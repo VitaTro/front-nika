@@ -146,5 +146,15 @@
   "add_products_hint": "Додай товари, щоб оформити замовлення",
   "profile_settings_placeholder": "Налаштування профілю будуть доступні найближчим часом",
   "payment_cards_placeholder": "Тут скоро зʼявляться ваші платіжні картки",
-  "wallet_placeholder": "Тут зʼявиться баланс гаманця та історія операцій"
+  "wallet_placeholder": "Тут зʼявиться баланс гаманця та історія операцій",
+  "status": {
+    "unpaid": "Неоплачено",
+    "processing": "В обробці",
+    "shipped": "Відправлено",
+    "completed": "Завершено",
+    "returned": "Повернено",
+    "assembled": "Зібрано",
+    "received": "Отримано",
+    "cancelled": "Скасовано"
+  }
 }

@@ -146,5 +146,15 @@
   "add_products_hint": "Add products to place an order",
   "profile_settings_placeholder": "Profile settings will be available soon.",
   "payment_cards_placeholder": "Your payment cards will appear here soon",
-  "wallet_placeholder": "Your wallet balance and transaction history will appear here"
+  "wallet_placeholder": "Your wallet balance and transaction history will appear here",
+  "status": {
+    "unpaid": "Unpaid",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "completed": "Completed",
+    "returned": "Returned",
+    "assembled": "Assembled",
+    "received": "Received",
+    "cancelled": "Cancelled"
+  }
 }

@@ -50,28 +50,7 @@ const UserLoginForm = () => {
   if (loading) return <Loader />;
   return (
     <ResponsiveContainer>
-      {/* 🔹 Затемнення фону під час лоаду */}
-      {/* {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-        >
-          <Loader /> {/* ✅ Центруємо один лоадер */}
-      {/* </div>
-      )} */}
-
       <HeaderForm>{t("user_login")}</HeaderForm>
-
       {errorMessage && (
         <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>
       )}
