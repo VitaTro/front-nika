@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
+import { fetchPublicMain } from "../../redux/main/mainOperations";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductsPage from "../ProductsPage/ProductsPage";
@@ -14,8 +15,12 @@ const MainPage = () => {
   const error = useSelector((state) => state?.user?.error || null);
 
   useEffect(() => {
-    dispatch(fetchUserMain());
-  }, [dispatch]);
+    if (isUserAuthenticated) {
+      dispatch(fetchUserMain());
+    } else {
+      dispatch(fetchPublicMain());
+    }
+  }, [dispatch, isUserAuthenticated]);
 
   if (loading) return <Loader />;
   if (error) return <p>Error: {error}</p>;

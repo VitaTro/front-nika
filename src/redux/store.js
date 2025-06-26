@@ -10,6 +10,7 @@ import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
 import onlineSalesReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
 import settingsReducer from "./finance/settings/settingsSlice";
+import mainReducer from "./main/mainSlice";
 import paymentReducer from "./payment/paymentSlice";
 import popularProductsReducer from "./popular/popularSlice";
 import productsReducer from "./products/productsSlice";
@@ -21,6 +22,7 @@ import userReducer from "./user/userSlice";
 import wishlistReducer from "./wishlist/wishlistSlice";
 const store = configureStore({
   reducer: {
+    main: mainReducer,
     user: userReducer,
     userOrders: userOrdersReducer,
     adminAuth: adminAuthReducer,
