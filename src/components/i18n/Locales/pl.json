@@ -149,6 +149,7 @@
   "payment_cards_placeholder": "Tutaj wkrótce pojawią się Twoje karty płatnicze",
   "wallet_placeholder": "Tutaj pojawi się saldo portfela i historia transakcji",
   "status": {
+    "new": "Nowe",
     "unpaid": "Nieopłacone",
     "processing": "W realizacji",
     "shipped": "Wysłano",

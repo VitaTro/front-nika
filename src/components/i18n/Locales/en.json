@@ -149,6 +149,7 @@
   "payment_cards_placeholder": "Your payment cards will appear here soon",
   "wallet_placeholder": "Your wallet balance and transaction history will appear here",
   "status": {
+    "new": "New",
     "unpaid": "Unpaid",
     "processing": "Processing",
     "shipped": "Shipped",

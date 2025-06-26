@@ -148,6 +148,7 @@
   "payment_cards_placeholder": "Hier werden bald Ihre Zahlungsmethoden angezeigt",
   "wallet_placeholder": "Hier wird Ihr Wallet-Guthaben und die Transaktionshistorie angezeigt",
   "status": {
+    "new": "Neu",
     "unpaid": "Unbezahlt",
     "processing": "In Bearbeitung",
     "shipped": "Versendet",

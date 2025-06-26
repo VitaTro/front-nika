@@ -30,7 +30,7 @@ const OrderStatus = ({ order, isMobile }) => {
       flexWrap="wrap"
       maxWidth={isMobile ? "100%" : "fit-content"}
     >
-      {statuses.map(({ key, color }) => (
+      {statuses.map(({ key, color, label }) => (
         <Button
           key={key}
           size="small"
