@@ -105,6 +105,11 @@ const Header = () => {
         {/* Меню */}
         <NavList>
           <NavItem>
+            <NavLinkStyled to="/main" $isActive={location.pathname === "/main"}>
+              {t("main")}
+            </NavLinkStyled>
+          </NavItem>
+          <NavItem>
             <NavLinkStyled
               to="/products"
               $isActive={location.pathname === "/products"}

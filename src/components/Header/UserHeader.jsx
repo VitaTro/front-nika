@@ -102,6 +102,14 @@ const UserHeader = () => {
         <NavList>
           <NavItem>
             <NavLinkStyled
+              to="/user/main"
+              $isActive={location.pathname === "/user/main"}
+            >
+              {t("main")}
+            </NavLinkStyled>
+          </NavItem>
+          <NavItem>
+            <NavLinkStyled
               to={isUserAuthenticated ? "/user/products" : "/products"}
               $isActive={
                 location.pathname.startsWith("/products") ||

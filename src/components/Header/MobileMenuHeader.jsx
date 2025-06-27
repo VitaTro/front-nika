@@ -80,6 +80,15 @@ const MobileMenuHeader = ({
       )}
       <NavItem>
         <NavLinkStyledMObile
+          to="/main"
+          $isActive={location.pathname === "/main"}
+          onClick={() => setMenuOpen(false)}
+        >
+          {t("main")}
+        </NavLinkStyledMObile>
+      </NavItem>
+      <NavItem>
+        <NavLinkStyledMObile
           to="/products"
           $isActive={
             location.pathname === "/products" ||
