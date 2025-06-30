@@ -142,7 +142,6 @@ export const ImageTwo = styled.img`
 `;
 
 export const ContactContainer = styled.div`
-  background: rgb(235, 242, 249);
   padding: 80px;
   margin: 0 20px;
   width: 100%;
@@ -152,7 +151,7 @@ export const ContactContainer = styled.div`
   justify-content: flex-start;
   padding-top: 20px;
   font-family: "Noto Sans", sans-serif;
-  color: #000;
+  color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
 
   @media (max-width: 1024px) {
     padding: 50px;
@@ -174,8 +173,8 @@ export const ContactContainer = styled.div`
 export const ContactItem = styled.div`
   font-size: 18px;
   font-family: "Noto Sans", sans-serif;
-  margin: 15px 0;
-  border-bottom: 1px solid #ecf0f1;
+  margin: 5px 0;
+  color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
   padding-bottom: 10px;
   width: 80%;
   text-align: center;
@@ -195,4 +194,22 @@ export const ContactItem = styled.div`
     width: 100%;
     padding-bottom: 5px;
   }
+`;
+export const ContactLink = styled.a`
+  color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
+  text-decoration: none;
+  font-size: ${({ size }) => size || "16px"};
+  position: relative;
+  top: ${({ top }) => top || "0"};
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const SocialRow = styled(ContactItem)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `;

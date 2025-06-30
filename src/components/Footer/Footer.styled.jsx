@@ -1,18 +1,58 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const FooterItem = styled.footer`
+export const FooterWrapper = styled.footer`
+  max-width: 1400px;
+  background-color: ${({ theme }) =>
+    theme.isDarkMode ? "#1a1a1a" : "#f7f7f7"};
+  color: ${({ theme }) => (theme.isDarkMode ? "#ccc" : "#333")};
+  padding: 40px 60px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 24px;
+  font-size: 14px;
+`;
 
-  background-color: ${(props) => (props.$isDarkMode ? "#212521" : "#F8FFF8")};
-  color: ${(props) => (props.$isDarkMode ? "#fff" : "#000")};
+export const FooterSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 150px;
+`;
+
+export const FooterTitle = styled.div`
+  font-weight: 600;
+  margin-bottom: 6px;
+`;
+
+export const FooterLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const DevNote = styled.div`
+  font-size: 12px;
+  opacity: 0.6;
   margin-top: 20px;
-  font-family: "Nunito", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  position: fixed;
-  bottom: 0;
-  padding: 5px;
-  width: 100%;
+`;
+
+export const SocialLinks = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+
+  a {
+    color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.2);
+      color: #d1a954; /* Ніжне золото */
+    }
+  }
 `;

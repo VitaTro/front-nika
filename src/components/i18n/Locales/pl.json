@@ -159,5 +159,69 @@
     "received": "Odebrane",
     "cancelled": "Anulowane"
   },
-  "main": "Główna"
+  "main": "Główna",
+  "returns": "Zwroty i reklamacje",
+  "privacy": "Polityka prywatności",
+  "cookies": "Pliki cookie",
+  "jewelry": "Biżuteria, która mówi więcej niż słowa ✨",
+  "info": "Informacja",
+  "cookies_policy": {
+    "title": "Polityka plików cookie",
+    "intro": "Nasza strona internetowa wykorzystuje pliki cookie w celu zapewnienia prawidłowego działania serwisu oraz poprawy komfortu użytkowania.",
+    "what_are": "🔹 Czym są pliki cookie?",
+    "what_are_text": "Pliki cookie to niewielkie pliki tekstowe zapisywane na Twoim urządzeniu...",
+    "list_what_are": [
+      "Zachowanie produktów w koszyku",
+      "Zapamiętanie preferencji (np. tryb jasny/ciemny)",
+      "Działanie na różnych urządzeniach"
+    ],
+    "types": "🔹 Rodzaje wykorzystywanych plików cookie:",
+    "type_list": [
+      "Niezbędne – wymagane do działania strony",
+      "Funkcjonalne – zapamiętują Twoje wybory"
+    ],
+    "management": "🔹 Zarządzanie plikami cookie",
+    "management_text": "Możesz samodzielnie zarządzać ustawieniami plików cookie w swojej przeglądarce...",
+    "contact": "🔹 Kontakt",
+    "contact_text": "W przypadku pytań dotyczących tej polityki, skontaktuj się z nami: 📧huping.nika.gold@gmail.com"
+  },
+  "privacy_policy": {
+    "summary": {
+      "title": "NOTA O PRYWATNOŚCI",
+      "last_updated": "<strong>Ostatnia aktualizacja:</strong> 30.06.2025",
+      "intro": "Niniejsza Nota o Prywatności firmy <em>Nika Gold</em> („my”, „nas”, „nasze”) opisuje, jak i dlaczego możemy uzyskiwać dostęp do Twoich danych osobowych, zbierać je, przechowywać, wykorzystywać i/lub udostępniać („przetwarzać”) podczas korzystania z naszych usług („Usługi”), w tym gdy:",
+      "questions": "<strong>Masz pytania lub wątpliwości?</strong> Przeczytaj tę notę, aby zrozumieć swoje prawa i wybory dotyczące prywatności. Jeśli nie zgadzasz się z naszymi zasadami i praktykami, nie korzystaj z naszych usług.",
+      "summary_title": "PODSUMOWANIE KLUCZOWYCH PUNKTÓW",
+      "summary_intro": "<em>To podsumowanie zawiera kluczowe informacje z naszej Noty o Prywatności, ale możesz dowiedzieć się więcej, korzystając z poniższych linków.</em>",
+      "summary_subtitle": "Jakie dane osobowe przetwarzamy?",
+      "what_info": "Możemy przetwarzać dane osobowe w zależności od tego, jak korzystasz z naszych usług. <a href=\"#\">Dowiedz się więcej o danych, które nam przekazujesz.</a>",
+      "summary_subtitle_1": "Czy przetwarzamy dane wrażliwe?",
+      "sensitive_info": "Nie przetwarzamy wrażliwych danych osobowych.",
+      "summary_subtitle_2": "Czy zbieramy informacje od stron trzecich?",
+      "third_parties": "Możemy zbierać informacje z publicznych baz danych, partnerów marketingowych, platform mediów społecznościowych i innych źródeł zewnętrznych. <a href=\"#\">Dowiedz się więcej o tych źródłach.</a>",
+      "summary_title_1": "Jak przetwarzamy Twoje dane?",
+      "how_process": "Przetwarzamy Twoje dane w celu świadczenia, ulepszania i zarządzania naszymi usługami, komunikacji z Tobą, zapewnienia bezpieczeństwa i zapobiegania oszustwom oraz w celu przestrzegania prawa. Możemy też przetwarzać Twoje dane za zgodą. <a href=\"#\">Dowiedz się więcej o naszym przetwarzaniu danych.</a>",
+      "summary_title_2": "W jakich sytuacjach i komu udostępniamy dane osobowe?",
+      "who_share": "Możemy udostępniać informacje w określonych sytuacjach i określonym podmiotom. <a href=\"#\">Dowiedz się więcej o odbiorcach danych.</a>",
+      "summary_title_3": "Jakie są Twoje prawa?",
+      "your_rights": "W zależności od miejsca, w którym się znajdujesz, obowiązujące przepisy mogą przyznać Ci określone prawa dotyczące Twoich danych osobowych. <a href=\"#\">Dowiedz się więcej o swoich prawach.</a>",
+      "summary_title_4": "Jak możesz skorzystać ze swoich praw?",
+      "exercise_rights": "Najłatwiejszym sposobem skorzystania z Twoich praw jest przesłanie żądania dostępu do danych lub kontakt z nami. Rozpatrzymy każde żądanie zgodnie z obowiązującymi przepisami o ochronie danych.",
+      "learn_more": "Chcesz dowiedzieć się więcej o tym, co robimy z Twoimi danymi? <a href=\"#\">Przeczytaj pełną Notę o Prywatności.</a>"
+    },
+    "section1": {
+      "title": "1. JAKIE INFORMACJE ZBIERAMY?",
+      "subtitle_1": "Dane osobowe podane przez użytkownika",
+      "summary_1": "<strong>W skrócie:</strong> Zbieramy dane osobowe, które przekazujesz nam dobrowolnie.",
+      "content_1": "Zbieramy dane osobowe przekazane dobrowolnie przy rejestracji, zainteresowaniu naszymi usługami, uczestnictwie w aktywnościach lub kontakcie z nami.",
+      "sensitive_info": "<strong>Dane wrażliwe:</strong> Nie przetwarzamy wrażliwych danych osobowych.",
+      "accuracy": "<strong>Dokładność:</strong> Wszystkie dane powinny być prawdziwe, kompletne i aktualne. Prosimy o informowanie o zmianach.",
+
+      "subtitle_2": "Informacje zbierane automatycznie",
+      "summary_2": "<strong>W skrócie:</strong> Pewne dane – jak adres IP czy charakterystyka przeglądarki – zbierane są automatycznie.",
+      "content_2": "Automatycznie zbieramy dane o Twoim urządzeniu, lokalizacji, systemie operacyjnym, języku, czasie i sposobie korzystania z serwisu.",
+      "purpose": "Dane te służą nam do zabezpieczenia, analityki i poprawy działania serwisu.",
+      "cookies": "Podobnie jak wiele firm, używamy plików cookie i pokrewnych technologii."
+    }
+  }
 }

@@ -49,6 +49,8 @@ import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import ProfilePage from "../pages/profileUser/ProfilePage";
 import MobileMenuHeader from "./Header/MobileMenuHeader";
+import CookiesPolicy from "./Policy/CookiesPolicy";
+import PrivacyPolicy from "./Policy/PrivacyPolicy";
 
 export const App = () => {
   const location = useLocation();
@@ -98,110 +100,116 @@ export const App = () => {
           {!isAdminAuthenticated &&
             !isAuthPage &&
             (isUserAuthenticated ? <UserHeader /> : <Header />)}
-
-          <Routes>
-            {/* Авторизація */}
-            <Route path="/user/auth/register" element={<UserRegisterForm />} />
-            <Route
-              path="/admin/auth/register"
-              element={<AdminRegisterForm />}
-            />
-            <Route path="/user/auth/login" element={<UserLoginForm />} />
-            <Route path="/admin/auth/login" element={<AdminLoginForm />} />
-            <Route
-              path="/user/auth/reset-password"
-              element={<ForgotPassword />}
-            />
-
-            {/* Інші маршрути */}
-            <Route path="/" element={<MainPage />} />
-            <Route path="/main" element={<MainPage />} />
-            <Route path="/search" element={<SearchResults />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route
-              path="/products"
-              element={
-                <Products type="all" isGuestMode={!isUserAuthenticated} />
-              }
-            />
-            <Route path="/products/gold" element={<Products type="gold" />} />
-            <Route
-              path="/products/goldLight"
-              element={<Products type="goldLight" />}
-            />
-            <Route
-              path="/products/silver"
-              element={<Products type="silver" />}
-            />
-            <Route path="/products/set" element={<Products type="set" />} />
-            <Route path="/products/box" element={<Products type="box" />} />
-            <Route path="/products/:type" element={<Products />} />
-
-            {/* Захищена user панель */}
-            {isUserAuthenticated ? (
-              <>
-                <Route path="/user/main" element={<MainPage />} />
-                <Route path="/user/wishlist" element={<WishlistPage />} />
-                <Route
-                  path="/user/shopping-cart"
-                  element={<ShoppingCartPage />}
-                />
-                <Route path="/user/orders" element={<UserOrderPage />} />
-                {/* <Route path="/user/orders" element={<UserOrderDetails />} /> */}
-                <Route path="/user/profile/info" element={<ProfilePage />} />
-                <Route
-                  path="/user/products/:id"
-                  element={<ProductDetailsPage />}
-                />
-                <Route
-                  path="/user/products"
-                  element={<Products type="all" />}
-                />
-                <Route
-                  path="/user/products/gold"
-                  element={<Products type="gold" />}
-                />
-                <Route
-                  path="/user/products/goldLight"
-                  element={<Products type="goldLight" />}
-                />
-                <Route
-                  path="/user/products/silver"
-                  element={<Products type="silver" />}
-                />
-                <Route
-                  path="/user/products/set"
-                  element={<Products type="set" />}
-                />
-                <Route
-                  path="/user/products/box"
-                  element={<Products type="box" />}
-                />
-                <Route path="/user/products/:type" element={<Products />} />
-              </>
-            ) : (
+          <main>
+            <Routes>
+              {/* Авторизація */}
+              <Route
+                path="/user/auth/register"
+                element={<UserRegisterForm />}
+              />
+              <Route
+                path="/admin/auth/register"
+                element={<AdminRegisterForm />}
+              />
               <Route path="/user/auth/login" element={<UserLoginForm />} />
-            )}
-            {/* Захищена адмін панель */}
-            {isAdminAuthenticated ? (
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route path="users" element={<UsersTab />} />
-                <Route path="products" element={<ProductsTab />} />
-                <Route path="dashboard" element={<DashboardTab />} />
-                <Route path="finance" element={<FinanceTab />}>
-                  <Route path="offlineOrder" element={<OfflineOrder />} />
-                  <Route path="offlineSale" element={<OfflineSale />} />
-                  <Route path="onlineOrder" element={<OnlineOrder />} />
-                  <Route path="onlineSale" element={<OnlineSale />} />
-                  <Route path="overview" element={<FinanceOverview />} />
-                  <Route path="settings" element={<FinanceSettings />} />
-                </Route>
-              </Route>
-            ) : null}
+              <Route path="/admin/auth/login" element={<AdminLoginForm />} />
+              <Route
+                path="/user/auth/reset-password"
+                element={<ForgotPassword />}
+              />
 
-            {/* 📌 Сторінка 404 */}
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+              {/* Інші маршрути */}
+              <Route path="/" element={<MainPage />} />
+              <Route path="/main" element={<MainPage />} />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/policy-cookies" element={<CookiesPolicy />} />
+              <Route path="/policy-privacy" element={<PrivacyPolicy />} />
+              <Route
+                path="/products"
+                element={
+                  <Products type="all" isGuestMode={!isUserAuthenticated} />
+                }
+              />
+              <Route path="/products/gold" element={<Products type="gold" />} />
+              <Route
+                path="/products/goldLight"
+                element={<Products type="goldLight" />}
+              />
+              <Route
+                path="/products/silver"
+                element={<Products type="silver" />}
+              />
+              <Route path="/products/set" element={<Products type="set" />} />
+              <Route path="/products/box" element={<Products type="box" />} />
+              <Route path="/products/:type" element={<Products />} />
+
+              {/* Захищена user панель */}
+              {isUserAuthenticated ? (
+                <>
+                  <Route path="/user/main" element={<MainPage />} />
+                  <Route path="/user/wishlist" element={<WishlistPage />} />
+                  <Route
+                    path="/user/shopping-cart"
+                    element={<ShoppingCartPage />}
+                  />
+                  <Route path="/user/orders" element={<UserOrderPage />} />
+                  {/* <Route path="/user/orders" element={<UserOrderDetails />} /> */}
+                  <Route path="/user/profile/info" element={<ProfilePage />} />
+                  <Route
+                    path="/user/products/:id"
+                    element={<ProductDetailsPage />}
+                  />
+                  <Route
+                    path="/user/products"
+                    element={<Products type="all" />}
+                  />
+                  <Route
+                    path="/user/products/gold"
+                    element={<Products type="gold" />}
+                  />
+                  <Route
+                    path="/user/products/goldLight"
+                    element={<Products type="goldLight" />}
+                  />
+                  <Route
+                    path="/user/products/silver"
+                    element={<Products type="silver" />}
+                  />
+                  <Route
+                    path="/user/products/set"
+                    element={<Products type="set" />}
+                  />
+                  <Route
+                    path="/user/products/box"
+                    element={<Products type="box" />}
+                  />
+                  <Route path="/user/products/:type" element={<Products />} />
+                </>
+              ) : (
+                <Route path="/user/auth/login" element={<UserLoginForm />} />
+              )}
+              {/* Захищена адмін панель */}
+              {isAdminAuthenticated ? (
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route path="users" element={<UsersTab />} />
+                  <Route path="products" element={<ProductsTab />} />
+                  <Route path="dashboard" element={<DashboardTab />} />
+                  <Route path="finance" element={<FinanceTab />}>
+                    <Route path="offlineOrder" element={<OfflineOrder />} />
+                    <Route path="offlineSale" element={<OfflineSale />} />
+                    <Route path="onlineOrder" element={<OnlineOrder />} />
+                    <Route path="onlineSale" element={<OnlineSale />} />
+                    <Route path="overview" element={<FinanceOverview />} />
+                    <Route path="settings" element={<FinanceSettings />} />
+                  </Route>
+                </Route>
+              ) : null}
+
+              {/* 📌 Сторінка 404 */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </main>
         </ErrorBoundary>
 
         {/* ✅ Футер не рендериться на сторінках логіну/реєстрації */}

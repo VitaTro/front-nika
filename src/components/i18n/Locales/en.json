@@ -159,5 +159,69 @@
     "received": "Received",
     "cancelled": "Cancelled"
   },
-  "main": "Main"
+  "main": "Main",
+  "returns": "Returns and complaints",
+  "privacy": "Privacy policy",
+  "cookies": "Cookies",
+  "jewelry": "Jewellery that speaks louder than words ✨",
+  "info": "Information",
+  "cookies_policy": {
+    "title": "Cookies Policy",
+    "intro": "Our website uses cookies to ensure proper functionality and improve user experience.",
+    "what_are": "🔹 What are cookies?",
+    "what_are_text": "Cookies are small text files stored on your device while browsing...",
+    "list_what_are": [
+      "Saving products in the cart",
+      "Remembering preferences (e.g. light/dark mode)",
+      "Functionality across devices"
+    ],
+    "types": "🔹 Types of cookies used:",
+    "type_list": [
+      "Essential – required for the site to work",
+      "Functional – remember your choices"
+    ],
+    "management": "🔹 Managing cookies",
+    "management_text": "You can manage cookies in your browser settings – block or delete them. Keep in mind this may affect site functionality.",
+    "contact": "🔹 Contact",
+    "contact_text": "If you have any questions regarding this policy, contact us: 📧 huping.nika.gold@gmail.com"
+  },
+
+  "privacy_policy": {
+    "summary": {
+      "title": "PRIVACY NOTICE",
+      "last_updated": "<strong>Last updated:</strong> 30.06.2025",
+      "intro": "This Privacy Notice for <em>Nika Gold</em> (“we,” “us,” or “our”) describes how and why we might access, collect, store, use, and/or share (“process”) your personal information when you use our services (“Services”), including when you:",
+      "questions": "<strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. If you do not agree with our policies and practices, please do not use our Services.",
+      "summary_title": "SUMMARY OF KEY POINTS",
+      "summary_intro": "<em>This summary provides key points from our Privacy Notice, but you can learn more by following each link below.</em>",
+      "summary_subtitle": "What personal information do we process?",
+      "what_info": "We may process personal information depending on how you interact with us and our services. <a href=\"#\">Learn more about personal information you disclose to us.</a>",
+      "summary_subtitle_1": "Do we process any sensitive personal information?",
+      "sensitive_info": "We do not process sensitive personal information.",
+      "summary_subtitle_2": "Do we collect any information from third parties?",
+      "third_parties": "We may collect information from public databases, marketing partners, social media platforms, and other external sources. <a href=\"#\">Learn more about information collected from other sources.</a>",
+      "summary_title_1": "How do we process your information?",
+      "how_process": "We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent. We process your information only when we have a valid legal reason to do so. <a href=\"#\">Learn more about how we process your information.</a>",
+      "summary_title_2": "In what situations and with which parties do we share personal information?",
+      "who_share": "We may share information in specific situations and with specific third parties. <a href=\"#\">Learn more about when and with whom we share your personal information.</a>",
+      "summary_title_3": "What are your rights?",
+      "your_rights": "Depending on where you are located geographically, the applicable privacy law may mean you have certain rights regarding your personal information. <a href=\"#\">Learn more about your privacy rights.</a>",
+      "summary_title_4": "How do you exercise your rights?",
+      "exercise_rights": "The easiest way to exercise your rights is by submitting a data subject access request, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.",
+      "learn_more": "Want to learn more about what we do with any information we collect? <a href=\"#\">Review the Privacy Notice in full.</a>"
+    },
+    "section1": {
+      "title": "1. WHAT INFORMATION DO WE COLLECT?",
+      "subtitle_1": "Personal information you disclose to us",
+      "summary_1": "<strong>In Short:</strong> We collect personal information that you provide to us.",
+      "content_1": "We collect personal information that you voluntarily provide to us when you register on the Services, express an interest in our products or Services, participate in activities, or otherwise contact us.",
+      "sensitive_info": "<strong>Sensitive Information:</strong> We do not process sensitive personal information.",
+      "accuracy": "<strong>Accuracy of Information:</strong> All personal information you provide must be true, complete, and accurate, and you must notify us of any changes.",
+      "subtitle_2": "Information automatically collected",
+      "summary_2": "<strong>In Short:</strong> Some information — such as your IP address and device characteristics — is collected automatically when you visit our Services.",
+      "content_2": "We automatically collect certain information when you use our Services. This may include device and usage info, IP address, browser and OS details, referring URLs, country and technical data.",
+      "purpose": "We use this information for service performance, security, analytics, and reporting.",
+      "cookies": "Like many businesses, we also collect information through cookies and similar technologies."
+    }
+  }
 }

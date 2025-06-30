@@ -75,7 +75,6 @@ const ProfileAddress = () => {
         justifyContent: "center",
         alignItems: "flex-start",
         p: 2,
-        backgroundColor: "#f5f5f5",
       }}
     >
       <Paper elevation={3} sx={{ p: 3, width: "100%", maxWidth: 400 }}>

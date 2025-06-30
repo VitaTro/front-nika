@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import {
   AboutHeader,
   AboutItem,
@@ -12,8 +13,8 @@ import {
 } from "./AboutPage.styled";
 import Girl1 from "./girl1.png";
 import Girl2 from "./girl2.png";
-
 const AboutSection = () => {
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
   return (
     <SectionWrapper>

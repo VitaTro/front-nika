@@ -158,5 +158,68 @@
     "received": "Erhalten",
     "cancelled": "Storniert"
   },
-  "main": "Haupt"
+  "main": "Haupt",
+  "returns": "Rückgaben und Reklamationen",
+  "privacy": "Datenschutzrichtlinie",
+  "cookies": "Cookies",
+  "jewelry": "Schmuck, der mehr sagt als Worte ✨",
+  "info": "Hauptinformation",
+  "cookies_policy": {
+    "title": "Cookie-Richtlinie",
+    "intro": "Unsere Website verwendet Cookies, um einen reibungslosen Betrieb sicherzustellen und die Benutzerfreundlichkeit zu verbessern.",
+    "what_are": "🔹 Was sind Cookies?",
+    "what_are_text": "Cookies sind kleine Textdateien, die auf deinem Gerät gespeichert werden, während du unsere Website nutzt...",
+    "list_what_are": [
+      "Speicherung von Produkten im Warenkorb",
+      "Merkung deiner Einstellungen (z. B. Hell/Dunkel-Modus)",
+      "Funktionalität auf verschiedenen Geräten"
+    ],
+    "types": "🔹 Arten von verwendeten Cookies:",
+    "type_list": [
+      "Notwendige – für den Betrieb der Seite erforderlich",
+      "Funktionale – speichern deine Präferenzen"
+    ],
+    "management": "🔹 Cookie-Verwaltung",
+    "management_text": "Du kannst Cookies über deine Browsereinstellungen blockieren oder löschen. Die Einschränkung kann die Funktionalität beeinträchtigen.",
+    "contact": "🔹 Kontakt",
+    "contact_text": "Bei Fragen zu dieser Richtlinie, kontaktiere uns: 📧huping.nika.gold@gmail.com "
+  },
+  "privacy_policy": {
+    "summary": {
+      "title": "DATENSCHUTZHINWEIS",
+      "last_updated": "<strong>Zuletzt aktualisiert:</strong> 30.06.2025",
+      "intro": "Dieser Datenschutzhinweis für <em>Nika Gold</em> („wir“, „uns“ oder „unser“) beschreibt, wie und warum wir Ihre personenbezogenen Daten erfassen, speichern, verwenden und/oder weitergeben („verarbeiten“), wenn Sie unsere Dienste („Services“) nutzen, einschließlich in folgenden Fällen:",
+      "questions": "<strong>Fragen oder Bedenken?</strong> Das Lesen dieses Datenschutzhinweises hilft Ihnen, Ihre Datenschutzrechte und Optionen zu verstehen. Wenn Sie mit unseren Richtlinien und Praktiken nicht einverstanden sind, nutzen Sie bitte unsere Services nicht.",
+      "summary_title": "ZUSAMMENFASSUNG DER WICHTIGSTEN PUNKTE",
+      "summary_intro": "<em>Diese Zusammenfassung enthält die wichtigsten Punkte unseres Datenschutzhinweises. Mehr erfahren Sie über die folgenden Links.</em>",
+      "summary_subtitle": "Welche personenbezogenen Daten verarbeiten wir?",
+      "what_info": "Wir verarbeiten personenbezogene Daten je nach Ihrer Interaktion mit uns und unseren Services. <a href=\"#\">Mehr erfahren über die bereitgestellten Informationen.</a>",
+      "summary_subtitle_1": "Verarbeiten wir sensible personenbezogene Daten?",
+      "sensitive_info": "Wir verarbeiten keine sensiblen personenbezogenen Daten.",
+      "summary_subtitle_2": "Erheben wir Daten von Drittquellen?",
+      "third_parties": "Wir können Informationen aus öffentlichen Datenbanken, von Marketingpartnern, sozialen Medien und anderen externen Quellen erfassen. <a href=\"#\">Mehr erfahren über Drittquellen.</a>",
+      "summary_title_1": "Wie verarbeiten wir Ihre Informationen?",
+      "how_process": "Wir verarbeiten Ihre Daten zur Bereitstellung, Verbesserung und Verwaltung unserer Services, zur Kommunikation mit Ihnen, zur Sicherheit und Betrugsprävention sowie zur Einhaltung gesetzlicher Vorschriften. Mit Ihrer Einwilligung verarbeiten wir sie auch für andere Zwecke. <a href=\"#\">Mehr erfahren über unsere Datenverarbeitung.</a>",
+      "summary_title_2": "Wann und mit wem teilen wir personenbezogene Daten?",
+      "who_share": "Wir geben Daten nur in bestimmten Situationen und an bestimmte Dritte weiter. <a href=\"#\">Mehr über Datenweitergabe.</a>",
+      "summary_title_3": "Welche Rechte haben Sie?",
+      "your_rights": "Je nach Ihrem geografischen Standort gewährt Ihnen das geltende Datenschutzrecht bestimmte Rechte in Bezug auf Ihre personenbezogenen Daten. <a href=\"#\">Mehr über Ihre Datenschutzrechte.</a>",
+      "summary_title_4": "Wie können Sie Ihre Rechte ausüben?",
+      "exercise_rights": "Am einfachsten üben Sie Ihre Rechte aus, indem Sie einen Antrag auf Datenzugang stellen oder uns direkt kontaktieren. Wir prüfen und bearbeiten jeden Antrag entsprechend den geltenden Datenschutzgesetzen.",
+      "learn_more": "Möchten Sie mehr darüber erfahren, was wir mit den von uns erfassten Informationen tun? <a href=\"#\">Lesen Sie den vollständigen Datenschutzhinweis.</a>"
+    },
+    "section1": {
+      "title": "1. WELCHE INFORMATIONEN SAMMELN WIR?",
+      "subtitle_1": "Persönliche Daten, die Sie uns mitteilen",
+      "summary_1": "<strong>Kurz gesagt:</strong> Wir erfassen personenbezogene Daten, die Sie uns freiwillig mitteilen.",
+      "content_1": "Wir erfassen personenbezogene Daten, die Sie uns bereitstellen, wenn Sie sich für unsere Dienste registrieren, Interesse an unseren Produkten zeigen, an Aktivitäten teilnehmen oder uns kontaktieren.",
+      "sensitive_info": "<strong>Sensible Daten:</strong> Wir verarbeiten keine sensiblen personenbezogenen Daten.",
+      "accuracy": "<strong>Richtigkeit:</strong> Alle bereitgestellten Daten müssen korrekt, vollständig und aktuell sein. Bitte informieren Sie uns über Änderungen.",
+      "subtitle_2": "Automatisch erfasste Informationen",
+      "summary_2": "<strong>Kurz gesagt:</strong> Einige Informationen – wie IP-Adresse und Geräteeigenschaften – werden automatisch erfasst.",
+      "content_2": "Wenn Sie unsere Dienste nutzen, erfassen wir automatisch technische Informationen über Ihr Gerät, Nutzungsmuster, Standort und mehr.",
+      "purpose": "Diese Daten verwenden wir zur Absicherung, Verbesserung und Analyse unserer Dienste.",
+      "cookies": "Wie viele Unternehmen verwenden wir Cookies und ähnliche Technologien zur Datenerfassung."
+    }
+  }
 }

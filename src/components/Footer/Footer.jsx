@@ -1,20 +1,66 @@
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { FooterItem } from "./Footer.styled";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+import {
+  DevNote,
+  FooterLink,
+  FooterSection,
+  FooterTitle,
+  FooterWrapper,
+  SocialLinks,
+} from "./Footer.styled";
 
+import { useTranslation } from "react-i18next";
 const Footer = () => {
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
-    <FooterItem
-      style={{
-        backgroundColor: isDarkMode ? "#212521" : "#F8FFF8",
-        color: isDarkMode ? "#fff" : "#000",
-      }}
-    >
-      © 2025
-      <a href="https://github.com/VitaTro"> Vita Tro </a>.{t("reserved")}.
-    </FooterItem>
+    <FooterWrapper>
+      <FooterSection>
+        <FooterTitle>NIKA GOLD</FooterTitle>
+        <div>{t("jewelry")}</div>
+        <SocialLinks>
+          <a
+            href="https://www.instagram.com/nika_gold_huping/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram"
+          >
+            <FaInstagram size={20} />
+          </a>
+          <a
+            href="https://www.facebook.com/nika.gold.420361/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Facebook"
+          >
+            <FaFacebook size={20} />
+          </a>
+        </SocialLinks>
+        <DevNote>
+          developed by{" "}
+          <a href="https://github.com/VitaTro" target="_blank" rel="noreferrer">
+            VT
+          </a>
+        </DevNote>
+      </FooterSection>
+
+      <FooterSection>
+        <FooterTitle>{t("info")}</FooterTitle>
+        <FooterLink to="/about">{t("about")}</FooterLink>
+        <FooterLink to="/products">{t("products")}</FooterLink>
+        <FooterLink to="/policy-privacy">{t("privacy")}</FooterLink>
+        <FooterLink to="/policy-returns">{t("returns")}</FooterLink>
+        <FooterLink to="/policy-cookies">{t("cookies")}</FooterLink>
+      </FooterSection>
+
+      <FooterSection>
+        <FooterTitle>{t("contact")}</FooterTitle>
+        <a href="mailto:huping.nika.gold@gmail.com">
+          huping.nika.gold@gmail.com
+        </a>
+        <a href="tel:+48516174555">+48 516 174 555</a>
+        <FooterLink to="/about#contact">Formularz kontaktowy</FooterLink>
+      </FooterSection>
+    </FooterWrapper>
   );
 };
+
 export default Footer;
