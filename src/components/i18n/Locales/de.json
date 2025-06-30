@@ -162,6 +162,7 @@
   "returns": "Rückgaben und Reklamationen",
   "privacy": "Datenschutzrichtlinie",
   "cookies": "Cookies",
+  "cookies_notice": "Cookies-Hinweis",
   "jewelry": "Schmuck, der mehr sagt als Worte ✨",
   "info": "Hauptinformation",
   "cookies_policy": {
@@ -185,6 +186,22 @@
     "contact_text": "Bei Fragen zu dieser Richtlinie, kontaktiere uns: 📧huping.nika.gold@gmail.com "
   },
   "privacy_policy": {
+    "short": {
+      "general": "Überblick",
+      "section1": "Daten",
+      "section2": "Verarbeitung",
+      "section3": "Weitergabe",
+      "section4": "Cookies",
+      "section5": "Soziale Logins",
+      "section6": "International",
+      "section7": "Speicherung",
+      "section8": "Minderjährige",
+      "section9": "Rechte",
+      "section10": "Do-Not-Track",
+      "section11": "Änderungen",
+      "section12": "Kontakt",
+      "section13": "Dateneinsicht"
+    },
     "summary": {
       "title": "DATENSCHUTZHINWEIS",
       "last_updated": "<strong>Zuletzt aktualisiert:</strong> 30.06.2025",
@@ -220,6 +237,89 @@
       "content_2": "Wenn Sie unsere Dienste nutzen, erfassen wir automatisch technische Informationen über Ihr Gerät, Nutzungsmuster, Standort und mehr.",
       "purpose": "Diese Daten verwenden wir zur Absicherung, Verbesserung und Analyse unserer Dienste.",
       "cookies": "Wie viele Unternehmen verwenden wir Cookies und ähnliche Technologien zur Datenerfassung."
+    },
+    "section2": {
+      "title": "2. WIE VERARBEITEN WIR IHRE INFORMATIONEN?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wir verarbeiten Ihre Informationen, um unsere Dienste bereitzustellen, zu verbessern und zu verwalten, mit Ihnen zu kommunizieren, um Sicherheit und Betrugsprävention zu gewährleisten und um gesetzliche Anforderungen zu erfüllen. Wir können Ihre Informationen auch für andere Zwecke mit Ihrer Zustimmung verarbeiten.",
+      "content_2": "Wir verarbeiten Ihre persönlichen Informationen aus verschiedenen Gründen, abhängig von Ihren Interaktionen mit unseren Dienstleistungen, einschließlich."
+    },
+    "section3": {
+      "title": "3. WANN UND AN WEN GEBEN WIR IHRE PERSONENBEZOGENEN DATEN WEITER?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wir können Informationen in bestimmten Situationen, die in diesem Abschnitt beschrieben sind, und/oder an die folgenden Dritten weitergeben.",
+      "content_2": "In den folgenden Situationen müssen wir Ihre personenbezogenen Daten möglicherweise weitergeben:",
+      "list_1": "<strong>Geschäftsübertragungen:</strong> Wir können Ihre Daten im Zusammenhang mit oder während der Verhandlungen über eine Fusion, den Verkauf von Unternehmensvermögen, die Finanzierung oder den Erwerb unseres gesamten oder eines Teils unseres Geschäfts an ein anderes Unternehmen weitergeben oder übertragen.",
+      "list_2": "<strong>Verbundene Unternehmen:</strong> Wir können Ihre Daten an unsere verbundenen Unternehmen weitergeben. In solchen Fällen verlangen wir von diesen verbundenen Unternehmen, dass sie diese Datenschutzerklärung einhalten. Zu den verbundenen Unternehmen gehören unsere Muttergesellschaft und alle Tochtergesellschaften, Joint-Venture-Partner oder andere Unternehmen, die wir kontrollieren oder mit uns unter gemeinsamer Kontrolle stehen.",
+      "list_3": "<strong>Geschäftspartner:</strong> Wir können Ihre Informationen mit unseren Geschäftspartnern teilen, um Ihnen bestimmte Produkte, Dienstleistungen oder Werbeaktionen anzubieten."
+    },
+    "section4": {
+      "title": "4. VERWENDEN WIR COOKIES UND ANDERE TRACKING-TECHNOLOGIEN?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wir können Cookies und andere Tracking-Technologien verwenden, um Ihre Informationen zu sammeln und zu speichern.",
+      "content_2": "Wir können Cookies und ähnliche Tracking-Technologien (wie Web Beacons und Pixel) verwenden, um auf Informationen zuzugreifen oder diese zu speichern. Konkrete Informationen darüber, wie wir solche Technologien verwenden und wie Sie bestimmte Cookies ablehnen können, sind in unserem",
+      "content_3": "Einige Cookies helfen, die Sicherheit und Funktionalität unserer Dienste aufrechtzuerhalten. Andere können von unseren Partnern und Dienstleistern für Analysen und Werbung platziert werden, einschließlich:",
+      "list_1": "Lieferung relevanter Anzeigen",
+      "list_2": "Messung der Anzeigenleistung",
+      "list_3": "Versendung von Erinnerungen (z.B. über Artikel, die in Ihrem Warenkorb zurückgelassen wurden)"
+    },
+    "section5": {
+      "title": "5. WIE GEHEN WIR MIT SOZIALEN ANMELDUNGEN UM?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wenn Sie sich über ein soziales Netzwerk registrieren oder anmelden, können wir auf bestimmte Informationen über Sie zugreifen.",
+      "content_2": "Unsere Dienste ermöglichen die Registrierung und Anmeldung mit einem Drittanbieter-Konto in sozialen Medien (z. B. Facebook, Google usw.). Wenn Sie sich dafür entscheiden, erhalten wir bestimmte Profildaten wie Name, E-Mail-Adresse, Profilbild und möglicherweise weitere öffentlich zugängliche Informationen.",
+      "content_3": "Wir verwenden diese Informationen ausschließlich zu den in diesem Datenschutzhinweis beschriebenen Zwecken. Bitte beachten Sie, dass wir keine Kontrolle über die weitere Nutzung Ihrer Daten durch den Anbieter der sozialen Medien haben und keine Verantwortung dafür übernehmen. Bitte prüfen Sie deren Datenschutzrichtlinien, um zu verstehen, wie sie mit Ihren Daten umgehen."
+    },
+    "section6": {
+      "title": "6. WERDEN IHRE DATEN INTERNATIONAL ÜBERTRAGEN?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wir können Ihre Daten in anderen Ländern als Ihrem Wohnsitzland übertragen, speichern und verarbeiten.",
+      "content_2": "Unsere Server befinden sich in den Vereinigten Staaten. Wenn Sie unsere Dienste von außerhalb der USA nutzen, beachten Sie bitte, dass Ihre Daten von uns und unseren Partnern (siehe „Wann und mit wem teilen wir Ihre personenbezogenen Daten?“) in den Vereinigten Staaten sowie in Mitgliedsstaaten der Europäischen Union verarbeitet, gespeichert und übermittelt werden können, in denen sich unsere Dienstleister und Partner befinden (z. B. Deutschland, Niederlande).",
+      "content_3": "Wenn Sie in der Europäischen Union (EU), im Europäischen Wirtschaftsraum (EWR), im Vereinigten Königreich oder in der Schweiz wohnhaft sind, beachten Sie bitte, dass manche der Empfängerländer unter Umständen kein gleichwertiges Datenschutzniveau bieten wie Ihr Herkunftsland. Wir ergreifen jedoch alle erforderlichen Maßnahmen, um Ihre personenbezogenen Daten gemäß dieser Datenschutzerklärung und geltendem Recht zu schützen."
+    },
+    "section7": {
+      "title": "7. WIE LANGE BEWAHREN WIR IHRE DATEN AUF?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wir bewahren Ihre Daten so lange auf, wie es zur Erfüllung der in dieser Datenschutzerklärung genannten Zwecke erforderlich ist, es sei denn, gesetzliche Vorschriften verlangen eine längere Aufbewahrung.",
+      "content_2": "Wir speichern Ihre personenbezogenen Daten nur so lange, wie es für die in dieser Datenschutzerklärung genannten Zwecke erforderlich ist, es sei denn, das Gesetz verlangt oder erlaubt eine längere Aufbewahrungsfrist (z. B. für Steuer-, Buchhaltungs- oder andere rechtliche Verpflichtungen).",
+      "content_3": "Sobald Ihre personenbezogenen Daten nicht mehr für die angegebenen Zwecke benötigt werden, löschen wir sie umgehend und bewahren keine Kopien auf.",
+      "content_4": "Wir speichern keine Backups Ihrer personenbezogenen Daten nach der Löschung – die Informationen werden vollständig aus unserem System entfernt."
+    },
+    "section8": {
+      "title": "8. SAMMELN WIR INFORMATIONEN VON MINDERJÄHRIGEN?",
+      "content_1": "<strong>Kurz gesagt:</strong> Wir sammeln wissentlich keine Daten von Kindern unter 18 Jahren und richten keine Werbung an sie.",
+      "content_2": "Wir erheben, bewerben oder verkaufen wissentlich keine Daten von Kindern unter 18 Jahren. Durch die Nutzung unserer Dienste bestätigen Sie, dass Sie mindestens 18 Jahre alt sind oder dass Sie der Elternteil oder gesetzliche Vertreter eines minderjährigen Nutzers sind und dessen Nutzung unserer Dienste genehmigen.",
+      "content_3": "Falls wir feststellen, dass personenbezogene Daten von Nutzern unter 18 Jahren gesammelt wurden, werden wir das Konto deaktivieren und angemessene Maßnahmen ergreifen, um die Daten schnellstmöglich aus unseren Aufzeichnungen zu löschen. Sollten Sie davon erfahren, dass wir möglicherweise solche Daten gesammelt haben, kontaktieren Sie uns bitte unter"
+    },
+    "section9": {
+      "title": "9. WELCHE DATENSCHUTZRECHTE HABEN SIE?",
+      "content_1": "<strong>Kurz gesagt:</strong> Je nach Wohnort können Sie Ihr Konto jederzeit einsehen, ändern oder löschen.",
+      "subtitle": "Widerruf Ihrer Einwilligung",
+      "subtitle_content_1": "Wenn wir Ihre personenbezogenen Daten auf Grundlage einer Einwilligung (ausdrücklich oder stillschweigend, je nach geltendem Recht) verarbeiten, haben Sie das Recht, Ihre Einwilligung jederzeit zu widerrufen. Kontaktieren Sie uns dazu über die im Abschnitt „Wie können Sie uns zu dieser Mitteilung kontaktieren?“ angegebenen Kontaktdaten.",
+      "subtitle_content_2": "Bitte beachten Sie, dass der Widerruf die Rechtmäßigkeit der Verarbeitung vor dem Zeitpunkt des Widerrufs nicht beeinträchtigt und (soweit gesetzlich zulässig) auch nicht die Verarbeitung auf anderen Rechtsgrundlagen.",
+      "subtitle_1": "Kontoinformationen",
+      "subtitle_content_11": "Wenn Sie Ihre Kontodaten ändern oder Ihr Konto löschen möchten, können Sie:",
+      "list_content_1": "Sich in Ihre Kontoeinstellungen einloggen und Ihr Profil aktualisieren",
+      "list_content_2": "Uns über die angegebenen Kontaktdaten kontaktieren",
+      "subtitle_content_12": "Nach Ihrer Anfrage zur Kontolöschung deaktivieren oder entfernen wir Ihr Konto aus unseren aktiven Datenbanken. Einige Daten können jedoch gespeichert bleiben, um:",
+      "list_content_3": "Betrug zu verhindern",
+      "list_content_4": "Technische Probleme zu beheben",
+      "list_content_5": "Untersuchungen zu unterstützen",
+      "list_content_6": "Unsere rechtlichen Bedingungen durchzusetzen",
+      "list_content_7": "Gesetzliche Vorgaben zu erfüllen"
+    },
+    "section10": {
+      "title": "10. STEUERUNG DER DO-NOT-TRACK-FUNKTION",
+      "content_1": "Die meisten Webbrowser sowie einige mobile Betriebssysteme und Apps bieten eine Do-Not-Track-Funktion („DNT“) an, mit der Sie Ihre Datenschutzeinstellungen mitteilen können, um nicht online verfolgt zu werden.",
+      "content_2": "Aktuell existiert kein einheitlicher technischer Standard zur Erkennung und Umsetzung von DNT-Signalen. Daher reagieren wir derzeit nicht auf DNT-Signale Ihres Browsers oder andere Mechanismen, die automatisch mitteilen, dass Sie nicht online verfolgt werden möchten. Sollte künftig ein einheitlicher Standard zur Online-Nachverfolgung eingeführt werden, dem wir Folge leisten müssen, werden wir Sie in einer überarbeiteten Version dieser Datenschutzerklärung darüber informieren."
+    },
+    "section11": {
+      "title": "11. NEHMEN WIR ÄNDERUNGEN AN DIESER ERKLÄRUNG VOR?",
+      "content_1": "<strong>Kurz gesagt:</strong> Ja, wir aktualisieren diese Erklärung bei Bedarf, um den geltenden Gesetzen zu entsprechen.",
+      "content_2": "Wir können diese Datenschutzerklärung gelegentlich aktualisieren. Die aktualisierte Version ist durch das neue Datum „Letzte Aktualisierung“ oben im Dokument erkennbar. Bei wesentlichen Änderungen informieren wir Sie möglicherweise durch einen deutlichen Hinweis oder durch direkte Benachrichtigung. Wir empfehlen Ihnen, diese Datenschutzerklärung regelmäßig zu lesen, um sich über den Schutz Ihrer Daten zu informieren."
+    },
+    "section12": {
+      "title": "12. WIE KÖNNEN SIE UNS ZU DIESER MITTEILUNG KONTAKTIEREN?",
+      "content_1": "Wenn Sie Fragen oder Anmerkungen zu dieser Mitteilung haben, können Sie uns per Post unter folgender Adresse kontaktieren:"
+    },
+    "section13": {
+      "title": "13. WIE KÖNNEN SIE DIE DATEN, DIE WIR VON IHNEN ERHEBEN, EINSEHEN, AKTUALISIEREN ODER LÖSCHEN?",
+      "content_1": "Nach den geltenden Gesetzen Ihres Landes haben Sie möglicherweise das Recht, Zugang zu Ihren personenbezogenen Daten zu verlangen, Informationen über deren Verarbeitung zu erhalten, Unrichtigkeiten zu berichtigen oder die Löschung Ihrer Daten zu beantragen. Ebenso können Sie Ihre Einwilligung zur Verarbeitung widerrufen. In einigen Fällen können diese Rechte durch geltende Vorschriften eingeschränkt sein.",
+      "content_2": "Um die Einsicht, Aktualisierung oder Löschung Ihrer personenbezogenen Daten zu beantragen, füllen Sie bitte ein Anfrageformular für betroffene Personen aus unter:"
     }
   }
 }

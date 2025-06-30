@@ -163,6 +163,7 @@
   "returns": "Zwroty i reklamacje",
   "privacy": "Polityka prywatności",
   "cookies": "Pliki cookie",
+  "cookies_notice": "Powiadomienie o cookies",
   "jewelry": "Biżuteria, która mówi więcej niż słowa ✨",
   "info": "Informacja",
   "cookies_policy": {
@@ -186,6 +187,22 @@
     "contact_text": "W przypadku pytań dotyczących tej polityki, skontaktuj się z nami: 📧huping.nika.gold@gmail.com"
   },
   "privacy_policy": {
+    "short": {
+      "general": "Przegląd",
+      "section1": "Dane",
+      "section2": "Przetwarzanie",
+      "section3": "Udostępnianie",
+      "section4": "Pliki cookie",
+      "section5": "Logowania",
+      "section6": "Międzynarodowo",
+      "section7": "Przechowywanie",
+      "section8": "Nieletni",
+      "section9": "Prawa",
+      "section10": "Do-Not-Track",
+      "section11": "Zmiany",
+      "section12": "Kontakt",
+      "section13": "Dostęp do danych"
+    },
     "summary": {
       "title": "NOTA O PRYWATNOŚCI",
       "last_updated": "<strong>Ostatnia aktualizacja:</strong> 30.06.2025",
@@ -222,6 +239,89 @@
       "content_2": "Automatycznie zbieramy dane o Twoim urządzeniu, lokalizacji, systemie operacyjnym, języku, czasie i sposobie korzystania z serwisu.",
       "purpose": "Dane te służą nam do zabezpieczenia, analityki i poprawy działania serwisu.",
       "cookies": "Podobnie jak wiele firm, używamy plików cookie i pokrewnych technologii."
+    },
+    "section2": {
+      "title": "2. JAK PRZETWARZAMY TWOJE INFORMACJE?",
+      "content_1": "<strong>W skrócie:</strong> Przetwarzamy Twoje informacje, aby zapewnić, poprawić i zarządzać naszymi usługami, komunikować się z Tobą, zapewniać bezpieczeństwo i zapobiegać oszustwom oraz spełniać wymagania prawne. Możemy również przetwarzać Twoje informacje w innych celach za Twoją zgodą.",
+      "content_2": "Przetwarzamy Twoje dane osobowe z różnych powodów, w zależności od tego, jak korzystasz z naszych usług, w tym."
+    },
+    "section3": {
+      "title": "3. KIEDY I KOMU UDOSTĘPNIAMY TWOJE DANE OSOBOWE?",
+      "content_1": "<strong>W skrócie:</strong> Możemy udostępniać informacje w szczególnych sytuacjach opisanych w tej sekcji i/lub następującym stronom trzecim.",
+      "content_2": "Możemy być zmuszeni do udostępnienia Twoich danych osobowych w następujących sytuacjach:",
+      "list_1": "<strong>Transfery biznesowe:</strong> Możemy udostępniać lub przekazywać Państwa dane w związku z lub w trakcie negocjacji dotyczących fuzji, sprzedaży aktywów firmy, finansowania lub przejęcia całości lub części naszej działalności na rzecz innej firmy.",
+      "list_2": "<strong>Podmioty stowarzyszone:</strong> Możemy udostępniać Twoje dane naszym podmiotom stowarzyszonym. W takich przypadkach wymagamy od tych podmiotów stowarzyszonych przestrzegania niniejszej Informacji o ochronie prywatności. Podmioty stowarzyszone obejmują naszą spółkę macierzystą i wszelkie spółki zależne, partnerów joint venture lub inne firmy, które kontrolujemy lub są z nami pod wspólną kontrolą.",
+      "list_3": "<strong>Partnerzy biznesowi:</strong> Możemy udostępniać Twoje informacje naszym partnerom biznesowym, aby zaoferować Ci określone produkty, usługi lub promocje."
+    },
+    "section4": {
+      "title": "4. CZY UŻYWAMY PLIKÓW COOKIES I INNYCH TECHNOLOGII ŚLEDZENIA?",
+      "content_1": "<strong>W skrócie:</strong> Możemy używać plików cookies i innych technologii śledzenia do zbierania i przechowywania Twoich informacji.",
+      "content_2": "Możemy używać plików cookies i podobnych technologii śledzenia (takich jak sygnały webowe i piksele) do uzyskiwania dostępu lub przechowywania informacji. Szczegółowe informacje na temat tego, jak korzystamy z takich technologii oraz jak można odmówić niektórym plikom cookies, znajdują się w naszym",
+      "content_3": "Niektóre pliki cookies pomagają w utrzymaniu bezpieczeństwa i funkcjonalności naszych Usług. Inne mogą być umieszczane przez naszych partnerów i dostawców usług w celu analizy i reklamy, w tym:",
+      "list_1": "Dostarczanie odpowiednich reklam",
+      "list_2": "Mierzenie wydajności reklam",
+      "list_3": "Wysyłanie przypomnień (np. o przedmiotach pozostawionych w koszyku)"
+    },
+    "section5": {
+      "title": "5. JAK OBSŁUGUJEMY TWOJE LOGOWANIA SPOŁECZNOŚCIOWE?",
+      "content_1": "<strong>W skrócie:</strong> Jeśli zdecydujesz się zarejestrować lub zalogować za pomocą konta w mediach społecznościowych, możemy uzyskać dostęp do pewnych informacji o Tobie.",
+      "content_2": "Nasze Usługi umożliwiają rejestrację i logowanie przy użyciu danych konta zewnętrznych mediów społecznościowych (np. Facebook, Google itp.). Jeśli zdecydujesz się z tej opcji skorzystać, otrzymamy określone dane profilowe, takie jak imię i nazwisko, adres e-mail, zdjęcie profilowe oraz inne informacje udostępnione na tej platformie.",
+      "content_3": "Będziemy wykorzystywać te informacje wyłącznie w celach określonych w niniejszej Informacji o Ochronie Prywatności. Pamiętaj, że nie kontrolujemy ani nie ponosimy odpowiedzialności za inne sposoby wykorzystywania Twoich danych przez dostawcę mediów społecznościowych. Zachęcamy do zapoznania się z jego polityką prywatności, aby dowiedzieć się, w jaki sposób przetwarzają Twoje dane."
+    },
+    "section6": {
+      "title": "6. CZY TWOJE DANE SĄ PRZEKAZYWANE ZA GRANICĘ?",
+      "content_1": "<strong>W skrócie:</strong> Możemy przekazywać, przechowywać i przetwarzać Twoje dane w krajach innych niż Twój kraj zamieszkania.",
+      "content_2": "Nasze serwery znajdują się w Stanach Zjednoczonych. Jeśli korzystasz z naszych Usług spoza USA, pamiętaj, że Twoje dane mogą być przekazywane, przechowywane i przetwarzane przez nas oraz naszych partnerów (patrz „Kiedy i komu udostępniamy Twoje dane osobowe?”) w Stanach Zjednoczonych oraz w krajach członkowskich Unii Europejskiej, w których znajdują się nasi partnerzy i dostawcy usług (np. Niemcy, Holandia).",
+      "content_3": "Jeśli jesteś rezydentem Europejskiego Obszaru Gospodarczego (EOG), Wielkiej Brytanii lub Szwajcarii, pamiętaj, że niektóre z tych krajów mogą nie posiadać przepisów o ochronie danych równie rygorystycznych jak te w Twoim kraju. Mimo to podejmiemy wszelkie niezbędne środki w celu ochrony Twoich danych zgodnie z tą Notą o Prywatności i obowiązującym prawem."
+    },
+    "section7": {
+      "title": "7. JAK DŁUGO PRZECHOWUJEMY TWOJE DANE?",
+      "content_1": "<strong>W skrócie:</strong> Przechowujemy Twoje dane tak długo, jak jest to konieczne do realizacji celów określonych w niniejszej Informacji o Ochronie Prywatności, chyba że przepisy prawa stanowią inaczej.",
+      "content_2": "Będziemy przechowywać Twoje dane osobowe wyłącznie przez okres niezbędny do realizacji celów określonych w niniejszej informacji, chyba że dłuższy okres przechowywania będzie wymagany lub dozwolony przez prawo (np. w celach podatkowych, księgowych lub innych obowiązków prawnych).",
+      "content_3": "Gdy Twoje dane osobowe nie są już potrzebne do wskazanych celów, zostają natychmiast usunięte, bez tworzenia kopii zapasowych.",
+      "content_4": "Nie przechowujemy kopii zapasowych Twoich danych osobowych po ich usunięciu — informacje są całkowicie usuwane z naszego systemu."
+    },
+    "section8": {
+      "title": "8. CZY ZBIERAMY INFORMACJE OD NIELETNICH?",
+      "content_1": "<strong>W skrócie:</strong> Świadomie nie zbieramy danych ani nie kierujemy marketingu do dzieci poniżej 18. roku życia.",
+      "content_2": "Nie zbieramy, nie prosimy o dane ani nie kierujemy działań marketingowych do dzieci poniżej 18. roku życia, ani nie sprzedajemy ich danych osobowych. Korzystając z Usług, oświadczasz, że masz co najmniej 18 lat lub jesteś rodzicem albo opiekunem takiej osoby niepełnoletniej i wyrażasz zgodę na jej korzystanie z naszych Usług.",
+      "content_3": "Jeśli dowiemy się, że zebraliśmy dane osobowe od użytkowników poniżej 18. roku życia, dezaktywujemy konto i podejmiemy rozsądne kroki w celu ich szybkiego usunięcia z naszych rejestrów. Jeśli masz wiedzę o tym, że mogliśmy zgromadzić dane od dziecka, skontaktuj się z nami pod adresem"
+    },
+    "section9": {
+      "title": "9. JAKIE MASZ PRAWA DOTYCZĄCE PRYWATNOŚCI?",
+      "content_1": "<strong>W skrócie:</strong> W zależności od miejsca zamieszkania możesz w każdej chwili przeglądać, zmieniać lub usunąć swoje konto.",
+      "subtitle": "Wycofanie zgody",
+      "subtitle_content_1": "Jeśli przetwarzamy Twoje dane osobowe na podstawie zgody (wyraźnej lub domniemanej – zgodnie z obowiązującym prawem), masz prawo w każdej chwili ją wycofać. Możesz to zrobić, kontaktując się z nami poprzez dane kontaktowe wskazane w sekcji „Jak możesz się z nami skontaktować w sprawie tego powiadomienia?” poniżej.",
+      "subtitle_content_2": "Pamiętaj, że wycofanie zgody nie wpływa na zgodność z prawem przetwarzania danych, które miało miejsce przed jej wycofaniem, ani – tam, gdzie pozwalają na to przepisy – na przetwarzanie oparte na innych podstawach prawnych.",
+      "subtitle_1": "Informacje o koncie",
+      "subtitle_content_11": "Jeśli chcesz w dowolnym momencie przeglądać, edytować lub usunąć swoje konto, możesz:",
+      "list_content_1": "Zalogować się do ustawień konta i zaktualizować dane użytkownika",
+      "list_content_2": "Skontaktować się z nami, korzystając z podanych danych kontaktowych",
+      "subtitle_content_12": "Po otrzymaniu prośby o usunięcie konta zdezaktywujemy je lub usuniemy z naszych aktywnych baz danych. Możemy jednak zachować niektóre informacje w celu:",
+      "list_content_3": "Zapobiegania oszustwom",
+      "list_content_4": "Rozwiązywania problemów technicznych",
+      "list_content_5": "Wspierania postępowań wyjaśniających",
+      "list_content_6": "Egzekwowania naszych warunków prawnych",
+      "list_content_7": "Spełniania wymogów obowiązującego prawa"
+    },
+    "section10": {
+      "title": "10. USTAWIENIA FUNKCJI DO-NOT-TRACK",
+      "content_1": "Większość przeglądarek internetowych oraz niektóre systemy operacyjne i aplikacje mobilne oferują funkcję Do-Not-Track („DNT”), którą można włączyć, aby poinformować o preferencjach prywatności i nie wyrażać zgody na śledzenie aktywności w sieci.",
+      "content_2": "Obecnie nie istnieje jednolity standard technologiczny umożliwiający rozpoznawanie i obsługę sygnałów DNT. W związku z tym nie odpowiadamy obecnie na sygnały DNT wysyłane przez przeglądarkę ani inne mechanizmy automatycznie informujące o braku zgody na śledzenie. Jeśli w przyszłości zostanie przyjęty odpowiedni standard, do którego będziemy zobowiązani się dostosować, poinformujemy o tym w zaktualizowanej wersji niniejszej Polityki prywatności."
+    },
+    "section11": {
+      "title": "11. CZY AKTUALIZUJEMY TO POWIADOMIENIE?",
+      "content_1": "<strong>W skrócie:</strong> Tak, będziemy aktualizować to powiadomienie, aby zachować zgodność z obowiązującym prawem.",
+      "content_2": "Możemy od czasu do czasu aktualizować niniejsze Powiadomienie o Prywatności. Zaktualizowana wersja będzie oznaczona nową datą «Ostatnia aktualizacja» u góry dokumentu. W przypadku istotnych zmian możemy poinformować Cię o nich, publikując stosowne ogłoszenie lub przesyłając Ci bezpośrednie powiadomienie. Zachęcamy do regularnego przeglądania niniejszego powiadomienia, aby być na bieżąco z tym, jak chronimy Twoje dane."
+    },
+    "section12": {
+      "title": "12. JAK MOŻESZ SIĘ Z NAMI SKONTAKTOWAĆ W SPRAWIE TEGO POWIADOMIENIA?",
+      "content_1": "Jeśli masz pytania lub uwagi dotyczące tego powiadomienia, możesz skontaktować się z nami pocztą pod adresem:"
+    },
+    "section13": {
+      "title": "13. JAK MOŻESZ PRZEGLĄDAĆ, AKTUALIZOWAĆ LUB USUWAĆ SWOJE DANE?",
+      "content_1": "Zgodnie z obowiązującym prawem w Twoim kraju możesz mieć prawo do uzyskania dostępu do swoich danych osobowych, poznania szczegółów ich przetwarzania, sprostowania nieścisłości lub ich usunięcia. Możesz także mieć prawo do cofnięcia zgody na przetwarzanie danych. Niektóre z tych praw mogą być ograniczone przez lokalne przepisy.",
+      "content_2": "Aby złożyć wniosek o przegląd, aktualizację lub usunięcie swoich danych osobowych, wypełnij i prześlij formularz żądania dostępu do danych:"
     }
   }
 }

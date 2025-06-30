@@ -163,6 +163,7 @@
   "returns": "Returns and complaints",
   "privacy": "Privacy policy",
   "cookies": "Cookies",
+  "cookies_notice": "Cookies Notice",
   "jewelry": "Jewellery that speaks louder than words ✨",
   "info": "Information",
   "cookies_policy": {
@@ -187,6 +188,23 @@
   },
 
   "privacy_policy": {
+    "short": {
+      "general": "Overview",
+      "section1": "Collected Data",
+      "section2": "Data Use",
+      "section3": "Sharing Info",
+      "section4": "Cookies",
+      "section5": "Social Logins",
+      "section6": "International",
+      "section7": "Retention",
+      "section8": "Minors",
+      "section9": "Your Rights",
+      "section10": "Do-Not-Track",
+      "section11": "Policy Changes",
+      "section12": "Contact Us",
+      "section13": "Your Data Access"
+    },
+
     "summary": {
       "title": "PRIVACY NOTICE",
       "last_updated": "<strong>Last updated:</strong> 30.06.2025",
@@ -222,6 +240,89 @@
       "content_2": "We automatically collect certain information when you use our Services. This may include device and usage info, IP address, browser and OS details, referring URLs, country and technical data.",
       "purpose": "We use this information for service performance, security, analytics, and reporting.",
       "cookies": "Like many businesses, we also collect information through cookies and similar technologies."
+    },
+    "section2": {
+      "title": "2. HOW DO WE PROCESS YOUR INFORMATION?",
+      "content_1": "<strong>In Short:</strong> We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent.",
+      "content_2": "We process your personal information for a variety of reasons, depending on how you interact with our Services, including."
+    },
+    "section3": {
+      "title": "3. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?",
+      "content_1": "<strong>In Short:</strong> We may share information in specific situations described in this section and/or with the following third parties.",
+      "content_2": "We may need to share your personal information in the following situations:",
+      "list_1": "<strong>Business Transfers:</strong> We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.",
+      "list_2": "<strong>Affiliates:</strong> We may share your information with our affiliates. In such cases, we require those affiliates to honor this Privacy Notice. Affiliates include our parent company and any subsidiaries, joint venture partners, or other companies that we control or are under common control with us.",
+      "list_3": "<strong>Business Partners:</strong> We may share your information with our business partners to offer you certain products, services, or promotions."
+    },
+    "section4": {
+      "title": "4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?",
+      "content_1": "<strong>In Short:</strong> We may use cookies and other tracking technologies to collect and store your information.",
+      "content_2": "We may use cookies and similar tracking technologies (like web beacons and pixels) to access or store information. Specific information about how we use such technologies and how you can refuse certain cookies is set out in our",
+      "content_3": "Some cookies help maintain the security and functionality of our Services. Others may be placed by our partners and service providers for analytics and advertising, including:",
+      "list_1": "Delivering relevant advertisements",
+      "list_2": "Measuring ad performance",
+      "list_3": "Sending reminders (e.g. about items left in your cart)"
+    },
+    "section5": {
+      "title": "5. HOW DO WE HANDLE YOUR SOCIAL LOGINS?",
+      "content_1": "<strong>In Short:</strong> If you choose to register or log in using a social media account, we may have access to certain information about you.",
+      "content_2": "Our Services offer you the ability to register and log in using your third-party social media account details (like Facebook, Google, etc.). Where you choose to do this, we will receive certain profile     information, including your name, email address, profile picture, and possibly other details made public on that platform.",
+      "content_3": "We will use this information only for the purposes that are described in this Privacy Notice Please note that we do not control, and are not responsible for, other uses of your personal information by your third-party social media provider. We recommend that you review their privacy policies to understand how they handle your data."
+    },
+    "section6": {
+      "title": "6. IS YOUR INFORMATION TRANSFERRED INTERNATIONALLY?",
+      "content_1": "<strong>In Short:</strong> We may transfer, store, and process your information in countries other than your own.",
+      "content_2": "Our servers are located in the United States. If you access our Services from outside the USA, please be aware that your data may be transferred to, stored by, and processed by us and our partners (see «When and with whom do we share your personal information?») in the United States as well as in member countries of the European Union where our service providers and partners are located (e.g., Germany, the Netherlands).",
+      "content_3": "If you are a resident in the European Economic Area (EEA), United Kingdom (UK), or Switzerland please note that these countries may not necessarily have data protection laws or other similar laws as comprehensive as those in your country. However, we will take all necessary measures to protect your personal information in accordance with this Privacy Notice and applicable law."
+    },
+    "section7": {
+      "title": "7. HOW LONG DO WE KEEP YOUR INFORMATION?",
+      "content_1": "<strong>In Short:</strong> We keep your information for as long as necessary to fulfill the purposes outlined in this Privacy Notice unless otherwise required by law.",
+      "content_2": "We will only retain your personal information for as long as it is necessary for the purposes set out in this Privacy Notice, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements).",
+      "content_3": "When we have no ongoing legitimate business need to process your personal information, we will either delete or anonymize such information. If this is not possible (for example, if your personal information is stored in backup archives), we will securely store your personal information and isolate it from any further processing until deletion is possible.",
+      "content_4": "If this is not possible (for example, if your personal information is stored in backup archives), we will securely store your personal information and isolate it from any further processing until deletion is possible."
+    },
+    "section8": {
+      "title": "8. DO WE COLLECT INFORMATION FROM MINORS?",
+      "content_1": "<strong>In Short:</strong> We do not knowingly collect data from or market to children under 18 years of age.",
+      "content_2": "  We do not knowingly collect, solicit data from, or market to children under 18 years of age, nor do we knowingly sell such personal information. By using the Services, you represent that you are at least  18 or that you are the parent or guardian of such a minor and consent to  such minor dependent’s use of the Services.",
+      "content_3": " If we learn that personal information from users less than 18 years of age has been collected, we will deactivate the account and take reasonable measures to promptly delete such data from our records. If you become aware of any data we may have collected from children under age 18, please contact us at"
+    },
+    "section9": {
+      "title": "9. WHAT ARE YOUR PRIVACY RIGHTS?",
+      "content_1": "<strong>In Short:</strong> You may review, change, or terminate your account at any time, depending on your country, province, or state of residence.",
+      "subtitle": "Withdrawing your consent",
+      "subtitle_content_1": "If we are relying on your consent to process your personal information, which may be express and/or implied depending on the applicable law, you have the right to withdraw your consent at any time. You can withdraw your consent by contacting us using the contact details provided in the section «How can you contact us about this notice?» below.",
+      "subtitle_content_2": "However, please note that this will not affect the lawfulness of processing based on consent before its withdrawal, nor (where applicable law allows) the lawfulness of processing based on other legal grounds.",
+      "subtitle_1": "Account Information",
+      "subtitle_content_11": "If you would at any time like to review or change the information in your account or terminate your account, you can:",
+      "list_content_1": "Log in to your account settings and update your user account",
+      "list_content_2": "Contact us using the contact information provided",
+      "subtitle_content_12": "Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to:",
+      "list_content_3": "Prevent fraud",
+      "list_content_4": "Troubleshoot problems",
+      "list_content_5": "Assist with investigations",
+      "list_content_6": "Enforce our legal terms",
+      "list_content_7": "Comply with applicable legal requirements"
+    },
+    "section10": {
+      "title": "10. CONTROLS FOR DO-NOT-TRACK FEATURES",
+      "content_1": "Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track («DNT») feature or setting you can activate to signal your privacy preference not to have data about your online browsing activities monitored and collected.",
+      "content_2": "At this stage, no uniform technology standard for recognizing and implementing DNT signals has been finalized. As such, we do not currently respond to DNT browser signals or any other mechanism that automatically communicates your choice not to be tracked online. If a standard for online tracking is adopted that we must follow in the future, we will inform you about that practice in a revised version of this Privacy Notice."
+    },
+    "section11": {
+      "title": "11. DO WE MAKE UPDATES TO THIS NOTICE?",
+      "content_1": "<strong>In Short:</strong> Yes, we will update this notice as necessary to stay compliant with relevant laws.",
+      "content_2": "We may update this Privacy Notice from time to time. The updated version will be indicated by an updated «Revised» date at the top of this document. If we make material changes, we may notify you either by prominently posting a notice of such changes or by directly sending you a notification. We encourage you to review this Privacy Notice frequently to stay informed of how we are protecting your information."
+    },
+    "section12": {
+      "title": "12. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?",
+      "content_1": " If you have questions or comments about this notice, you may contact us by post at:"
+    },
+    "section13": {
+      "title": "13. ЯК ВИ МОЖЕТЕ ПЕРЕГЛЯНУТИ, ОНОВИТИ АБО ВИДАЛИТИ ДАНІ, ЯКІ МИ ЗБИРАЄМО?",
+      "content_1": "Відповідно до чинного законодавства вашої країни, ви можете мати право запитати доступ до особистої інформації, яку ми збираємо, дізнатися, як ми її обробляли, виправити неточності або видалити персональні дані. Також ви можете мати право відкликати свою згоду на обробку. Зазначені права можуть бути обмежені чинним законодавством.",
+      "content_2": "Щоб подати запит на перегляд, оновлення або видалення особистої інформації, будь ласка, заповніть форму запиту суб’єкта даних за посиланням:"
     }
   }
 }
