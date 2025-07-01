@@ -45,9 +45,9 @@ import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import UserOrderPage from "../pages/ProfileUser/OrderPage";
+import ProfilePage from "../pages/ProfileUser/ProfilePage";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
-import ProfilePage from "../pages/profileUser/ProfilePage";
 import MobileMenuHeader from "./Header/MobileMenuHeader";
 import CookiesPolicy from "./Policy/CookiesPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
