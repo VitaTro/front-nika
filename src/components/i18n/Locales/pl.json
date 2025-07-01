@@ -211,20 +211,20 @@
       "summary_title": "PODSUMOWANIE KLUCZOWYCH PUNKTÓW",
       "summary_intro": "<em>To podsumowanie zawiera kluczowe informacje z naszej Noty o Prywatności, ale możesz dowiedzieć się więcej, korzystając z poniższych linków.</em>",
       "summary_subtitle": "Jakie dane osobowe przetwarzamy?",
-      "what_info": "Możemy przetwarzać dane osobowe w zależności od tego, jak korzystasz z naszych usług. <a href=\"#\">Dowiedz się więcej o danych, które nam przekazujesz.</a>",
+      "what_info": "Możemy przetwarzać dane osobowe w zależności od tego, jak korzystasz z naszych usług. <a href=\"/policy-privacy?tab=1\">Dowiedz się więcej o danych, które nam przekazujesz.</a>",
       "summary_subtitle_1": "Czy przetwarzamy dane wrażliwe?",
       "sensitive_info": "Nie przetwarzamy wrażliwych danych osobowych.",
       "summary_subtitle_2": "Czy zbieramy informacje od stron trzecich?",
-      "third_parties": "Możemy zbierać informacje z publicznych baz danych, partnerów marketingowych, platform mediów społecznościowych i innych źródeł zewnętrznych. <a href=\"#\">Dowiedz się więcej o tych źródłach.</a>",
+      "third_parties": "Możemy zbierać informacje z publicznych baz danych, partnerów marketingowych, platform mediów społecznościowych i innych źródeł zewnętrznych. <a href=\"/policy-privacy?tab=1\">Dowiedz się więcej o tych źródłach.</a>",
       "summary_title_1": "Jak przetwarzamy Twoje dane?",
-      "how_process": "Przetwarzamy Twoje dane w celu świadczenia, ulepszania i zarządzania naszymi usługami, komunikacji z Tobą, zapewnienia bezpieczeństwa i zapobiegania oszustwom oraz w celu przestrzegania prawa. Możemy też przetwarzać Twoje dane za zgodą. <a href=\"#\">Dowiedz się więcej o naszym przetwarzaniu danych.</a>",
+      "how_process": "Przetwarzamy Twoje dane w celu świadczenia, ulepszania i zarządzania naszymi usługami, komunikacji z Tobą, zapewnienia bezpieczeństwa i zapobiegania oszustwom oraz w celu przestrzegania prawa. Możemy też przetwarzać Twoje dane za zgodą. <a href=\"/policy-privacy?tab=2\">Dowiedz się więcej o naszym przetwarzaniu danych.</a>",
       "summary_title_2": "W jakich sytuacjach i komu udostępniamy dane osobowe?",
-      "who_share": "Możemy udostępniać informacje w określonych sytuacjach i określonym podmiotom. <a href=\"#\">Dowiedz się więcej o odbiorcach danych.</a>",
+      "who_share": "Możemy udostępniać informacje w określonych sytuacjach i określonym podmiotom. <a href=\"/policy-privacy?tab=3\">Dowiedz się więcej o odbiorcach danych.</a>",
       "summary_title_3": "Jakie są Twoje prawa?",
-      "your_rights": "W zależności od miejsca, w którym się znajdujesz, obowiązujące przepisy mogą przyznać Ci określone prawa dotyczące Twoich danych osobowych. <a href=\"#\">Dowiedz się więcej o swoich prawach.</a>",
+      "your_rights": "W zależności od miejsca, w którym się znajdujesz, obowiązujące przepisy mogą przyznać Ci określone prawa dotyczące Twoich danych osobowych.<a href=\"/policy-privacy?tab=9\">Dowiedz się więcej o swoich prawach.</a>",
       "summary_title_4": "Jak możesz skorzystać ze swoich praw?",
       "exercise_rights": "Najłatwiejszym sposobem skorzystania z Twoich praw jest przesłanie żądania dostępu do danych lub kontakt z nami. Rozpatrzymy każde żądanie zgodnie z obowiązującymi przepisami o ochronie danych.",
-      "learn_more": "Chcesz dowiedzieć się więcej o tym, co robimy z Twoimi danymi? <a href=\"#\">Przeczytaj pełną Notę o Prywatności.</a>"
+      "learn_more": "Chcesz dowiedzieć się więcej o tym, co robimy z Twoimi danymi?  <a href=\"/policy-privacy?tab=0\">Przeczytaj pełną Notę o Prywatności.</a>"
     },
     "section1": {
       "title": "1. JAKIE INFORMACJE ZBIERAMY?",
@@ -323,5 +323,23 @@
       "content_1": "Zgodnie z obowiązującym prawem w Twoim kraju możesz mieć prawo do uzyskania dostępu do swoich danych osobowych, poznania szczegółów ich przetwarzania, sprostowania nieścisłości lub ich usunięcia. Możesz także mieć prawo do cofnięcia zgody na przetwarzanie danych. Niektóre z tych praw mogą być ograniczone przez lokalne przepisy.",
       "content_2": "Aby złożyć wniosek o przegląd, aktualizację lub usunięcie swoich danych osobowych, wypełnij i prześlij formularz żądania dostępu do danych:"
     }
-  }
+  },
+  "email_admin": "Napisz do administratora",
+  "letter_admin": "Wyślij wiadomość do administratora",
+  "send": "Wyślij",
+  "settings_profile": "Ustawienia profilu",
+  "delete_profile": "Usuń swoje konto",
+  "request_data_access_button": "Wypełnij formularz",
+  "sent_message": "✔️ Wiadomość została wysłana",
+  "form_title": "Wniosek o dostęp do danych",
+  "name": "Imię i nazwisko",
+  "email": "Adres e-mail",
+  "reason": "Rodzaj zapytania",
+  "reason_access": "Dostęp do danych",
+  "reason_update": "Aktualizacja danych",
+  "reason_delete": "Usunięcie danych",
+  "reason_other": "Inne",
+  "error_message": "❌ Nie udało się wysłać...",
+  "subject": "Temat",
+  "message_content": "Treść wiadomości"
 }

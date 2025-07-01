@@ -4,7 +4,7 @@ import PrivacyPolicyTabs from "../../pages/PolicyPrivacy/PrivacyPolicyTabs";
 const Wrapper = styled.div`
   max-width: 900px;
 
-  padding: 20px 10px;
+  padding: 20px 40px;
   font-family: "Noto Sans", sans-serif;
   color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
 `;

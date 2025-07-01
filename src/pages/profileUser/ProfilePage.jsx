@@ -8,6 +8,7 @@ import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileM
 import UserPurchaseHistory from "../../components/UserDashboard/tab/ProfileMain/UserPurchaseHistory";
 import { fetchUserInfo } from "../../redux/user/userOperations";
 import { selectUser } from "../../redux/user/userSelectors";
+import UserSettings from "./UserSettings";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ const ProfilePage = () => {
     },
     {
       label: t("settings"),
-      component: <p>⚙️ {t("profile_settings_placeholder")}</p>,
+      component: <UserSettings />,
     },
   ];
 

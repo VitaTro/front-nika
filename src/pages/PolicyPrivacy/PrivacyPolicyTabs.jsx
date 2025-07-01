@@ -8,6 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -30,7 +31,10 @@ const PrivacyPolicyTabs = () => {
   const { t } = useTranslation();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const isMobile = useMediaQuery("(max-width:600px)");
-  const [tab, setTab] = useState(0);
+  const [searchParams] = useSearchParams();
+  const initialTab = Number(searchParams.get("tab")) || 0;
+  const [tab, setTab] = useState(initialTab);
+  const navigate = useNavigate();
 
   const sections = [
     { label: t("privacy_policy.short.general"), component: <GeneralPolicy /> },
@@ -48,7 +52,10 @@ const PrivacyPolicyTabs = () => {
     { label: t("privacy_policy.short.section12"), component: <Section12 /> },
     { label: t("privacy_policy.short.section13"), component: <Section13 /> },
   ];
-
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+    navigate(`?tab=${newValue}`);
+  };
   return (
     <Box display="flex" flexDirection={isMobile ? "column" : "row"} padding={2}>
       {isMobile ? (
@@ -69,7 +76,7 @@ const PrivacyPolicyTabs = () => {
       ) : (
         <Tabs
           value={tab}
-          onChange={(e, v) => setTab(v)}
+          onChange={handleChange}
           orientation="vertical"
           variant="scrollable"
           sx={{

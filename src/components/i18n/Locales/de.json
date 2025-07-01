@@ -210,20 +210,20 @@
       "summary_title": "ZUSAMMENFASSUNG DER WICHTIGSTEN PUNKTE",
       "summary_intro": "<em>Diese Zusammenfassung enthält die wichtigsten Punkte unseres Datenschutzhinweises. Mehr erfahren Sie über die folgenden Links.</em>",
       "summary_subtitle": "Welche personenbezogenen Daten verarbeiten wir?",
-      "what_info": "Wir verarbeiten personenbezogene Daten je nach Ihrer Interaktion mit uns und unseren Services. <a href=\"#\">Mehr erfahren über die bereitgestellten Informationen.</a>",
+      "what_info": "Wir verarbeiten personenbezogene Daten je nach Ihrer Interaktion mit uns und unseren Services.   <a href=\"/policy-privacy?tab=1\">Mehr erfahren über die bereitgestellten Informationen.</a>",
       "summary_subtitle_1": "Verarbeiten wir sensible personenbezogene Daten?",
       "sensitive_info": "Wir verarbeiten keine sensiblen personenbezogenen Daten.",
       "summary_subtitle_2": "Erheben wir Daten von Drittquellen?",
-      "third_parties": "Wir können Informationen aus öffentlichen Datenbanken, von Marketingpartnern, sozialen Medien und anderen externen Quellen erfassen. <a href=\"#\">Mehr erfahren über Drittquellen.</a>",
+      "third_parties": "Wir können Informationen aus öffentlichen Datenbanken, von Marketingpartnern, sozialen Medien und anderen externen Quellen erfassen. <a href=\"/policy-privacy?tab=1\">Mehr erfahren über Drittquellen.</a>",
       "summary_title_1": "Wie verarbeiten wir Ihre Informationen?",
-      "how_process": "Wir verarbeiten Ihre Daten zur Bereitstellung, Verbesserung und Verwaltung unserer Services, zur Kommunikation mit Ihnen, zur Sicherheit und Betrugsprävention sowie zur Einhaltung gesetzlicher Vorschriften. Mit Ihrer Einwilligung verarbeiten wir sie auch für andere Zwecke. <a href=\"#\">Mehr erfahren über unsere Datenverarbeitung.</a>",
+      "how_process": "Wir verarbeiten Ihre Daten zur Bereitstellung, Verbesserung und Verwaltung unserer Services, zur Kommunikation mit Ihnen, zur Sicherheit und Betrugsprävention sowie zur Einhaltung gesetzlicher Vorschriften. Mit Ihrer Einwilligung verarbeiten wir sie auch für andere Zwecke. <a href=\"/policy-privacy?tab=2\">Mehr erfahren über unsere Datenverarbeitung.</a>",
       "summary_title_2": "Wann und mit wem teilen wir personenbezogene Daten?",
-      "who_share": "Wir geben Daten nur in bestimmten Situationen und an bestimmte Dritte weiter. <a href=\"#\">Mehr über Datenweitergabe.</a>",
+      "who_share": "Wir geben Daten nur in bestimmten Situationen und an bestimmte Dritte weiter.<a href=\"/policy-privacy?tab=3\">Mehr über Datenweitergabe.</a>",
       "summary_title_3": "Welche Rechte haben Sie?",
-      "your_rights": "Je nach Ihrem geografischen Standort gewährt Ihnen das geltende Datenschutzrecht bestimmte Rechte in Bezug auf Ihre personenbezogenen Daten. <a href=\"#\">Mehr über Ihre Datenschutzrechte.</a>",
+      "your_rights": "Je nach Ihrem geografischen Standort gewährt Ihnen das geltende Datenschutzrecht bestimmte Rechte in Bezug auf Ihre personenbezogenen Daten. <a href=\"/policy-privacy?tab=9\">Mehr über Ihre Datenschutzrechte.</a>",
       "summary_title_4": "Wie können Sie Ihre Rechte ausüben?",
       "exercise_rights": "Am einfachsten üben Sie Ihre Rechte aus, indem Sie einen Antrag auf Datenzugang stellen oder uns direkt kontaktieren. Wir prüfen und bearbeiten jeden Antrag entsprechend den geltenden Datenschutzgesetzen.",
-      "learn_more": "Möchten Sie mehr darüber erfahren, was wir mit den von uns erfassten Informationen tun? <a href=\"#\">Lesen Sie den vollständigen Datenschutzhinweis.</a>"
+      "learn_more": "Möchten Sie mehr darüber erfahren, was wir mit den von uns erfassten Informationen tun? <a href=\"/policy-privacy?tab=0\">Lesen Sie den vollständigen Datenschutzhinweis.</a>"
     },
     "section1": {
       "title": "1. WELCHE INFORMATIONEN SAMMELN WIR?",
@@ -321,5 +321,23 @@
       "content_1": "Nach den geltenden Gesetzen Ihres Landes haben Sie möglicherweise das Recht, Zugang zu Ihren personenbezogenen Daten zu verlangen, Informationen über deren Verarbeitung zu erhalten, Unrichtigkeiten zu berichtigen oder die Löschung Ihrer Daten zu beantragen. Ebenso können Sie Ihre Einwilligung zur Verarbeitung widerrufen. In einigen Fällen können diese Rechte durch geltende Vorschriften eingeschränkt sein.",
       "content_2": "Um die Einsicht, Aktualisierung oder Löschung Ihrer personenbezogenen Daten zu beantragen, füllen Sie bitte ein Anfrageformular für betroffene Personen aus unter:"
     }
-  }
+  },
+  "email_admin": "Schreibe an den Administrator",
+  "letter_admin": "Nachricht an den Administrator senden",
+  "send": "schicken",
+  "settings_profile": "Profileeinstellungen",
+  "delete_profile": "Löschen Sie Ihr Konto",
+  "request_data_access_button": "Füllen Sie das Formular aus",
+  "sent_message": "✔️ Nachricht wurde gesendet",
+  "form_title": "Antrag auf Datenzugriff",
+  "name": "Vor- und Nachname",
+  "email": "Email address",
+  "reason": "E-Mail-Adresse",
+  "reason_access": "Art der Anfrage",
+  "reason_update": "Zugriff auf Daten",
+  "reason_delete": "Daten aktualisieren",
+  "reason_other": "Daten löschen",
+  "error_message": "❌ Senden fehlgeschlagen. Versuche erneut",
+  "subject": "Betreff",
+  "message_content": "Nachrichteninhalt"
 }

@@ -217,16 +217,16 @@
       "summary_subtitle_1": "Do we process any sensitive personal information?",
       "sensitive_info": "We do not process sensitive personal information.",
       "summary_subtitle_2": "Do we collect any information from third parties?",
-      "third_parties": "We may collect information from public databases, marketing partners, social media platforms, and other external sources. <a href=\"#\">Learn more about information collected from other sources.</a>",
+      "third_parties": "We may collect information from public databases, marketing partners, social media platforms, and other external sources.  <a href=\"/policy-privacy?tab=1\">Learn more about information collected from other sources.</a>",
       "summary_title_1": "How do we process your information?",
-      "how_process": "We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent. We process your information only when we have a valid legal reason to do so. <a href=\"#\">Learn more about how we process your information.</a>",
+      "how_process": "We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent. We process your information only when we have a valid legal reason to do so.<a href=\"/policy-privacy?tab=2\">Learn more about how we process your information.</a>",
       "summary_title_2": "In what situations and with which parties do we share personal information?",
-      "who_share": "We may share information in specific situations and with specific third parties. <a href=\"#\">Learn more about when and with whom we share your personal information.</a>",
+      "who_share": "We may share information in specific situations and with specific third parties. <a href=\"/policy-privacy?tab=3\">Learn more about when and with whom we share your personal information.</a>",
       "summary_title_3": "What are your rights?",
-      "your_rights": "Depending on where you are located geographically, the applicable privacy law may mean you have certain rights regarding your personal information. <a href=\"#\">Learn more about your privacy rights.</a>",
+      "your_rights": "Depending on where you are located geographically, the applicable privacy law may mean you have certain rights regarding your personal information. <a href=\"/policy-privacy?tab=9\">Learn more about your privacy rights.</a>",
       "summary_title_4": "How do you exercise your rights?",
       "exercise_rights": "The easiest way to exercise your rights is by submitting a data subject access request, or by contacting us. We will consider and act upon any request in accordance with applicable data protection laws.",
-      "learn_more": "Want to learn more about what we do with any information we collect? <a href=\"#\">Review the Privacy Notice in full.</a>"
+      "learn_more": "Want to learn more about what we do with any information we collect?<a href=\"/policy-privacy?tab=0\">Review the Privacy Notice in full.</a>"
     },
     "section1": {
       "title": "1. WHAT INFORMATION DO WE COLLECT?",
@@ -320,9 +320,27 @@
       "content_1": " If you have questions or comments about this notice, you may contact us by post at:"
     },
     "section13": {
-      "title": "13. ЯК ВИ МОЖЕТЕ ПЕРЕГЛЯНУТИ, ОНОВИТИ АБО ВИДАЛИТИ ДАНІ, ЯКІ МИ ЗБИРАЄМО?",
-      "content_1": "Відповідно до чинного законодавства вашої країни, ви можете мати право запитати доступ до особистої інформації, яку ми збираємо, дізнатися, як ми її обробляли, виправити неточності або видалити персональні дані. Також ви можете мати право відкликати свою згоду на обробку. Зазначені права можуть бути обмежені чинним законодавством.",
-      "content_2": "Щоб подати запит на перегляд, оновлення або видалення особистої інформації, будь ласка, заповніть форму запиту суб’єкта даних за посиланням:"
+      "title": "13. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT?",
+      "content_1": "In accordance with applicable laws in your country, you may have the right to request access to the personal information we collect, learn how we have processed it, correct inaccuracies, or delete your personal data. You may also have the right to withdraw your consent to processing. These rights may be subject to limitations under applicable law.",
+      "content_2": "To submit a request to review, update, or delete your personal information, please complete the data subject request form available at the following link:"
     }
-  }
+  },
+  "email_admin": "Write to the administrator",
+  "letter_admin": "Send a message to the administrator",
+  "send": "Send",
+  "settings_profile": "Settings profile",
+  "delete_profile": "Delete your account",
+  "request_data_access_button": "Fill out the form",
+  "sent_message": "✔️ Message has been sent",
+  "form_title": "Request for data access",
+  "name": "Full name",
+  "email": "Email address",
+  "reason": "Type of request",
+  "reason_access": "Access to data",
+  "reason_update": "Update data",
+  "reason_delete": "Delete data",
+  "reason_other": "Other",
+  "error_message": "❌ Failed to send. Try again.",
+  "subject": "Subject",
+  "message_content": "Message content"
 }
