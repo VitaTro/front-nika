@@ -339,5 +339,8 @@
   "reason_other": "Daten löschen",
   "error_message": "❌ Senden fehlgeschlagen. Versuche erneut",
   "subject": "Betreff",
-  "message_content": "Nachrichteninhalt"
+  "message_content": "Nachrichteninhalt",
+  "contact_admin": "Schreibe Admin",
+  "send_fail": "Konnte nicht senden. Versuchen Sie es erneut.",
+  "message": "Nachricht"
 }

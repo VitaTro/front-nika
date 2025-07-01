@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -30,7 +31,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   const { t } = useTranslation();
   const wishlist = useSelector(selectWishlistProducts);
   const [activeWishlist, setActiveWishlist] = useState({});
-
+  const navigate = useNavigate();
   const isProductInWishlist = wishlist.some(
     (item) => item.productId === product._id
   );
@@ -137,11 +138,10 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             <ButtonDetailsWrapper>
               <button
                 onClick={() => {
-                  if (!isUserAuthenticated) {
-                    toast.info(t("please_login_to_view_details"));
-                    return;
-                  }
-                  window.location.href = `/user/products/${product._id}`;
+                  const basePath = isUserAuthenticated
+                    ? "/user/products"
+                    : "/products";
+                  navigate(`${basePath}/${product._id}`);
                 }}
               >
                 {t("details")}

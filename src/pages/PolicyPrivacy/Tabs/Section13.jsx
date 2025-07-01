@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import DataRequestModal from "../../../components/DataRequest/DataRequesrModal";
+import DataRequestModal from "../../../components/DataRequest/DataRequestModal";
 
 const Section13 = () => {
   const { t } = useTranslation();

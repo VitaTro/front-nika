@@ -342,5 +342,8 @@
   "reason_other": "Other",
   "error_message": "❌ Failed to send. Try again.",
   "subject": "Subject",
-  "message_content": "Message content"
+  "message_content": "Message content",
+  "contact_admin": "Write admin",
+  "send_fail": "Could not send. Try again.",
+  "message": "Message"
 }

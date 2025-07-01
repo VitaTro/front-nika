@@ -21,8 +21,8 @@ import NotFoundPage from "../pages/NotFountPage/NotFoundPage";
 import ErrorBoundary from "./ErrorBoundary";
 import Footer from "./Footer/Footer";
 import Products from "./Products/Products";
+import ScrollToTop from "./ScrollTop";
 import SearchResults from "./SearchBar/SearchResults";
-
 // 📌 Авторизація
 import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
@@ -92,6 +92,7 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <ScrollToTop />
       <GlobalStyles />
       <ToastContainer />
       <Wrapper>
@@ -142,6 +143,7 @@ export const App = () => {
               />
               <Route path="/products/set" element={<Products type="set" />} />
               <Route path="/products/box" element={<Products type="box" />} />
+              <Route path="/products/:id" element={<ProductDetailsPage />} />
               <Route path="/products/:type" element={<Products />} />
 
               {/* Захищена user панель */}
@@ -175,15 +177,15 @@ export const App = () => {
                   <Route
                     path="/user/products/silver"
                     element={<Products type="silver" />}
-                  />
+                  />{" "}
                   <Route
                     path="/user/products/set"
                     element={<Products type="set" />}
-                  />
+                  />{" "}
                   <Route
                     path="/user/products/box"
                     element={<Products type="box" />}
-                  />
+                  />{" "}
                   <Route path="/user/products/:type" element={<Products />} />
                 </>
               ) : (

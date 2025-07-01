@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
-import { getUserProductsById } from "../../redux/user/userOperations";
+import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
 import {
-  selectAuthError,
-  selectAuthLoading,
-} from "../../redux/user/userSelectors";
+  selectCurrentProduct,
+  selectProductsError,
+  selectProductsLoading,
+} from "../../redux/products/selectorsProducts";
 import {
   CloseButton,
   DetailsContainer,
@@ -23,15 +24,15 @@ import {
 const ProductDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const publicProduct = useSelector(selectCurrentProduct);
   const { t } = useTranslation();
-  const product = useSelector((state) => state.user.selectedProduct);
-  const loading = useSelector(selectAuthLoading);
-  const error = useSelector(selectAuthError);
+  const userProduct = useSelector((state) => state.user.selectedProduct);
+  const loading = useSelector(selectProductsLoading);
+  const error = useSelector(selectProductsError);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
   const [productCount, setProductCount] = useState(1);
-
   const [isZoomed, setIsZoomed] = useState(false);
 
   const displayValue = (val, t) =>
@@ -39,9 +40,10 @@ const ProductDetailsPage = () => {
       ? t("not_available")
       : val;
 
-  useEffect(() => {
-    dispatch(getUserProductsById(id));
-  }, [dispatch, id]);
+  const product =
+    isUserAuthenticated && location.pathname.includes("/user/")
+      ? userProduct
+      : publicProduct;
 
   const handleImageClick = () => {
     setIsZoomed(!isZoomed);
@@ -56,10 +58,10 @@ const ProductDetailsPage = () => {
 
     return `${product.length}${unit}`;
   };
+  if (!product || !product.name) return <Loader />;
 
   if (loading) return <Loader />;
   if (error) return <p>❌ Error: {error.message}</p>;
-  if (!product) return <p>⚠️ Product is not found!</p>;
 
   return (
     <DetailsContainer>

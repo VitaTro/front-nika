@@ -340,5 +340,8 @@
   "reason_other": "Інше",
   "error_message": "❌ Не вдалося надіслати. Повторіть",
   "subject": "Тема",
-  "message_content": "Tекст повідомлення"
+  "message_content": "Tекст повідомлення",
+  "contact_admin": "Напиши адміну",
+  "send_fail": "Не вдалося надіслати. Спробуйте ще раз.",
+  "message": "Повідомлення"
 }

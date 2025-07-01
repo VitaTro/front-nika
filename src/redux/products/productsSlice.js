@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserProductsById } from "../user/userOperations";
 import {
   addProduct,
   deleteProduct,
@@ -56,6 +57,9 @@ const productsSlice = createSlice({
       })
       .addCase(updateProduct.rejected, (state, { payload }) => {
         state.error = payload;
+      })
+      .addCase(getUserProductsById.fulfilled, (state, { payload }) => {
+        state.currentProduct = payload;
       })
       .addCase(deleteProduct.fulfilled, (state, { payload }) => {
         state.items = state.items.filter((item) => item.id !== payload); // Видаляємо продукт зі списку

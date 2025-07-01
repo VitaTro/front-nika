@@ -341,5 +341,8 @@
   "reason_other": "Inne",
   "error_message": "❌ Nie udało się wysłać...",
   "subject": "Temat",
-  "message_content": "Treść wiadomości"
+  "message_content": "Treść wiadomości",
+  "contact_admin": "Napisz do administratora",
+  "send_fail": "Nie udało się wysłać. Spróbuj ponownie.",
+  "message": "Wiadomość"
 }

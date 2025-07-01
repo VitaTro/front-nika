@@ -1,4 +1,7 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import ContactModal from "../DataRequest/ContactModal";
 import {
   DevNote,
   FooterLink,
@@ -7,10 +10,9 @@ import {
   FooterWrapper,
   SocialLinks,
 } from "./Footer.styled";
-
-import { useTranslation } from "react-i18next";
 const Footer = () => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
   return (
     <FooterWrapper>
       <FooterSection>
@@ -53,11 +55,12 @@ const Footer = () => {
 
       <FooterSection>
         <FooterTitle>{t("contact")}</FooterTitle>
-        <a href="mailto:huping.nika.gold@gmail.com">
-          huping.nika.gold@gmail.com
-        </a>
+        <FooterLink onClick={() => setOpen(true)}>
+          {t("contact_admin")}
+        </FooterLink>
+
+        <ContactModal open={open} handleClose={() => setOpen(false)} />
         <a href="tel:+48516174555">+48 516 174 555</a>
-        <FooterLink to="/about#contact">Formularz kontaktowy</FooterLink>
       </FooterSection>
     </FooterWrapper>
   );

@@ -1,4 +1,3 @@
-import React from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import NoResults from "../NoResults/NoResults";
 import { PageLink, Pagination } from "./PaginationComponent.styled";
@@ -7,7 +6,9 @@ const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
   if (totalPages === 0) {
     return <NoResults />;
   }
-
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const pages = [];
   const maxVisiblePages = 5;
 
@@ -21,7 +22,10 @@ const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
       pages.push(
         <PageLink
           key={i}
-          onClick={() => onPageChange(i)}
+          onClick={() => {
+            onPageChange(i);
+            scrollToTop();
+          }}
           className={i === currentPage ? "active" : ""}
         >
           {i}
@@ -39,7 +43,10 @@ const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
   return (
     <Pagination>
       <PageLink
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => {
+          onPageChange(currentPage - 1);
+          scrollToTop();
+        }}
         disabled={currentPage === 1}
       >
         <FaArrowLeft />
@@ -48,7 +55,10 @@ const PaginationComponent = ({ totalPages, currentPage, onPageChange }) => {
       {pages}
 
       <PageLink
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => {
+          onPageChange(currentPage + 1);
+          scrollToTop();
+        }}
         disabled={currentPage === totalPages}
       >
         <FaArrowRight />
