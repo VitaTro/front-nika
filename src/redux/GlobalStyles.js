@@ -20,4 +20,13 @@ export const GlobalStyles = createGlobalStyle`
   main {
     flex: 1;
   }
+    a {
+    text-decoration: none;
+    color:rgb(22, 124, 233);
+    transition: color 0.2s ease;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;

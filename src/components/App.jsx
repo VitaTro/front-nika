@@ -51,6 +51,7 @@ import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import MobileMenuHeader from "./Header/MobileMenuHeader";
 import CookiesPolicy from "./Policy/CookiesPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
+import ReturnsPolicy from "./Policy/ReturnsPolicy";
 
 export const App = () => {
   const location = useLocation();
@@ -126,6 +127,7 @@ export const App = () => {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/policy-cookies" element={<CookiesPolicy />} />
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
+              <Route path="/policy-returns" element={<ReturnsPolicy />} />
               <Route
                 path="/products"
                 element={

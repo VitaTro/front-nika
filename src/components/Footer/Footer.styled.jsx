@@ -6,8 +6,8 @@ export const FooterWrapper = styled.footer`
   background-color: ${({ theme }) =>
     theme.isDarkMode ? "#1a1a1a" : "#f7f7f7"};
   color: ${({ theme }) => (theme.isDarkMode ? "#ccc" : "#333")};
-  padding: 40px 60px;
-  display: flex;
+  padding: 40px 60px 10px;
+  display: column;
   flex-wrap: wrap;
   justify-content: space-between;
   row-gap: 24px;
@@ -19,6 +19,7 @@ export const FooterSection = styled.div`
   flex-direction: column;
   gap: 10px;
   min-width: 150px;
+  margin-bottom: 6px;
 `;
 
 export const FooterTitle = styled.div`
@@ -36,9 +37,9 @@ export const FooterLink = styled(Link)`
 `;
 
 export const DevNote = styled.div`
-  font-size: 12px;
+  font-size: 10px;
   opacity: 0.6;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export const SocialLinks = styled.div`
@@ -55,4 +56,12 @@ export const SocialLinks = styled.div`
       color: #d1a954; /* Ніжне золото */
     }
   }
+`;
+export const FooterBottom = styled.div`
+  text-align: center;
+  font-size: 10px;
+  opacity: 0.5;
+  padding-top: 5px;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 5px;
 `;
