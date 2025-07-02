@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+import { getProductById } from "../../redux/products/operationProducts";
 import {
   selectCurrentProduct,
   selectProductsError,
   selectProductsLoading,
 } from "../../redux/products/selectorsProducts";
+import { getUserProductsById } from "../../redux/user/userOperations";
 import {
   CloseButton,
   DetailsContainer,
@@ -44,6 +46,14 @@ const ProductDetailsPage = () => {
     isUserAuthenticated && location.pathname.includes("/user/")
       ? userProduct
       : publicProduct;
+  useEffect(() => {
+    if (!id) return;
+    if (isUserAuthenticated && location.pathname.includes("/user")) {
+      dispatch(getUserProductsById(id));
+    } else {
+      dispatch(getProductById(id));
+    }
+  }, [dispatch, id, isUserAuthenticated, location.pathname]);
 
   const handleImageClick = () => {
     setIsZoomed(!isZoomed);
