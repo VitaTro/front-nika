@@ -50,6 +50,7 @@ const Products = ({ type }) => {
     setSearchQuery(query);
     setCurrentPage(1);
   };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -83,14 +84,17 @@ const Products = ({ type }) => {
             (product) => product.subcategory === activeCategory
           );
         }
-
-        const sortByDate = (a, b) => {
+        const sortByCustomOrder = (a, b) => {
+          if (a.quantity > 0 && b.quantity === 0) return -1;
+          if (a.quantity === 0 && b.quantity > 0) return 1;
+          // }
+          // const sortByDate = (a, b) => {
           const dateA = new Date(a.createdAt || Date.now());
           const dateB = new Date(b.createdAt || Date.now());
           return dateB - dateA;
         };
 
-        const sortedProducts = filteredProducts.sort(sortByDate);
+        const sortedProducts = filteredProducts.sort(sortByCustomOrder);
 
         setProducts(sortedProducts);
         setFilteredProducts(sortedProducts);
@@ -122,6 +126,7 @@ const Products = ({ type }) => {
   };
 
   const totalPages = Math.ceil(products.length / productsPerPage);
+
   return (
     <>
       <SearchBar onSearch={handleSearch} />
