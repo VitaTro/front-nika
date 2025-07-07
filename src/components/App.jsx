@@ -43,6 +43,10 @@ import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 
 // 📌 User панель
+import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
+import BulkMovementForm from "../pages/AdminDashboard/tab/InventoryTab/MonthlyReport/BulkMovementForm";
+import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/MonthlyReportPage";
+import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import UserOrderPage from "../pages/ProfileUser/OrderPage";
 import ProfilePage from "../pages/ProfileUser/ProfilePage";
@@ -206,6 +210,17 @@ export const App = () => {
                     <Route path="onlineSale" element={<OnlineSale />} />
                     <Route path="overview" element={<FinanceOverview />} />
                     <Route path="settings" element={<FinanceSettings />} />
+                  </Route>
+                  <Route path="inventory" element={<InventoryLayout />}>
+                    <Route path="movement" element={<StockMovementTab />} />
+                    <Route
+                      path="movement/bulk"
+                      element={<BulkMovementForm />}
+                    />
+                    <Route
+                      path="monthly-report"
+                      element={<MonthlyReportPage />}
+                    />
                   </Route>
                 </Route>
               ) : null}
