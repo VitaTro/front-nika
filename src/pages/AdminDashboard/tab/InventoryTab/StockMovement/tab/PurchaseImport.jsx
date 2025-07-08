@@ -1,8 +1,9 @@
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../../../../redux/products/operationProducts";
-import { selectProducts } from "../../../../../redux/products/selectorsProducts";
+
+import { getProducts } from "../../../../../../redux/products/operationProducts";
+import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
 import {
   CategoryButton,
   GeneralOfflineOrder,
@@ -13,7 +14,7 @@ import {
   ProductTitle,
   RightColumn,
   SearchBox,
-} from "../../FinanceTab/FinanceComponent/OfflineOrder/OfflineOrder.styled";
+} from "../../../FinanceTab/FinanceComponent/OfflineOrder/OfflineOrder.styled";
 import PurchaseCart from "./PurchaseCart";
 import PurchaseOrderForm from "./PurchaseOrderForm";
 const PurchaseImport = () => {

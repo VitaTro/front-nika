@@ -6,7 +6,7 @@ import {
   ProductCardShop,
   ProductImage,
   ProductTitle,
-} from "../../FinanceTab/FinanceComponent/OfflineOrder/OfflineOrder.styled";
+} from "../../../FinanceTab/FinanceComponent/OfflineOrder/OfflineOrder.styled";
 
 const PurchaseCart = ({ cart, updateItem, removeFromCart }) => {
   const totalPurchaseCost = cart.reduce(

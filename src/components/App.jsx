@@ -44,9 +44,10 @@ import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 
 // 📌 User панель
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
-import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/MonthlyReportPage";
-import PurchaseImport from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/PurchaseImport";
+import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/MonthlyReport/MonthlyReportPage";
+
 import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
+import PurchaseImport from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/tab/PurchaseImport";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import UserOrderPage from "../pages/ProfileUser/OrderPage";
 import ProfilePage from "../pages/ProfileUser/ProfilePage";

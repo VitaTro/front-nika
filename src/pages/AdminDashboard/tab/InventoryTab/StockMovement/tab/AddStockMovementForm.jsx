@@ -8,11 +8,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadSingleMovement } from "../../../../../redux/inventory/stockMovement/operationsStockMovement";
+import { uploadSingleMovement } from "../../../../../../redux/inventory/stockMovement/operationsStockMovement";
 import {
   selectStockError,
   selectStockLoading,
-} from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
+} from "../../../../../../redux/inventory/stockMovement/selectorsStockMovement";
 
 const AddStockMovementForm = () => {
   const dispatch = useDispatch();
