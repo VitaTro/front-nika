@@ -35,3 +35,33 @@ export const uploadSingleMovement = createAsyncThunk(
     }
   }
 );
+export const updateMovement = createAsyncThunk(
+  "stock/updateMovement",
+  async ({ id, updates }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `/api/admin/stock/movement/${id}`,
+        updates
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error || "Не вдалося оновити запис"
+      );
+    }
+  }
+);
+
+export const deleteMovement = createAsyncThunk(
+  "stock/deleteMovement",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/admin/stock/movement/${id}`);
+      return { id, message: response.data.message };
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.error || "Не вдалося видалити запис"
+      );
+    }
+  }
+);

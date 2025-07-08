@@ -31,8 +31,8 @@ const AdminLayout = () => {
 
   const getTabIndex = () => {
     if (location.pathname.includes("/admin/finance")) return 0;
-    if (location.pathname.includes("/admin/inventory/movement")) return 1;
-    if (location.pathname.includes("/admin/inventory/monthly-report")) return 2;
+    if (location.pathname.includes("/admin/stock/movement")) return 1;
+    if (location.pathname.includes("/admin/stock/monthly-report")) return 2;
     if (location.pathname.includes("/admin/dashboard")) return 3;
     if (location.pathname.includes("/admin/products")) return 4;
     if (location.pathname.includes("/admin/users")) return 5;
@@ -66,7 +66,7 @@ const AdminLayout = () => {
         <ListItemButton component={Link} to="/admin/finance">
           <ListItemText primary="Фінанси" />
         </ListItemButton>
-        <ListItemButton component={Link} to="/admin/inventory/movement">
+        <ListItemButton component={Link} to="/admin/stock/movement">
           <ListItemText primary="Склад" />
         </ListItemButton>
         <ListItemButton component={Link} to="/admin/dashboard">
@@ -112,11 +112,11 @@ const AdminLayout = () => {
           sx={{ marginBottom: 2 }}
         >
           <Tab label="Фінанси" component={Link} to="/admin/finance" />
-          <Tab label="Склад" component={Link} to="/admin/inventory/movement" />
+          <Tab label="Склад" component={Link} to="/admin/stock/movement" />
           <Tab
             label="Звітність"
             component={Link}
-            to="/admin/inventory/monthly-report"
+            to="/admin/stock/monthly-report"
           />
 
           <Tab label="Головна панель" component={Link} to="/admin/dashboard" />

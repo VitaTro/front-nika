@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  deleteMovement,
   fetchStockMovements,
+  updateMovement,
   uploadSingleMovement,
 } from "./operationsStockMovement";
 
@@ -20,6 +22,24 @@ const stockMovementSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(updateMovement.fulfilled, (state, action) => {
+        const updated = action.payload.movement;
+        state.movements = state.movements.map((m) =>
+          m._id === updated._id ? updated : m
+        );
+        state.success = "Рух успішно оновлено!";
+      })
+      .addCase(deleteMovement.fulfilled, (state, action) => {
+        const { id } = action.payload;
+        state.movements = state.movements.filter((m) => m._id !== id);
+        state.success = "Рух успішно видалено!";
+      })
+      .addCase(updateMovement.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      .addCase(deleteMovement.rejected, (state, action) => {
+        state.error = action.payload;
+      })
       .addCase(fetchStockMovements.pending, (state) => {
         state.loading = true;
         state.error = null;

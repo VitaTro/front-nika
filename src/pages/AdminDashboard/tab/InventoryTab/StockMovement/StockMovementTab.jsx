@@ -20,8 +20,8 @@ import {
   selectStockLoading,
   selectStockMovements,
 } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
-import BulkMovementForm from "../MonthlyReport/BulkMovementForm";
 import AddStockMovementForm from "./AddStockMovementForm";
+import PurchaseImport from "./PurchaseImport";
 
 const StockMovementTab = () => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const StockMovementTab = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      {/* 🔘 Режими */}
+      {/* 🔘 Перемикачі режимів */}
       <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
         <Button
           variant={viewMode === "view" ? "contained" : "outlined"}
@@ -58,37 +58,43 @@ const StockMovementTab = () => {
         </Button>
       </Box>
 
-      {/* 📑 Заголовок */}
       <Typography variant="h5" gutterBottom>
-        Усі складські рухи
+        📊 Усі складські рухи
       </Typography>
 
-      {/* 🔄 Loading / Error */}
       {loading && <CircularProgress />}
       {error && <Alert severity="error">{error}</Alert>}
 
-      {/* ➕ Режим: Додати */}
       {viewMode === "add" && <AddStockMovementForm />}
+      {viewMode === "bulk" && <PurchaseImport />}
 
-      {/* 📥 Режим: Масовий імпорт */}
-      {viewMode === "bulk" && <BulkMovementForm />}
-
-      {/* 📋 Режим: Перегляд */}
       {viewMode === "view" && !loading && (
         <>
           {data.length === 0 ? (
-            <Typography>Немає запиcів</Typography>
+            <Typography>🚫 Немає записів</Typography>
           ) : (
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Дата</TableCell>
-                    <TableCell>Продукт</TableCell>
-                    <TableCell>Тип</TableCell>
-                    <TableCell>К-сть</TableCell>
-                    <TableCell>Ціна</TableCell>
-                    <TableCell>Примітка</TableCell>
+                    <TableCell>
+                      <strong>📅 Дата</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>📦 Товар</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>🔁 Тип</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>🔢 К-сть</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>💰 Ціна (за од.)</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>📝 Faktura</strong>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -100,7 +106,11 @@ const StockMovementTab = () => {
                       <TableCell>{item.product?.name || "—"}</TableCell>
                       <TableCell>{item.type}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
-                      <TableCell>{item.unitPrice} zł</TableCell>
+                      <TableCell>
+                        {item.unitPrice !== undefined
+                          ? `${item.unitPrice.toFixed(2)} zł`
+                          : "—"}
+                      </TableCell>
                       <TableCell>{item.note || "—"}</TableCell>
                     </TableRow>
                   ))}

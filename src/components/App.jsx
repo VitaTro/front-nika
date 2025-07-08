@@ -44,8 +44,8 @@ import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 
 // 📌 User панель
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
-import BulkMovementForm from "../pages/AdminDashboard/tab/InventoryTab/MonthlyReport/BulkMovementForm";
 import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/MonthlyReportPage";
+import PurchaseImport from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/PurchaseImport";
 import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import UserOrderPage from "../pages/ProfileUser/OrderPage";
@@ -211,12 +211,9 @@ export const App = () => {
                     <Route path="overview" element={<FinanceOverview />} />
                     <Route path="settings" element={<FinanceSettings />} />
                   </Route>
-                  <Route path="inventory" element={<InventoryLayout />}>
+                  <Route path="stock" element={<InventoryLayout />}>
                     <Route path="movement" element={<StockMovementTab />} />
-                    <Route
-                      path="movement/bulk"
-                      element={<BulkMovementForm />}
-                    />
+                    <Route path="movement/bulk" element={<PurchaseImport />} />
                     <Route
                       path="monthly-report"
                       element={<MonthlyReportPage />}
