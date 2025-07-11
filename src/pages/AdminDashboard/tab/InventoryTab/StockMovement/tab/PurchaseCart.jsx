@@ -46,10 +46,10 @@ const PurchaseCart = ({ cart, updateItem, removeFromCart }) => {
                     label="Закупочна ціна"
                     type="number"
                     size="small"
-                    value={item.unitPrice}
+                    value={item.unitPurchasePrice}
                     onChange={(e) =>
                       updateItem(item.productId, {
-                        unitPrice: Number(e.target.value),
+                        unitPurchasePrice: Number(e.target.value),
                       })
                     }
                     inputProps={{ step: 0.01 }}

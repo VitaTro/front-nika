@@ -89,7 +89,19 @@ const ProductsTab = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewProduct((prev) => ({ ...prev, [name]: value }));
+
+    if (name.startsWith("purchasePrice.")) {
+      const key = name.split(".")[1];
+      setNewProduct((prev) => ({
+        ...prev,
+        purchasePrice: {
+          ...prev.purchasePrice,
+          [key]: value,
+        },
+      }));
+    } else {
+      setNewProduct((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleAddProduct = (e) => {
@@ -110,7 +122,11 @@ const ProductsTab = () => {
       visible: true,
       quantity: "",
       index: "",
-      purchasePrice: "",
+      purchasePrice: {
+        value: "",
+        currency: "PLN",
+        exchangeRateToPLN: "",
+      },
     });
   };
 

@@ -2,70 +2,79 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteMovement,
   fetchStockMovements,
+  fetchStockSummary,
   updateMovement,
   uploadSingleMovement,
 } from "./operationsStockMovement";
 
 const initialState = {
-  movements: [],
+  allMovements: [],
+  byIndex: {},
   loading: false,
   error: null,
+  deletedMovements: [],
 };
 
 const stockMovementSlice = createSlice({
   name: "stockMovement",
   initialState,
-  reducers: {
-    clearMovements: (state) => {
-      state.movements = [];
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
+    builder;
+    // 📦 ВСІ РУХИ
     builder
-      .addCase(updateMovement.fulfilled, (state, action) => {
-        const updated = action.payload.movement;
-        state.movements = state.movements.map((m) =>
-          m._id === updated._id ? updated : m
-        );
-        state.success = "Рух успішно оновлено!";
-      })
-      .addCase(deleteMovement.fulfilled, (state, action) => {
-        const { id } = action.payload;
-        state.movements = state.movements.filter((m) => m._id !== id);
-        state.success = "Рух успішно видалено!";
-      })
-      .addCase(updateMovement.rejected, (state, action) => {
-        state.error = action.payload;
-      })
-      .addCase(deleteMovement.rejected, (state, action) => {
-        state.error = action.payload;
-      })
       .addCase(fetchStockMovements.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(fetchStockMovements.fulfilled, (state, action) => {
         state.loading = false;
-        state.movements = action.payload;
+        state.allMovements = action.payload;
       })
       .addCase(fetchStockMovements.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || "Помилка при завантаженні рухів";
+        state.error = action.payload;
       })
-      .addCase(uploadSingleMovement.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+
+      // 📊 SUMMARY
+      .addCase(fetchStockSummary.pending, (state, action) => {
+        const index = action.meta.arg;
+        state.loading[index] = true;
+        state.error[index] = null;
       })
+      .addCase(fetchStockSummary.fulfilled, (state, action) => {
+        const { productIndex, data } = action.payload;
+        state.byIndex[productIndex] = data;
+        state.loading[productIndex] = false;
+      })
+      .addCase(fetchStockSummary.rejected, (state, action) => {
+        const { productIndex, error } = action.payload;
+        state.error[productIndex] = error;
+        state.loading[productIndex] = false;
+      })
+
+      // ➕ ДОДАТИ РУХ
       .addCase(uploadSingleMovement.fulfilled, (state, action) => {
-        state.loading = false;
-        state.movements.unshift(action.payload); // додаємо новий рух угору списку
+        state.allMovements.unshift(action.payload);
       })
-      .addCase(uploadSingleMovement.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || "Помилка при додаванні руху";
+
+      // ✏️ ОНОВИТИ РУХ
+      .addCase(updateMovement.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const idx = state.allMovements.findIndex((m) => m._id === updated._id);
+        if (idx !== -1) {
+          state.allMovements[idx] = updated;
+        }
+      })
+
+      // ❌ ВИДАЛИТИ РУХ
+      .addCase(deleteMovement.fulfilled, (state, action) => {
+        const deletedId = action.payload.id;
+        state.allMovements = state.allMovements.filter(
+          (m) => m._id !== deletedId
+        );
+        state.deletedMovements.push(deletedId);
       });
   },
 });
 
-export const { clearMovements } = stockMovementSlice.actions;
 export default stockMovementSlice.reducer;

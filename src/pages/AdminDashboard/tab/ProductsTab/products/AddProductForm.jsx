@@ -1,5 +1,4 @@
 import { Button, TextField } from "@mui/material";
-import React from "react";
 
 const AddProductForm = ({ newProduct, handleChange, handleAddProduct }) => (
   <form onSubmit={handleAddProduct} style={{ marginBottom: "20px" }}>
@@ -100,13 +99,32 @@ const AddProductForm = ({ newProduct, handleChange, handleAddProduct }) => (
       margin="normal"
     />
     <TextField
-      name="purchasePrice"
+      name="purchasePrice.value"
       label="Ціна закупки"
-      value={newProduct.purchasePrice}
+      value={newProduct.purchasePrice.value}
       onChange={handleChange}
       fullWidth
       margin="normal"
     />
+    <TextField
+      name="purchasePrice.currency"
+      label="Валюта"
+      value={newProduct.purchasePrice.currency}
+      onChange={handleChange}
+      fullWidth
+      margin="normal"
+    />
+    {newProduct.purchasePrice.currency !== "PLN" && (
+      <TextField
+        name="purchasePrice.exchangeRateToPLN"
+        label="Курс до PLN"
+        value={newProduct.purchasePrice.exchangeRateToPLN}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+    )}
+
     <Button type="submit" variant="contained" color="primary">
       Додати товар
     </Button>

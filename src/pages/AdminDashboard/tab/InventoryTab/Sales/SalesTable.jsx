@@ -59,26 +59,29 @@ const SalesTable = () => {
     return <Typography>⏳ Завантаження даних продажів...</Typography>;
   }
 
-  const allSales = [
-    ...offlineSales.map((sale) => ({
-      id: sale._id,
-      date: sale.saleDate,
-      type: "offline",
-      buyer: sale.buyerName || "—",
-      amount: sale.totalAmount,
-      payment: sale.paymentMethod,
-      status: sale.status,
-    })),
-    ...onlineSales.map((sale) => ({
-      id: sale._id,
-      date: sale.saleDate,
-      type: "online",
-      buyer: sale.userId?.email || "—",
-      amount: sale.totalAmount,
-      payment: sale.paymentMethod,
-      status: sale.status,
-    })),
-  ].sort((a, b) => new Date(b.date) - new Date(a.date));
+  // const allSales = [
+  //   ...offlineSales.map((sale) => ({
+  //     id: sale._id,
+  //     date: sale.saleDate,
+  //     type: "offline",
+  //     buyer: sale.buyerName || "—",
+  //     amount: sale.totalAmount,
+  //     payment: sale.paymentMethod,
+  //     status: sale.status,
+  //   })),
+  //   ...onlineSales.map((sale) => ({
+  //     id: sale._id,
+  //     date: sale.saleDate,
+  //     type: "online",
+  //     buyer: sale.userId?.email || "—",
+  //     amount: sale.totalAmount,
+  //     payment: sale.paymentMethod,
+  //     status: sale.status,
+  //   })),
+  // ].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const allSales = [...offlineSales, ...onlineSales].sort(
+    (a, b) => new Date(b.saleDate) - new Date(a.saleDate)
+  );
 
   if (isLoading) return <Typography>⏳ Завантаження продажів...</Typography>;
   if (hasError)

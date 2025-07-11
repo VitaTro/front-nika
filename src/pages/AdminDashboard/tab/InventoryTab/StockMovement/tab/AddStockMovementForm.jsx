@@ -6,16 +6,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadSingleMovement } from "../../../../../../redux/inventory/stockMovement/operationsStockMovement";
 import {
   selectStockError,
   selectStockLoading,
 } from "../../../../../../redux/inventory/stockMovement/selectorsStockMovement";
-
+import { getProducts } from "../../../../../../redux/products/operationProducts";
+import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
 const AddStockMovementForm = () => {
   const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
   const loading = useSelector(selectStockLoading);
   const error = useSelector(selectStockError);
 
@@ -23,40 +25,51 @@ const AddStockMovementForm = () => {
     index: "",
     type: "purchase",
     quantity: "",
+    price: "",
     unitPrice: "",
     note: "",
+    date: new Date().toISOString().split("T")[0],
   });
-
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(
+      "🧾 Всі продукти:",
+      products.map((p) => p.index)
+    );
 
-    try {
-      // Замість product ID — бек підтримає пошук по index
-      const movementData = {
-        index: form.index.trim(),
-        type: form.type,
-        quantity: Number(form.quantity),
-        unitPrice: Number(form.unitPrice),
-        note: form.note,
-      };
-
-      dispatch(uploadSingleMovement(movementData));
-      setForm({
-        index: "",
-        type: "purchase",
-        quantity: "",
-        unitPrice: "",
-        note: "",
-      });
-    } catch (err) {
-      console.error("❌ Submission error:", err);
+    const product = products.find((p) => p.index === form.index.trim());
+    if (!product) {
+      alert("🚨 Товар із таким індексом не знайдено!");
+      return;
     }
-  };
 
+    const movementData = {
+      productIndex: product.index,
+      productName: product.name,
+      type: form.type,
+      quantity: Number(form.quantity),
+      unitPurchasePrice: Number(form.unitPrice),
+      price: Number(form.price), // якщо хочеш одразу передавати
+      note: form.note,
+      date: form.date,
+    };
+
+    dispatch(uploadSingleMovement(movementData));
+    setForm({
+      index: "",
+      type: "purchase",
+      quantity: "",
+      unitPrice: "",
+      note: "",
+    });
+  };
   return (
     <Box
       component="form"
@@ -94,12 +107,20 @@ const AddStockMovementForm = () => {
         required
       />
       <TextField
-        label="Ціна за одиницю"
+        label="Закупочна ціна"
         name="unitPrice"
         type="number"
         value={form.unitPrice}
         onChange={handleChange}
       />
+      <TextField
+        label="Роздрібна ціна"
+        name="price"
+        type="number"
+        value={form.price}
+        onChange={handleChange}
+      />
+
       <TextField
         label="Примітка"
         name="note"
@@ -108,6 +129,15 @@ const AddStockMovementForm = () => {
         multiline
         rows={2}
       />
+      <TextField
+        label="Дата руху"
+        name="date"
+        type="date"
+        value={form.date}
+        onChange={handleChange}
+        InputLabelProps={{ shrink: true }}
+      />
+
       <Button type="submit" variant="contained" disabled={loading}>
         {loading ? "Збереження..." : "Додати рух"}
       </Button>

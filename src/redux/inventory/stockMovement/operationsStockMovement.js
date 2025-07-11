@@ -5,9 +5,7 @@ export const fetchStockMovements = createAsyncThunk(
   "stockMovement/fetchStockMovements",
   async (_, { rejectWithValue }) => {
     try {
-      console.log("🌐 API CALL: GET /api/admin/stock/movement");
       const res = await axios.get("/api/admin/stock/movement");
-      console.log("🟢 Data received:", res.data);
       return res.data;
     } catch (err) {
       console.error("🔴 API ERROR:", err.response?.data || err.message);
@@ -17,15 +15,27 @@ export const fetchStockMovements = createAsyncThunk(
     }
   }
 );
+
+// ✅ Звичайне створення одиночного руху
 export const uploadSingleMovement = createAsyncThunk(
   "stockMovement/uploadSingleMovement",
   async (movementData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "/api/admin/stock/movement",
-        movementData
-      );
+      // 📦 Формуємо чистий payload на основі руху з фронту
+      const payload = {
+        productIndex: movementData.productIndex,
+        productName: movementData.productName,
+        type: movementData.type,
+        quantity: Number(movementData.quantity),
+        unitPurchasePrice: Number(movementData.unitPurchasePrice),
+        price: Number(movementData.price),
+        note: movementData.note,
+        date: movementData.date || new Date().toISOString(),
+      };
 
+      console.log("📤 Відправка руху:", payload); // ✅ debug log
+
+      const response = await axios.post("/api/admin/stock/movement", payload);
       return response.data.movement;
     } catch (error) {
       console.error("❌ Error uploading movement:", error);
@@ -35,6 +45,7 @@ export const uploadSingleMovement = createAsyncThunk(
     }
   }
 );
+
 export const updateMovement = createAsyncThunk(
   "stock/updateMovement",
   async ({ id, updates }, { rejectWithValue }) => {
@@ -48,6 +59,23 @@ export const updateMovement = createAsyncThunk(
       return rejectWithValue(
         error.response?.data?.error || "Не вдалося оновити запис"
       );
+    }
+  }
+);
+export const fetchStockSummary = createAsyncThunk(
+  "stockMovement/fetchStockSummary",
+  async (productIndex, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `/api/admin/stock/movement/index/${productIndex}/summary`
+      );
+      return { productIndex, data: response.data };
+    } catch (error) {
+      console.error("🔴 Summary ERROR:", error.response?.data || error.message);
+      return rejectWithValue({
+        productIndex,
+        error: error.response?.data?.error || "Не вдалося отримати саммері",
+      });
     }
   }
 );

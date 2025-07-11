@@ -13,8 +13,10 @@ import { selectStockMovements } from "../../../../../../redux/inventory/stockMov
 
 const StockMovementTable = () => {
   const data = useSelector(selectStockMovements);
-
+  console.log("📦 Рухи з Redux:", data);
   if (!data || data.length === 0) {
+    console.log("✅ Данні з Redux:", data);
+
     return <Typography>🚫 Немає записів</Typography>;
   }
 
@@ -47,12 +49,17 @@ const StockMovementTable = () => {
           {data.map((item, i) => (
             <TableRow key={item._id || i}>
               <TableCell>{new Date(item.date).toLocaleDateString()}</TableCell>
-              <TableCell>{item.product?.name || "—"}</TableCell>
+              <TableCell>{item.productName || "—"}</TableCell>
               <TableCell>{item.type}</TableCell>
               <TableCell>{item.quantity}</TableCell>
               <TableCell>
-                {item.unitPrice !== undefined
-                  ? `${item.unitPrice.toFixed(2)} zł`
+                {item.type === "purchase" &&
+                item.unitPurchasePrice !== undefined
+                  ? `${item.unitPurchasePrice.toFixed(2)} zł`
+                  : item.type === "sale" && item.unitSalePrice !== undefined
+                  ? `${item.unitSalePrice.toFixed(2)} zł`
+                  : item.price !== undefined
+                  ? `${item.price.toFixed(2)} zł`
                   : "—"}
               </TableCell>
               <TableCell>{item.note || "—"}</TableCell>

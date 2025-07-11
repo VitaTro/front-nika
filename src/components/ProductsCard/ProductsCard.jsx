@@ -32,6 +32,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   const wishlist = useSelector(selectWishlistProducts);
   const [activeWishlist, setActiveWishlist] = useState({});
   const navigate = useNavigate();
+  const productIndex = product.index;
   const isProductInWishlist = wishlist.some(
     (item) => item.productId === product._id
   );
@@ -42,6 +43,11 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       [product._id]: isProductInWishlist,
     }));
   }, [wishlist, isProductInWishlist, product._id]);
+
+  const currentStock = product.currentStock ?? product.quantity ?? 0;
+  console.log("🧪 Product in card:", product);
+
+  const retailPrice = product.lastRetailPrice ?? product.price ?? null;
 
   const handleToggleWishlist = async () => {
     if (!isUserAuthenticated) {
@@ -60,7 +66,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       await dispatch(addProductToWishlist(product._id));
     }
   };
-
   const handleAddToCart = async () => {
     if (!isUserAuthenticated) {
       toast.info(t("please_login_to_add_to_cart"));
@@ -77,7 +82,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
         addProductToShoppingCart({
           productId: product._id,
           name: product.name,
-          price: product.price,
+          price: retailPrice,
           quantity: productCount,
         })
       );
@@ -104,7 +109,11 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             <div>{t("no_image")}</div>
           )}
 
-          <ItemPrice className="price">{product.price} zł</ItemPrice>
+          <ItemPrice className="price">
+            {retailPrice !== null
+              ? `${retailPrice} zł`
+              : t("price_unavailable")}{" "}
+          </ItemPrice>
 
           <ProductAction>
             <ButtonHeart
@@ -128,12 +137,12 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
             <ButtonShopping
               onClick={handleAddToCart}
-              disabled={!product.inStock}
+              disabled={currentStock < 1}
               style={{
-                cursor: product.inStock ? "pointer" : "not-allowed",
+                cursor: currentStock ? "pointer" : "not-allowed",
               }}
             >
-              {product.inStock ? "🛒" : "🚫"}
+              {currentStock > 0 ? "🛒" : "🚫"}
             </ButtonShopping>
             <ButtonDetailsWrapper>
               <button

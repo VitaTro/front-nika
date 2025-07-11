@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { uploadBulkMovements } from "../../../../../../redux/inventory/bulkUpload/operationsBulkUpload";
-const PurchaseOrderForm = ({ cart, setCart }) => {
+const PurchaseOrderForm = ({ cart, setCart, products }) => {
   const dispatch = useDispatch();
   const [meta, setMeta] = useState({
     note: "",
@@ -20,17 +20,37 @@ const PurchaseOrderForm = ({ cart, setCart }) => {
     }
 
     const movements = cart.map((item) => ({
-      product: item.productId,
+      productName: item.productName,
+      productIndex: item.productIndex,
       type: "purchase",
-      quantity: item.quantity,
-      unitPrice: item.unitPrice,
-      price: item.price,
-      currency: item.currency || "PLN", // 💸 додаємо
-      exchangeRateToPLN: item.exchangeRateToPLN || 1, // 💱 додаємо
-      note: meta.note,
-      date: meta.date,
+      quantity: Number(item.quantity),
+      unitPurchasePrice: Number(item.unitPurchasePrice),
+      price: Number(item.price),
+      note: meta.note || "",
+      date: new Date(meta.date).toISOString(),
     }));
 
+    // ✅ Тепер movements існує!
+    const requiredFields = [
+      "productName",
+      "productIndex",
+      "type",
+      "quantity",
+      "unitPurchasePrice",
+      "price",
+    ];
+    const hasInvalid = movements.some((m) =>
+      requiredFields.some((field) => m[field] === undefined || m[field] === "")
+    );
+
+    if (hasInvalid) {
+      console.warn("🚨 Деякі поля відсутні в рухах!");
+      console.table(movements);
+      alert("⚠️ Помилка: деякі товари мають незаповнені поля.");
+      return;
+    }
+
+    console.log("📦 movements:", movements);
     dispatch(uploadBulkMovements(movements));
     setCart([]);
     alert("✅ Прихід оформлено!");

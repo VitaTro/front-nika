@@ -54,8 +54,8 @@ const PurchaseImport = () => {
         ...prevCart,
         {
           productId: product._id,
-          name: product.name,
-          index: product.index,
+          productName: product.name,
+          productIndex: product.index,
           photoUrl: product.photoUrl,
           quantity: 1,
           unitPrice: product.purchasePrice?.value || 0,
@@ -78,6 +78,14 @@ const PurchaseImport = () => {
       prevCart.filter((item) => item.productId !== productId)
     );
   };
+  const requiredFields = [
+    "productName",
+    "productIndex",
+    "type",
+    "quantity",
+    "unitPurchasePrice",
+    "price",
+  ];
 
   return (
     <GeneralOfflineOrder>
@@ -129,7 +137,11 @@ const PurchaseImport = () => {
               updateItem={updateItem}
               removeFromCart={removeFromCart}
             />
-            <PurchaseOrderForm cart={cart} setCart={setCart} />
+            <PurchaseOrderForm
+              cart={cart}
+              setCart={setCart}
+              products={products}
+            />
           </>
         ) : (
           <>
