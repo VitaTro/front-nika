@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteMovement,
+  fetchProductMovements,
+  fetchProductSummary,
   fetchStockMovements,
   fetchStockSummary,
   updateMovement,
@@ -9,6 +11,7 @@ import {
 
 const initialState = {
   allMovements: [],
+  productMovements: {},
   byIndex: {},
   loading: false,
   error: null,
@@ -21,8 +24,36 @@ const stockMovementSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder;
-    // 📦 ВСІ РУХИ
+
+    builder;
     builder
+      .addCase(fetchProductSummary.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductSummary.fulfilled, (state, action) => {
+        const { productIndex, data } = action.payload;
+        state.loading = false;
+        state.byIndex[productIndex] = data;
+      })
+      .addCase(fetchProductSummary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(fetchProductMovements.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductMovements.fulfilled, (state, action) => {
+        const { productIndex, data } = action.payload;
+        state.loading = false;
+        state.productMovements[productIndex] = data;
+      })
+      .addCase(fetchProductMovements.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.error || "Не вдалося завантажити рухи";
+      })
       .addCase(fetchStockMovements.pending, (state) => {
         state.loading = true;
       })
@@ -42,6 +73,10 @@ const stockMovementSlice = createSlice({
         state.error[index] = null;
       })
       .addCase(fetchStockSummary.fulfilled, (state, action) => {
+        if (!action.payload || !action.payload.productIndex) {
+          console.warn("⚠️ Порожній payload:", action.payload);
+          return;
+        }
         const { productIndex, data } = action.payload;
         state.byIndex[productIndex] = data;
         state.loading[productIndex] = false;

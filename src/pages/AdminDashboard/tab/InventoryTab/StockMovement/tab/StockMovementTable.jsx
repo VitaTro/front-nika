@@ -8,15 +8,15 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectStockMovements } from "../../../../../../redux/inventory/stockMovement/selectorsStockMovement";
 
 const StockMovementTable = () => {
   const data = useSelector(selectStockMovements);
-  console.log("📦 Рухи з Redux:", data);
-  if (!data || data.length === 0) {
-    console.log("✅ Данні з Redux:", data);
+  const [selectedMovement, setSelectedMovement] = useState(null);
 
+  if (!data || data.length === 0) {
     return <Typography>🚫 Немає записів</Typography>;
   }
 

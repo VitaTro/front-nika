@@ -39,7 +39,7 @@ import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent
 import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineOrder/OnlineOrder";
 import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineSale/OnlineSale";
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
-import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
+import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovementTab";
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель

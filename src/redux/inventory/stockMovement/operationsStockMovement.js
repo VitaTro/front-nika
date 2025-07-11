@@ -69,6 +69,13 @@ export const fetchStockSummary = createAsyncThunk(
       const response = await axios.get(
         `/api/admin/stock/movement/index/${productIndex}/summary`
       );
+      if (!response.data) {
+        return rejectWithValue({
+          productIndex,
+          error: "Саммері не отримано",
+        });
+      }
+      console.log("📦 API summary:", response.data);
       return { productIndex, data: response.data };
     } catch (error) {
       console.error("🔴 Summary ERROR:", error.response?.data || error.message);
@@ -90,6 +97,41 @@ export const deleteMovement = createAsyncThunk(
       return rejectWithValue(
         error.response?.data?.error || "Не вдалося видалити запис"
       );
+    }
+  }
+);
+export const fetchProductMovements = createAsyncThunk(
+  "stockMovement/fetchProductMovements",
+  async (productIndex, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `/api/admin/stock/movement/product/${productIndex}`
+      );
+      return { productIndex, data: response.data };
+    } catch (error) {
+      console.error(
+        "🔴 Error fetching product movements:",
+        error.response?.data || error.message
+      );
+      return rejectWithValue({
+        productIndex,
+        error: error.response?.data?.error || "Не вдалося отримати рухи товару",
+      });
+    }
+  }
+);
+
+export const fetchProductSummary = createAsyncThunk(
+  "stockMovement/fetchProductSummary",
+  async (productIndex, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(
+        `/api/admin/stock/movement/index/${productIndex}/summary`
+      );
+      return { productIndex, data: res.data };
+    } catch (err) {
+      console.error("❌ Summary fetch error:", err.message);
+      return rejectWithValue(err.message);
     }
   }
 );
