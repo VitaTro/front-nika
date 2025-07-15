@@ -1,6 +1,7 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import InvoiceArchive from "../../../../components/AdminDashboard/InvoiceArchive";
 import PopularProductsSection from "../../../../components/AdminDashboard/PopularProductsSection";
 import StatisticsSection from "../../../../components/AdminDashboard/StatisticsSection";
 import WishlistSection from "../../../../components/AdminDashboard/WishlistSection";
@@ -73,13 +74,7 @@ const DashboardTab = () => {
       {viewMode === "wishlist" && (
         <WishlistSection wishlist={dashboard.wishlistOverview} />
       )}
-      {viewMode === "invoices" && (
-        <iframe
-          title="Google Drive Invoice Folder"
-          src="https://drive.google.com/embeddedfolderview?id=1TkHWa-aTjUWVRn8BxkpFZD8rAekKO7Kx#grid"
-          style={{ width: "100%", height: "80vh", border: "none" }}
-        />
-      )}
+      {viewMode === "invoices" && <InvoiceArchive />}
     </Box>
   );
 };

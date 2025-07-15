@@ -1,21 +1,47 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Paper,
+  Snackbar,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { uploadBulkMovements } from "../../../../../../redux/inventory/bulkUpload/operationsBulkUpload";
-const PurchaseOrderForm = ({ cart, setCart, products }) => {
+
+const PurchaseOrderForm = ({ cart, setCart }) => {
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery("(max-width:768px)");
   const [meta, setMeta] = useState({
     note: "",
     date: new Date().toISOString().split("T")[0],
   });
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
   const handleChange = (e) => {
     setMeta({ ...meta, [e.target.name]: e.target.value });
   };
 
+  const updateItem = (productId, updates) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.productId === productId ? { ...item, ...updates } : item
+      )
+    );
+  };
+
+  const removeFromCart = (productId) => {
+    setCart((prev) => prev.filter((item) => item.productId !== productId));
+  };
+
   const handleSubmit = () => {
     if (cart.length === 0) {
-      alert("🚨 Кошик порожній! Додайте товари.");
+      setErrorMsg("🚨 Кошик порожній! Додайте товари.");
       return;
     }
 
@@ -30,7 +56,6 @@ const PurchaseOrderForm = ({ cart, setCart, products }) => {
       date: new Date(meta.date).toISOString(),
     }));
 
-    // ✅ Тепер movements існує!
     const requiredFields = [
       "productName",
       "productIndex",
@@ -40,42 +65,75 @@ const PurchaseOrderForm = ({ cart, setCart, products }) => {
       "price",
     ];
     const hasInvalid = movements.some((m) =>
-      requiredFields.some((field) => m[field] === undefined || m[field] === "")
+      requiredFields.some((f) => m[f] === undefined || m[f] === "")
     );
 
     if (hasInvalid) {
-      console.warn("🚨 Деякі поля відсутні в рухах!");
-      console.table(movements);
-      alert("⚠️ Помилка: деякі товари мають незаповнені поля.");
+      setErrorMsg("⚠️ Деякі товари мають незаповнені поля.");
       return;
     }
 
-    console.log("📦 movements:", movements);
     dispatch(uploadBulkMovements(movements));
     setCart([]);
-    alert("✅ Прихід оформлено!");
+    setSuccessMsg("✅ Прихід успішно оформлено!");
   };
 
   return (
-    <Box sx={{ mt: 3, display: "grid", gap: 2 }}>
-      <Typography variant="h6">🧾 Дані накладної</Typography>
-      <TextField
-        label="Номер накладної / примітка"
-        name="note"
-        value={meta.note}
-        onChange={handleChange}
-      />
-      <TextField
-        label="Дата приходу"
-        name="date"
-        type="date"
-        value={meta.date}
-        onChange={handleChange}
-      />
-      <Button variant="contained" color="success" onClick={handleSubmit}>
-        📤 Оформити прихід
-      </Button>
+    <Box sx={{ mt: 4, mb: 6 }}>
+      <Paper
+        elevation={3}
+        sx={{
+          p: isMobile ? 2 : 4,
+          borderRadius: 3,
+          mx: "auto",
+        }}
+      >
+        <Stack spacing={4}>
+          <Typography variant="h5">🧾 Оформлення приходу</Typography>
+          <Stack spacing={2}>
+            <TextField
+              label="Номер накладної / примітка"
+              name="note"
+              value={meta.note}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              label="Дата приходу"
+              name="date"
+              type="date"
+              value={meta.date}
+              onChange={handleChange}
+              fullWidth
+            />
+            <Button variant="contained" color="success" onClick={handleSubmit}>
+              📤 Оформити
+            </Button>
+          </Stack>
+        </Stack>
+      </Paper>
+
+      <Snackbar
+        open={!!errorMsg}
+        autoHideDuration={4000}
+        onClose={() => setErrorMsg("")}
+      >
+        <Alert severity="error" onClose={() => setErrorMsg("")}>
+          {errorMsg}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={!!successMsg}
+        autoHideDuration={3000}
+        onClose={() => setSuccessMsg("")}
+      >
+        <Alert severity="success" onClose={() => setSuccessMsg("")}>
+          {successMsg}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
+
 export default PurchaseOrderForm;

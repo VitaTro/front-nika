@@ -74,7 +74,14 @@ const AddStockMovementForm = () => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ mb: 3, display: "grid", gap: 2 }}
+      sx={{
+        mb: 3,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        maxWidth: 600,
+        mx: "auto",
+      }}
     >
       <Typography variant="h6">➕ Додати рух товару</Typography>
       <TextField

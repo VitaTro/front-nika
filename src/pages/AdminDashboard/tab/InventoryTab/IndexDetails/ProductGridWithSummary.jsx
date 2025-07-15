@@ -3,8 +3,10 @@ import {
   Button,
   Collapse,
   Paper,
+  Stack,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +17,13 @@ import {
   selectStockSummary,
 } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
 import ProductSummaryPanel from "./ProductSummaryPanel";
+
 const ProductGridWithSummary = () => {
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery("(max-width:768px)");
 
-  const [filterValue, setFilterValue] = useState(""); // 🟢 пошук
-  const [selected, setSelected] = useState(null); // 🟢 обраний SKU
-  const [expanded, setExpanded] = useState(null); // 🟢 відкритий акордеон
-  //   const [summary, setSummary] = useState(null); // 🟢 завантажений summary
+  const [filterValue, setFilterValue] = useState("");
+  const [expanded, setExpanded] = useState(null);
   const productIndexes = useSelector(selectAllProductIndexes);
   const filteredIndexes = productIndexes.filter((index) =>
     index.toLowerCase().includes(filterValue.toLowerCase())
@@ -34,14 +36,14 @@ const ProductGridWithSummary = () => {
   }, [dispatch, expanded, summary]);
 
   return (
-    <Box sx={{ display: "grid", gap: 2 }}>
+    <Stack spacing={3} sx={{ px: isMobile ? 1 : 4 }}>
       <TextField
         label="🔍 Пошук по індексу"
         variant="outlined"
         size="small"
         value={filterValue}
         onChange={(e) => setFilterValue(e.target.value)}
-        sx={{ maxWidth: 300 }}
+        fullWidth
       />
 
       <Typography variant="h5">
@@ -53,8 +55,10 @@ const ProductGridWithSummary = () => {
           <Box
             sx={{
               display: "flex",
+              flexDirection: isMobile ? "column" : "row",
               justifyContent: "space-between",
-              alignItems: "center",
+              alignItems: isMobile ? "flex-start" : "center",
+              gap: 1,
               cursor: "pointer",
             }}
           >
@@ -62,10 +66,7 @@ const ProductGridWithSummary = () => {
             <Button
               variant="text"
               size="small"
-              onClick={() => {
-                setSelected(index);
-                setExpanded(expanded === index ? null : index);
-              }}
+              onClick={() => setExpanded(expanded === index ? null : index)}
             >
               {expanded === index ? "🔽 Сховати" : "🔍 Деталі"}
             </Button>
@@ -78,7 +79,7 @@ const ProductGridWithSummary = () => {
           </Collapse>
         </Paper>
       ))}
-    </Box>
+    </Stack>
   );
 };
 

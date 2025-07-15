@@ -21,7 +21,7 @@ const Cart = ({ cart, updateQuantity, removeFromCart }) => {
         <>
           <CartGrid>
             {cart.map((item, index) => (
-              <ProductCardShop key={item.productId || index}>
+              <ProductCardShop key={item.productId}>
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>
                 <Typography>Ціна: {item.price} zł</Typography>
@@ -53,7 +53,6 @@ const Cart = ({ cart, updateQuantity, removeFromCart }) => {
             ))}
           </CartGrid>
           <Typography variant="h6">Загальна сума: {totalPrice} zł</Typography>{" "}
-          {/* 🔥 Додаємо загальну суму */}
         </>
       ) : (
         <Typography>⚠️ Кошик порожній</Typography>

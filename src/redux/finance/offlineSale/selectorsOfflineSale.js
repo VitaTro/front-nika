@@ -6,10 +6,8 @@ export const selectOfflineSales = createSelector(
   [selectOfflineSalesState],
   (offlineSales) => offlineSales.offlineSales || []
 );
-export const selectOfflineSalesLoading = createSelector(
-  [selectOfflineSalesState],
-  (offlineSales) => offlineSales.loading || false
-);
+export const selectOfflineSalesLoading = (state) => state.offlineSales.loading;
+
 export const selectOfflineSalesError = createSelector(
   [selectOfflineSalesState],
   (offlineSales) => offlineSales.error || null

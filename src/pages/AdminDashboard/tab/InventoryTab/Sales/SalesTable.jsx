@@ -1,4 +1,5 @@
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -7,128 +8,86 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "../../../../../redux/axiosConfig";
 import SalesExpandableRow from "./SalesRowExpandable";
+
 const SalesTable = () => {
-  const dispatch = useDispatch();
   const [offlineSales, setOfflineSales] = useState([]);
   const [onlineSales, setOnlineSales] = useState([]);
-  // const offlineSales = useSelector((state) => state.offlineSales.sales);
-  // const onlineSales = useSelector((state) => state.onlineSales.sales);
-  const loadingOffline = useSelector((state) => state.offlineSales.loading);
-  const loadingOnline = useSelector((state) => state.onlineSales.loading);
-  const errorOffline = useSelector((state) => state.offlineSales.error);
-  const errorOnline = useSelector((state) => state.onlineSales.error);
+  const isMobile = useMediaQuery("(max-width:768px)");
 
-  // useEffect(() => {
-  //   dispatch(fetchOfflineSales());
-  //   dispatch(fetchOnlineSales());
-  // }, [dispatch]);
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const res = await axios.get("/api/admin/finance/offline/sales");
-        console.log("✅ Реальні дані:", res.data);
-        setOfflineSales(res.data);
+        const resOffline = await axios.get("/api/admin/finance/offline/sales");
+        const resOnline = await axios.get("/api/admin/finance/online/sales");
+        setOfflineSales(resOffline.data);
+        setOnlineSales(Array.isArray(resOnline.data) ? resOnline.data : []);
       } catch (err) {
-        console.error("❌ Помилка:", err);
+        console.error("❌ Błąd pobierania sprzedaży:", err);
       }
     };
-
     fetchSales();
   }, []);
-  useEffect(() => {
-    const fetchSales = async () => {
-      try {
-        const res = await axios.get("/api/admin/finance/online/sales");
-        console.log("✅ Реальні дані:", res.data);
-        setOnlineSales(res.data);
-      } catch (err) {
-        console.error("❌ Помилка:", err);
-      }
-    };
 
-    fetchSales();
-  }, []);
-  const isLoading = loadingOffline || loadingOnline;
-  const hasError = errorOffline || errorOnline;
-  if (!Array.isArray(offlineSales) || !Array.isArray(onlineSales)) {
-    return <Typography>⏳ Завантаження даних продажів...</Typography>;
+  const allSales = [
+    ...(Array.isArray(offlineSales) ? offlineSales : []),
+    ...(Array.isArray(onlineSales) ? onlineSales : []),
+  ].sort((a, b) => new Date(b.saleDate) - new Date(a.saleDate));
+
+  if (allSales.length === 0) {
+    return <Typography>📭 Brak danych sprzedaży</Typography>;
   }
 
-  // const allSales = [
-  //   ...offlineSales.map((sale) => ({
-  //     id: sale._id,
-  //     date: sale.saleDate,
-  //     type: "offline",
-  //     buyer: sale.buyerName || "—",
-  //     amount: sale.totalAmount,
-  //     payment: sale.paymentMethod,
-  //     status: sale.status,
-  //   })),
-  //   ...onlineSales.map((sale) => ({
-  //     id: sale._id,
-  //     date: sale.saleDate,
-  //     type: "online",
-  //     buyer: sale.userId?.email || "—",
-  //     amount: sale.totalAmount,
-  //     payment: sale.paymentMethod,
-  //     status: sale.status,
-  //   })),
-  // ].sort((a, b) => new Date(b.date) - new Date(a.date));
-  const allSales = [...offlineSales, ...onlineSales].sort(
-    (a, b) => new Date(b.saleDate) - new Date(a.saleDate)
-  );
-
-  if (isLoading) return <Typography>⏳ Завантаження продажів...</Typography>;
-  if (hasError)
-    return (
-      <Typography color="error">
-        ❌ Помилка: {errorOffline || errorOnline}
-      </Typography>
-    );
-  if (allSales.length === 0)
-    return <Typography>📭 Продажів не знайдено</Typography>;
-
-  return (
-    <TableContainer component={Paper}>
-      <Table>
+  return isMobile ? (
+    <Box sx={{ mt: 2 }}>
+      {allSales.map((sale) => (
+        <Paper key={sale._id} sx={{ mb: 2, p: 2 }}>
+          <Typography variant="subtitle2">
+            📅 {new Date(sale.saleDate).toLocaleDateString("pl-PL")}
+          </Typography>
+          <Typography variant="body2">🧾 ID: {sale._id?.slice(-6)}</Typography>
+          <Typography variant="body2">
+            💸 Kwota: {sale.totalAmount?.toFixed(2) ?? "0.00"} zł
+          </Typography>
+          <Typography variant="body2">
+            💳 Płatność: {sale.paymentMethod ?? "—"}
+          </Typography>
+          <Typography variant="body2">
+            📌 Status: {sale.status ?? "Oczekuje"}
+          </Typography>
+        </Paper>
+      ))}
+    </Box>
+  ) : (
+    <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
+      <Table size="medium">
         <TableHead>
           <TableRow>
+            <TableCell />
             <TableCell>
-              <strong>📅 Дата</strong>
+              <strong>📅 Data</strong>
             </TableCell>
             <TableCell>
-              <strong>🛍️ Тип</strong>
+              <strong>🧾 ID</strong>
             </TableCell>
             <TableCell>
-              <strong>👤 Покупець</strong>
+              <strong>💸 Kwota</strong>
             </TableCell>
             <TableCell>
-              <strong>💳 Оплата</strong>
+              <strong>💳 Płatność</strong>
             </TableCell>
             <TableCell>
-              <strong>💸 Сума</strong>
-            </TableCell>
-            <TableCell>
-              <strong>🔖 Статус</strong>
+              <strong>📌 Status</strong>
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {allSales.map((sale) => (
             <SalesExpandableRow key={sale._id} sale={sale} />
-            // <TableRow key={sale.id}>
-            //   <TableCell>{new Date(sale.date).toLocaleDateString()}</TableCell>
-            //   <TableCell>{sale.type}</TableCell>
-            //   <TableCell>{sale.buyer}</TableCell>
-            //   <TableCell>{sale.payment}</TableCell>
-            //   <TableCell>{sale.amount?.toFixed(2)} zł</TableCell>
-            //   <TableCell>{sale.status}</TableCell>
-            // </TableRow>
           ))}
         </TableBody>
       </Table>

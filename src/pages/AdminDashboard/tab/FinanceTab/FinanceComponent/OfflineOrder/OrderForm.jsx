@@ -2,23 +2,41 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../../../../../../redux/axiosConfig";
-import { createOfflineOrder } from "../../../../../../redux/finance/offlineOrder/operationOfflineOrder";
+import { createOfflineSale } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
 
 const OrderForm = ({ cart, setCart }) => {
   const dispatch = useDispatch();
   const orderState = useSelector((state) => state.offlineOrders);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("BLIK");
+  const [saleDate, setSaleDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
   const [buyerType, setBuyerType] = useState("anonim");
   const [buyerInfo, setBuyerInfo] = useState({
     buyerName: "",
     buyerAddress: "",
     buyerNIP: "",
   });
+
   useEffect(() => {
     if (orderState.error) {
       alert("❌ Помилка створення замовлення: " + orderState.error);
     }
-    if (!orderState.loading && orderState.offlineOrders.length > 0) {
+    if (
+      !orderState.loading &&
+      orderState.offlineOrders.length > 0 &&
+      orderState.success
+    ) {
+      const lastOrder = orderState.offlineOrders.slice(-1)[0];
+      if (lastOrder?._id) {
+        dispatch(
+          createOfflineSale({
+            orderId: lastOrder._id,
+            saleDate,
+          })
+        );
+      }
       alert("✅ Замовлення створено!");
     }
   }, [orderState]);
@@ -41,7 +59,7 @@ const OrderForm = ({ cart, setCart }) => {
     }
   };
 
-  const handleOrder = () => {
+  const handleOrder = async () => {
     if (cart.length === 0) {
       alert("⚠️ Кошик порожній! Додайте товари перед оформленням.");
       return;
@@ -54,6 +72,7 @@ const OrderForm = ({ cart, setCart }) => {
         price,
         quantity,
         photoUrl,
+        saleDate,
       })),
       totalPrice: cart.reduce(
         (acc, item) => acc + item.price * item.quantity,
@@ -61,7 +80,6 @@ const OrderForm = ({ cart, setCart }) => {
       ),
       paymentMethod: selectedPaymentMethod,
       status: "pending",
-      // notes: "-",
       buyerType,
       ...(buyerType === "przedsiębiorca" && {
         buyerName: buyerInfo.buyerName,
@@ -69,9 +87,40 @@ const OrderForm = ({ cart, setCart }) => {
         buyerNIP: buyerInfo.buyerNIP,
       }),
     };
-    dispatch(createOfflineOrder(orderData));
-    setCart([]);
-    localStorage.removeItem("cart");
+
+    try {
+      // 1️⃣ Створення замовлення
+      const response = await axios.post(
+        "/api/admin/finance/offline/orders",
+        orderData
+      );
+      console.log("📦 Order Response:", response.data);
+      const createdOrder = response.data.order;
+
+      if (!createdOrder?._id) {
+        alert("❌ Створення замовлення без ID!");
+        return;
+      }
+
+      alert("✅ Замовлення створено!");
+
+      // 2️⃣ Продаж
+      await axios.post("/api/admin/finance/offline/sales", {
+        orderId: createdOrder._id,
+        saleDate,
+      });
+      alert("✅ Продаж завершено!");
+
+      // 3️⃣ Оновлення статусу
+      await updateOrderStatus(createdOrder._id);
+
+      // 4️⃣ Очищення інтерфейсу
+      setCart([]);
+      localStorage.removeItem("cart");
+    } catch (error) {
+      console.error("🔥 Щось пішло не так:", error);
+      alert("❌ Помилка під час обробки замовлення!");
+    }
   };
 
   return (
@@ -143,6 +192,13 @@ const OrderForm = ({ cart, setCart }) => {
           />
         </div>
       )}
+      <Typography variant="h6">📅 Дата продажу</Typography>
+      <input
+        type="date"
+        value={saleDate}
+        onChange={(e) => setSaleDate(e.target.value)}
+        style={{ width: "100%", padding: "8px", marginBottom: "12px" }}
+      />
 
       <button
         onClick={handleOrder}

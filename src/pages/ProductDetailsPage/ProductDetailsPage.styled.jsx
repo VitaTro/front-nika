@@ -89,6 +89,14 @@ export const DetailsWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 40px;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+  }
 `;
 export const ImageContainer = styled.div`
   flex: 1;

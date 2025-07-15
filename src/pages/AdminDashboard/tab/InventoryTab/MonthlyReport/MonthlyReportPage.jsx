@@ -54,10 +54,20 @@ const MonthlyReportPage = () => {
           {reports.map((report, i) => (
             <ListItem key={report.month || i} divider>
               <ListItemText
-                primary={`Місяць: ${report.month}`}
-                secondary={`Створено: ${new Date(
-                  report.createdAt
-                ).toLocaleDateString()}`}
+                primary={`Miesiąc: ${report.month}`}
+                secondary={
+                  <>
+                    {`📅 Stworzone: ${new Date(
+                      report.generatedAt
+                    ).toLocaleDateString("pl-PL")}`}
+                    <br />
+                    {`💸 Zysk/Strata: ${report.profit?.toFixed(2)} zł`}
+                    <br />
+                    {`📥 Przychód: ${report.revenue?.total ?? 0} zł`}
+                    <br />
+                    {`📤 Wydatki: ${report.expenses?.total ?? 0} zł`}
+                  </>
+                }
               />
             </ListItem>
           ))}

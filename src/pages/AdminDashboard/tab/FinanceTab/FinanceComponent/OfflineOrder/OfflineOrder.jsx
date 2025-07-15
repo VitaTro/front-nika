@@ -1,6 +1,7 @@
 import { Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { selectOfflineOrders } from "../../../../../../redux/finance/offlineOrder/selectorsOfflineOrder";
 import { getProducts } from "../../../../../../redux/products/operationProducts";
 import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
 import Cart from "./Cart";
@@ -16,13 +17,14 @@ import {
   SearchBox,
 } from "./OfflineOrder.styled";
 import OrderForm from "./OrderForm";
-
+import SaleButton from "./SaleButton";
 const OfflineOrder = () => {
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const orderState = useSelector(selectOfflineOrders);
   const [cart, setCart] = useState(() => {
     return JSON.parse(localStorage.getItem("cart")) || [];
   });
@@ -164,6 +166,12 @@ const OfflineOrder = () => {
               removeFromCart={removeFromCart}
             />
             <OrderForm cart={cart} setCart={setCart} />
+            {orderState.success && orderState.offlineOrders.length > 0 && (
+              <SaleButton
+                orderId={orderState.offlineOrders.slice(-1)[0]._id}
+                saleDate={new Date()}
+              />
+            )}
           </>
         ) : (
           <>

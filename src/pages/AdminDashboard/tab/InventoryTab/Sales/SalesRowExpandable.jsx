@@ -14,23 +14,27 @@ import { useState } from "react";
 const SalesExpandableRow = ({ sale }) => {
   const [open, setOpen] = useState(false);
 
-  const calculateNetProfit = (product) => {
-    const quantity = Number(product.quantity) || 0;
-    const salePrice = Number(product.price) || 0;
+  const productsArray = Array.isArray(sale.products) ? sale.products : [];
 
-    const purchase = product.productId?.purchasePrice;
-    if (!purchase || purchase.value === undefined) return 0;
+  const calculateProfit = (product) => {
+    const quantity = Number(product.quantity) || 0;
+    const price = Number(product.price) || 0;
+    const purchase =
+      typeof product.productId === "object"
+        ? product.productId.purchasePrice
+        : null;
 
     const rate =
-      purchase.currency === "PLN" ? 1 : Number(purchase.exchangeRateToPLN) || 1;
-    const purchasePLN = Number(purchase.value) * rate;
+      purchase?.currency === "PLN"
+        ? 1
+        : Number(purchase?.exchangeRateToPLN) || 1;
+    const purchasePLN = Number(purchase?.value || 0) * rate;
 
-    return quantity * (salePrice - purchasePLN);
+    return quantity * (price - purchasePLN);
   };
 
-  const productsArray = Array.isArray(sale.products) ? sale.products : [];
   const totalProfit = productsArray.reduce(
-    (acc, p) => acc + calculateNetProfit(p),
+    (acc, p) => acc + calculateProfit(p),
     0
   );
 
@@ -43,12 +47,14 @@ const SalesExpandableRow = ({ sale }) => {
           </IconButton>
         </TableCell>
         <TableCell>
-          {new Date(sale.saleDate || sale.createdAt).toLocaleDateString()}
+          {sale.saleDate
+            ? new Date(sale.saleDate).toLocaleDateString("pl-PL")
+            : "—"}
         </TableCell>
         <TableCell>{sale._id?.slice(-6) || "—"}</TableCell>
-        <TableCell>{sale.totalAmount?.toFixed(2)} zł</TableCell>
-        <TableCell>{sale.paymentMethod || "—"}</TableCell>
-        <TableCell>{sale.status || "—"}</TableCell>
+        <TableCell>{sale.totalAmount?.toFixed(2) ?? "0.00"} zł</TableCell>
+        <TableCell>{sale.paymentMethod ?? "—"}</TableCell>
+        <TableCell>{sale.status ?? "Oczekuje"}</TableCell>
       </TableRow>
 
       <TableRow>
@@ -56,33 +62,37 @@ const SalesExpandableRow = ({ sale }) => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ p: 2 }}>
               <Typography variant="subtitle1" gutterBottom>
-                📦 Деталі замовлення
+                📦 Detale zamówienia
               </Typography>
               {productsArray.length === 0 ? (
                 <Typography color="text.secondary">
-                  — Продаж не має товарів
+                  — Brak produktów w sprzedaży
                 </Typography>
               ) : (
                 <Table size="small">
                   <TableBody>
                     {productsArray.map((product, idx) => {
+                      const name =
+                        typeof product.productId === "object"
+                          ? product.productId.name
+                          : `Produkt #${idx + 1}`;
                       const quantity = Number(product.quantity) || 0;
                       const price = Number(product.price) || 0;
+                      const purchase =
+                        typeof product.productId === "object"
+                          ? product.productId.purchasePrice
+                          : null;
 
-                      const purchase = product.productId?.purchasePrice;
                       const rate =
                         purchase?.currency === "PLN"
                           ? 1
-                          : purchase?.exchangeRateToPLN || 1;
+                          : Number(purchase?.exchangeRateToPLN) || 1;
                       const purchaseValue = Number(purchase?.value || 0) * rate;
-
                       const profit = quantity * (price - purchaseValue);
 
                       return (
                         <TableRow key={idx}>
-                          <TableCell>
-                            {product.productId?.name || "—"}
-                          </TableCell>
+                          <TableCell>{name}</TableCell>
                           <TableCell>{quantity}</TableCell>
                           <TableCell>{price.toFixed(2)} zł</TableCell>
                           <TableCell>
@@ -107,7 +117,7 @@ const SalesExpandableRow = ({ sale }) => {
               <Typography
                 sx={{ mt: 2, fontWeight: "bold", textAlign: "right" }}
               >
-                🧮 Чистий прибуток із продажу: {totalProfit.toFixed(2)} zł
+                🧮 Zysk netto: {totalProfit.toFixed(2)} zł
               </Typography>
             </Box>
           </Collapse>
