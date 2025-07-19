@@ -7,11 +7,11 @@ import { createOfflineSale } from "../../../../../../redux/finance/offlineSale/o
 const OrderForm = ({ cart, setCart }) => {
   const dispatch = useDispatch();
   const orderState = useSelector((state) => state.offlineOrders);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("BLIK");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("terminal");
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0]
   );
-
   const [buyerType, setBuyerType] = useState("anonim");
   const [buyerInfo, setBuyerInfo] = useState({
     buyerName: "",
@@ -66,14 +66,17 @@ const OrderForm = ({ cart, setCart }) => {
     }
 
     const orderData = {
-      products: cart.map(({ productId, name, price, quantity, photoUrl }) => ({
-        productId,
-        name,
-        price,
-        quantity,
-        photoUrl,
-        saleDate,
-      })),
+      products: cart.map(
+        ({ productId, name, price, quantity, photoUrl, index }) => ({
+          productId,
+          name,
+          price,
+          quantity,
+          photoUrl,
+          saleDate,
+          index,
+        })
+      ),
       totalPrice: cart.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
@@ -141,9 +144,19 @@ const OrderForm = ({ cart, setCart }) => {
           marginBottom: "12px",
         }}
       >
+        <option value="terminal">Термінал</option>
         <option value="BLIK">BLIK</option>
         <option value="bank_transfer">Банківський переказ</option>
       </select>
+      {selectedPaymentMethod === "terminal" && (
+        <Typography
+          sx={{ color: "#757575", fontStyle: "italic", marginBottom: "8px" }}
+        >
+          ⚠️ При оплаті через термінал фактура не генерується — чек видається
+          автоматично.
+        </Typography>
+      )}
+
       <Typography variant="h6">🧾 Тип покупця</Typography>
       <select
         value={buyerType}
