@@ -7,9 +7,9 @@ import {
   ProductTitle,
 } from "./OfflineOrder.styled";
 
-const Cart = ({ cart, updateQuantity, removeFromCart }) => {
+const Cart = ({ cart, updateQuantity, removeFromCart, lastRetailPrice }) => {
   const totalPrice = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
     0
   );
 
@@ -24,7 +24,9 @@ const Cart = ({ cart, updateQuantity, removeFromCart }) => {
               <ProductCardShop key={item.productId}>
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>
-                <Typography>Ціна: {item.lastRetailPrice} zł</Typography>
+                <Typography>
+                  Ціна: {item.price ? `${item.price}` : "—"} zł
+                </Typography>
                 <Typography>Кількість: {item.quantity}</Typography>
                 <div>
                   <button

@@ -84,7 +84,7 @@ const OfflineOrder = () => {
         {
           productId: product._id,
           name: product.name,
-          price: product.price,
+          price: product.lastRetailPrice,
           photoUrl: product.photoUrl,
           quantity: 1,
         },

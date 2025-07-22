@@ -67,19 +67,15 @@ const OrderForm = ({ cart, setCart }) => {
 
     const orderData = {
       products: cart.map(
-        ({ productId, name, price, quantity, photoUrl, index }) => ({
+        ({ productId, name, quantity, photoUrl, lastRetailPrice, index }) => ({
           productId,
           name,
-          price,
           quantity,
           photoUrl,
           saleDate,
+          lastRetailPrice,
           index,
         })
-      ),
-      totalPrice: cart.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0
       ),
       paymentMethod: selectedPaymentMethod,
       status: "pending",
@@ -92,12 +88,11 @@ const OrderForm = ({ cart, setCart }) => {
     };
 
     try {
-      // 1️⃣ Створення замовлення
+      // 🛒 Створення замовлення
       const response = await axios.post(
         "/api/admin/finance/offline/orders",
         orderData
       );
-      console.log("📦 Order Response:", response.data);
       const createdOrder = response.data.order;
 
       if (!createdOrder?._id) {
@@ -107,22 +102,21 @@ const OrderForm = ({ cart, setCart }) => {
 
       alert("✅ Замовлення створено!");
 
-      // 2️⃣ Продаж
+      // 💸 Продаж
       await axios.post("/api/admin/finance/offline/sales", {
         orderId: createdOrder._id,
         saleDate,
       });
-      alert("✅ Продаж завершено!");
 
-      // 3️⃣ Оновлення статусу
+      // ✅ Оновлення статусу
       await updateOrderStatus(createdOrder._id);
 
-      // 4️⃣ Очищення інтерфейсу
+      // 🧼 Очищення
       setCart([]);
       localStorage.removeItem("cart");
     } catch (error) {
-      console.error("🔥 Щось пішло не так:", error);
-      alert("❌ Помилка під час обробки замовлення!");
+      console.error("🔥 Помилка:", error);
+      alert("❌ Щось пішло не так при оформленні замовлення!");
     }
   };
 
