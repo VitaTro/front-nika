@@ -187,7 +187,7 @@ const OfflineOrder = () => {
                     <ProductImage src={product.photoUrl} alt={product.name} />
                     <ProductTitle>{product.name}</ProductTitle>
                     <Typography sx={{ fontSize: "18px" }}>
-                      Ціна: {product.price} zł
+                      Ціна: {product.lastRetailPrice} zł
                     </Typography>
 
                     {/* 🔥 Кнопка "Додати" */}

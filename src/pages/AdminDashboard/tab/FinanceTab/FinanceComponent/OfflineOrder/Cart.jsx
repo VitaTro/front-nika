@@ -24,7 +24,7 @@ const Cart = ({ cart, updateQuantity, removeFromCart }) => {
               <ProductCardShop key={item.productId}>
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>
-                <Typography>Ціна: {item.price} zł</Typography>
+                <Typography>Ціна: {item.lastRetailPrice} zł</Typography>
                 <Typography>Кількість: {item.quantity}</Typography>
                 <div>
                   <button

@@ -108,7 +108,7 @@ const ProductDetailsPage = () => {
               ↕️ {t("length")}: {getLengthWithUnit(product, t)}
             </InfoItem>
             <InfoItem>
-              💰 {t("price")}: {product.price} zł
+              💰 {t("price")}: {product.lastRetailPrice} zł
             </InfoItem>
             <InfoItem>
               📦 {t("in_stock")}: {product.inStock ? t("yes") : t("no")}
