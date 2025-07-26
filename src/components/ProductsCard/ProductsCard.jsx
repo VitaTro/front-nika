@@ -45,7 +45,6 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   }, [wishlist, isProductInWishlist, product._id]);
 
   const currentStock = product.currentStock ?? product.quantity ?? 0;
-  console.log("🧪 Product in card:", product);
 
   const retailPrice = product.lastRetailPrice ?? product.price ?? null;
 

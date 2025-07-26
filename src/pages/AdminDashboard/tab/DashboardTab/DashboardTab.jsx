@@ -1,7 +1,7 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import InvoiceArchive from "../../../../components/AdminDashboard/InvoiceArchive";
+
 import PopularProductsSection from "../../../../components/AdminDashboard/PopularProductsSection";
 import StatisticsSection from "../../../../components/AdminDashboard/StatisticsSection";
 import WishlistSection from "../../../../components/AdminDashboard/WishlistSection";
@@ -35,13 +35,6 @@ const DashboardTab = () => {
         }}
       >
         <Button
-          variant={viewMode === "stats" ? "contained" : "outlined"}
-          color="primary"
-          onClick={() => setViewMode("stats")}
-        >
-          Статистика
-        </Button>
-        <Button
           variant={viewMode === "popular" ? "contained" : "outlined"}
           color="secondary"
           onClick={() => setViewMode("popular")}
@@ -55,13 +48,6 @@ const DashboardTab = () => {
         >
           Список бажань
         </Button>
-        <Button
-          variant={viewMode === "invoices" ? "contained" : "outlined"}
-          color="info"
-          onClick={() => setViewMode("invoices")}
-        >
-          📂 Інвойси
-        </Button>
       </Box>
 
       {/* Відображення вибраного контенту */}
@@ -74,7 +60,6 @@ const DashboardTab = () => {
       {viewMode === "wishlist" && (
         <WishlistSection wishlist={dashboard.wishlistOverview} />
       )}
-      {viewMode === "invoices" && <InvoiceArchive />}
     </Box>
   );
 };

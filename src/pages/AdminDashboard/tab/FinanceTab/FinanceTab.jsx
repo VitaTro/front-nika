@@ -7,6 +7,7 @@ import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
 import OfflineSale from "./FinanceComponent/OfflineSale/OfflineSale";
 import OnlineOrder from "./FinanceComponent/OnlineOrder/OnlineOrder";
 import OnlineSale from "./FinanceComponent/OnlineSale/OnlineSale";
+import StockProfitOverview from "./FinanceComponent/StockProfitOverview";
 
 const FinanceTab = () => {
   const [viewMode, setViewMode] = useState("overview");
@@ -14,6 +15,7 @@ const FinanceTab = () => {
 
   const financeTabs = [
     { label: "Статистика", value: "overview", color: "primary" },
+    { label: "Маржа", value: "stock-profit", color: "secondary" },
     { label: "Онлайн-замовлення", value: "online-orders", color: "primary" },
     { label: "Онлайн-продажі", value: "online-sales", color: "secondary" },
     { label: "Офлайн-замовлення", value: "offline-orders", color: "primary" },
@@ -44,6 +46,7 @@ const FinanceTab = () => {
       </Box>
 
       {viewMode === "overview" && <FinanceOverview />}
+      {viewMode === "stock-profit" && <StockProfitOverview />}
       {viewMode === "online-orders" && <OnlineOrder />}
       {viewMode === "online-sales" && <OnlineSale />}
       {viewMode === "offline-orders" && <OfflineOrder />}

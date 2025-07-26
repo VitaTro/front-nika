@@ -11,6 +11,7 @@ import {
   selectFinanceLoading,
   selectFinanceStats,
 } from "../../../../../redux/finance/overview/selectorsOverview";
+import { selectStockMovements } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
 
 Chart.register(...registerables);
 
@@ -22,6 +23,7 @@ const FinanceOverview = () => {
   const error = useSelector(selectFinanceError);
   const expenses = useSelector(selectExpensesSummary);
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const movements = useSelector(selectStockMovements);
   const chartRef = useRef(null);
   const conversionRates = {
     USD: 0.25,
@@ -44,12 +46,50 @@ const FinanceOverview = () => {
 
     return profit;
   };
+  const getNetProfitFromMovement = (saleMovement, purchaseMovements) => {
+    const relevantPurchases = purchaseMovements
+      .filter(
+        (p) =>
+          p.productIndex === saleMovement.productIndex &&
+          p.date < saleMovement.date
+      )
+      .sort((a, b) => new Date(b.date) - new Date(a.date)); // беремо останній
+
+    const lastPurchase = relevantPurchases[0];
+
+    if (!lastPurchase) return 0;
+
+    const purchasePrice = lastPurchase.unitPurchasePrice;
+    const salePrice = saleMovement.unitSalePrice;
+    const quantity = saleMovement.quantity;
+
+    return (salePrice - purchasePrice) * quantity;
+  };
 
   const getTotalPrice = (sale) => {
     return (sale.products || []).reduce((sum, p) => {
       return sum + (Number(p.price) || 0) * (Number(p.quantity) || 1);
     }, 0);
   };
+  const saleMovements = movements.filter((m) => m.type === "sale");
+
+  const stockProfit = saleMovements.reduce((total, sale) => {
+    const purchaseBeforeSale = movements
+      .filter(
+        (m) =>
+          m.type === "purchase" &&
+          m.productIndex === sale.productIndex &&
+          new Date(m.date) < new Date(sale.date)
+      )
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const lastPurchase = purchaseBeforeSale[0];
+    if (!lastPurchase) return total;
+
+    const profit =
+      (sale.unitSalePrice - lastPurchase.unitPurchasePrice) * sale.quantity;
+    return total + profit;
+  }, 0);
 
   useEffect(() => {
     dispatch(fetchFinanceOverview());
@@ -133,6 +173,14 @@ const FinanceOverview = () => {
           Офлайн чистий прибуток: {offlineProfit.toFixed(2)} zł
         </Typography>
       </Paper>
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+        <Typography variant="h6">📦 Прибуток за складом</Typography>
+        <Typography>Продажів: {saleMovements.length}</Typography>
+        <Typography sx={{ color: stockProfit >= 0 ? "green" : "red" }}>
+          Чистий прибуток: {stockProfit.toFixed(2)} zł
+        </Typography>
+      </Paper>
+
       {/* Виконані продажі */}
       <Paper elevation={3} sx={{ p: 2, maxHeight: 300, overflowY: "auto" }}>
         <Typography variant="h6" gutterBottom>

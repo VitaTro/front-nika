@@ -380,5 +380,9 @@
     "content_5": "NIKA GOLD — troska o każdego klienta w każdym ogniwie złotej obsługi 💛"
   },
   "footer.legal_info": "NIKA GOLD — prawnie zarejestrowana w Polsce",
-  "footer.rights_reserved": " Wszelkie prawa zastrzeżone."
+  "footer.rights_reserved": " Wszelkie prawa zastrzeżone.",
+  "card": "<strong>BLIK lub karta</strong> — link do płatności otrzymasz mailowo po przetworzeniu zamówienia. <br /> Przepraszamy za niedogodności wynikające z tymczasowych zmian technicznych.",
+  "bank_transfer_link": "<strong>Przelew bankowy</strong> — najszybsza metoda. Dane do płatności otrzymasz od razu i zamówienie może być szybko zrealizowane. <br />  Dziękujemy za wyrozumiałość w czasie tymczasowej przebudowy systemu płatności.",
+  "card_1": "Link do płatności zostanie wysłany na Twój e-mail po złożeniu zamówienia.",
+  "bank_transfer_link_1": "Ta metoda pozwala na szybsze przetwarzanie zamówienia."
 }

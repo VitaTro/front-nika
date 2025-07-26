@@ -31,11 +31,7 @@ const stockMovementSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchProductSummary.fulfilled, (state, action) => {
-        const { productIndex, data } = action.payload;
-        state.loading = false;
-        state.byIndex[productIndex] = data;
-      })
+
       .addCase(fetchProductSummary.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;

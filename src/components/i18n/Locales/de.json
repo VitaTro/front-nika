@@ -378,5 +378,9 @@
     "content_5": "NIKA GOLD – Fürsorge für jeden Kunden in jeder goldenen Servicekette 💛"
   },
   "footer.legal_info": "NIKA GOLD — rechtlich in Polen registriert",
-  "footer.rights_reserved": " Alle Rechte vorbehalten."
+  "footer.rights_reserved": " Alle Rechte vorbehalten.",
+  "card": "<strong>Banküberweisung</strong> – die schnellste Methode. Zahlungsinformationen erhalten Sie sofort, und Ihre Bestellung wird umgehend bearbeitet. <br />  Vielen Dank für Ihr Verständnis während der vorübergehenden Umstellung unseres Zahlungssystems.",
+  "bank_transfer_link": "<strong>BLIK oder Karte</strong> – der Zahlungslink wird Ihnen per E-Mail zugeschickt, nachdem Ihre Bestellung bearbeitet wurde. <br />  Wir entschuldigen uns für mögliche Unannehmlichkeiten im Zusammenhang mit den aktuellen technischen Änderungen.",
+  "card_1": "Der Zahlungslink wird Ihnen nach der Erstellung der Bestellung per E-Mail zugesendet.",
+  "bank_transfer_link_1": "Diese Methode ermöglicht eine schnellere Bearbeitung der Bestellung."
 }

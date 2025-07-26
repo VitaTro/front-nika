@@ -75,7 +75,6 @@ export const fetchStockSummary = createAsyncThunk(
           error: "Саммері не отримано",
         });
       }
-      console.log("📦 API summary:", response.data);
       return { productIndex, data: response.data };
     } catch (error) {
       console.error("🔴 Summary ERROR:", error.response?.data || error.message);

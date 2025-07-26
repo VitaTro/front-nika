@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import BankTransferInfo from "../../components/Payment/BankTransferInfo";
-import BlikPhoneTransferInfo from "../../components/Payment/BlikPhoneTransferInfo";
 import OrderAddressPicker from "../../components/UserDashboard/OrderPlace/OrderAddressPicker";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import {
@@ -18,6 +16,7 @@ import {
   createOrder,
   fetchPickupPoints,
 } from "../../redux/user/userOrders/operationsUserOrders";
+import PaymentMethodNotice from "./Payment/PaymentBanner";
 import {
   ButtonWrapper,
   FormContainer,
@@ -43,7 +42,7 @@ const UserOrderPage = () => {
       houseNumber: savedData.houseNumber || "",
       apartmentNumber: savedData.apartmentNumber || "",
       isPrivateHouse: savedData.isPrivateHouse || false,
-      paymentMethod: savedData.paymentMethod || "BLIK",
+      paymentMethod: savedData.paymentMethod || "bank_transfer",
       pickupPointId: savedData.pickupPointId || "",
     };
   });
@@ -118,7 +117,7 @@ const UserOrderPage = () => {
       dispatch(checkPaymentStatus(createdOrder._id));
     }
 
-    alert("✅ Zamówienie zostało złożone!"); // 🎉 Побачити це — коштує всіх зусиль
+    alert("✅ Zamówienie zostało złożone!");
   };
 
   return (
@@ -129,6 +128,7 @@ const UserOrderPage = () => {
       }}
     >
       <HeaderOrder>{t("order_placement")}</HeaderOrder>
+      <PaymentMethodNotice method={formData.paymentMethod} />
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />
         <OrderAddressPicker formData={formData} setFormData={setFormData} />
@@ -138,14 +138,17 @@ const UserOrderPage = () => {
       </form>
 
       {/* 🧾 Відображення оплати */}
-      {createdOrderId && formData.paymentMethod === "BLIK" && (
+      {/* {createdOrderId && formData.paymentMethod === "BLIK" && (
         <BlikPhoneTransferInfo
           orderId={createdOrderId}
           totalPrice={totalAmount}
         />
+      )} */}
+      {formData.paymentMethod === "bank_transfer" && (
+        <p style={{ color: "#4caf50", fontWeight: "bold" }}>{t("card_1")}</p>
       )}
-      {createdOrderId && formData.paymentMethod === "bank_transfer" && (
-        <BankTransferInfo orderId={createdOrderId} totalPrice={totalAmount} />
+      {["BLIK", "card"].includes(formData.paymentMethod) && (
+        <p style={{ color: "#f39c12" }}>{t("bank_transfer_link_1")}</p>
       )}
     </FormContainer>
   );

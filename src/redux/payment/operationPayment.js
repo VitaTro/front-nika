@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosConfig";
 
 const PAYMENT_METHODS = {
-  BLIK: "blik",
+  // BLIK: "blik",
   TRANSFER: "bank_transfer",
 };
 
