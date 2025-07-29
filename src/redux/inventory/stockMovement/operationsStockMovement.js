@@ -134,3 +134,20 @@ export const fetchProductSummary = createAsyncThunk(
     }
   }
 );
+export const fetchProductSummaryAlt = createAsyncThunk(
+  "stockMovement/fetchProductSummaryAlt",
+  async (productIndex, { rejectWithValue }) => {
+    try {
+      const res = await axios.get(
+        `/api/admin/stock/movement/index/${productIndex}/summary`
+      );
+      return { productIndex, data: res.data };
+    } catch (err) {
+      console.error("❌ Summary fetch error:", err.message);
+      return rejectWithValue({
+        productIndex,
+        error: err.message,
+      });
+    }
+  }
+);

@@ -385,5 +385,165 @@
   "card": "<strong>Bank Transfer</strong> — the fastest method. You’ll receive payment details instantly, and your order can be processed without delay. <br />  Thank you for your understanding during our temporary payment system upgrade.",
   "bank_transfer_link": "<strong>BLIK or card</strong> — a payment link will be sent to your email after your order is processed. <br /> We apologize for any inconvenience caused by temporary adjustments to our payment gateway.",
   "card_1": "A payment link will be sent to your email after the order is created.",
-  "bank_transfer_link_1": "This method allows for faster processing of the order."
+  "bank_transfer_link_1": "This method allows for faster processing of the order.",
+  "payment": "Payment Terms",
+  "regulations": {
+    "sections": {
+      "section1": "General provisions",
+      "section2": "Definitions",
+      "section3": "Purchase conditions",
+      "section4": "Sales",
+      "section5": "Payments",
+      "section6": "Delivery",
+      "section7": "Complaints",
+      "section8": "Withdrawal",
+      "section9": "Returns",
+      "section10": "Personal Data",
+      "section11": "Complaints",
+      "section12": "Final Provisions",
+      "section13": "Sales Regulations"
+    },
+
+    "sections1": {
+      "title": "§1 GENERAL PROVISIONS",
+      "content_1": "The nika-gold.net store operates under the rules set forth in these Terms and Conditions.",
+      "content_2": "The Terms and Conditions define the terms of concluding and terminating Product Sales Agreements and the complaint procedure, as well as the types and scope of services provided electronically by nika-gold.net, the principles for providing these services, and the terms of concluding and terminating electronic service agreements.",
+      "content_3": "Each Service Recipient, upon initiating actions aimed at using the Electronic Services of nika-gold.net, is obliged to comply with the provisions of these Terms and Conditions.",
+      "content_4": "In matters not regulated by these Terms and Conditions, the following legal provisions shall apply:",
+      "content_list_1": "the Act on the Provision of Electronic Services of July 18, 2002;",
+      "content_list_2": "the Consumer Rights Act of May 30, 2014;",
+      "content_list_3": "the Act on Out-of-Court Consumer Dispute Resolution of September 23, 2016;",
+      "content_list_4": "the Civil Code of April 23, 1964, and other relevant Polish legal provisions."
+    },
+    "sections2": {
+      "title": "§ 2 DEFINITIONS USED IN THE TERMS AND CONDITIONS",
+      "content_1": "<strong>ORDER FORM –</strong> a form available on the website nika-gold.net that allows the Customer to place an Order.",
+      "content_2": "<strong>CUSTOMER –</strong> a Service Recipient who intends to conclude or has concluded a Product Sales Agreement with the Seller.",
+      "content_3": "<strong>CONSUMER –</strong> a natural person who performs a legal transaction with a business entity not directly related to their business or professional activity.",
+      "content_4": "<strong>ENTREPRENEUR –</strong> a natural person, legal entity, or organizational unit without legal personality that is granted legal capacity by law and conducts business or professional activities in their own name.",
+      "content_5": "<strong>PRODUCT –</strong> a movable item available in the Store and subject to the Product Sales Agreement between the Customer and the Seller.",
+      "content_6": "<strong>TERMS AND CONDITIONS –</strong> these Terms and Conditions of the Store.",
+      "content_7": "<strong>STORE –</strong> the online store operated by the Service Provider at nika-gold.net.",
+      "content_8": "<strong>SELLER, SERVICE PROVIDER –</strong> a natural person conducting sole proprietorship under the business name NIKA GOLD – Vitaliia Troian, based in Wrocław (50-559), ul. Świeradowska 51/57, NIP: 9121950449.",
+      "content_9": "<strong>PRODUCT SALES AGREEMENT –</strong> an agreement for the sale of a Product concluded between the Customer and the Seller via the Store.",
+      "content_10": "<strong>ORDER –</strong> a declaration of intent by the Customer constituting an offer to conclude a Product Sales Agreement with the Seller.",
+      "content_11": "<strong>PRICE –</strong> the monetary amount the Customer is obliged to pay to the Seller for the Product."
+    },
+    "sections3": {
+      "title": "§ 3 INFORMATION ABOUT PRODUCTS AND ORDERING",
+      "content_1": "The store nika-gold.net sells Products via the Internet.",
+      "content_2": "Products offered in the Store are new, compliant with the agreement, and have been legally introduced to the Polish market.",
+      "content_3": "The information found on the Store's website does not constitute an offer within the meaning of the law. By placing an Order, the Customer submits an offer to purchase a specific Product under the conditions stated in its description.",
+      "content_4": "The Product price displayed on the Store's website is given in Polish zloty (PLN) and includes all components. The price does not include delivery costs.",
+      "content_5": "Orders can be placed through the website using the Order Form (nika-gold.net) – 24 hours a day, all year round.",
+      "content_6": "The condition for placing an Order in the Store by the Customer is familiarization with and acceptance of the Terms and Conditions at the time of placing the Order."
+    },
+    "sections4": {
+      "title": "§ 4 CONCLUSION OF THE SALES AGREEMENT",
+      "content_1": "To conclude the Sales Agreement, the Customer must first place an Order using the method provided by the Seller, in accordance with § 3 points 5 and 6 of the Terms and Conditions.",
+      "content_2": "Upon placing the Order, the Seller promptly confirms its receipt.",
+      "content_3": "The confirmation of receipt, as referred to in point 2 of this section, binds the Customer to the Order. Receipt is confirmed via email message.",
+      "content_4": "The confirmation of receipt includes:",
+      "content_list_1": "confirmation of all essential elements of the Order;",
+      "content_list_2": "a withdrawal form;",
+      "content_list_3": "these Terms and Conditions, including information on the right of withdrawal.",
+      "content_5": "Once the Customer receives the email mentioned in point 4 of this section, the Sales Agreement between the Customer and the Seller is deemed concluded.",
+      "content_6": "Each Sales Agreement is confirmed with a proof of purchase, which will be attached to the Product."
+    },
+    "sections5": {
+      "title": "§ 5 PAYMENT METHODS",
+      "content_1": "The Seller provides the following payment methods:",
+      "content_list_1": "confirmation of all essential elements of the Order;",
+      "content_list_2": "payment through an electronic payment system.",
+      "content_2": "For traditional bank transfer payments, the payment should be made to the following bank account number: 27 1940 1076 3280 6940 0000 0000 (Bank Credit Agricole S.A.). In the transfer title, please write: “Order No. …”.",
+      "content_3": "For payments via the electronic payment system, the Customer shall pay before the Order is processed. The system enables payment by credit card or fast transfer from selected Polish banks.",
+      "content_4": "The Customer is obliged to make the payment within 2 business days from concluding the Sales Agreement, unless otherwise stated.",
+      "content_5": "The Product will be shipped only after payment is received."
+    },
+    "sections6": {
+      "title": "§ 7 COST, TIMEFRAME AND METHODS OF PRODUCT DELIVERY",
+      "content_1": "Delivery costs of the Product, borne by the Customer, are determined during the Order process and depend on the selected delivery method.",
+      "content_2": "The delivery timeframe consists of the preparation time and the shipping time by the carrier:",
+      "content_list_1": "Product preparation takes up to 2 business days, depending on the day the Order is placed;",
+      "content_list_2": "delivery by the carrier for movable items takes place within the timeframe declared by the carrier, i.e. typically 1–3 business days from dispatch. Deliveries are made only on business days, excluding Saturdays, Sundays and public holidays.",
+      "content_3": "Products purchased in the Store are currently shipped only within Poland via Poczta Polska or courier services.",
+      "content_4": "System development is currently underway to enable placing and fulfilling orders from across the European Union."
+    },
+    "sections7": {
+      "title": "§ 8 PRODUCT COMPLAINT",
+      "content_1": "<strong>A complaint based on non-compliance of the Product with the contract –</strong> is a procedure that allows the Client to report goods received that do not match the order.",
+      "content_2": "The Seller's liability towards the Consumer is based on the provisions of the Consumer Rights Act of 30 May 2014.",
+      "content_3": "In the case of Entrepreneurs, liability is governed by the provisions of the Civil Code of 23 April 1964.",
+      "content_4": "The Seller is liable only for defects that <strong>existed at the time of delivery</strong> and appeared within <strong>2 years</strong> from receipt of the goods, unless another validity period is indicated. Liability <strong>does not include</strong> defects resulting from misuse, mechanical damage or natural wear and tear.",
+      "content_5": "All complaints must be submitted <strong>exclusively</strong> via email to: huping.nika.gold@gmail.com.",
+      "content_6": "The message should include: type and date the defect was discovered, Product description, contact details, and <strong>order number</strong>. Complete information ensures fast and accurate complaint processing.",
+      "content_7": "To evaluate the complaint, the Consumer is obliged to make the Product available to the Seller. Pickup is carried out at the Seller's expense.",
+      "content_8": "The Seller processes the complaint <strong>promptly</strong>, but no later than within <strong>14 days</strong> of receipt.",
+      "content_9": "If there is no response within 14 days – the complaint is considered <strong>automatically accepted</strong> (applies only to Consumers).",
+      "content_10": "If the complaint is deemed justified, the Seller:",
+      "content_list_1": "covers the cost of repair or replacement and re-delivery of the goods;",
+      "content_list_2": "reduces the product price and refunds the difference within 14 days of receiving the relevant statement;",
+      "content_list_3": "in the event of withdrawal from the contract – refunds the full product value within 14 days of receiving or confirming shipment.",
+      "content_11": "The Consumer is required to return the product to the Seller <strong>immediately</strong> and <strong>at the Seller’s expense</strong>.",
+      "content_12": "Complaints submitted by other means (Viber, SMS, postcards, flash mobs) <strong>will not be considered</strong>."
+    },
+    "sections8": {
+      "title": "§ 9 RIGHT OF WITHDRAWAL FROM THE CONTRACT",
+      "content_1": "The Consumer has the right to withdraw from a distance contract without giving any reason, by submitting a statement within 14 days.",
+      "content_2": "In case of withdrawal, the Product must be returned to the address: 55-200 Oława, ul. 3 Maja 37, no later than 14 days from the withdrawal date.",
+      "content_3": "To meet the deadline, it is sufficient to send the Product before it expires.",
+      "content_4": "The Consumer is liable for any decrease in the value of the Product due to use beyond what is necessary to examine its nature, features, and functioning.",
+      "content_5": "The refund and delivery costs will be returned immediately, no later than 14 days after receiving the withdrawal statement.",
+      "content_6": "The refund will be made using the same payment method as used in purchase, unless agreed otherwise at no extra cost.",
+      "content_7": "The Seller may withhold the refund until receiving the Product or proof of its return.",
+      "content_8": "The Consumer bears only the return shipping costs.",
+      "content_9": "The right of withdrawal does not apply to non-prefabricated Products made to the Consumer’s specification.",
+      "content_10": "Both parties may withdraw if the other fails to fulfil obligations within the agreed time."
+    },
+    "sections9": {
+      "title": "§ 10 TYPE AND SCOPE OF ELECTRONIC SERVICES",
+      "content_1": "The Service Provider enables Users to use the Electronic Service by concluding contracts of sale for Goods through the functionalities available on the Online Store website.",
+      "content_2": "The provision of the Electronic Service is carried out in accordance with the provisions set out in the current Store Regulations.",
+      "content_3": "The Service Provider reserves the right to place advertising content on the pages of the Online Store. Such content constitutes an integral part of the Store’s functioning and the materials available therein."
+    },
+    "sections10": {
+      "title": "§ 11 TERMS OF PROVIDING AND ENTERING INTO ELECTRONIC SERVICE AGREEMENTS",
+      "content_1": "The provision of the Electronic Service defined in § 9 point 1 of the Terms and Conditions is free of charge.",
+      "content_2": "The agreement for the Electronic Service allowing Order placement in the Store is concluded for a fixed period and ends upon placing the Order or discontinuing its placement by the User.",
+      "content_3": "Technical requirements necessary for cooperation with the Provider’s ICT system:",
+      "content_list_1": "computer (or mobile device) with Internet access;",
+      "content_list_2": "access to email;",
+      "content_list_3": "web browser;",
+      "content_list_4": "enabled Cookies and Javascript in the browser.",
+      "content_4": "The User is obliged to use the Store lawfully and ethically, respecting personal rights and intellectual property of third parties.",
+      "content_5": "The User must provide accurate and truthful information.",
+      "content_6": "It is forbidden to provide illegal content."
+    },
+    "sections11": {
+      "title": "§ 12 COMPLAINTS RELATED TO THE PROVISION OF ELECTRONIC SERVICES",
+      "content_1": "Complaints regarding the provision of Electronic Services via the Store may be submitted by the User via email to: huping.nika.gold@gmail.com",
+      "content_2": "The above email should include as much information and context as possible regarding the subject of the complaint, particularly the type and date of the irregularity and contact details. Providing this information will significantly facilitate and expedite the resolution of the complaint by the Provider.",
+      "content_3": "The Provider shall address the complaint immediately, no later than within 14 days from its submission.",
+      "content_4": "The Provider’s response to the complaint will be sent to the User’s email address provided in the complaint or by another method specified by the User."
+    },
+    "sections12": {
+      "title": "§ 13 FINAL PROVISIONS",
+      "content_1": "Contracts concluded via the Store are governed by Polish law.",
+      "content_2": "In the event of any inconsistency between parts of the Terms and Conditions and applicable law, the relevant provisions of Polish law shall apply instead.",
+      "content_3": "Any disputes arising from Sales Contracts between the Store and Consumers shall first be resolved through negotiation, with the aim of reaching an amicable settlement.",
+      "content_4": "If an amicable resolution is not possible or unsatisfactory to either party, disputes shall be settled by a competent common court in accordance with applicable law.",
+      "content_5": "The Consumer may use alternative dispute resolution methods only if the Store consents to participate in such procedures."
+    },
+    "sections13": {
+      "title": "§ 6 TERMS OF SALE",
+      "content_1": "The Seller is Nika Gold – Vitaliia Troian, located at ul. Świeradowska 51/57, 50-559 Wrocław, NIP: 9121950449, REGON: 541841580, e-mail: vitylja.trojan@gmail.com / huping.nika.gold@gmail.com, phone: +48 516 174 555, website: https://nika-gold.net.",
+      "content_2": "The subject of sale includes physical products and services offered via the online store, such as consultations, access to educational materials, courses, and subscriptions.",
+      "content_3": "All prices are stated in Polish zloty (PLN) and include VAT where applicable.",
+      "content_4": "Available payment methods include: payment cards (Visa, MasterCard), fast electronic transfers, BLIK, and traditional bank transfer.",
+      "content_5": "Orders for products are fulfilled within a maximum of 3 business days after payment is credited. Services are activated within a maximum of 24 hours from the moment of payment.",
+      "content_6": "The Consumer has the right to withdraw from the sales agreement within 14 days from the date of purchase without providing a reason. Refunds are issued using the same payment method.",
+      "content_7": "Client personal data is processed in accordance with applicable law and the Privacy Policy available on the Seller’s website.",
+      "content_8": "All transactions are secured with SSL encryption and comply with the PCI DSS security standard applicable to card payments."
+    }
+  }
 }

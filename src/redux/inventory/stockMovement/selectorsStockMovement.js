@@ -1,3 +1,12 @@
+import { createSelector } from "@reduxjs/toolkit";
+
+export const selectAllProductIndexes = createSelector(
+  [(state) => state?.inventory?.stockMovement?.allMovements ?? []],
+  (movements) => {
+    return [...new Set(movements.map((m) => m.productIndex))];
+  }
+);
+
 export const selectStockMovements = (state) =>
   state?.inventory?.stockMovement?.allMovements ?? [];
 
@@ -24,7 +33,9 @@ export const selectStockLoading = (state) =>
 
 export const selectProductMovements = (state, productIndex) =>
   state?.inventory?.stockMovement?.productMovements[productIndex] || null;
-export const selectAllProductIndexes = (state) => {
-  const movements = state?.inventory?.stockMovement?.allMovements ?? [];
-  return [...new Set(movements.map((m) => m.productIndex))];
-};
+// export const selectAllProductIndexes = (state) => {
+//   const movements = state?.inventory?.stockMovement?.allMovements ?? [];
+//   return [...new Set(movements.map((m) => m.productIndex))];
+// };
+export const selectNewProductSummary = (state, index) =>
+  state?.inventory?.stockMovement?.newSummaries?.[index] || null;

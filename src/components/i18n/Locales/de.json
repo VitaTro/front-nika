@@ -382,5 +382,164 @@
   "card": "<strong>Banküberweisung</strong> – die schnellste Methode. Zahlungsinformationen erhalten Sie sofort, und Ihre Bestellung wird umgehend bearbeitet. <br />  Vielen Dank für Ihr Verständnis während der vorübergehenden Umstellung unseres Zahlungssystems.",
   "bank_transfer_link": "<strong>BLIK oder Karte</strong> – der Zahlungslink wird Ihnen per E-Mail zugeschickt, nachdem Ihre Bestellung bearbeitet wurde. <br />  Wir entschuldigen uns für mögliche Unannehmlichkeiten im Zusammenhang mit den aktuellen technischen Änderungen.",
   "card_1": "Der Zahlungslink wird Ihnen nach der Erstellung der Bestellung per E-Mail zugesendet.",
-  "bank_transfer_link_1": "Diese Methode ermöglicht eine schnellere Bearbeitung der Bestellung."
+  "bank_transfer_link_1": "Diese Methode ermöglicht eine schnellere Bearbeitung der Bestellung.",
+  "payment": "Zahlungsbedingungen",
+  "regulations": {
+    "sections": {
+      "section1": "Bestimmungen",
+      "section2": "Definitionen",
+      "section3": "Einkauf",
+      "section4": "Verkauf",
+      "section5": "Zahlungen",
+      "section6": "Lieferung",
+      "section7": "Reklamationen",
+      "section8": "Widerruf",
+      "section9": "Rückgaben",
+      "section10": "Datenschutz",
+      "section11": "Beschwerden",
+      "section12": "Schlussbestimmungen",
+      "section13": "Verkaufsbedingungen"
+    },
+    "sections1": {
+      "title": "§1 ALLGEMEINE BESTIMMUNGEN",
+      "content_1": "Der Online-Shop nika-gold.net funktioniert gemäß den Bestimmungen dieser Allgemeinen Geschäftsbedingungen.",
+      "content_2": "Diese AGB regeln die Bedingungen für den Abschluss und die Kündigung von Kaufverträgen über Produkte sowie das Verfahren für Reklamationen. Sie bestimmen auch Art und Umfang der elektronisch angebotenen Dienstleistungen durch nika-gold.net sowie die Bedingungen für deren Erbringung und für den Abschluss und die Beendigung von Verträgen über elektronische Dienstleistungen.",
+      "content_3": "Jeder Nutzer, der beginnt, elektronische Dienste des Shops nika-gold.net in Anspruch zu nehmen, ist verpflichtet, die Bestimmungen dieser AGB zu beachten.",
+      "content_4": "In Angelegenheiten, die in diesen AGB nicht geregelt sind, gelten die folgenden gesetzlichen Vorschriften:",
+      "content_list_1": "Gesetz über die Erbringung elektronischer Dienstleistungen vom 18. Juli 2002;",
+      "content_list_2": "Verbraucherschutzgesetz vom 30. Mai 2014;",
+      "content_list_3": "Gesetz über die außergerichtliche Beilegung von Verbraucherstreitigkeiten vom 23. September 2016;",
+      "content_list_4": "Zivilgesetzbuch vom 23. April 1964 sowie andere einschlägige polnische Rechtsvorschriften."
+    },
+    "sections2": {
+      "title": "§ 2 BEGRIFFSBESTIMMUNGEN IM REGLEMENT",
+      "content_1": "<strong>BESTELLFORMULAR –</strong> ein auf der Website nika-gold.net verfügbares Formular, mit dem der Kunde eine Bestellung aufgeben kann.",
+      "content_2": "<strong>KUNDE –</strong> ein Dienstleistungsempfänger, der beabsichtigt, mit dem Verkäufer einen Kaufvertrag abzuschließen oder diesen bereits abgeschlossen hat.",
+      "content_3": "<strong>VERBRAUCHER –</strong> eine natürliche Person, die mit einem Unternehmer ein Rechtsgeschäft abschließt, das nicht direkt mit ihrer gewerblichen oder beruflichen Tätigkeit zusammenhängt.",
+      "content_4": "<strong>UNTERNEHMER –</strong> eine natürliche Person, juristische Person oder Organisationseinheit ohne Rechtspersönlichkeit, der gesetzlich Rechtsfähigkeit verliehen wurde und die im eigenen Namen gewerbliche oder berufliche Tätigkeit ausübt.",
+      "content_5": "<strong>PRODUKT –</strong> ein beweglicher Gegenstand, der im Shop verfügbar ist und Gegenstand des Kaufvertrags zwischen Kunde und Verkäufer ist.",
+      "content_6": "<strong>REGLEMENT –</strong> diese Geschäftsbedingungen des Shops.",
+      "content_7": "<strong>SHOP –</strong> der Online-Shop des Dienstleisters unter der Adresse nika-gold.net.",
+      "content_8": "<strong>VERKÄUFER, DIENSTLEISTER –</strong> eine natürliche Person, die ein Einzelunternehmen unter der Geschäftsbezeichnung NIKA GOLD – Vitaliia Troian betreibt, mit Sitz in Wrocław (50-559), ul. Świeradowska 51/57, NIP: 9121950449.",
+      "content_9": "<strong>KAUFVERTRAG –</strong> ein über den Shop geschlossener Vertrag über den Kauf eines Produkts zwischen dem Kunden und dem Verkäufer.",
+      "content_10": "<strong>BESTELLUNG –</strong> die Willenserklärung des Kunden, die ein Angebot zum Abschluss eines Kaufvertrags über ein Produkt mit dem Verkäufer darstellt.",
+      "content_11": "<strong>PREIS –</strong> der Geldbetrag, den der Kunde für das Produkt an den Verkäufer zu zahlen verpflichtet ist."
+    },
+    "sections3": {
+      "title": "§ 3 INFORMATIONEN ZU PRODUKTEN UND BESTELLUNG",
+      "content_1": "Der Shop nika-gold.net verkauft Produkte über das Internet.",
+      "content_2": "Die im Shop angebotenen Produkte sind neu, vertragsgemäß und wurden legal auf den polnischen Markt gebracht.",
+      "content_3": "Die Informationen auf den Webseiten des Shops stellen kein Angebot im rechtlichen Sinne dar. Mit der Abgabe einer Bestellung unterbreitet der Kunde ein Angebot zum Kauf eines bestimmten Produkts zu den im Produktbeschreibung angegebenen Bedingungen.",
+      "content_4": "Der auf der Website des Shops angezeigte Produktpreis ist in polnischen Złoty (PLN) angegeben und enthält alle Bestandteile. Der Preis beinhaltet keine Versandkosten.",
+      "content_5": "Bestellungen können über die Website mittels des Bestellformulars (nika-gold.net) rund um die Uhr das ganze Jahr über aufgegeben werden.",
+      "content_6": "Voraussetzung für die Bestellung im Shop durch den Kunden ist die Kenntnisnahme und Akzeptanz der Geschäftsbedingungen zum Zeitpunkt der Bestellung."
+    },
+    "sections4": {
+      "title": "§ 4 ABSCHLUSS DES KAUFVERTRAGS",
+      "content_1": "Zum Abschluss des Kaufvertrags muss der Kunde zuvor eine Bestellung über die vom Verkäufer bereitgestellte Methode aufgeben, gemäß § 3 Punkt 5 und 6 der Geschäftsbedingungen.",
+      "content_2": "Nach Abgabe der Bestellung bestätigt der Verkäufer umgehend deren Eingang.",
+      "content_3": "Die Bestätigung des Bestelleingangs gemäß Punkt 2 dieses Abschnitts verpflichtet den Kunden zur Bestellung. Die Bestätigung erfolgt per E-Mail.",
+      "content_4": "Die Bestätigung des Eingangs der Bestellung enthält:",
+      "content_list_1": "die Bestätigung aller wesentlichen Elemente der Bestellung;",
+      "content_list_2": "ein Widerrufsformular;",
+      "content_list_3": "diese Geschäftsbedingungen mit Hinweisen zum Widerrufsrecht.",
+      "content_5": "Sobald der Kunde die E-Mail gemäß Punkt 4 dieses Abschnitts erhält, gilt der Kaufvertrag zwischen dem Kunden und dem Verkäufer als abgeschlossen.",
+      "content_6": "Jeder Kaufvertrag wird mit einem Kaufnachweis bestätigt, der dem Produkt beigefügt wird."
+    },
+    "sections5": {
+      "title": "§ 5 ZAHLUNGSMETHODEN",
+      "content_1": "Der Verkäufer stellt folgende Zahlungsmethoden zur Verfügung:",
+      "content_list_1": "Bestätigung aller wesentlichen Elemente der Bestellung;",
+      "content_list_2": "Zahlung über ein elektronisches Zahlungssystem.",
+      "content_2": "Bei Zahlung per traditioneller Banküberweisung ist der Betrag auf folgendes Bankkonto zu überweisen: 27 1940 1076 3280 6940 0000 0000 (Bank Credit Agricole S.A.). Als Verwendungszweck bitte „Bestellung Nr. …“ angeben.",
+      "content_3": "Bei Zahlung über das elektronische Zahlungssystem erfolgt die Bezahlung durch den Kunden vor Beginn der Ausführung der Bestellung. Das System erlaubt die Zahlung per Kreditkarte oder Schnellüberweisung von ausgewählten polnischen Banken.",
+      "content_4": "Der Kunde ist verpflichtet, die Zahlung innerhalb von 2 Werktagen nach Vertragsabschluss zu leisten, sofern nichts anderes vereinbart wurde.",
+      "content_5": "Das Produkt wird erst nach erfolgter Zahlung versendet."
+    },
+    "sections6": {
+      "title": "§ 7 KOSTEN, LIEFERFRISTEN UND LIEFERMETHODEN DES PRODUKTS",
+      "content_1": "Die Lieferkosten für das Produkt, die vom Kunden getragen werden, werden während des Bestellvorgangs festgelegt und hängen von der gewählten Versandart ab.",
+      "content_2": "Die Lieferzeit setzt sich aus der Bearbeitungszeit und der Versanddauer durch den Zustelldienst zusammen:",
+      "content_list_1": "Die Bearbeitung des Produkts dauert maximal 2 Werktage, je nach Tag der Bestellung;",
+      "content_list_2": "Die Lieferung beweglicher Produkte erfolgt gemäß der vom Zustelldienst angegebenen Frist – in der Regel innerhalb von 1 bis 3 Werktagen nach Versand. Zustellung erfolgt ausschließlich an Werktagen, ausgenommen Samstage, Sonntage und gesetzliche Feiertage.",
+      "content_3": "Produkte, die im Shop gekauft wurden, werden derzeit nur innerhalb Polens über Poczta Polska oder Kurierdienste versendet.",
+      "content_4": "Derzeit wird das System weiterentwickelt, um künftig Bestellungen aus dem gesamten EU-Raum zu ermöglichen."
+    },
+    "sections7": {
+      "title": "§ 8 PRODUKTREKLAMATION",
+      "content_1": "<strong>Eine Reklamation wegen Nichtübereinstimmung des Produkts mit dem Vertrag –</strong> ist ein Verfahren, das dem Kunden ermöglicht, ein erhaltenes Produkt zu melden, das nicht der Bestellung entspricht.",
+      "content_2": "Die Haftung des Verkäufers gegenüber dem Verbraucher ergibt sich aus dem Gesetz über Verbraucherrechte vom 30. Mai 2014.",
+      "content_3": "Bei Unternehmern richtet sich die Haftung nach den Bestimmungen des Bürgerlichen Gesetzbuches vom 23. April 1964.",
+      "content_4": "Der Verkäufer haftet nur für Mängel, die <strong>zum Zeitpunkt der Lieferung vorhanden waren</strong> und sich innerhalb von <strong>2 Jahren</strong> nach Erhalt der Ware zeigen, sofern kein anderer Gültigkeitszeitraum angegeben ist. Die Haftung <strong>gilt nicht</strong> für Mängel durch unsachgemäßen Gebrauch, mechanische Schäden oder natürlichen Verschleiß.",
+      "content_5": "Alle Reklamationen sind <strong>ausschließlich</strong> per E-Mail zu senden an: huping.nika.gold@gmail.com.",
+      "content_6": "Die Mitteilung muss enthalten: Art und Datum der Mängelfeststellung, Produktbeschreibung, Kontaktdaten sowie <strong>Bestellnummer</strong>. Vollständige Informationen ermöglichen eine schnelle und präzise Bearbeitung der Reklamation.",
+      "content_7": "Zur Bewertung der Reklamation ist der Verbraucher verpflichtet, dem Verkäufer das Produkt zur Verfügung zu stellen. Die Abholung erfolgt auf Kosten des Verkäufers.",
+      "content_8": "Der Verkäufer bearbeitet die Reklamation <strong>unverzüglich</strong>, jedoch spätestens innerhalb von <strong>14 Tagen</strong> nach Eingang.",
+      "content_9": "Wenn innerhalb von 14 Tagen keine Antwort erfolgt – gilt die Reklamation als <strong>automatisch angenommen</strong> (gilt nur für Verbraucher).",
+      "content_10": "Wird die Reklamation als berechtigt anerkannt, übernimmt der Verkäufer:",
+      "content_list_1": "die Kosten für Reparatur oder Austausch sowie erneute Lieferung der Ware;",
+      "content_list_2": "senkt den Produktpreis und erstattet die Differenz innerhalb von 14 Tagen nach Erhalt der entsprechenden Erklärung;",
+      "content_list_3": "bei Rücktritt vom Vertrag – erstattet den vollen Produktwert innerhalb von 14 Tagen nach Erhalt oder Versandbestätigung.",
+      "content_11": "Der Verbraucher ist verpflichtet, die Ware <strong>unverzüglich</strong> und <strong>auf Kosten des Verkäufers</strong> zurückzugeben.",
+      "content_12": "Reklamationen, die auf anderem Wege eingereicht werden (Viber, SMS, Postkarten, Flashmobs), <strong>werden nicht berücksichtigt</strong>."
+    },
+    "sections8": {
+      "title": "§ 9 RÜCKTRITTSRECHT VOM VERTRAG",
+      "content_1": "Der Verbraucher hat das Recht, binnen 14 Tagen ohne Angabe von Gründen vom Fernabsatzvertrag zurückzutreten.",
+      "content_2": "Im Falle eines Rücktritts ist das Produkt an folgende Adresse zurückzusenden: 55-200 Oława, ul. 3 Maja 37, spätestens innerhalb von 14 Tagen.",
+      "content_3": "Zur Fristwahrung genügt die Absendung des Produkts vor Ablauf der Frist.",
+      "content_4": "Der Verbraucher haftet für Wertminderung des Produkts durch Nutzung, die über die Prüfung hinausgeht.",
+      "content_5": "Die Rückerstattung des Kaufpreises und der Lieferkosten erfolgt unverzüglich, spätestens innerhalb von 14 Tagen nach Erhalt der Rücktrittserklärung.",
+      "content_6": "Die Rückzahlung erfolgt auf dem gleichen Zahlungsweg wie der ursprüngliche Kauf, außer es wurde kostenfrei eine andere Methode vereinbart.",
+      "content_7": "Der Verkäufer kann die Rückzahlung bis zum Erhalt der Ware oder eines Versandnachweises zurückhalten.",
+      "content_8": "Der Verbraucher trägt lediglich die Kosten der Rücksendung.",
+      "content_9": "Das Rücktrittsrecht gilt nicht für individuell angefertigte, nicht vorgefertigte Waren.",
+      "content_10": "Beide Parteien dürfen zurücktreten, wenn die jeweils andere Partei ihre Verpflichtung nicht fristgerecht erfüllt."
+    },
+    "sections9": {
+      "title": "§ 10 ART UND UMFANG DER ELEKTRONISCHEN DIENSTLEISTUNGEN",
+      "content_1": "Der Dienstanbieter ermöglicht den Nutzern die Inanspruchnahme der elektronischen Dienstleistung durch den Abschluss von Kaufverträgen über Waren mittels der auf der Website des Online-Shops verfügbaren Funktionen.",
+      "content_2": "Die Bereitstellung der elektronischen Dienstleistung erfolgt gemäß den Bestimmungen der geltenden Shop-Regeln.",
+      "content_3": "Der Dienstanbieter behält sich das Recht vor, Werbeinhalte auf den Seiten des Online-Shops zu platzieren. Solche Inhalte stellen einen integralen Bestandteil der Funktion des Shops und der dort verfügbaren Materialien dar."
+    },
+    "sections10": {
+      "title": "§ 11 BEDINGUNGEN FÜR DIE ERBRINGUNG UND DEN ABSCHLUSS VON VERTRÄGEN ÜBER ELEKTRONISCHE DIENSTE",
+      "content_1": "Die Erbringung des im § 9 Punkt 1 definierten elektronischen Dienstes durch den Anbieter ist kostenlos.",
+      "content_2": "Der Vertrag über die elektronische Dienstleistung zur Ermöglichung der Bestellung im Shop wird auf bestimmte Zeit geschlossen und endet mit der Abgabe der Bestellung oder dem Abbruch durch den Nutzer.",
+      "content_3": "Technische Voraussetzungen für die Zusammenarbeit mit dem IT-System des Anbieters:",
+      "content_list_1": "Computer (oder mobiles Gerät) mit Internetzugang;",
+      "content_list_2": "Zugang zu E-Mail;",
+      "content_list_3": "Webbrowser;",
+      "content_list_4": "Aktivierte Cookies und Javascript im Browser.",
+      "content_4": "Der Nutzer ist verpflichtet, den Shop rechtmäßig und respektvoll zu nutzen, unter Berücksichtigung der Persönlichkeitsrechte und geistigen Eigentumsrechte Dritter.",
+      "content_5": "Der Nutzer ist verpflichtet, wahrheitsgemäße Daten anzugeben.",
+      "content_6": "Es ist verboten, rechtswidrige Inhalte bereitzustellen."
+    },
+    "sections11": {
+      "title": "§ 12 BESCHWERDEN IM ZUSAMMENHANG MIT DER ERBRINGUNG ELEKTRONISCHER DIENSTE",
+      "content_1": "Beschwerden im Zusammenhang mit der Erbringung elektronischer Dienste über den Shop können vom Nutzer per E-Mail an folgende Adresse gesendet werden: huping.nika.gold@gmail.com",
+      "content_2": "In der oben genannten E-Mail sollten möglichst viele Informationen und Umstände zur Beschwerde angegeben werden, insbesondere Art und Datum der Unregelmäßigkeit sowie Kontaktdaten. Diese Angaben erleichtern und beschleunigen die Bearbeitung der Beschwerde durch den Anbieter erheblich.",
+      "content_3": "Die Bearbeitung der Beschwerde durch den Anbieter erfolgt unverzüglich, spätestens innerhalb von 14 Tagen nach Einreichung.",
+      "content_4": "Die Antwort des Anbieters zur Beschwerde wird an die vom Nutzer in der Beschwerde angegebene E-Mail-Adresse oder auf andere vom Nutzer angegebene Weise gesendet."
+    },
+    "sections12": {
+      "title": "§ 13 SCHLUSSBESTIMMUNGEN",
+      "content_1": "Verträge, die über den Shop geschlossen werden, unterliegen dem polnischen Recht.",
+      "content_2": "Im Falle von Widersprüchen zwischen Teilen dieser Bedingungen und dem geltenden Recht gelten die entsprechenden Bestimmungen des polnischen Rechts.",
+      "content_3": "Etwaige Streitigkeiten aus Kaufverträgen zwischen dem Shop und Verbrauchern werden zunächst durch Verhandlungen beigelegt, mit dem Ziel einer einvernehmlichen Lösung.",
+      "content_4": "Ist eine einvernehmliche Lösung nicht möglich oder für eine Partei unbefriedigend, erfolgt die Streitbeilegung vor dem zuständigen ordentlichen Gericht gemäß geltendem Recht.",
+      "content_5": "Der Verbraucher kann alternative Streitbeilegungsverfahren nur dann nutzen, wenn der Shop der Teilnahme ausdrücklich zustimmt."
+    },
+    "sections13": {
+      "title": "§ 6 VERKAUFSBEDINGUNGEN",
+      "content_1": "Verkäufer ist Nika Gold – Vitaliia Troian, mit Sitz in der ul. Świeradowska 51/57, 50-559 Wrocław, NIP: 9121950449, REGON: 541841580, E-Mail: vitylja.trojan@gmail.com / huping.nika.gold@gmail.com, Telefon: +48 516 174 555, Website: https://nika-gold.net.",
+      "content_2": "Gegenstand des Verkaufs sind physische Produkte sowie Dienstleistungen, die im Online-Shop verfügbar sind, darunter Beratungen, Zugang zu Lernmaterialien, Kurse und Abonnements.",
+      "content_3": "Alle Preise werden in polnischen Zloty (PLN) angegeben und enthalten die Mehrwertsteuer, sofern zutreffend.",
+      "content_4": "Zahlungsmethoden umfassen: Zahlungskarten (Visa, MasterCard), schnelle Online-Überweisungen, BLIK sowie traditionelle Banküberweisung.",
+      "content_5": "Produktbestellungen werden innerhalb von maximal 3 Werktagen nach Zahlungseingang ausgeführt. Dienstleistungen werden innerhalb von maximal 24 Stunden nach Zahlungseingang aktiviert.",
+      "content_6": "Der Verbraucher hat das Recht, innerhalb von 14 Tagen nach dem Kauf ohne Angabe von Gründen vom Kaufvertrag zurückzutreten. Rückerstattungen erfolgen auf demselben Zahlungsweg.",
+      "content_7": "Personenbezogene Daten der Kunden werden gemäß den geltenden gesetzlichen Bestimmungen sowie der auf der Website des Verkäufers verfügbaren Datenschutzrichtlinie verarbeitet.",
+      "content_8": "Alle Transaktionen werden mit SSL-Verschlüsselung durchgeführt und entsprechen dem Sicherheitsstandard PCI DSS für Kartenzahlungen."
+    }
+  }
 }

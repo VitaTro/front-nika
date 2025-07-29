@@ -53,6 +53,7 @@ import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import MobileMenuHeader from "./Header/MobileMenuHeader";
 import CookiesPolicy from "./Policy/CookiesPolicy";
+import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
 export const App = () => {
@@ -127,6 +128,7 @@ export const App = () => {
               <Route path="/main" element={<MainPage />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/policy-payment" element={<PaymentPolicy />} />
               <Route path="/policy-cookies" element={<CookiesPolicy />} />
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
               <Route path="/policy-returns" element={<ReturnsPolicy />} />

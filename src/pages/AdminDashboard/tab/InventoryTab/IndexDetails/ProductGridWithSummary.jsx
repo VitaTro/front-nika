@@ -11,10 +11,10 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
-import { fetchProductSummary } from "../../../../../redux/inventory/stockMovement/operationsStockMovement";
+import { fetchProductSummaryAlt } from "../../../../../redux/inventory/stockMovement/operationsStockMovement";
 import {
   selectAllProductIndexes,
-  selectStockSummary,
+  selectNewProductSummary,
 } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
 import ProductSummaryPanel from "./ProductSummaryPanel";
 
@@ -28,11 +28,13 @@ const ProductGridWithSummary = () => {
   const filteredIndexes = productIndexes.filter((index) =>
     index.toLowerCase().includes(filterValue.toLowerCase())
   );
-  const summary = useSelector((state) => selectStockSummary(state, expanded));
+  const summary = useSelector((state) =>
+    selectNewProductSummary(state, expanded)
+  );
 
   useEffect(() => {
     if (!expanded || summary) return;
-    dispatch(fetchProductSummary(expanded));
+    dispatch(fetchProductSummaryAlt(expanded));
   }, [dispatch, expanded, summary]);
 
   return (

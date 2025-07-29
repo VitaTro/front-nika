@@ -61,6 +61,7 @@ const Footer = () => {
           <FooterTitle>{t("info")}</FooterTitle>
           <FooterLink to="/about">{t("about")}</FooterLink>
           <FooterLink to="/products">{t("products")}</FooterLink>
+          <FooterLink to="/policy-payment">{t("payment")}</FooterLink>
           <FooterLink to="/policy-privacy">{t("privacy")}</FooterLink>
           <FooterLink to="/policy-returns">{t("returns")}</FooterLink>
           <FooterLink to="/policy-cookies">{t("cookies")}</FooterLink>

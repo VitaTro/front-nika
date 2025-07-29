@@ -3,6 +3,7 @@ import {
   deleteMovement,
   fetchProductMovements,
   fetchProductSummary,
+  fetchProductSummaryAlt,
   fetchStockMovements,
   fetchStockSummary,
   updateMovement,
@@ -16,6 +17,9 @@ const initialState = {
   loading: false,
   error: null,
   deletedMovements: [],
+  newSummaries: {},
+  newSummaryLoading: {},
+  newSummaryError: {},
 };
 
 const stockMovementSlice = createSlice({
@@ -104,6 +108,24 @@ const stockMovementSlice = createSlice({
           (m) => m._id !== deletedId
         );
         state.deletedMovements.push(deletedId);
+      })
+      .addCase(fetchProductSummaryAlt.pending, (state, action) => {
+        const index = action.meta.arg;
+        state.newSummaryLoading[index] = true;
+        state.newSummaryError[index] = null;
+      })
+      .addCase(fetchProductSummaryAlt.fulfilled, (state, action) => {
+        const { productIndex, data } = action.payload;
+        state.newSummaries[productIndex] = data;
+        state.newSummaryLoading[productIndex] = false;
+      })
+      .addCase(fetchProductSummaryAlt.rejected, (state, action) => {
+        const index = action.meta.arg;
+        state.newSummaryLoading[index] = false;
+        state.newSummaryError[index] =
+          typeof action.payload === "string"
+            ? action.payload
+            : "Не вдалося завантажити нове саммері";
       });
   },
 });

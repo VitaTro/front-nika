@@ -384,5 +384,166 @@
   "card": "<strong>BLIK lub karta</strong> — link do płatności otrzymasz mailowo po przetworzeniu zamówienia. <br /> Przepraszamy za niedogodności wynikające z tymczasowych zmian technicznych.",
   "bank_transfer_link": "<strong>Przelew bankowy</strong> — najszybsza metoda. Dane do płatności otrzymasz od razu i zamówienie może być szybko zrealizowane. <br />  Dziękujemy za wyrozumiałość w czasie tymczasowej przebudowy systemu płatności.",
   "card_1": "Link do płatności zostanie wysłany na Twój e-mail po złożeniu zamówienia.",
-  "bank_transfer_link_1": "Ta metoda pozwala na szybsze przetwarzanie zamówienia."
+  "bank_transfer_link_1": "Ta metoda pozwala na szybsze przetwarzanie zamówienia.",
+  "payment": "Warunki płatności",
+  "regulations": {
+    "sections": {
+      "section1": "Postanowienia",
+      "section2": "Definicje",
+      "section3": "Zakupy",
+      "section4": "Sprzedaż",
+      "section5": "Płatności",
+      "section6": "Dostawa",
+      "section7": "Reklamacje",
+      "section8": "Odstąpienie",
+      "section9": "Zwroty",
+      "section10": "Dane osobowe",
+      "section11": "Reklamacje",
+      "section12": "Końcowe",
+      "section13": "Regulamin sprzedaży"
+    },
+    "sections1": {
+      "title": "§1 POSTANOWIENIA OGÓLNE",
+      "content_1": "Sklep nika-gold.net działa na zasadach określonych w niniejszym Regulaminie.",
+      "content_2": "Regulamin określa warunki zawierania i rozwiązywania Umów Sprzedaży Produktu oraz tryb postępowania reklamacyjnego, a także rodzaje i zakres usług świadczonych drogą elektroniczną przez Sklep nika-gold.net, zasady świadczenia tych usług, warunki zawierania i rozwiązywania umów o świadczenie usług drogą elektroniczną.",
+      "content_3": "Każdy Usługobiorca z chwilą podjęcia czynności zmierzających do korzystania z Usług Elektronicznych Sklepu nika-gold.net zobowiązany jest do przestrzegania postanowień niniejszego Regulaminu.",
+      "content_4": "W sprawach nieuregulowanych w niniejszym Regulaminie mają zastosowanie przepisy:",
+      "content_list_1": "ustawy o świadczeniu usług drogą elektroniczną z dnia 18 lipca 2002 r.,",
+      "content_list_2": "ustawy o prawach konsumenta z dnia 30 maja 2014 r.,",
+      "content_list_3": "ustawy o pozasądowym rozwiązywaniu sporów konsumenckich z dnia 23 września 2016 r.,",
+      "content_list_4": "ustawy Kodeks cywilny z dnia 23 kwietnia 1964 r. oraz inne właściwe przepisy prawa polskiego."
+    },
+    "sections2": {
+      "title": "§ 2 DEFINICJE ZAWARTE W REGULAMINIE",
+      "content_1": "<strong>FORMULARZ ZAMÓWIENIA -</strong> formularz dostępny na stronie internetowej nika-gold.net umożliwiający złożenie Zamówienia.",
+      "content_2": "<strong>KLIENT –</strong> Usługobiorca, który zamierza zawrzeć lub zawarł Umowę Sprzedaży ze Sprzedawcą.",
+      "content_3": "<strong>KONSUMENT –</strong> osoba fizyczna, która dokonuje z przedsiębiorcą czynności prawnej niezwiązane bezpośrednio z jej działalnością gospodarczą lub zawodową.",
+      "content_4": "<strong>PRZEDSIĘBIORCA -</strong> osoba fizyczna, osoba prawna i jednostka organizacyjna niebędąca osobą prawną, której ustawa przyznaje zdolność prawną, prowadząca we własnym imieniu działalność gospodarczą lub zawodową.",
+      "content_5": "<strong>PRODUKT –</strong>dostępna w Sklepie rzecz ruchoma będąca przedmiotem Umowy Sprzedaży między Klientem a Sprzedawcą.",
+      "content_6": "<strong>REGULAMIN -</strong> niniejszy regulamin Sklepu.",
+      "content_7": "<strong>SKLEP -</strong> Sklep internetowy Usługodawcy działający pod adresem nika-gold.net",
+      "content_8": "<strong>SPRZEDAWCA, USŁUGODAWCA –</strong> osoba fizyczna prowadząca jednoosobową działalność gospodarczą pod firmą NIKA GOLD – Vitaliia Troian, z siedzibą we Wrocławiu (50-559), ul. Świeradowska 51/57, NIP: 9121950449.",
+
+      "content_9": "<strong>UMOWA SPRZEDAŻY –</strong>Umowa Sprzedaży Produktu zawarta między Klientem, a Sprzedawcą za pośrednictwem Sklepu.",
+      "content_10": "<strong>ZAMÓWIENIE -</strong> oświadczenie woli Klienta stanowiące ofertę zawarcia Umowy Sprzedaży Produktu ze Sprzedawcą.",
+      "content_11": "<strong>CENA –</strong>  wartość wyrażona w jednostkach pieniężnych, którą Klient jest obowiązany zapłacić Sprzedawcy za Produkt."
+    },
+    "sections3": {
+      "title": "§ 3 INFORMACJE DOTYCZĄCE PRODUKTÓW ORAZ ICH ZAMAWIANIA",
+      "content_1": "Sklep nika-gold.net prowadzi sprzedaż Produktów za pośrednictwem sieci Internet.",
+      "content_2": "Produkty oferowane w Sklepie są nowe, zgodne z umową i zostały legalnie wprowadzone na rynek polski.",
+      "content_3": "Informacje znajdujące się na stronach internetowych Sklepu nie stanowią oferty w rozumieniu przepisów prawa. Klient, składając Zamówienie, składa ofertę kupna określonego Produktu na warunkach podanych w jego opisie.",
+      "content_4": "Cena Produktu uwidoczniona na stronie internetowej Sklepu podana jest w złotych polskich (PLN) i zawiera wszystkie składniki. Cena nie zawiera kosztów dostawy.",
+      "content_5": "Zamówienia można składać poprzez witrynę internetową za pomocą Formularza Zamówień (Sklep nika-gold.net) – 24 godziny na dobę przez cały rok.",
+      "content_6": "Warunkiem złożenia Zamówienia w Sklepie przez Klienta jest zapoznanie się z Regulaminem i akceptacja jego postanowień w czasie składania Zamówienia."
+    },
+    "sections4": {
+      "title": "§ 4 ZAWARCIE UMOWY SPRZEDAŻY",
+      "content_1": "Do zawarcia Umowy Sprzedaży, niezbędne jest wcześniejsze złożenie przez Klienta Zamówienia udostępnionym przez Sprzedawcę sposobem, zgodnie z § 3 pkt 5 oraz 6 Regulaminu.",
+      "content_2": "Po złożeniu Zamówienia Sprzedawca niezwłocznie potwierdza jego otrzymanie.",
+      "content_3": "Potwierdzenie przyjęcia Zamówienia, o którym mowa w pkt 2 niniejszego paragrafu powoduje związanie Klienta jego Zamówieniem. Potwierdzenie otrzymania Zamówienia następuje poprzez przesłanie wiadomości e-mail.",
+      "content_4": "Potwierdzenie otrzymania Zamówienia zawiera:",
+      "content_list_1": "potwierdzenie wszystkich istotnych elementów Zamówienia,",
+      "content_list_2": "formularz odstąpienia od umowy,",
+      "content_list_3": "niniejszy Regulamin zawierający pouczenie o prawie do odstąpienia od umowy.",
+      "content_5": "Z chwilą otrzymania przez Klienta wiadomości e-mail, o której mowa w pkt 4 niniejszego paragrafu, zostaje zawarta Umowa Sprzedaży między Klientem, a Sprzedawcą.",
+      "content_6": "Każda Umowa Sprzedaży będzie potwierdzana dowodem zakupu, który będzie dołączany do Produktu."
+    },
+    "sections5": {
+      "title": "§ 5 SPOSOBY PŁATNOŚCI",
+      "content_1": "Sprzedawca udostępnia następujące sposoby płatności:",
+      "content_list_1": "potwierdzenie wszystkich istotnych elementów Zamówienia,",
+      "content_list_2": "płatność za pośrednictwem elektronicznego systemu płatności.",
+      "content_2": "W przypadku płatności przelewem tradycyjnym, wpłaty należy dokonać na rachunek bankowy numer: 27 1940 1076 3280 6940 0000 0000 (Bank Credit Agricole S.A.). W tytule przelewu należy wpisać „Zamówienie nr …”.",
+      "content_3": "W przypadku płatności za pośrednictwem elektronicznego systemu płatności Klient dokonuje zapłaty przed rozpoczęciem realizacji Zamówienia. Elektroniczny system płatności umożliwia dokonanie płatności za pomocą karty kredytowej lub szybkiego przelewu z wybranych polskich banków.",
+      "content_4": "Klient zobowiązany jest dokonać płatności za Umowę Sprzedaży w terminie 2 dni roboczych od jej zawarcia, chyba że umowa stanowi inaczej.",
+      "content_5": "Produkt zostanie wysłany dopiero po jego opłaceniu."
+    },
+    "sections6": {
+      "title": "§ 7 KOSZT, TERMIN I SPOSOBY DOSTAWY PRODUKTU",
+      "content_1": "Koszty dostawy Produktu, które pokrywa Klient, są ustalane podczas składania Zamówienia i zależą od wybranego sposobu dostawy.",
+      "content_2": "Termin dostawy Produktu obejmuje czas kompletowania oraz czas doręczenia przez przewoźnika:",
+      "content_list_1": "czas kompletowania Produktu wynosi maksymalnie 2 dni robocze, w zależności od dnia złożenia Zamówienia;",
+      "content_list_2": "czas dostawy przez przewoźnika zależy od jego deklaracji i wynosi zwykle od 1 do 3 dni roboczych od momentu nadania przesyłki. Dostawa realizowana jest wyłącznie w dni robocze — z wyłączeniem sobót, niedziel i dni ustawowo wolnych od pracy.",
+      "content_3": "Zakupione w Sklepie Produkty wysyłane są obecnie wyłącznie na terenie Polski, za pośrednictwem Poczty Polskiej lub firm kurierskich.",
+      "content_4": "Aktualnie trwa rozwój systemu zamówień umożliwiającego składanie i realizację zamówień z całego obszaru Unii Europejskiej."
+    },
+    "sections7": {
+      "title": "§ 8 REKLAMACJA PRODUKTU",
+      "content_1": "<strong>Reklamacja z tytułu niezgodności Produktu z umową –</strong> to procedura umożliwiająca Klientowi zgłoszenie otrzymanego towaru, który nie odpowiada zamówieniu.",
+      "content_2": "Podstawą odpowiedzialności Sprzedawcy wobec Konsumenta są przepisy ustawy o prawach konsumenta z dnia 30 maja 2014 roku.",
+      "content_3": "W przypadku Przedsiębiorców odpowiedzialność określają przepisy Kodeksu cywilnego z dnia 23 kwietnia 1964 roku.",
+      "content_4": "Sprzedawca ponosi odpowiedzialność wyłącznie za te wady, które <strong>istniały w chwili dostawy</strong> i ujawniły się w ciągu <strong>2 lat</strong> od otrzymania towaru, chyba że określono inny termin ważności. Odpowiedzialność <strong>nie obejmuje</strong> usterek powstałych na skutek niewłaściwego użytkowania, uszkodzeń mechanicznych lub naturalnego zużycia.",
+      "content_5": "Wszelkie reklamacje należy przesyłać <strong>wyłącznie</strong> na adres  Email: huping.nika.gold@gmail.com.",
+      "content_6": "W zgłoszeniu należy podać: rodzaj i datę wykrycia wady, opis Produktu, dane kontaktowe oraz <strong>numer zamówienia</strong>. Pełny zakres informacji pozwala na szybkie i precyzyjne rozpatrzenie reklamacji.",
+      "content_7": "W celu rozpatrzenia reklamacji Konsument zobowiązany jest udostępnić Produkt Sprzedawcy. Odbiór towaru następuje na koszt Sprzedawcy.",
+      "content_8": "Sprzedawca rozpatruje reklamację <strong>niezwłocznie</strong>, jednak nie później niż w ciągu <strong>14 dni</strong> od jej otrzymania.",
+      "content_9": "Brak odpowiedzi w ciągu 14 dni oznacza, że reklamacja została <strong>automatycznie uznana</strong> (dotyczy wyłącznie Konsumentów).",
+      "content_10": "W przypadku uznania reklamacji za zasadną, Sprzedawca:",
+      "content_list_1": "pokrywa koszty naprawy lub wymiany i ponownej dostawy towaru;",
+      "content_list_2": "obniża cenę produktu i zwraca różnicę w terminie 14 dni od otrzymania odpowiedniego oświadczenia;",
+      "content_list_3": "w przypadku odstąpienia od umowy – zwraca pełną wartość towaru w ciągu 14 dni od jego otrzymania lub potwierdzenia wysyłki.",
+      "content_11": "Konsument zobowiązany jest zwrócić towar Sprzedawcy <strong>niezwłocznie</strong> oraz <strong>na koszt Sprzedawcy</strong>.",
+      "content_12": "Reklamacje przesłane inną drogą (Viber, SMS, kartki pocztowe, flash moby) <strong>nie będą rozpatrywane</strong>."
+    },
+
+    "sections8": {
+      "title": "§ 9 PRAWO ODSTĄPIENIA OD UMOWY",
+      "content_1": "Konsument ma prawo odstąpić od umowy zawartej na odległość bez podania przyczyny, składając stosowne oświadczenie w terminie 14 dni.",
+      "content_2": "W razie odstąpienia od umowy, Umowa Sprzedaży uznawana jest za niezawartą, a Produkt należy zwrócić na adres: 55-200 Oława, ul. 3 Maja 37, w ciągu maksymalnie 14 dni.",
+      "content_3": "Do zachowania terminu wystarczy odesłanie Produktu przed jego upływem.",
+      "content_4": "Konsument odpowiada za zmniejszenie wartości Produktu wynikające z używania go w sposób wykraczający poza konieczny do stwierdzenia charakteru, cech i funkcjonowania.",
+      "content_5": "Zwrot płatności i kosztów dostawy nastąpi niezwłocznie, nie później niż 14 dni od otrzymania oświadczenia o odstąpieniu od umowy.",
+      "content_6": "Zwrot następuje w taki sam sposób zapłaty, jakiego użyto przy zakupie, chyba że Konsument wyraził zgodę na inną formę zwrotu bez kosztów.",
+      "content_7": "Sprzedawca może wstrzymać się ze zwrotem do momentu otrzymania Produktu lub dowodu jego odesłania.",
+      "content_8": "Konsument ponosi wyłącznie koszt zwrotu Produktu.",
+      "content_9": "Prawo do odstąpienia nie przysługuje w przypadku Produktów nieprefabrykowanych, wykonanych na indywidualne zamówienie.",
+      "content_10": "Prawo odstąpienia przysługuje obu stronom w przypadku niewykonania zobowiązania w określonym terminie."
+    },
+    "sections9": {
+      "title": "§ 10 RODZAJ I ZAKRES USŁUG ELEKTRONICZNYCH",
+      "content_1": "Dostawca usług umożliwia Użytkownikom korzystanie z Usługi Elektronicznej poprzez zawieranie umów sprzedaży Towarów za pomocą funkcjonalności dostępnych na stronie sklepu internetowego.",
+      "content_2": "Świadczenie Usługi Elektronicznej odbywa się zgodnie z postanowieniami określonymi w obowiązującym Regulaminie Sklepu.",
+      "content_3": "Dostawca usług zastrzega sobie prawo do umieszczania treści reklamowych na stronach sklepu internetowego. Takie treści stanowią integralną część funkcjonowania sklepu oraz udostępnianych w nim materiałów."
+    },
+    "sections10": {
+      "title": "§ 11 WARUNKI ŚWIADCZENIA I ZAWIERANIA UMÓW O ŚWIADCZENIE USŁUG ELEKTRONICZNYCH",
+      "content_1": "Świadczenie Usługi Elektronicznej określonej w § 9 pkt 1 Regulaminu przez Usługodawcę jest nieodpłatne.",
+      "content_2": "Umowa o świadczenie Usługi Elektronicznej polegającej na umożliwieniu złożenia Zamówienia w Sklepie zawierana jest na czas oznaczony i ulega rozwiązaniu z chwilą złożenia Zamówienia albo zaprzestania jego składania przez Usługobiorcę.",
+      "content_3": "Wymagania techniczne niezbędne do współpracy z systemem teleinformatycznym, którym posługuje się Usługodawca:",
+      "content_list_1": "komputer (lub urządzenie mobilne) z dostępem do Internetu,",
+      "content_list_2": "dostęp do poczty elektronicznej,",
+      "content_list_3": "przeglądarka internetowa,",
+      "content_list_4": "włączenie w przeglądarce internetowej Cookies oraz Javascript.",
+      "content_4": "Usługobiorca zobowiązany jest do korzystania ze Sklepu w sposób zgodny z prawem i dobrymi obyczajami mając na uwadze poszanowanie dóbr osobistych i praw własności intelektualnej osób trzecich.",
+      "content_5": "Usługobiorca zobowiązany jest do wprowadzania danych zgodnych ze stanem faktycznym.",
+      "content_6": "Usługobiorcę obowiązuje zakaz dostarczania treści o charakterze bezprawnym."
+    },
+    "sections11": {
+      "title": "§ 12 REKLAMACJE ZWIĄZANE ZE ŚWIADCZENIEM USŁUG ELEKTRONICZNYCH",
+      "content_1": "Reklamacje związane ze świadczeniem Usługi Elektronicznej za pośrednictwem Sklepu Usługobiorca może składać za pośrednictwem poczty elektronicznej na adres Email: huping.nika.gold@gmail.com",
+      "content_2": "W powyższej wiadomości e-mail, należy podać jak najwięcej informacji i okoliczności dotyczących przedmiotu reklamacji, w szczególności rodzaj i datę wystąpienia nieprawidłowości oraz dane kontaktowe. Podane informacje znacznie ułatwią i przyspieszą rozpatrzenie reklamacji przez Usługodawcę.",
+      "content_3": "Rozpatrzenie reklamacji przez Usługodawcę następuje niezwłocznie, nie później niż w terminie 14 dni od momentu zgłoszenia.",
+      "content_4": "Odpowiedź Usługodawcy w sprawie reklamacji jest wysyłana na adres e-mail Usługobiorcy podany w zgłoszeniu reklamacyjnym lub w inny podany przez Usługobiorcę sposób"
+    },
+    "sections12": {
+      "title": "§ 13 POSTANOWIENIA KOŃCOWE",
+      "content_1": "Umowy zawierane za pośrednictwem Sklepu podlegają prawu polskiemu.",
+      "content_2": "W przypadku niezgodności któregokolwiek z zapisów Regulaminu z obowiązującymi przepisami prawa, zastosowanie mają właściwe normy prawa polskiego.",
+      "content_3": "Wszelkie spory wynikające z Umów Sprzedaży pomiędzy Sklepem a Konsumentami będą rozstrzygane w pierwszej kolejności w drodze negocjacji, z zamiarem polubownego zakończenia sporu.",
+      "content_4": "W przypadku braku możliwości osiągnięcia porozumienia, spór będzie rozstrzygany przez właściwy sąd powszechny zgodnie z obowiązującymi przepisami prawa.",
+      "content_5": "Skorzystanie z alternatywnych metod rozwiązywania sporów przez Konsumenta możliwe jest wyłącznie za uprzednią zgodą Sklepu na udział w tego typu procedurach."
+    },
+    "sections13": {
+      "title": "§ 6 REGULAMIN SPRZEDAŻY",
+      "content_1": "Sprzedawcą jest Nika Gold – Vitaliia Troian, z siedzibą pod adresem ul. Świeradowska 51/57, 50-559 Wrocław, NIP: 9121950449, REGON: 541841580, e-mail: vitylja.trojan@gmail.com / huping.nika.gold@gmail.com, telefon: +48 516 174 555, strona internetowa: https://nika-gold.net.",
+      "content_2": "Przedmiotem sprzedaży są produkty fizyczne oraz usługi dostępne w sklepie internetowym, w tym konsultacje, dostęp do materiałów edukacyjnych, kursy i subskrypcje.",
+      "content_3": "Wszystkie ceny prezentowane są w złotych polskich (PLN) i zawierają podatek VAT, o ile obowiązuje.",
+      "content_4": "Dostępne metody płatności obejmują: karty płatnicze (Visa, MasterCard), szybkie przelewy elektroniczne, BLIK oraz tradycyjny przelew bankowy.",
+      "content_5": "Zamówienia na produkty realizowane są w ciągu maksymalnie 3 dni roboczych od zaksięgowania płatności. Usługi aktywowane są w ciągu maksymalnie 24 godzin od momentu płatności.",
+      "content_6": "Konsumentowi przysługuje prawo odstąpienia od umowy sprzedaży w terminie 14 dni od daty zakupu bez podania przyczyny. Zwrot środków następuje tą samą metodą płatności.",
+      "content_7": "Dane osobowe Klientów przetwarzane są zgodnie z obowiązującym prawem oraz Polityką Prywatności dostępną na stronie internetowej Sprzedawcy.",
+      "content_8": "Wszystkie transakcje realizowane są z zastosowaniem szyfrowania SSL oraz zgodnie ze standardem bezpieczeństwa PCI DSS obowiązującym dla płatności kartą."
+    }
+  }
 }
