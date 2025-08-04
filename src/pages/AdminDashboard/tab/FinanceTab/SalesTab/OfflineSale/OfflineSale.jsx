@@ -11,13 +11,14 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../../components/Loader";
-import { fetchOnlineSales } from "../../../../../../redux/finance/onlineSale/operationOnlineSale";
+
+import { fetchOfflineSales } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
 import {
-  selectOnlineSales,
-  selectOnlineSalesError,
-  selectOnlineSalesLoading,
-} from "../../../../../../redux/finance/onlineSale/selectorsOnlineSale";
-import OnlineSaleDetails from "./OnlineSaleDetails";
+  selectOfflineSales,
+  selectOfflineSalesError,
+  selectOfflineSalesLoading,
+} from "../../../../../../redux/finance/offlineSale/selectorsOfflineSale";
+import OfflineSaleDetails from "./OfflineSaleDetails";
 
 const statusColors = {
   new: "info",
@@ -26,16 +27,16 @@ const statusColors = {
   cancelled: "error",
 };
 
-const OnlineSale = () => {
+const OfflineSale = () => {
   const dispatch = useDispatch();
-  const onlineSales = useSelector(selectOnlineSales);
-  const loading = useSelector(selectOnlineSalesLoading);
-  const error = useSelector(selectOnlineSalesError);
+  const offlineSales = useSelector(selectOfflineSales);
+  const loading = useSelector(selectOfflineSalesLoading);
+  const error = useSelector(selectOfflineSalesError);
   const isMobile = useMediaQuery("(max-width:768px)");
   const [selectedSale, setSelectedSale] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchOnlineSales());
+    dispatch(fetchOfflineSales());
   }, [dispatch]);
 
   if (loading) return <Loader />;
@@ -44,18 +45,18 @@ const OnlineSale = () => {
   return (
     <Box sx={{ px: isMobile ? 1 : 3 }}>
       <Typography variant="h5" gutterBottom>
-        💰 Онлайн-продажі
+        🏪 Офлайн-продажі
       </Typography>
 
       <Stack spacing={2}>
-        {onlineSales.map((sale) => (
+        {offlineSales.map((sale) => (
           <Card key={sale._id}>
             <CardContent>
               <Stack
                 direction={isMobile ? "column" : "row"}
+                spacing={2}
                 alignItems={isMobile ? "flex-start" : "center"}
                 justifyContent="space-between"
-                spacing={2}
               >
                 <Box>
                   <Typography>ID: {sale._id}</Typography>
@@ -65,7 +66,6 @@ const OnlineSale = () => {
                     sx={{ mt: 1 }}
                   />
                 </Box>
-
                 <Button
                   variant="contained"
                   onClick={() => setSelectedSale(sale)}
@@ -80,7 +80,7 @@ const OnlineSale = () => {
       </Stack>
 
       {selectedSale && (
-        <OnlineSaleDetails
+        <OfflineSaleDetails
           sale={selectedSale}
           onClose={() => setSelectedSale(null)}
         />
@@ -89,4 +89,4 @@ const OnlineSale = () => {
   );
 };
 
-export default OnlineSale;
+export default OfflineSale;

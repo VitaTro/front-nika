@@ -34,16 +34,21 @@ import AdminLayout from "../pages/AdminDashboard/AdminLayout";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab";
 import FinanceOverview from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceOverview";
 import FinanceSettings from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceSettings";
-import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineOrder/OfflineOrder";
-import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OfflineSale/OfflineSale";
-import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineOrder/OnlineOrder";
-import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/OnlineSale/OnlineSale";
+
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
 import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
+import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OfflineOrder/OfflineOrder";
+import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrder";
+import OrderTab from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OrderTab";
+import ProfileOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/ProfileOrder/ProfileOrder";
+import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/OfflineSale/OfflineSale";
+import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/OnlineSale/OnlineSale";
+import ProfileSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/ProfileSale/ProfileSale";
+import SaleTab from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/SalesTab";
 import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/MonthlyReport/MonthlyReportPage";
 import PurchaseImport from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/tab/PurchaseImport";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
@@ -204,10 +209,16 @@ export const App = () => {
                   <Route path="products" element={<ProductsTab />} />
                   <Route path="dashboard" element={<DashboardTab />} />
                   <Route path="finance" element={<FinanceTab />}>
-                    <Route path="offlineOrder" element={<OfflineOrder />} />
-                    <Route path="offlineSale" element={<OfflineSale />} />
-                    <Route path="onlineOrder" element={<OnlineOrder />} />
-                    <Route path="onlineSale" element={<OnlineSale />} />
+                    <Route path="orders" element={<OrderTab />}>
+                      <Route path="offline" element={<OfflineOrder />} />
+                      <Route path="online" element={<OnlineOrder />} />
+                      <Route path="profile" element={<ProfileOrder />} />
+                    </Route>
+                    <Route path="sales" element={<SaleTab />}>
+                      <Route path="offline" element={<OfflineSale />} />
+                      <Route path="online" element={<OnlineSale />} />
+                      <Route path="profile" element={<ProfileSale />} />
+                    </Route>
                     <Route path="overview" element={<FinanceOverview />} />
                     <Route path="settings" element={<FinanceSettings />} />
                   </Route>

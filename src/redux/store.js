@@ -31,6 +31,7 @@ import offlineSalesReducer from "./finance/offlineSale/offlineSaleSlice";
 import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
 import onlineSalesReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
+import platformReducer from "./finance/platform/platformSlice";
 import settingsReducer from "./finance/settings/settingsSlice";
 
 // 🏭 Склад — ТИ самостійно імпортуєш 👇
@@ -68,6 +69,7 @@ const rootReducer = combineReducers({
   onlineSales: onlineSalesReducer,
   overview: overviewReducer,
   settings: settingsReducer,
+  platform: platformReducer,
 
   // Склад
   inventory: inventoryReducer,

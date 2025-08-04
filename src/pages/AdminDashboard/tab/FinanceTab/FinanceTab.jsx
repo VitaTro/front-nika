@@ -3,11 +3,9 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import ExpenseManager from "./FinanceComponent/ExpenseManager";
 import FinanceOverview from "./FinanceComponent/FinanceOverview";
-import OfflineOrder from "./FinanceComponent/OfflineOrder/OfflineOrder";
-import OfflineSale from "./FinanceComponent/OfflineSale/OfflineSale";
-import OnlineOrder from "./FinanceComponent/OnlineOrder/OnlineOrder";
-import OnlineSale from "./FinanceComponent/OnlineSale/OnlineSale";
 import StockProfitOverview from "./FinanceComponent/StockProfitOverview";
+import OrderTab from "./OrderTab/OrderTab";
+import SaleTab from "./SalesTab/SalesTab";
 
 const FinanceTab = () => {
   const [viewMode, setViewMode] = useState("overview");
@@ -16,10 +14,12 @@ const FinanceTab = () => {
   const financeTabs = [
     { label: "Статистика", value: "overview", color: "primary" },
     { label: "Маржа", value: "stock-profit", color: "secondary" },
-    { label: "Онлайн-замовлення", value: "online-orders", color: "primary" },
-    { label: "Онлайн-продажі", value: "online-sales", color: "secondary" },
-    { label: "Офлайн-замовлення", value: "offline-orders", color: "primary" },
-    { label: "Офлайн-продажі", value: "offline-sales", color: "secondary" },
+    // { label: "Онлайн-замовлення", value: "online-orders", color: "primary" },
+    // { label: "Онлайн-продажі", value: "online-sales", color: "secondary" },
+    // { label: "Офлайн-замовлення", value: "offline-orders", color: "primary" },
+    // { label: "Офлайн-продажі", value: "offline-sales", color: "secondary" },
+    { label: "Замовлення", value: "orders", color: "primary" },
+    { label: "Продажі", value: "sales", color: "secondary" },
     { label: "Витрати", value: "expenses", color: "error" },
   ];
 
@@ -47,10 +47,12 @@ const FinanceTab = () => {
 
       {viewMode === "overview" && <FinanceOverview />}
       {viewMode === "stock-profit" && <StockProfitOverview />}
-      {viewMode === "online-orders" && <OnlineOrder />}
+      {/* {viewMode === "online-orders" && <OnlineOrder />}
       {viewMode === "online-sales" && <OnlineSale />}
       {viewMode === "offline-orders" && <OfflineOrder />}
-      {viewMode === "offline-sales" && <OfflineSale />}
+      {viewMode === "offline-sales" && <OfflineSale />} */}
+      {viewMode === "orders" && <OrderTab />}
+      {viewMode === "sales" && <SaleTab />}
       {viewMode === "expenses" && <ExpenseManager />}
 
       <Outlet />
