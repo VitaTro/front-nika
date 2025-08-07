@@ -47,10 +47,6 @@ const FinanceTab = () => {
 
       {viewMode === "overview" && <FinanceOverview />}
       {viewMode === "stock-profit" && <StockProfitOverview />}
-      {/* {viewMode === "online-orders" && <OnlineOrder />}
-      {viewMode === "online-sales" && <OnlineSale />}
-      {viewMode === "offline-orders" && <OfflineOrder />}
-      {viewMode === "offline-sales" && <OfflineSale />} */}
       {viewMode === "orders" && <OrderTab />}
       {viewMode === "sales" && <SaleTab />}
       {viewMode === "expenses" && <ExpenseManager />}

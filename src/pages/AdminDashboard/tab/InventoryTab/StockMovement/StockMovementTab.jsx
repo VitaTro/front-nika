@@ -10,7 +10,6 @@ import {
   selectStockMovements,
 } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
 import ProductGridWithSummary from "../IndexDetails/ProductGridWithSummary";
-import SalesTable from "../Sales/SalesTable";
 import AddStockMovementForm from "./tab/AddStockMovementForm";
 import PurchaseImport from "./tab/PurchaseImport";
 import StockMovementTable from "./tab/StockMovementTable";
@@ -34,7 +33,7 @@ const StockMovementTab = () => {
     { label: "Переглянути", value: "view", color: "primary" },
     { label: "Додати рух", value: "add", color: "primary" },
     { label: "Масовий імпорт", value: "bulk", color: "secondary" },
-    { label: "Продажі", value: "sales", color: "primary" },
+
     { label: "Аналітика", value: "analytics", color: "secondary" },
   ];
   return (
@@ -65,7 +64,6 @@ const StockMovementTab = () => {
       {viewMode === "add" && <AddStockMovementForm />}
       {viewMode === "bulk" && <PurchaseImport />}
       {viewMode === "view" && !loading && <StockMovementTable />}
-      {viewMode === "sales" && <SalesTable />}
       {viewMode === "analytics" && (
         <ProductGridWithSummary productIndexes={uniqueIndexes} />
       )}

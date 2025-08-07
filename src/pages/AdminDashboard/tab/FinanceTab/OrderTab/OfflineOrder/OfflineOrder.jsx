@@ -39,12 +39,11 @@ const OfflineOrder = () => {
       const updatedCart = prevCart.filter(
         (item) => item.productId !== productId
       );
-      localStorage.setItem("cart", JSON.stringify(updatedCart)); // 🔥 Оновлення `localStorage`
-      return updatedCart; // ✅ Правильне повернення без очищення всього кошика
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
     });
   };
 
-  // 📂 Категорії та субкатегорії
   const categories = [...new Set(products.map((product) => product.category))];
   const subcategoriesByCategory = {};
   products.forEach((product) => {
@@ -54,7 +53,6 @@ const OfflineOrder = () => {
     subcategoriesByCategory[product.category].add(product.subcategory);
   });
 
-  // 🔍 Фільтрація товарів за пошуком + категорією + субкатегорією
   const filteredProducts = products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -62,7 +60,6 @@ const OfflineOrder = () => {
       (!selectedSubcategory || product.subcategory === selectedSubcategory)
   );
 
-  // 🛒 Додавання товару в кошик
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find(
@@ -75,7 +72,7 @@ const OfflineOrder = () => {
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
-        localStorage.setItem("cart", JSON.stringify(updatedCart)); // 🔥 Оновлення `localStorage`
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
         return updatedCart;
       }
 
@@ -89,7 +86,7 @@ const OfflineOrder = () => {
           quantity: 1,
         },
       ];
-      localStorage.setItem("cart", JSON.stringify(updatedCart)); // 🔥 Оновлення `localStorage`
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
   };
@@ -145,18 +142,15 @@ const OfflineOrder = () => {
           </>
         )}
         <Typography variant="h6">🛒 Кошик ({cart.length} товарів)</Typography>{" "}
-        {/* 🔥 Виводимо кількість товарів */}
         <Typography>
           Загальна сума:{" "}
           {cart.reduce((acc, item) => acc + item.price * item.quantity, 0)} zł
         </Typography>{" "}
-        {/* 🔥 Загальна сума */}
         <Button variant="contained" onClick={() => setViewCart(!viewCart)}>
           {viewCart ? "⬅️ Назад до товарів" : "➡️ Переглянути кошик"}
         </Button>
       </LeftColumn>
 
-      {/* 📦 Правий блок - Товари / Кошик */}
       <RightColumn>
         {viewCart ? (
           <>
@@ -180,7 +174,7 @@ const OfflineOrder = () => {
               {filteredProducts.map((product) => {
                 const isInCart = cart.some(
                   (item) => item.productId === product._id
-                ); // 🔥 Перевіряємо, чи товар у кошику
+                );
 
                 return (
                   <ProductCard key={product._id}>
@@ -190,14 +184,13 @@ const OfflineOrder = () => {
                       Ціна: {product.lastRetailPrice} zł
                     </Typography>
 
-                    {/* 🔥 Кнопка "Додати" */}
                     <Button
                       variant="contained"
                       onClick={() => addToCart(product)}
                       sx={{
                         backgroundColor: isInCart ? "#4CAF50" : "#1976D2",
                         color: "white",
-                      }} // ✅ Підсвітка
+                      }}
                     >
                       {isInCart ? "✅ Додано" : "➕ Додати"}
                     </Button>

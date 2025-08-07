@@ -29,7 +29,7 @@ const statusColors = {
 
 const OfflineSale = () => {
   const dispatch = useDispatch();
-  const offlineSales = useSelector(selectOfflineSales);
+  const offlineSales = useSelector(selectOfflineSales) || [];
   const loading = useSelector(selectOfflineSalesLoading);
   const error = useSelector(selectOfflineSalesError);
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -71,7 +71,7 @@ const OfflineSale = () => {
                   onClick={() => setSelectedSale(sale)}
                   fullWidth={isMobile}
                 >
-                  👀 Переглянути
+                  🔍 Деталі
                 </Button>
               </Stack>
             </CardContent>

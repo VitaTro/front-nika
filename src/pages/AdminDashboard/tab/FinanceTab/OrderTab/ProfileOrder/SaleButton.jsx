@@ -1,24 +1,24 @@
-// import Button from "@mui/material/Button";
-// import { useDispatch } from "react-redux";
-// import { createOfflineSale } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
+import Button from "@mui/material/Button";
+import { useDispatch } from "react-redux";
+import { createPlatformSale } from "../../../../../../redux/finance/platform/operationPlatform";
 
-// const SaleButton = ({ orderId, saleDate }) => {
-//   const dispatch = useDispatch();
+const SaleButton = ({ orderId, saleDate }) => {
+  const dispatch = useDispatch();
 
-//   const handleSale = () => {
-//     dispatch(
-//       createOfflineSale({
-//         orderId,
-//         saleDate: saleDate || new Date(),
-//       })
-//     );
-//   };
+  const handleSale = () => {
+    dispatch(
+      createPlatformSale({
+        orderId,
+        saleDate: saleDate || new Date(),
+      })
+    );
+  };
 
-//   return (
-//     <Button variant="contained" color="success" onClick={handleSale}>
-//       💸 Завершити продаж
-//     </Button>
-//   );
-// };
+  return (
+    <Button variant="contained" color="success" onClick={handleSale}>
+      💸 Завершити продаж
+    </Button>
+  );
+};
 
-// export default SaleButton;
+export default SaleButton;

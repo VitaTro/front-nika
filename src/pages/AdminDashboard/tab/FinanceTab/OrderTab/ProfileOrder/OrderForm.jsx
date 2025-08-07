@@ -1,262 +1,307 @@
-// import { Typography } from "@mui/material";
-// import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import axios from "../../../../../../redux/axiosConfig";
-// import { createPlatformOrder } from "../../../../../../redux/finance/platform/operationPlatform";
+import CheckIcon from "@mui/icons-material/Check";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-// const PlatformOrderForm = ({ products, setProducts }) => {
-//   const dispatch = useDispatch();
-//   const orderState = useSelector((state) => state.offlineOrders);
-//   const [selectedPaymentMethod, setSelectedPaymentMethod] =
-//     useState("terminal");
-//   const [platformName, setPlatformName] = useState("Allegro");
-//   const [orderNumber, setOrderNumber] = useState("");
-//   const [comment, setComment] = useState("");
-//   const [saleDate, setSaleDate] = useState(
-//     new Date().toISOString().split("T")[0]
-//   );
-//   const [buyerType, setBuyerType] = useState("anonim");
-//   const [buyerInfo, setBuyerInfo] = useState({
-//     buyerName: "",
-//     buyerAddress: "",
-//     buyerNIP: "",
-//   });
+import {
+  createPlatformOrder,
+  createPlatformSale,
+} from "../../../../../../redux/finance/platform/operationPlatform";
 
-//   useEffect(() => {
-//     if (orderState.error) {
-//       alert("❌ Помилка створення замовлення: " + orderState.error);
-//     }
-//     if (
-//       !orderState.loading &&
-//       orderState.offlineOrders.length > 0 &&
-//       orderState.success
-//     ) {
-//       const lastOrder = orderState.offlineOrders.slice(-1)[0];
-//       if (lastOrder?._id) {
-//         dispatch(
-//           createOfflineSale({
-//             orderId: lastOrder._id,
-//             saleDate,
-//           })
-//         );
-//       }
-//       alert("✅ Замовлення створено!");
-//     }
-//   }, [orderState]);
+import {
+  selectPlatformErrorOrders,
+  selectPlatformLoadingOrders,
+  selectPlatformOrders,
+} from "../../../../../../redux/finance/platform/selectorsPlatform";
 
-//   // ✅ Переносимо `updateOrderStatus` перед `handleOrder`
-//   const updateOrderStatus = async (orderId) => {
-//     try {
-//       const response = await axios.patch(
-//         `/api/admin/finance/offline/orders/${orderId}`,
-//         {
-//           status: "completed",
-//         }
-//       );
-//       const handleChangeProduct = (index, field, value) => {
-//         const updated = [...products];
-//         updated[index][field] = value;
-//         setProducts(updated);
-//       };
+const PlatformOrderForm = ({ platformCart, setPlatformCart }) => {
+  const dispatch = useDispatch();
+  const orders = useSelector(selectPlatformOrders);
+  const loading = useSelector(selectPlatformLoadingOrders);
+  const error = useSelector(selectPlatformErrorOrders);
+  const [comment, setComment] = useState("");
+  const [platformName, setPlatformName] = useState("Allegro");
+  const [orderNumber, setOrderNumber] = useState("");
+  const [saleDate, setSaleDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("payu");
+  const [buyerType, setBuyerType] = useState("anonim");
 
-//       const handleSubmit = () => {
-//         const payload = {
-//           platformName,
-//           orderNumber,
-//           comment,
-//           products: products.map(({ productId, quantity, unitPrice }) => ({
-//             productId,
-//             quantity,
-//             unitPrice,
-//           })),
-//         };
+  const [buyerInfo, setBuyerInfo] = useState({
+    buyerName: "",
+    buyerFirstName: "",
+    buyerLastName: "",
+    buyerAddress: "",
+    buyerPhone: "",
+    buyerNIP: "",
+    clientNumber: "",
+    allegroClientId: "",
+  });
 
-//         dispatch(createPlatformOrder(payload))
-//           .unwrap()
-//           .then(() => {
-//             alert("✅ Платформенне замовлення створено!");
-//             setProducts([]);
-//           })
-//           .catch((err) => {
-//             alert("❌ Помилка створення замовлення: " + err);
-//           });
-//       };
-//       console.log("✅ Статус замовлення оновлено!", response.data);
-//       alert("✅ Замовлення підтверджено як 'completed'!");
-//     } catch (error) {
-//       console.error("🔥 Помилка при оновленні статусу:", error);
-//       alert("❌ Не вдалося оновити статус замовлення.");
-//     }
-//   };
+  const calculateTotal = (platformCart) =>
+    platformCart.reduce((sum, item) => {
+      const price = Number(item.price);
+      return sum + (isNaN(price) ? 0 : price * (item.quantity || 0));
+    }, 0);
 
-//   const handleOrder = async () => {
-//     if (cart.length === 0) {
-//       alert("⚠️ Кошик порожній! Додайте товари перед оформленням.");
-//       return;
-//     }
+  const handleOrder = async () => {
+    if (!Array.isArray(platformCart) || platformCart.length === 0) {
+      return alert("⚠️ Кошик порожній або не ініціалізований");
+    }
 
-//     const orderData = {
-//       products: cart.map(
-//         ({ productId, name, quantity, photoUrl, lastRetailPrice, index }) => ({
-//           productId,
-//           name,
-//           quantity,
-//           photoUrl,
-//           saleDate,
-//           lastRetailPrice,
-//           index,
-//         })
-//       ),
-//       paymentMethod: selectedPaymentMethod,
-//       status: "pending",
-//       buyerType,
-//       ...(buyerType === "przedsiębiorca" && {
-//         buyerName: buyerInfo.buyerName,
-//         buyerAddress: buyerInfo.buyerAddress,
-//         buyerNIP: buyerInfo.buyerNIP,
-//       }),
-//     };
+    const clientFilled =
+      buyerInfo.buyerFirstName.trim() && buyerInfo.buyerLastName.trim();
 
-//     try {
-//       // 🛒 Створення замовлення
-//       const response = await axios.post(
-//         "/api/admin/finance/offline/orders",
-//         orderData
-//       );
-//       const createdOrder = response.data.order;
+    const client = clientFilled
+      ? {
+          firstName: buyerInfo.buyerFirstName.trim(),
+          lastName: buyerInfo.buyerLastName.trim(),
+          phone: buyerInfo?.buyerPhone || "",
+          allegroClientId: buyerInfo?.allegroClientId || "",
+        }
+      : null;
+    if (
+      platformName.toLowerCase() === "allegro" &&
+      (!client || !client.firstName || !client.lastName)
+    ) {
+      alert("⚠️ Введіть ім’я та прізвище клієнта");
+      return;
+    }
 
-//       if (!createdOrder?._id) {
-//         alert("❌ Створення замовлення без ID!");
-//         return;
-//       }
+    const payload = {
+      platform: platformName.toLowerCase(),
+      externalOrderId: orderNumber,
+      products: platformCart.map(
+        ({ productId, quantity, price, name, color, index, manualPrice }) => ({
+          productId,
+          quantity: Number(quantity ?? 1),
+          price: Number(price ?? 0),
+          name,
+          color,
+          index,
+          manualPrice: !!manualPrice,
+        })
+      ),
+      totalPrice: calculateTotal(platformCart),
+      paymentMethod: selectedPaymentMethod,
+      platformFee: 0,
+      notes: comment,
+      client,
+    };
+    try {
+      const response = await dispatch(createPlatformOrder(payload));
+      console.log("📦 Відповідь на створення замовлення:", response);
 
-//       alert("✅ Замовлення створено!");
+      const createdOrder = response?.payload;
+      if (!createdOrder?._id) {
+        alert("❌ Створення замовлення без ID!");
+        return;
+      }
 
-//       // 💸 Продаж
-//       await axios.post("/api/admin/finance/offline/sales", {
-//         orderId: createdOrder._id,
-//         saleDate,
-//       });
+      alert("✅ Замовлення створено!");
+      if (response.meta?.requestStatus !== "fulfilled") {
+        alert("❌ Замовлення не вдалося");
+        return;
+      }
+      await new Promise((r) => setTimeout(r, 500));
+      await dispatch(
+        createPlatformSale({ orderId: createdOrder._id, saleDate })
+      );
+      alert("💸 Продаж проведено!");
+      setPlatformCart([]);
+      localStorage.removeItem("platformCart");
+    } catch (err) {
+      alert("❌ Не вдалося завершити оформлення або продаж");
+      console.error("🔥 Помилка:", err);
+    }
+  };
 
-//       // ✅ Оновлення статусу
-//       await updateOrderStatus(createdOrder._id);
+  return (
+    <Box sx={{ p: 2, maxWidth: 700, mx: "auto" }}>
+      <Typography variant="h5" gutterBottom>
+        🛒 Замовлення з платформи
+      </Typography>
+      <Stack spacing={3}>
+        <Box>
+          <Typography variant="subtitle1">🌐 Платформа</Typography>
+          <Select
+            fullWidth
+            value={platformName}
+            onChange={(e) => setPlatformName(e.target.value)}
+          >
+            <MenuItem value="Allegro">Allegro</MenuItem>
+            <MenuItem value="Facebook">Facebook</MenuItem>
+            <MenuItem value="Instagram">Instagram</MenuItem>
+          </Select>
+        </Box>
 
-//       // 🧼 Очищення
-//       setCart([]);
-//       localStorage.removeItem("cart");
-//     } catch (error) {
-//       console.error("🔥 Помилка:", error);
-//       alert("❌ Щось пішло не так при оформленні замовлення!");
-//     }
-//   };
+        <TextField
+          fullWidth
+          label="Номер замовлення"
+          value={orderNumber}
+          onChange={(e) => setOrderNumber(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          multiline
+          rows={2}
+          label="Коментар"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        {platformName === "Allegro" && (
+          <Box>
+            <Typography variant="subtitle1">📇 Дані Allegro-клієнта</Typography>
+            <Stack spacing={2}>
+              <TextField
+                label="Ім’я"
+                value={buyerInfo.buyerFirstName}
+                onChange={(e) =>
+                  setBuyerInfo({ ...buyerInfo, buyerFirstName: e.target.value })
+                }
+              />
+              <TextField
+                label="Прізвище"
+                value={buyerInfo.buyerLastName}
+                onChange={(e) =>
+                  setBuyerInfo({ ...buyerInfo, buyerLastName: e.target.value })
+                }
+              />
+              <TextField
+                label="Телефон"
+                value={buyerInfo.buyerPhone}
+                onChange={(e) =>
+                  setBuyerInfo({ ...buyerInfo, buyerPhone: e.target.value })
+                }
+              />
+              <TextField
+                label="Allegro ID"
+                value={buyerInfo.allegroClientId}
+                onChange={(e) =>
+                  setBuyerInfo({
+                    ...buyerInfo,
+                    allegroClientId: e.target.value,
+                  })
+                }
+              />
+            </Stack>
+          </Box>
+        )}
+        <Box>
+          <Typography variant="subtitle1">💰 Спосіб оплати</Typography>
+          <Select
+            fullWidth
+            value={selectedPaymentMethod}
+            onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+          >
+            <MenuItem value="payu">PayU</MenuItem>
+            <MenuItem value="blik">BLIK</MenuItem>
+            <MenuItem value="bank_transfer">Банківський переказ</MenuItem>
+            <MenuItem value="credit_card">Кредитна картка</MenuItem>
+            <MenuItem value="installment">Оплата частинами</MenuItem>
+            <MenuItem value="allegro_balance">Баланс Allegro</MenuItem>
+            <MenuItem value="terminal">Термінал</MenuItem>
+            <MenuItem value="other">Інше</MenuItem>
+          </Select>
+          {selectedPaymentMethod === "terminal" && (
+            <Typography sx={{ fontStyle: "italic", mt: 1 }}>
+              ⚠️ Чек видається автоматично. Не генерується фактура.
+            </Typography>
+          )}
+        </Box>
+        <Box>
+          <Typography variant="subtitle1">👤 Тип покупця</Typography>
+          <Select
+            fullWidth
+            value={buyerType}
+            onChange={(e) => setBuyerType(e.target.value)}
+          >
+            <MenuItem value="anonim">Анонім</MenuItem>
+            <MenuItem value="registered">Клієнт</MenuItem>
+            <MenuItem value="przedsiębiorca">Підприємець</MenuItem>
+          </Select>
 
-//   return (
-//     <div style={{ textAlign: "center", padding: "16px" }}>
-//       <Typography variant="h6" sx={{ fontWeight: "bold", color: "#1976D2" }}>
-//         💰 Спосіб оплати
-//       </Typography>
-//       <select
-//         value={selectedPaymentMethod}
-//         onChange={(e) => setSelectedPaymentMethod(e.target.value)}
-//         style={{
-//           width: "100%",
-//           padding: "10px",
-//           fontSize: "16px",
-//           borderRadius: "5px",
-//           border: "2px solid #1976D2",
-//           cursor: "pointer",
-//           marginBottom: "12px",
-//         }}
-//       >
-//         <option value="terminal">Термінал</option>
-//         <option value="BLIK">BLIK</option>
-//         <option value="bank_transfer">Банківський переказ</option>
-//       </select>
-//       {selectedPaymentMethod === "terminal" && (
-//         <Typography
-//           sx={{ color: "#757575", fontStyle: "italic", marginBottom: "8px" }}
-//         >
-//           ⚠️ При оплаті через термінал фактура не генерується — чек видається
-//           автоматично.
-//         </Typography>
-//       )}
+          <Stack spacing={2} mt={2}>
+            {buyerType === "registered" && (
+              <>
+                <TextField
+                  label="Ім’я"
+                  value={buyerInfo.buyerName}
+                  onChange={(e) =>
+                    setBuyerInfo({ ...buyerInfo, buyerName: e.target.value })
+                  }
+                />
+                <TextField
+                  label="Адреса"
+                  value={buyerInfo.buyerAddress}
+                  onChange={(e) =>
+                    setBuyerInfo({ ...buyerInfo, buyerAddress: e.target.value })
+                  }
+                />
+                <TextField
+                  label="Номер клієнта"
+                  value={buyerInfo.clientNumber}
+                  onChange={(e) =>
+                    setBuyerInfo({ ...buyerInfo, clientNumber: e.target.value })
+                  }
+                />
+              </>
+            )}
+            {buyerType === "przedsiębiorca" && (
+              <>
+                <TextField
+                  label="Назва підприємця"
+                  value={buyerInfo.buyerName}
+                  onChange={(e) =>
+                    setBuyerInfo({ ...buyerInfo, buyerName: e.target.value })
+                  }
+                />
+                <TextField
+                  label="Адреса"
+                  value={buyerInfo.buyerAddress}
+                  onChange={(e) =>
+                    setBuyerInfo({ ...buyerInfo, buyerAddress: e.target.value })
+                  }
+                />
+                <TextField
+                  label="NIP"
+                  value={buyerInfo.buyerNIP}
+                  onChange={(e) =>
+                    setBuyerInfo({ ...buyerInfo, buyerNIP: e.target.value })
+                  }
+                />
+              </>
+            )}
+          </Stack>
+        </Box>
+        <TextField
+          label="Дата продажу"
+          type="date"
+          fullWidth
+          value={saleDate}
+          onChange={(e) => setSaleDate(e.target.value)}
+        />
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          startIcon={<CheckIcon />}
+          onClick={handleOrder}
+        >
+          Оформити замовлення
+        </Button>
+      </Stack>
+    </Box>
+  );
+};
 
-//       <Typography variant="h6">🧾 Тип покупця</Typography>
-//       <select
-//         value={buyerType}
-//         onChange={(e) => setBuyerType(e.target.value)}
-//         style={{
-//           width: "100%",
-//           padding: "10px",
-//           fontSize: "16px",
-//           borderRadius: "5px",
-//           border: "2px solid #1976D2",
-//           cursor: "pointer",
-//           marginBottom: "12px",
-//         }}
-//       >
-//         <option value="anonim">Анонім</option>
-//         <option value="przedsiębiorca">Підприємець</option>
-//       </select>
-//       {buyerType === "przedsiębiorca" && (
-//         <div style={{ marginTop: "12px" }}>
-//           <input
-//             type="text"
-//             placeholder="Назва підприємця"
-//             value={buyerInfo.buyerName}
-//             onChange={(e) =>
-//               setBuyerInfo({ ...buyerInfo, buyerName: e.target.value })
-//             }
-//             style={{ marginBottom: "8px", width: "100%", padding: "8px" }}
-//           />
-//           <input
-//             type="text"
-//             placeholder="Адреса"
-//             value={buyerInfo.buyerAddress}
-//             onChange={(e) =>
-//               setBuyerInfo({ ...buyerInfo, buyerAddress: e.target.value })
-//             }
-//             style={{ marginBottom: "8px", width: "100%", padding: "8px" }}
-//           />
-//           <input
-//             type="text"
-//             placeholder="NIP"
-//             value={buyerInfo.buyerNIP}
-//             onChange={(e) =>
-//               setBuyerInfo({ ...buyerInfo, buyerNIP: e.target.value })
-//             }
-//             style={{ marginBottom: "12px", width: "100%", padding: "8px" }}
-//           />
-//         </div>
-//       )}
-//       <Typography variant="h6">📅 Дата продажу</Typography>
-//       <input
-//         type="date"
-//         value={saleDate}
-//         onChange={(e) => setSaleDate(e.target.value)}
-//         style={{ width: "100%", padding: "8px", marginBottom: "12px" }}
-//       />
-
-//       <button
-//         onClick={handleOrder}
-//         style={{
-//           backgroundColor: "#4CAF50",
-//           color: "white",
-//           fontSize: "16px",
-//           padding: "10px 20px",
-//           borderRadius: "5px",
-//           border: "none",
-//           cursor: "pointer",
-//           fontWeight: "bold",
-//           transition: "0.3s",
-//         }}
-//         onMouseOver={(e) => (e.target.style.backgroundColor = "#45A049")}
-//         onMouseOut={(e) => (e.target.style.backgroundColor = "#4CAF50")}
-//       >
-//         ✅ Оформити замовлення
-//       </button>
-//     </div>
-//   );
-// };
-
-// export default PlatformOrderForm;
+export default PlatformOrderForm;

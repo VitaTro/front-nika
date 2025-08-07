@@ -37,7 +37,8 @@ const FinanceOverview = () => {
     products.forEach((p) => {
       const quantity = Number(p.quantity) || 0;
       const price = Number(p.price) || 0;
-      const purchase = Number(p.purchasePrice) || 0;
+      const purchase =
+        Number(p.purchasePrice) || Number(p.unitPurchasePrice) || 0;
       const currency = p.currency || "USD";
       const rate = conversionRates[currency] || 1;
 
@@ -71,6 +72,7 @@ const FinanceOverview = () => {
       return sum + (Number(p.price) || 0) * (Number(p.quantity) || 1);
     }, 0);
   };
+
   const saleMovements = movements.filter((m) => m.type === "sale");
 
   const stockProfit = saleMovements.reduce((total, sale) => {
@@ -95,12 +97,26 @@ const FinanceOverview = () => {
     dispatch(fetchFinanceOverview());
   }, [dispatch]);
 
+  const getSaleDate = (sale) => {
+    const rawDate =
+      sale.products?.[0]?.saleDate || sale.saleDate || sale.createdAt;
+
+    if (!rawDate) return "—";
+
+    const date = new Date(rawDate);
+    return isNaN(date.getTime()) ? "—" : date.toLocaleDateString();
+  };
+
   const onlineProfit = completedSales
     .filter((s) => s.source === "online")
     .reduce((sum, s) => sum + getNetProfit(s), 0);
 
   const offlineProfit = completedSales
     .filter((s) => s.source === "offline")
+    .reduce((sum, s) => sum + getNetProfit(s), 0);
+
+  const platformProfit = completedSales
+    .filter((s) => s.source === "platform")
     .reduce((sum, s) => sum + getNetProfit(s), 0);
 
   if (isLoading) return <Loader />;
@@ -125,6 +141,9 @@ const FinanceOverview = () => {
         <Typography>
           🏪 Офлайн-продажі: {stats?.totalOfflineSales ?? "—"}
         </Typography>
+        <Typography>
+          🌐Продажі з платформ: {stats?.totalPlatformSales ?? "—"}
+        </Typography>
       </Paper>
 
       {/* Витрати та прибуток */}
@@ -135,16 +154,21 @@ const FinanceOverview = () => {
         </Typography>
         <Typography
           sx={{
-            color: onlineProfit + offlineProfit > 0 ? "green" : "red",
+            color:
+              onlineProfit + offlineProfit + platformProfit > 0
+                ? "green"
+                : "red",
             mt: 1,
           }}
         >
-          💹 Загальний прибуток: {(onlineProfit + offlineProfit).toFixed(2)} zł
+          💹 Загальний прибуток:{" "}
+          {(onlineProfit + offlineProfit + platformProfit).toFixed(2)} zł
         </Typography>
         <Typography
           sx={{
             color:
               onlineProfit +
+                platformProfit +
                 offlineProfit -
                 (expenses?.totalFromRecords || 0) >=
               0
@@ -156,6 +180,7 @@ const FinanceOverview = () => {
           🧾 Чистий фінансовий результат:{" "}
           {(
             onlineProfit +
+            platformProfit +
             offlineProfit -
             (expenses?.totalFromRecords || 0)
           ).toFixed(2)}{" "}
@@ -171,6 +196,9 @@ const FinanceOverview = () => {
         </Typography>
         <Typography sx={{ color: offlineProfit > 0 ? "green" : "red" }}>
           Офлайн чистий прибуток: {offlineProfit.toFixed(2)} zł
+        </Typography>
+        <Typography sx={{ color: platformProfit > 0 ? "green" : "red" }}>
+          Платформа чистий прибуток: {platformProfit.toFixed(2)} zł
         </Typography>
       </Paper>
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
@@ -191,8 +219,8 @@ const FinanceOverview = () => {
         ) : (
           completedSales.map((sale, idx) => (
             <Typography key={idx}>
-              {new Date(sale.createdAt).toLocaleDateString()} —{" "}
-              {getTotalPrice(sale).toFixed(2)} zł ({sale.paymentMethod})
+              {getSaleDate(sale)} — {getTotalPrice(sale).toFixed(2)} zł (
+              {sale.paymentMethod})
             </Typography>
           ))
         )}

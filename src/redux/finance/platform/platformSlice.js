@@ -6,6 +6,8 @@ import {
   fetchPlatformOrders,
   fetchPlatformSaleById,
   fetchPlatformSales,
+  returnPlatformSale,
+  updatePlatformOrderStatus,
 } from "./operationPlatform";
 const platformSlice = createSlice({
   name: "platform",
@@ -59,6 +61,34 @@ const platformSlice = createSlice({
       })
       .addCase(fetchPlatformSaleById.fulfilled, (state, action) => {
         state.selectedSale = action.payload.sale;
+      })
+      .addCase(updatePlatformOrderStatus.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updatePlatformOrderStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        const updated = action.payload;
+        const index = state.orders.findIndex((o) => o._id === updated._id);
+        if (index !== -1) state.orders[index] = updated;
+      })
+      .addCase(updatePlatformOrderStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(returnPlatformSale.pending, (state) => {
+        state.loadingSales = true;
+        state.errorSales = null;
+      })
+      .addCase(returnPlatformSale.fulfilled, (state, action) => {
+        state.loadingSales = false;
+        const returned = action.payload;
+        const index = state.sales.findIndex((s) => s._id === returned._id);
+        if (index !== -1) state.sales[index] = returned;
+      })
+      .addCase(returnPlatformSale.rejected, (state, action) => {
+        state.loadingSales = false;
+        state.errorSales = action.payload;
       });
   },
 });
