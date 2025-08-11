@@ -139,6 +139,7 @@ const OrderForm = ({ cart, setCart }) => {
         }}
       >
         <option value="terminal">Термінал</option>
+        <option value="cash">Готівка</option>
         <option value="BLIK">BLIK</option>
         <option value="bank_transfer">Банківський переказ</option>
       </select>
