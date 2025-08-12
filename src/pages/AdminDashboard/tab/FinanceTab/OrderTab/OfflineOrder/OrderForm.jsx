@@ -102,7 +102,6 @@ const OrderForm = ({ cart, setCart }) => {
 
       alert("✅ Замовлення створено!");
 
-      // 💸 Продаж
       await axios.post("/api/admin/finance/offline/sales", {
         orderId: createdOrder._id,
         saleDate,

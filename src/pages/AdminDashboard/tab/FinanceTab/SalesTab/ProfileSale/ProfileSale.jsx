@@ -26,7 +26,7 @@ const ProfileSale = () => {
   return (
     <Box sx={{ p: isMobile ? 1 : 3 }}>
       <Typography variant="h5" sx={{ mb: 2 }}>
-        💸 Список продажів
+         Список продажів
       </Typography>
 
       {sales.length > 0 ? (
@@ -50,7 +50,7 @@ const ProfileSale = () => {
                 >
                   <Typography>
                     🆔 {sale.orderId} —{" "}
-                    {new Date(sale.saleDate).toLocaleDateString()} — 💰{" "}
+                    {new Date(sale.saleDate).toLocaleDateString()} — {" "}
                     {total.toFixed(2)} zł
                   </Typography>
                   <Button
