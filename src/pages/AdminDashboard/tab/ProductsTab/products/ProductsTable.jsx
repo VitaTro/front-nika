@@ -215,19 +215,21 @@ const ProductsTable = ({
           </TableBody>
         </Table>
       </TableContainer>
-      <TableRow>
-        <TableCell colSpan={6} />
-        <TableCell>
-          <strong>{totalQuantity} шт</strong>
-        </TableCell>
-        <TableCell>
-          <strong>{totalValue.toFixed(2)} zł</strong>
-        </TableCell>
-        <TableCell>
-          <strong>{totalRetailValue.toFixed(2)} zł</strong>
-        </TableCell>
-        <TableCell colSpan={2} />
-      </TableRow>
+      <tfoot>
+        <TableRow>
+          <TableCell colSpan={6} />
+          <TableCell>
+            <strong>{totalQuantity} шт</strong>
+          </TableCell>
+          <TableCell>
+            <strong>{totalValue.toFixed(2)} zł</strong>
+          </TableCell>
+          <TableCell>
+            <strong>{totalRetailValue.toFixed(2)} zł</strong>
+          </TableCell>
+          <TableCell colSpan={2} />
+        </TableRow>
+      </tfoot>
     </>
   );
 };

@@ -41,7 +41,12 @@ const ProductsTab = () => {
     visible: true,
     quantity: "",
     index: "",
-    purchasePrice: "",
+
+    purchasePrice: {
+      value: "",
+      currency: "PLN",
+      exchangeRateToPLN: "",
+    },
   });
 
   useEffect(() => {
@@ -122,6 +127,7 @@ const ProductsTab = () => {
       visible: true,
       quantity: "",
       index: "",
+
       purchasePrice: {
         value: "",
         currency: "PLN",
