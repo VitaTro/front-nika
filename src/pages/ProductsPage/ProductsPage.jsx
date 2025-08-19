@@ -42,7 +42,7 @@ const ProductsPage = ({ isUserAuthenticated }) => {
               <ImageBox
                 src={Gold}
                 alt="gold earrings"
-                style={{ width: "220px" }}
+                style={{ width: "200px" }}
               />
               <BoxHeader>{t("gold")}</BoxHeader>
             </BoxContainer>

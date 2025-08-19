@@ -53,7 +53,7 @@ export const WelcomeList = styled.ul`
 `;
 
 export const WelcomeItem = styled.li`
-list-style: none;
+  list-style: none;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 20px;
@@ -61,7 +61,7 @@ list-style: none;
 
 export const ImageBox = styled.img`
   object-fit: contain;
-  margin: 15px;
+  margin: 5px;
 `;
 
 export const BoxContainer = styled.div`
@@ -72,14 +72,16 @@ export const BoxContainer = styled.div`
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
-  &:hover {
-    transform: scale(1.05);
+  // &:hover {
+  //   transform: scale(1.05);
+  // }
 `;
 
 export const BoxHeader = styled.h2`
   font-family: "Nunito", sans-serif;
   color: darkred;
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 20px;
   margin-top: auto;
   text-align: center;
   text-shadow: 0 0 5px rgb(167, 182, 208);
