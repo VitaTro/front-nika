@@ -1,4 +1,17 @@
-import { Box, Paper, Typography, useMediaQuery } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+
 import { Chart, registerables } from "chart.js";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -125,6 +138,22 @@ const FinanceOverview = () => {
       <Typography color="error">Помилка завантаження даних: {error}</Typography>
     );
 
+  const groupSalesByDate = (sales) => {
+    const grouped = {};
+
+    sales.forEach((sale) => {
+      const date = getSaleDate(sale); // вже є у тебе
+      if (!grouped[date]) {
+        grouped[date] = [];
+      }
+      grouped[date].push(sale);
+    });
+
+    return grouped;
+  };
+
+  const groupedSales = groupSalesByDate(completedSales);
+
   return (
     <Box sx={{ maxHeight: "85vh", overflowY: "auto", p: isMobile ? 1 : 2 }}>
       <Typography variant="h5" align="center" gutterBottom>
@@ -209,21 +238,37 @@ const FinanceOverview = () => {
         </Typography>
       </Paper>
 
-      {/* Виконані продажі */}
-      <Paper elevation={3} sx={{ p: 2, maxHeight: 300, overflowY: "auto" }}>
+      <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6" gutterBottom>
           ✅ Виконані продажі
         </Typography>
-        {completedSales.length === 0 ? (
-          <Typography>Немає виконаних продажів</Typography>
-        ) : (
-          completedSales.map((sale, idx) => (
-            <Typography key={idx}>
-              {getSaleDate(sale)} — {getTotalPrice(sale).toFixed(2)} zł (
-              {sale.paymentMethod})
-            </Typography>
-          ))
-        )}
+
+        {Object.entries(groupedSales)
+          .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
+          .map(([date, sales], idx) => {
+            const total = sales.reduce((sum, s) => sum + getTotalPrice(s), 0);
+            return (
+              <Accordion key={idx}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>
+                    📅 {date} — 💰 {total.toFixed(2)} zł
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List dense>
+                    {sales.map((sale, i) => (
+                      <ListItem key={i}>
+                        <ListItemText
+                          primary={`${getTotalPrice(sale).toFixed(2)} zł`}
+                          secondary={`💳 ${sale.paymentMethod}`}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
       </Paper>
     </Box>
   );
