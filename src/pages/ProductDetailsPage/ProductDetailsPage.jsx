@@ -107,6 +107,12 @@ const ProductDetailsPage = () => {
             <InfoItem>
               ↕️ {t("length")}: {getLengthWithUnit(product, t)}
             </InfoItem>
+            {product.materials && (
+              <InfoItem>
+                🧵 {t("materials")}: {displayValue(product.materials, t)}
+              </InfoItem>
+            )}
+
             <InfoItem>
               💰 {t("price")}: {product.lastRetailPrice} zł
             </InfoItem>

@@ -153,6 +153,11 @@ export const App = () => {
                 element={<Products type="silver" />}
               />
               <Route path="/products/set" element={<Products type="set" />} />
+              <Route
+                path="/products/handmade"
+                element={<Products type="handmade" />}
+              />
+
               <Route path="/products/box" element={<Products type="box" />} />
               <Route path="/products/:id" element={<ProductDetailsPage />} />
               <Route path="/products/:type" element={<Products />} />
@@ -196,6 +201,10 @@ export const App = () => {
                   <Route
                     path="/user/products/box"
                     element={<Products type="box" />}
+                  />{" "}
+                  <Route
+                    path="/user/products/handmade"
+                    element={<Products type="handmade" />}
                   />{" "}
                   <Route path="/user/products/:type" element={<Products />} />
                 </>

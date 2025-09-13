@@ -12,9 +12,9 @@ import {
 import Box from "./box.png";
 import Gold from "./gold.png";
 import GoldLight from "./goldLight.png";
+import Handmade from "./handmade.png";
 import Set from "./set.png";
 import Silver from "./silver.png";
-
 const ProductsPage = ({ isUserAuthenticated }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -80,6 +80,18 @@ const ProductsPage = ({ isUserAuthenticated }) => {
                   style={{ width: "220px" }}
                 />
                 <BoxHeader>{t("set")}</BoxHeader>
+              </BoxContainer>
+            </div>
+          </WelcomeItem>
+          <WelcomeItem className="no-theme">
+            <div onClick={() => handleProductClick("/products/handmade")}>
+              <BoxContainer>
+                <ImageBox
+                  src={Handmade}
+                  alt="bracelet with red thread"
+                  style={{ width: "220px" }}
+                />
+                <BoxHeader>{t("handmade")}</BoxHeader>
               </BoxContainer>
             </div>
           </WelcomeItem>

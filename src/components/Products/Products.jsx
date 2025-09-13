@@ -163,6 +163,19 @@ const Products = ({ type }) => {
             ))}
           </Tabs>
         )}
+        {type === "handmade" && (
+          <Tabs>
+            {["all", "beaded", "thread", "beads"].map((category) => (
+              <TabButton
+                key={`tab-${category}`}
+                onClick={() => handleCategoryChange(category)}
+                className={activeCategory === category ? "active" : ""}
+              >
+                {t(category)}
+              </TabButton>
+            ))}
+          </Tabs>
+        )}
 
         {isLoading ? (
           <Loader />
