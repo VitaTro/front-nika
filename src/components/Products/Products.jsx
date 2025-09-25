@@ -110,10 +110,18 @@ const Products = ({ type }) => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
+  const availableProducts = filteredProducts.filter(
+    (product) =>
+      product.inStock !== false &&
+      (product.currentStock ?? product.quantity ?? 0) > 0
+  );
+
+  const currentProducts = availableProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  const totalPages = Math.ceil(availableProducts.length / productsPerPage);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -125,7 +133,7 @@ const Products = ({ type }) => {
     setCurrentPage(1);
   };
 
-  const totalPages = Math.ceil(products.length / productsPerPage);
+  // const totalPages = Math.ceil(products.length / productsPerPage);
 
   return (
     <>
