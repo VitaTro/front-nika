@@ -16,6 +16,11 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
     setPlatformCart(storedCart);
   }, []);
 
+  const availableItems = platformCart.filter(
+    (item) =>
+      item.inStock !== false && (item.currentStock ?? item.quantity ?? 0) > 0
+  );
+
   const handlePriceChange = (productId, value) => {
     const updated = platformCart.map((item) =>
       item.productId === productId
@@ -27,12 +32,12 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
     updateQuantity(productId, null, value);
   };
 
-  const totalPrice = platformCart.reduce(
+  const totalPrice = availableItems.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
     0
   );
 
-  const hasMissingPrices = platformCart.some((item) => !item.price);
+  const hasMissingPrices = availableItems.some((item) => !item.price);
 
   return (
     <CartContainer>
@@ -44,10 +49,10 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
           ⚠️ Увага: деякі товари не мають ціни!
         </Typography>
       )}
-      {platformCart.length > 0 ? (
+      {availableItems.length > 0 ? (
         <>
           <CartGrid>
-            {platformCart.map((item) => (
+            {availableItems.map((item) => (
               <ProductCardShop key={item.productId}>
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>

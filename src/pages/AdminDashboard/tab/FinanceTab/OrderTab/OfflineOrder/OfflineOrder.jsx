@@ -53,12 +53,22 @@ const OfflineOrder = () => {
     subcategoriesByCategory[product.category].add(product.subcategory);
   });
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (!selectedCategory || product.category === selectedCategory) &&
-      (!selectedSubcategory || product.subcategory === selectedSubcategory)
-  );
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      !selectedCategory || product.category === selectedCategory;
+    const matchesSubcategory =
+      !selectedSubcategory || product.subcategory === selectedSubcategory;
+    const isAvailable =
+      product.inStock !== false &&
+      (product.currentStock ?? product.quantity ?? 0) > 0;
+
+    return (
+      matchesSearch && matchesCategory && matchesSubcategory && isAvailable
+    );
+  });
 
   const addToCart = (product) => {
     setCart((prevCart) => {
