@@ -75,11 +75,21 @@ const ProductsTable = ({
     return stock > 0 ? sum + retailPrice * stock : sum;
   }, 0);
 
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    const stockA = a.currentStock ?? a.quantity ?? 0;
+    const stockB = b.currentStock ?? b.quantity ?? 0;
+
+    // Товари з нульовим залишком мають бути внизу
+    if (stockA === 0 && stockB !== 0) return 1;
+    if (stockA !== 0 && stockB === 0) return -1;
+    return 0;
+  });
+
   if (isMobile || isSmall) {
     return (
       <>
         <Box display="flex" flexDirection="column" gap={2}>
-          {filteredProducts.map((product) => (
+          {sortedProducts.map((product) => (
             <Paper key={`${product.name}-${product.index}`} sx={{ p: 2 }}>
               <Box display="flex" gap={2} alignItems="center" mb={1}>
                 <ZoomableProductImage
@@ -173,7 +183,7 @@ const ProductsTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredProducts.map((product) => (
+            {sortedProducts.map((product) => (
               <TableRow key={`${product.name}-${product.index}`}>
                 <TableCell>
                   <ZoomableProductImage
