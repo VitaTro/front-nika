@@ -114,10 +114,21 @@ const FinanceOverview = () => {
     const rawDate =
       sale.products?.[0]?.saleDate || sale.saleDate || sale.createdAt;
 
-    if (!rawDate) return "—";
+    if (!rawDate) return null;
 
     const date = new Date(rawDate);
-    return isNaN(date.getTime()) ? "—" : date.toLocaleDateString();
+    return isNaN(date.getTime()) ? null : date.toISOString().split("T")[0];
+  };
+
+  const formatDisplayDate = (isoDate) => {
+    const date = new Date(isoDate);
+    if (isNaN(date.getTime())) return "—";
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
   };
 
   const onlineProfit = completedSales
@@ -251,7 +262,7 @@ const FinanceOverview = () => {
               <Accordion key={idx}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>
-                    📅 {date} — 💰 {total.toFixed(2)} zł
+                    📅 {formatDisplayDate(date)} — 💰 {total.toFixed(2)} zł
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
