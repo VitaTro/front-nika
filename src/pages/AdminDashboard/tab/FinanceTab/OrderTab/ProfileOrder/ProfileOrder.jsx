@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPlatformOrders } from "../../../../../../redux/finance/platform/selectorsPlatform";
 import { getProducts } from "../../../../../../redux/products/operationProducts";
 import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 import {
   CategoryButton,
   GeneralOfflineOrder,
@@ -54,12 +55,23 @@ const ProfileOrder = () => {
     }
     subcategoriesByCategory[product.category].add(product.subcategory);
   });
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      (!selectedCategory || product.category === selectedCategory) &&
-      (!selectedSubcategory || product.subcategory === selectedSubcategory)
-  );
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      !selectedCategory || product.category === selectedCategory;
+    const matchesSubcategory =
+      !selectedSubcategory || product.subcategory === selectedSubcategory;
+
+    const stock = Number(product.currentStock ?? product.quantity ?? 0);
+    const isAvailable = product.inStock !== false && stock > 0;
+
+    return (
+      matchesSearch && matchesCategory && matchesSubcategory && isAvailable
+    );
+  });
+
   const addToCart = (product) => {
     setPlatformCart((prevCart) => {
       const existingProduct = prevCart.find(
@@ -106,6 +118,11 @@ const ProfileOrder = () => {
       return updatedCart;
     });
   };
+  const totalAmount = platformCart.reduce(
+    (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
+    0
+  );
+  const { discount, discountPercent, final } = calculateDiscount(totalAmount);
 
   return (
     <GeneralOfflineOrder>
@@ -148,13 +165,14 @@ const ProfileOrder = () => {
         <Typography variant="h6">
           🛒 Кошик ({platformCart.length} товарів)
         </Typography>{" "}
-        <Typography>
-          Загальна сума:{" "}
-          {platformCart.reduce(
-            (acc, item) => acc + item.price * item.quantity,
-            0
-          )}{" "}
-          zł
+        <Typography>💰 Сума до знижки: {totalAmount.toFixed(2)} zł</Typography>
+        {discount > 0 && (
+          <Typography sx={{ color: "red" }}>
+            🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+          </Typography>
+        )}
+        <Typography sx={{ fontWeight: "bold", mt: 1 }}>
+          ✅ До сплати: {final.toFixed(2)} zł
         </Typography>{" "}
         <Button variant="contained" onClick={() => setViewCart(!viewCart)}>
           {viewCart ? "⬅️ Назад до товарів" : "➡️ Переглянути кошик"}
@@ -170,11 +188,18 @@ const ProfileOrder = () => {
             <PlatformOrderForm
               platformCart={platformCart}
               setPlatformCart={setPlatformCart}
+              finalPrice={final}
+              discount={discount}
+              discountPercent={discountPercent}
             />
+
             {orderState.success && orderState.orders.length > 0 && (
               <SaleButton
                 orderId={orderState.orders.slice(-1)[0]._id}
                 saleDate={new Date()}
+                finalPrice={final}
+                discount={discount}
+                discountPercent={discountPercent}
               />
             )}
           </>

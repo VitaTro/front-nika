@@ -15,11 +15,15 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 import ReturnOfflineSale from "./ReturnOfflineSale";
-
 const OfflineSaleDetails = ({ sale, onClose }) => {
   const [openReturnDialog, setOpenReturnDialog] = useState(false);
   const isMobile = useMediaQuery("(max-width:768px)");
+  const { discountPercent, discount, final } = calculateDiscount(
+    sale.totalAmount
+  );
+
   return (
     <Dialog open={!!sale} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>🛍 Деталі продажу</DialogTitle>
@@ -39,7 +43,18 @@ const OfflineSaleDetails = ({ sale, onClose }) => {
                 <TableCell>Назва</TableCell>
                 <TableCell>К-сть</TableCell>
                 <TableCell>Ціна</TableCell>
-                <TableCell>Сума</TableCell>
+                <Typography>
+                  <strong>Сума без знижки:</strong> {sale.totalAmount} zł
+                </Typography>
+                <Typography>
+                  <strong>Знижка:</strong> {discount} zł ({discountPercent}%)
+                </Typography>
+                <Typography>
+                  <strong>До сплати:</strong> {final} zł
+                </Typography>
+                <Typography>
+                  <strong>Метод оплати:</strong> {sale?.paymentMethod}
+                </Typography>
               </TableRow>
             </TableHead>
             <TableBody>

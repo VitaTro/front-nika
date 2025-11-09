@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlatformSales } from "../../../../../../redux/finance/platform/operationPlatform";
 import { selectPlatformSales } from "../../../../../../redux/finance/platform/selectorsPlatform";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 import SaleDetails from "./SaleDetails"; // адаптуй шлях, якщо потрібно
-
 const ProfileSale = () => {
   const dispatch = useDispatch();
   const sales = useSelector(selectPlatformSales);
@@ -26,7 +26,7 @@ const ProfileSale = () => {
   return (
     <Box sx={{ p: isMobile ? 1 : 3 }}>
       <Typography variant="h5" sx={{ mb: 2 }}>
-         Список продажів
+        Список продажів
       </Typography>
 
       {sales.length > 0 ? (
@@ -36,7 +36,8 @@ const ProfileSale = () => {
               (sum, p) => sum + (p.price || 0),
               0
             );
-
+            const { discount, discountPercent, final } =
+              calculateDiscount(total);
             return (
               <Paper key={sale._id} sx={{ p: 2 }}>
                 <Box
@@ -50,9 +51,18 @@ const ProfileSale = () => {
                 >
                   <Typography>
                     🆔 {sale.orderId} —{" "}
-                    {new Date(sale.saleDate).toLocaleDateString()} — {" "}
+                    {new Date(sale.saleDate).toLocaleDateString()} — 💰{" "}
                     {total.toFixed(2)} zł
+                    {discount > 0 && (
+                      <>
+                        {" "}
+                        − <strong>{discount.toFixed(2)} zł</strong> (
+                        {discountPercent}%) ={" "}
+                        <strong>{final.toFixed(2)} zł</strong>
+                      </>
+                    )}
                   </Typography>
+
                   <Button
                     variant="text"
                     size="small"

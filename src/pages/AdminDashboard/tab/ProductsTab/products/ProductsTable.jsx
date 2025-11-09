@@ -6,6 +6,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
   Typography,
@@ -182,6 +183,7 @@ const ProductsTable = ({
               <TableCell>Дії</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {sortedProducts.map((product) => (
               <TableRow key={`${product.name}-${product.index}`}>
@@ -216,6 +218,7 @@ const ProductsTable = ({
                     size="small"
                     color="error"
                     onClick={() => handleDelete(product._id)}
+                    sx={{ ml: 1 }}
                   >
                     Видалити
                   </Button>
@@ -223,23 +226,24 @@ const ProductsTable = ({
               </TableRow>
             ))}
           </TableBody>
+
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={6} />
+              <TableCell>
+                <strong>{totalQuantity} шт</strong>
+              </TableCell>
+              <TableCell>
+                <strong>{totalValue.toFixed(2)} zł</strong>
+              </TableCell>
+              <TableCell>
+                <strong>{totalRetailValue.toFixed(2)} zł</strong>
+              </TableCell>
+              <TableCell colSpan={2} />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
-      <tfoot>
-        <TableRow>
-          <TableCell colSpan={6} />
-          <TableCell>
-            <strong>{totalQuantity} шт</strong>
-          </TableCell>
-          <TableCell>
-            <strong>{totalValue.toFixed(2)} zł</strong>
-          </TableCell>
-          <TableCell>
-            <strong>{totalRetailValue.toFixed(2)} zł</strong>
-          </TableCell>
-          <TableCell colSpan={2} />
-        </TableRow>
-      </tfoot>
     </>
   );
 };

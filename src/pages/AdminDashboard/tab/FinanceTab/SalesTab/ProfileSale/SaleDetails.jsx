@@ -1,12 +1,25 @@
 import { Box, Typography } from "@mui/material";
-
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 const SaleDetails = ({ products }) => {
   if (!products || products.length === 0) {
     return <Typography>⚠️ Немає товарів у цьому продажу</Typography>;
   }
-
+  const total = products.reduce((sum, p) => sum + (p.price || 0), 0);
+  const { discount, discountPercent, final } = calculateDiscount(total);
   return (
     <Box sx={{ mt: 2 }}>
+      <Box sx={{ mb: 2 }}>
+        <Typography>💰 Сума без знижки: {total.toFixed(2)} zł</Typography>
+        {discount > 0 && (
+          <Typography sx={{ color: "red" }}>
+            🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+          </Typography>
+        )}
+        <Typography sx={{ fontWeight: "bold" }}>
+          ✅ До сплати: {final.toFixed(2)} zł
+        </Typography>
+      </Box>
+
       {products.map((product, index) => (
         <Box
           key={index}

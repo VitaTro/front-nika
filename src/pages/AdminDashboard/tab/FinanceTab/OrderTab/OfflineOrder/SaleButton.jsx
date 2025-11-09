@@ -2,7 +2,13 @@ import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
 import { createOfflineSale } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
 
-const SaleButton = ({ orderId, saleDate }) => {
+const SaleButton = ({
+  orderId,
+  saleDate,
+  finalPrice,
+  discount,
+  discountPercent,
+}) => {
   const dispatch = useDispatch();
 
   const handleSale = () => {
@@ -10,6 +16,9 @@ const SaleButton = ({ orderId, saleDate }) => {
       createOfflineSale({
         orderId,
         saleDate: saleDate || new Date(),
+        finalPrice,
+        discount,
+        discountPercent,
       })
     );
   };

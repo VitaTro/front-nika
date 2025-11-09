@@ -16,6 +16,7 @@ import { Chart, registerables } from "chart.js";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../../../../components/Loader";
+import { fetchAdminProducts } from "../../../../../redux/admin/operationsAdmin";
 import { fetchFinanceOverview } from "../../../../../redux/finance/overview/operationOverview";
 import {
   selectCompletedSales,
@@ -25,7 +26,7 @@ import {
   selectFinanceStats,
 } from "../../../../../redux/finance/overview/selectorsOverview";
 import { selectStockMovements } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
-
+import { selectProducts } from "../../../../../redux/products/selectorsProducts";
 Chart.register(...registerables);
 
 const FinanceOverview = () => {
@@ -38,6 +39,7 @@ const FinanceOverview = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const movements = useSelector(selectStockMovements);
   const chartRef = useRef(null);
+  const products = useSelector(selectProducts);
   const conversionRates = {
     USD: 0.25,
     PLN: 1,
@@ -85,6 +87,14 @@ const FinanceOverview = () => {
       return sum + (Number(p.price) || 0) * (Number(p.quantity) || 1);
     }, 0);
   };
+  // const availableProducts = products.filter(
+  //   (p) =>
+  //     p.inStock !== false &&
+  //     (Number(p.currentStock) || Number(p.quantity) || 0) > 0
+  // );
+  const availableProducts = products.filter(
+    (p) => (p.currentStock ?? p.quantity ?? 0) > 0
+  );
 
   const saleMovements = movements.filter((m) => m.type === "sale");
 
@@ -108,6 +118,7 @@ const FinanceOverview = () => {
 
   useEffect(() => {
     dispatch(fetchFinanceOverview());
+    dispatch(fetchAdminProducts());
   }, [dispatch]);
 
   const getSaleDate = (sale) => {
@@ -174,7 +185,11 @@ const FinanceOverview = () => {
       {/* Загальна статистика */}
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Загальна статистика</Typography>
-        <Typography>📦 Продукти: {stats?.totalProducts ?? "—"}</Typography>
+        <Typography> Продукти: {stats?.totalProducts ?? "—"}</Typography>
+        <Typography>
+          📦 Продукти в наявності: {availableProducts.length}
+        </Typography>
+
         <Typography>
           🛒 Онлайн-продажі: {stats?.totalOnlineSales ?? "—"}
         </Typography>
@@ -262,7 +277,12 @@ const FinanceOverview = () => {
               <Accordion key={idx}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography>
-                    📅 {formatDisplayDate(date)} — 💰 {total.toFixed(2)} zł
+                    📅 {formatDisplayDate(date)} — 💰 {total.toFixed(2)} zł → зі
+                    знижками:{" "}
+                    {sales
+                      .reduce((sum, s) => sum + (s.finalPrice || 0), 0)
+                      .toFixed(2)}{" "}
+                    zł
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -270,7 +290,29 @@ const FinanceOverview = () => {
                     {sales.map((sale, i) => (
                       <ListItem key={i}>
                         <ListItemText
-                          primary={`${getTotalPrice(sale).toFixed(2)} zł`}
+                          primary={
+                            <>
+                              💰 {getTotalPrice(sale).toFixed(2)} zł{" "}
+                              {sale.discount > 0 && (
+                                <Typography
+                                  component="span"
+                                  sx={{ color: "red", ml: 1 }}
+                                >
+                                  −{sale.discount.toFixed(2)} zł
+                                </Typography>
+                              )}
+                              <Typography
+                                component="span"
+                                sx={{ fontWeight: "bold", ml: 1 }}
+                              >
+                                ={" "}
+                                {(
+                                  sale.finalPrice ?? getTotalPrice(sale)
+                                ).toFixed(2)}{" "}
+                                zł
+                              </Typography>
+                            </>
+                          }
                           secondary={`💳 ${sale.paymentMethod}`}
                         />
                       </ListItem>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectOfflineOrders } from "../../../../../../redux/finance/offlineOrder/selectorsOfflineOrder";
 import { getProducts } from "../../../../../../redux/products/operationProducts";
 import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 import Cart from "./Cart";
 import {
   CategoryButton,
@@ -111,6 +112,11 @@ const OfflineOrder = () => {
       return updatedCart;
     });
   };
+  const totalAmount = cart.reduce(
+    (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
+    0
+  );
+  const { discount, discountPercent, final } = calculateDiscount(totalAmount);
 
   return (
     <GeneralOfflineOrder>
@@ -152,9 +158,14 @@ const OfflineOrder = () => {
           </>
         )}
         <Typography variant="h6">🛒 Кошик ({cart.length} товарів)</Typography>{" "}
-        <Typography>
-          Загальна сума:{" "}
-          {cart.reduce((acc, item) => acc + item.price * item.quantity, 0)} zł
+        <Typography>💰 Сума до знижки: {totalAmount.toFixed(2)} zł</Typography>
+        {discount > 0 && (
+          <Typography sx={{ color: "red" }}>
+            🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+          </Typography>
+        )}
+        <Typography sx={{ fontWeight: "bold", mt: 1 }}>
+          ✅ До сплати: {final.toFixed(2)} zł
         </Typography>{" "}
         <Button variant="contained" onClick={() => setViewCart(!viewCart)}>
           {viewCart ? "⬅️ Назад до товарів" : "➡️ Переглянути кошик"}
@@ -169,11 +180,20 @@ const OfflineOrder = () => {
               updateQuantity={updateQuantity}
               removeFromCart={removeFromCart}
             />
-            <OrderForm cart={cart} setCart={setCart} />
+            <OrderForm
+              cart={cart}
+              setCart={setCart}
+              finalPrice={final}
+              discount={discount}
+              discountPercent={discountPercent}
+            />
             {orderState.success && orderState.offlineOrders.length > 0 && (
               <SaleButton
                 orderId={orderState.offlineOrders.slice(-1)[0]._id}
                 saleDate={new Date()}
+                finalPrice={final}
+                discount={discount}
+                discountPercent={discountPercent}
               />
             )}
           </>

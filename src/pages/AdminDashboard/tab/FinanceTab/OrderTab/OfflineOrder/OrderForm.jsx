@@ -4,7 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "../../../../../../redux/axiosConfig";
 import { createOfflineSale } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
 
-const OrderForm = ({ cart, setCart }) => {
+const OrderForm = ({
+  cart,
+  setCart,
+  finalPrice,
+  discount,
+  discountPercent,
+}) => {
   const dispatch = useDispatch();
   const orderState = useSelector((state) => state.offlineOrders);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
@@ -80,6 +86,10 @@ const OrderForm = ({ cart, setCart }) => {
       paymentMethod: selectedPaymentMethod,
       status: "pending",
       buyerType,
+      saleDate,
+      discount,
+      discountPercent,
+      finalPrice,
       ...(buyerType === "przedsiębiorca" && {
         buyerName: buyerInfo.buyerName,
         buyerAddress: buyerInfo.buyerAddress,
@@ -206,6 +216,17 @@ const OrderForm = ({ cart, setCart }) => {
         onChange={(e) => setSaleDate(e.target.value)}
         style={{ width: "100%", padding: "8px", marginBottom: "12px" }}
       />
+      <Typography sx={{ mt: 2 }}>
+        💰 Сума до знижки: {(finalPrice + discount).toFixed(2)} zł
+      </Typography>
+      {discount > 0 && (
+        <Typography sx={{ color: "red" }}>
+          🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+        </Typography>
+      )}
+      <Typography sx={{ fontWeight: "bold", mt: 1 }}>
+        ✅ До сплати: {finalPrice.toFixed(2)} zł
+      </Typography>
 
       <button
         onClick={handleOrder}

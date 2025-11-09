@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 import {
   CartContainer,
   CartGrid,
@@ -6,13 +7,12 @@ import {
   ProductImage,
   ProductTitle,
 } from "./OfflineOrder.styled";
-
 const Cart = ({ cart, updateQuantity, removeFromCart, lastRetailPrice }) => {
   const totalPrice = cart.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
     0
   );
-
+  const { discount, discountPercent, final } = calculateDiscount(totalPrice);
   return (
     <CartContainer>
       <Typography variant="h6">🛒 Кошик ({cart.length} товарів)</Typography>{" "}
@@ -54,7 +54,17 @@ const Cart = ({ cart, updateQuantity, removeFromCart, lastRetailPrice }) => {
               </ProductCardShop>
             ))}
           </CartGrid>
-          <Typography variant="h6">Загальна сума: {totalPrice} zł</Typography>{" "}
+          <Typography sx={{ mt: 2 }}>
+            💰 Сума до знижки: {totalPrice.toFixed(2)} zł
+          </Typography>
+          {discount > 0 && (
+            <Typography sx={{ color: "red" }}>
+              🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+            </Typography>
+          )}
+          <Typography sx={{ fontWeight: "bold", mt: 1 }}>
+            ✅ До сплати: {final.toFixed(2)} zł
+          </Typography>{" "}
         </>
       ) : (
         <Typography>⚠️ Кошик порожній</Typography>

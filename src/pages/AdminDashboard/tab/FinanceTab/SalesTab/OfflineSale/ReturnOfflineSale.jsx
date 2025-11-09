@@ -11,11 +11,14 @@ import {
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { returnOfflineSale } from "../../../../../../redux/finance/offlineSale/operationOfflineSale";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 
 const ReturnOfflineSale = ({ sale, onClose }) => {
   const dispatch = useDispatch();
-  const [refundAmount, setRefundAmount] = useState(sale.totalAmount);
+  // const [refundAmount, setRefundAmount] = useState(sale.totalAmount);
   const isMobile = useMediaQuery("(max-width:768px)");
+  const { final } = calculateDiscount(sale.totalAmount);
+  const [refundAmount, setRefundAmount] = useState(final);
 
   const handleReturn = () => {
     dispatch(returnOfflineSale(sale._id, refundAmount));

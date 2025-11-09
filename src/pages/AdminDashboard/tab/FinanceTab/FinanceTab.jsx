@@ -14,10 +14,6 @@ const FinanceTab = () => {
   const financeTabs = [
     { label: "Статистика", value: "overview", color: "primary" },
     { label: "Маржа", value: "stock-profit", color: "secondary" },
-    // { label: "Онлайн-замовлення", value: "online-orders", color: "primary" },
-    // { label: "Онлайн-продажі", value: "online-sales", color: "secondary" },
-    // { label: "Офлайн-замовлення", value: "offline-orders", color: "primary" },
-    // { label: "Офлайн-продажі", value: "offline-sales", color: "secondary" },
     { label: "Замовлення", value: "orders", color: "primary" },
     { label: "Продажі", value: "sales", color: "secondary" },
     { label: "Витрати", value: "expenses", color: "error" },

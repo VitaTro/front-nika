@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
 import {
   CartContainer,
   CartGrid,
@@ -7,7 +8,6 @@ import {
   ProductImage,
   ProductTitle,
 } from "../OfflineOrder/OfflineOrder.styled";
-
 const CartPlatform = ({ updateQuantity, removeFromCart }) => {
   const [platformCart, setPlatformCart] = useState([]);
 
@@ -36,7 +36,7 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
     0
   );
-
+  const { discount, discountPercent, final } = calculateDiscount(totalPrice);
   const hasMissingPrices = availableItems.some((item) => !item.price);
 
   return (
@@ -112,7 +112,17 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
               </ProductCardShop>
             ))}
           </CartGrid>
-          <Typography variant="h6">Загальна сума: {totalPrice} zł</Typography>
+          <Typography variant="h6">
+            💰 Сума до знижки: {totalPrice.toFixed(2)} zł
+          </Typography>
+          {discount > 0 && (
+            <Typography sx={{ color: "red" }}>
+              🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+            </Typography>
+          )}
+          <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>
+            ✅ До сплати: {final.toFixed(2)} zł
+          </Typography>
         </>
       ) : (
         <Typography>🚫 Немає товарів у кошику</Typography>
