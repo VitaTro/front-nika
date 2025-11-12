@@ -275,7 +275,17 @@ const FinanceOverview = () => {
             const total = sales.reduce((sum, s) => sum + getTotalPrice(s), 0);
             return (
               <Accordion key={idx}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  sx={{
+                    bgcolor: sales.some((s) => s.discount > 0)
+                      ? "#fff3e0"
+                      : "inherit",
+                    borderLeft: sales.some((s) => s.discount > 0)
+                      ? "4px solid orange"
+                      : "none",
+                  }}
+                >
                   <Typography>
                     📅 {formatDisplayDate(date)} — 💰 {total.toFixed(2)} zł → зі
                     знижками:{" "}
