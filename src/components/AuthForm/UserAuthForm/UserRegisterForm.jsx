@@ -50,8 +50,8 @@ const UserRegisterForm = () => {
       return;
     }
 
-    if (userData.password.length < 10) {
-      setError("Hasło musi zawierać co najmniej 10 znaków!");
+    if (userData.password.length < 8) {
+      setError("Hasło musi zawierać co najmniej 8 znaków!");
       return;
     }
     // 🔹 Перевіряємо, чи паролі співпадають
@@ -84,21 +84,6 @@ const UserRegisterForm = () => {
   return (
     <ResponsiveContainer>
       <HeaderForm>{t("user_register")}</HeaderForm>
-      {/* 📌 Повідомлення про підтвердження email */}
-      {/* {emailSent && !verificationSuccess && (
-        <div
-          style={{
-            backgroundColor: "#FFE6E6",
-            padding: "15px",
-            borderRadius: "8px",
-          }}
-        >
-          <p style={{ color: "blue", fontWeight: "bold" }}>
-            {t("please_verify_email")}
-          </p>
-          <p style={{ color: "gray", fontSize: "12px" }}>{t("check_spam")}</p>
-        </div>
-      )} */}
       {/* ✅ Верифікація успішна */}
       {verificationSuccess && (
         <div
