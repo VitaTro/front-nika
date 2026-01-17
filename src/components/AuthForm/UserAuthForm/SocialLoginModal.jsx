@@ -2,61 +2,11 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import { loginSuccess } from "../../../redux/auth/userAuth/userAuthSlice";
 import EmailIcon from "../../icons/email.png";
 import FacebookIcon from "../../icons/facebook.svg";
 import GoogleIcon from "../../icons/google.svg";
-
-const Backdrop = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  color: rgb(140, 149, 87);
-  text-shadow: 0 0 5px rgb(173, 226, 160);
-  background: rgba(0, 0, 0, 0.5);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-`;
-const Modal = styled.div`
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  width: 350px;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-`;
-
-const SocialButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 12px 16px;
-  margin-top: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  color: black;
-
-  img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-  }
-
-  &:hover {
-    opacity: 0.9;
-  }
-`;
+import { Backdrop, Modal, SocialButton } from "../AuthFormRegister.styled";
 
 const SocialLoginModal = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -122,6 +72,8 @@ const SocialLoginModal = ({ onClose }) => {
     );
   };
 
+  //   GOOGLE
+
   const handleGoogleLogin = () => {
     if (!window.google) {
       console.error("Google SDK not loaded yet");
@@ -142,10 +94,10 @@ const SocialLoginModal = ({ onClose }) => {
             },
           );
           const data = await res.json();
-          if (data?.token) {
-            localStorage.setItem("token", data.token);
-            window.location.reload();
-          } else {
+          if (data?.accessToken) {
+            localStorage.setItem("token", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
+            dispatch(loginSuccess(data.user)); // ← кладемо юзера в Redux onClose(); // ← закриваємо модалку navigate("/user/main"); // ← переводимо на залоговану сторінку } else {
             console.error("Google login error:", data);
           }
         } catch (err) {
