@@ -84,7 +84,6 @@ const UserRegisterForm = () => {
   return (
     <ResponsiveContainer>
       <HeaderForm>{t("user_register")}</HeaderForm>
-
       {/* 📌 Повідомлення про підтвердження email */}
       {/* {emailSent && !verificationSuccess && (
         <div
@@ -100,7 +99,6 @@ const UserRegisterForm = () => {
           <p style={{ color: "gray", fontSize: "12px" }}>{t("check_spam")}</p>
         </div>
       )} */}
-
       {/* ✅ Верифікація успішна */}
       {verificationSuccess && (
         <div
@@ -119,10 +117,11 @@ const UserRegisterForm = () => {
           </ButtonForm>
         </div>
       )}
-
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {error && <p style={{ color: "red", fontWeight: "bold" }}>{error}</p>}{" "}
+      {errorMessage && (
+        <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>
+      )}
       {loading && <Loader />}
-
       {!emailSent && (
         <AuthForm onSubmit={handleRegister}>
           <LabelForm>{t("username_label")}</LabelForm>

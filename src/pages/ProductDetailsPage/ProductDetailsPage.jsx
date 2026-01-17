@@ -102,7 +102,7 @@ const ProductDetailsPage = () => {
               📐 {t("size")}: {displayValue(product.size, t)}
             </InfoItem>
             <InfoItem>
-              ↔️ {t("width")}: {displayValue(product.width, t)}mm
+              ↔️ {t("width")}: {displayValue(product.width, t)} mm
             </InfoItem>
             <InfoItem>
               ↕️ {t("length")}: {getLengthWithUnit(product, t)}
