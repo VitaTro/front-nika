@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { toggleTheme } from "../../redux/themeSlice";
+import SocialLoginModal from "../AuthForm/UserAuthForm/SocialLoginModal";
 // import UserAvatar from "../UserAvatar/UserAvatar";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -47,6 +48,8 @@ const Header = () => {
   const userData = useSelector((state) => state.user.data);
   const error = useSelector(selectAuthError);
   const isLoading = useSelector(selectAuthLoading);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -160,7 +163,15 @@ const Header = () => {
             </NavItem>
           )} */}
           <NavItem>
-            <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
+            <NavLinkStyled
+              to="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowLoginModal(true);
+              }}
+            >
+              {t("login")}
+            </NavLinkStyled>
           </NavItem>
         </NavList>
 
@@ -214,6 +225,9 @@ const Header = () => {
         user={user}
         handleLogout={handleLogout}
       />
+      {showLoginModal && (
+        <SocialLoginModal onClose={() => setShowLoginModal(false)} />
+      )}
     </Container>
   );
 };

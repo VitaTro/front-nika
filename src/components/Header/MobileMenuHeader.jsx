@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toggleTheme } from "../../redux/themeSlice";
+
+import { useState } from "react";
 import {
   CloseButton,
   MobileMenu,
@@ -28,6 +30,7 @@ const MobileMenuHeader = ({
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   return (
     <MobileMenu
@@ -144,14 +147,19 @@ const MobileMenuHeader = ({
           </NavLinkStyledMObile>
         </NavItem>
       ) : (
-        <NavItem>
-          <NavLinkStyledMObile
-            to="/user/auth/login"
-            onClick={() => setMenuOpen(false)}
-          >
-            {t("login")}
-          </NavLinkStyledMObile>
-        </NavItem>
+        <NavLinkStyledMObile
+          to="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setMenuOpen(false);
+            setShowLoginModal(true);
+          }}
+        >
+          {t("login")}
+        </NavLinkStyledMObile>
+      )}
+      {showLoginModal && (
+        <SocialLoginModal onClose={() => setShowLoginModal(false)} />
       )}
     </MobileMenu>
   );

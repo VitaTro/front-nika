@@ -8,7 +8,7 @@ export const HeaderForm = styled.h2`
   font-family: "Roboto", sans-serif;
   font-size: 36px;
   font-weight: 700;
-  color: rgb(184, 195, 125);
+  color: rgb(140, 149, 87);
   text-shadow: 0 0 5px rgb(173, 226, 160);
   margin-bottom: 20px;
   word-wrap: break-word;

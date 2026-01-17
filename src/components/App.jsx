@@ -23,6 +23,7 @@ import Footer from "./Footer/Footer";
 import Products from "./Products/Products";
 import ScrollToTop from "./ScrollTop";
 import SearchResults from "./SearchBar/SearchResults";
+
 // 📌 Авторизація
 import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
@@ -51,6 +52,7 @@ import ProfileSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/Profile
 import SaleTab from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/SalesTab";
 import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/MonthlyReport/MonthlyReportPage";
 import PurchaseImport from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/tab/PurchaseImport";
+import DataDeletion from "../pages/DataDeletion";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import UserOrderPage from "../pages/ProfileUser/OrderPage";
 import ProfilePage from "../pages/ProfileUser/ProfilePage";
@@ -137,6 +139,8 @@ export const App = () => {
               <Route path="/policy-cookies" element={<CookiesPolicy />} />
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
               <Route path="/policy-returns" element={<ReturnsPolicy />} />
+              <Route path="/data-deletion" element={<DataDeletion />} />
+
               <Route
                 path="/products"
                 element={

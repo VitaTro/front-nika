@@ -18,7 +18,16 @@ const userAuthReducer = createSlice({
     error: null,
     isEmailVerified: false,
   },
-  reducers: {}, // Основні редюсери, якщо необхідно
+  reducers: {
+    loginSuccess(state, action) {
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
+      state.accessToken = action.payload.accessToken;
+      state.isEmailVerified = action.payload.user.isVerified;
+      localStorage.setItem("accessToken", action.payload.accessToken);
+      localStorage.setItem("refreshToken", action.payload.refreshToken);
+    },
+  }, // Основні редюсери, якщо необхідно
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
@@ -28,7 +37,6 @@ const userAuthReducer = createSlice({
         state.isEmailVerified = action.payload.user.isVerified;
         localStorage.setItem("accessToken", action.payload.accessToken);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
-        console.log("🔍 Updated user:", state.user);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.error = payload;
@@ -58,5 +66,5 @@ const userAuthReducer = createSlice({
       });
   },
 });
-
+export const { loginSuccess } = userAuthReducer.actions;
 export default userAuthReducer.reducer;

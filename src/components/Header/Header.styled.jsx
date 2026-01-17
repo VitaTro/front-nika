@@ -25,7 +25,7 @@ export const LogoImage = styled.img`
   width: 90px;
   height: 90px;
   margin-right: 100px;
-   margin-bottom: 10px;
+  margin-bottom: 10px;
   transition: all 0.5s linear;
   @media (max-width: 968px) {
     margin-right: 15px;
@@ -200,7 +200,9 @@ export const ThemeIcon = styled.img`
   left: ${(props) => (props.$position === "left" ? "4px" : "unset")};
   right: ${(props) => (props.$position === "right" ? "4px" : "unset")};
   opacity: ${(props) => (props.$visible ? 1 : 0)};
-  transition: left 0.6s, right 0.6s;
+  transition:
+    left 0.6s,
+    right 0.6s;
   width: 22px;
   height: 22px;
 `;
@@ -334,7 +336,9 @@ export const MobileMenu = styled.ul`
   box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
   transform: ${({ $isOpen }) =>
     $isOpen ? "translateX(0)" : "translateX(100%)"};
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Плавна анімація кольору */
+  transition:
+    transform 0.3s ease-in-out,
+    background-color 0.3s ease-in-out; /* Плавна анімація кольору */
   z-index: 1000;
   display: flex;
   flex-direction: column;
