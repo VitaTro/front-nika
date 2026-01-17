@@ -79,12 +79,24 @@ const SocialLoginModal = ({ onClose }) => {
   };
 
   //   GOOGLE
+  const waitForGoogleSDK = () =>
+    new Promise((resolve) => {
+      const check = () => {
+        if (
+          window.google &&
+          window.google.accounts &&
+          window.google.accounts.id
+        ) {
+          resolve();
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check();
+    });
 
-  const handleGoogleLogin = () => {
-    if (!window.google) {
-      console.error("Google SDK not loaded yet");
-      return;
-    }
+  const handleGoogleLogin = async () => {
+    await waitForGoogleSDK();
 
     window.google.accounts.id.initialize({
       client_id:

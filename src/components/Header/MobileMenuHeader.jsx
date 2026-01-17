@@ -154,6 +154,11 @@ const MobileMenuHeader = ({
             setMenuOpen(false);
             setShowLoginModal(true);
           }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           {t("login")}
         </NavLinkStyledMObile>
