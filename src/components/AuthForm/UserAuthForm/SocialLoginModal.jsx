@@ -103,7 +103,7 @@ const SocialLoginModal = ({ onClose }) => {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
           fetch(
-            "https://nika-gold-backend.herokuapp.com/api/user/auth/facebook",
+            "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/facebook",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -134,7 +134,7 @@ const SocialLoginModal = ({ onClose }) => {
       callback: async (response) => {
         try {
           const res = await fetch(
-            "https://nika-gold-backend.herokuapp.com/api/user/auth/google",
+            "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/google",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
