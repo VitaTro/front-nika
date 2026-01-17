@@ -62,7 +62,13 @@ const SocialLoginModal = ({ onClose }) => {
           )
             .then((res) => res.json())
             .then((data) => {
-              dispatch(loginSuccess(data));
+              dispatch(
+                loginSuccess({
+                  user: data.user,
+                  accessToken: data.accessToken,
+                  refreshToken: data.refreshToken,
+                }),
+              );
               onClose();
               navigate("/user/main");
             });
@@ -95,9 +101,16 @@ const SocialLoginModal = ({ onClose }) => {
           );
           const data = await res.json();
           if (data?.accessToken) {
-            localStorage.setItem("token", data.accessToken);
-            localStorage.setItem("refreshToken", data.refreshToken);
-            dispatch(loginSuccess(data.user)); // ← кладемо юзера в Redux onClose(); // ← закриваємо модалку navigate("/user/main"); // ← переводимо на залоговану сторінку } else {
+            dispatch(
+              loginSuccess({
+                user: data.user,
+                accessToken: data.accessToken,
+                refreshToken: data.refreshToken,
+              }),
+            );
+            onClose();
+            navigate("/user/main");
+          } else {
             console.error("Google login error:", data);
           }
         } catch (err) {
@@ -130,7 +143,15 @@ const SocialLoginModal = ({ onClose }) => {
         >
           <img src={EmailIcon} alt="Email" /> {t("user_login")} email{" "}
         </SocialButton>{" "}
-        <SocialButton style={{ background: "#ccc" }} onClick={onClose}>
+        <SocialButton
+          style={{
+            background: "#f58e8e",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={onClose}
+        >
           {" "}
           {t("close")}{" "}
         </SocialButton>{" "}

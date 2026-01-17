@@ -73,7 +73,12 @@ const UserLoginForm = () => {
 
         <ItemForm>
           {t("no_account")}{" "}
-          <Link to={"/user/auth/register"}>{t("register_here")}</Link>
+          <Link
+            to={"/user/auth/register"}
+            style={{ fontSize: "24px", fontWeight: "600" }}
+          >
+            {t("register_here")}
+          </Link>
         </ItemForm>
         <ItemForm>
           <Link to={"/user/auth/reset-password"}>{t("forgot_password")}</Link>

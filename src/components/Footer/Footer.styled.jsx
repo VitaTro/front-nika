@@ -37,9 +37,10 @@ export const FooterLink = styled(Link)`
 `;
 
 export const DevNote = styled.div`
-  font-size: 10px;
+  font-size: 11px;
   opacity: 0.6;
   margin-top: 10px;
+  color: #000000;
 `;
 
 export const SocialLinks = styled.div`
@@ -62,6 +63,6 @@ export const FooterBottom = styled.div`
   font-size: 10px;
   opacity: 0.5;
   padding-top: 5px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #747474;
   margin-top: 5px;
 `;

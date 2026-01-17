@@ -80,7 +80,7 @@ const Footer = () => {
       <FooterBottom>
         <DevNote>{t("footer.legal_info")}</DevNote>
         <DevNote>
-          © {new Date().getFullYear()}
+          ©2025 - {new Date().getFullYear()}
           {t("footer.rights_reserved")}
         </DevNote>
       </FooterBottom>
