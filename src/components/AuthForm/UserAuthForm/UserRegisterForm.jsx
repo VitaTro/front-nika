@@ -65,7 +65,7 @@ const UserRegisterForm = () => {
       console.log("📦 Registration result:", result);
 
       setEmailSent(true);
-      setTimeout(() => setShowModal(true), 1500);
+      setShowModal(true);
     } catch (err) {
       console.error("❌ Registration error:", err);
       setError("Rejestracja nie powiodła się. Spróbuj ponownie.");

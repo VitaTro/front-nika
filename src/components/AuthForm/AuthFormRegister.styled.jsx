@@ -13,7 +13,9 @@ export const HeaderForm = styled.h2`
   margin-bottom: 20px;
   word-wrap: break-word;
   max-width: 90%;
-  transition: color 0.4s ease, text-shadow 0.4s ease;
+  transition:
+    color 0.4s ease,
+    text-shadow 0.4s ease;
 `;
 
 export const AuthForm = styled.form`
@@ -82,7 +84,9 @@ export const ButtonForm = styled.button`
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.3s, transform 0.2s;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 
   &:hover {
     background-color: #0056b3;
@@ -121,5 +125,47 @@ export const ResponsiveContainer = styled.div`
   }
   @media (max-width: 480px) {
     padding: 10px;
+  }
+`;
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* iOS Safari fix */
+  -webkit-overflow-scrolling: touch;
+`;
+export const ModalBox = styled.div`
+  background: #fff;
+  width: 90%;
+  max-width: 380px;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Mobile-friendly text */
+  font-size: 16px;
+  line-height: 1.4;
+  @media (max-width: 480px) {
+    padding: 20px;
+    font-size: 15px;
+  }
+`;
+export const ModalButton = styled.button`
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  &:active {
+    transform: scale(0.97);
   }
 `;
