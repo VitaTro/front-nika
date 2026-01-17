@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { toggleTheme } from "../../redux/themeSlice";
 
 import { useState } from "react";
+import SocialLoginModal from "../AuthForm/UserAuthForm/SocialLoginModal";
 import {
   CloseButton,
   MobileMenu,
