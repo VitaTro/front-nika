@@ -220,14 +220,18 @@ const Header = () => {
         isDarkMode={isDarkMode}
         selectedLanguage={selectedLanguage}
         changeLanguage={changeLanguage}
+        showLoginModal={showLoginModal}
+        setShowLoginModal={setShowLoginModal}
         t={t}
         // isUserAuthenticated={isUserAuthenticated}
         user={user}
         handleLogout={handleLogout}
       />
-      {showLoginModal && (
-        <SocialLoginModal onClose={() => setShowLoginModal(false)} />
-      )}
+      <>
+        {showLoginModal && (
+          <SocialLoginModal onClose={() => setShowLoginModal(false)} />
+        )}
+      </>
     </Container>
   );
 };

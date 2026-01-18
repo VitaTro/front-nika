@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const SocialLoginModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const [errorMessage, setErrorMessage] = useState("");
   useEffect(() => {
     // Inject Facebook SDK script
     if (!document.getElementById("facebook-jssdk")) {
@@ -62,6 +62,10 @@ const SocialLoginModal = ({ onClose }) => {
           )
             .then((res) => res.json())
             .then((data) => {
+              if (data.message && !data.accessToken) {
+                setErrorMessage(data.message);
+                return;
+              }
               dispatch(
                 loginSuccess({
                   user: data.user,
@@ -112,19 +116,20 @@ const SocialLoginModal = ({ onClose }) => {
             },
           );
           const data = await res.json();
-          if (data?.accessToken) {
-            dispatch(
-              loginSuccess({
-                user: data.user,
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken,
-              }),
-            );
-            onClose();
-            navigate("/user/main");
-          } else {
-            console.error("Google login error:", data);
+          if (data.message && !data.accessToken) {
+            setErrorMessage(data.message);
+            return;
           }
+
+          dispatch(
+            loginSuccess({
+              user: data.user,
+              accessToken: data.accessToken,
+              refreshToken: data.refreshToken,
+            }),
+          );
+          onClose();
+          navigate("/user/main");
         } catch (err) {
           console.error("Google login failed:", err);
         }
@@ -167,6 +172,21 @@ const SocialLoginModal = ({ onClose }) => {
           {" "}
           {t("close")}{" "}
         </SocialButton>{" "}
+        {errorMessage && (
+          <div
+            style={{
+              background: "#ffdddd",
+              padding: "10px",
+              borderRadius: "8px",
+              marginTop: "10px",
+              color: "#a00",
+              textAlign: "center",
+              fontSize: "14px",
+            }}
+          >
+            {errorMessage}
+          </div>
+        )}
       </Modal>{" "}
     </Backdrop>
   );

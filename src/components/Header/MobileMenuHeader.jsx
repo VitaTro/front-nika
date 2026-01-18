@@ -2,8 +2,6 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toggleTheme } from "../../redux/themeSlice";
 
-import { useState } from "react";
-import SocialLoginModal from "../AuthForm/UserAuthForm/SocialLoginModal";
 import {
   CloseButton,
   MobileMenu,
@@ -28,11 +26,10 @@ const MobileMenuHeader = ({
   changeLanguage,
   t,
   handleLogout,
+  setShowLoginModal,
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [showLoginModal, setShowLoginModal] = useState(false);
-
   return (
     <MobileMenu
       style={{
@@ -163,9 +160,6 @@ const MobileMenuHeader = ({
         >
           {t("login")}
         </NavLinkStyledMObile>
-      )}
-      {showLoginModal && (
-        <SocialLoginModal onClose={() => setShowLoginModal(false)} />
       )}
     </MobileMenu>
   );
