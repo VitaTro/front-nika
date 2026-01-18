@@ -45,18 +45,44 @@ export const DetailsHeader = styled.h3`
         : "0 0 15px rgba(167, 182, 208, 1)"};
   }
 `;
-export const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: ${(props) => (props.theme.isDarkMode ? "#ff5555" : "#333")};
+// export const CloseButton = styled.button`
+// position: absolute;
+// top: 10px;
+// right: 10px;
+// background: none;
+// border: none;
+// font-size: 20px;
+// cursor: pointer;
+// color: ${(props) => (props.theme.isDarkMode ? "#ff5555" : "#333")};
 
+// &:hover {
+//   color: #ff5555;
+// }
+
+// `;
+export const CloseButton = styled.button`
+  position: fixed;
+  top: 100px;
+  right: 280px;
+  z-index: 999999;
+  background: none;
+  color: ${(props) => (props.theme.isDarkMode ? "#ff5555" : "#333")};
+  border: none;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
   &:hover {
     color: #ff5555;
+  }
+  @media (max-width: 768px) {
+    top: 70px;
+    right: 30px;
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
   }
 `;
 
