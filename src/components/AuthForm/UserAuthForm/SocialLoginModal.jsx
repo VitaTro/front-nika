@@ -13,15 +13,10 @@ const SocialLoginModal = ({ onClose }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  useEffect(() => {
-    // Inject Facebook SDK script
-    if (!document.getElementById("facebook-jssdk")) {
-      const script = document.createElement("script");
-      script.id = "facebook-jssdk";
-      script.src = "https://connect.facebook.net/en_US/sdk.js";
-      document.body.appendChild(script);
-    }
 
+  // ---------------- FACEBOOK SDK ----------------
+  useEffect(() => {
+    // fbAsyncInit MUST be defined before loading SDK
     window.fbAsyncInit = function () {
       FB.init({
         appId: import.meta.env.VITE_FACEBOOK_APP_ID,
@@ -30,28 +25,29 @@ const SocialLoginModal = ({ onClose }) => {
         version: "v24.0",
       });
     };
-  }, []);
 
-  useEffect(() => {
-    // Inject Google SDK
-    if (!document.getElementById("google-client")) {
+    // Load SDK only once
+    if (!document.getElementById("facebook-jssdk")) {
       const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
+      script.id = "facebook-jssdk";
+      script.src = "https://connect.facebook.net/en_US/sdk.js";
       script.async = true;
       script.defer = true;
-      script.id = "google-client";
-      script.onload = () => {
-        console.log("Google SDK loaded");
-      };
       document.body.appendChild(script);
     }
   }, []);
 
   const handleFacebookLogin = () => {
+    if (!window.FB) {
+      setErrorMessage("Facebook SDK is not loaded yet");
+      return;
+    }
+
     FB.login(
       function (response) {
         if (response.authResponse) {
           const accessToken = response.authResponse.accessToken;
+
           fetch(
             "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/facebook",
             {
@@ -66,6 +62,7 @@ const SocialLoginModal = ({ onClose }) => {
                 setErrorMessage(data.message);
                 return;
               }
+
               dispatch(
                 loginSuccess({
                   user: data.user,
@@ -73,6 +70,7 @@ const SocialLoginModal = ({ onClose }) => {
                   refreshToken: data.refreshToken,
                 }),
               );
+
               onClose();
               navigate("/user/main");
             });
@@ -82,7 +80,18 @@ const SocialLoginModal = ({ onClose }) => {
     );
   };
 
-  //   GOOGLE
+  // ---------------- GOOGLE SDK ----------------
+  useEffect(() => {
+    if (!document.getElementById("google-client")) {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      script.id = "google-client";
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const waitForGoogleSDK = () =>
     new Promise((resolve) => {
       const check = () => {
@@ -115,7 +124,9 @@ const SocialLoginModal = ({ onClose }) => {
               body: JSON.stringify({ credential: response.credential }),
             },
           );
+
           const data = await res.json();
+
           if (data.message && !data.accessToken) {
             setErrorMessage(data.message);
             return;
@@ -128,6 +139,7 @@ const SocialLoginModal = ({ onClose }) => {
               refreshToken: data.refreshToken,
             }),
           );
+
           onClose();
           navigate("/user/main");
         } catch (err) {
@@ -141,25 +153,26 @@ const SocialLoginModal = ({ onClose }) => {
 
   return (
     <Backdrop onClick={onClose}>
-      {" "}
       <Modal onClick={(e) => e.stopPropagation()}>
-        {" "}
-        <h2>{t("user_login")}</h2>{" "}
+        <h2>{t("user_login")}</h2>
+
         <SocialButton onClick={handleGoogleLogin}>
-          <img src={GoogleIcon} alt="Google" /> {t("user_login")} Google{" "}
-        </SocialButton>{" "}
+          <img src={GoogleIcon} alt="Google" /> {t("user_login")} Google
+        </SocialButton>
+
         <SocialButton onClick={handleFacebookLogin}>
-          <img src={FacebookIcon} alt="Facebook" /> {t("user_login")}{" "}
-          Facebook{" "}
-        </SocialButton>{" "}
+          <img src={FacebookIcon} alt="Facebook" /> {t("user_login")} Facebook
+        </SocialButton>
+
         <SocialButton
           onClick={() => {
             onClose();
             navigate("/user/auth/login");
           }}
         >
-          <img src={EmailIcon} alt="Email" /> {t("user_login")} email{" "}
-        </SocialButton>{" "}
+          <img src={EmailIcon} alt="Email" /> {t("user_login")} email
+        </SocialButton>
+
         <SocialButton
           style={{
             background: "#f58e8e",
@@ -169,9 +182,9 @@ const SocialLoginModal = ({ onClose }) => {
           }}
           onClick={onClose}
         >
-          {" "}
-          {t("close")}{" "}
-        </SocialButton>{" "}
+          {t("close")}
+        </SocialButton>
+
         {errorMessage && (
           <div
             style={{
@@ -187,8 +200,9 @@ const SocialLoginModal = ({ onClose }) => {
             {errorMessage}
           </div>
         )}
-      </Modal>{" "}
+      </Modal>
     </Backdrop>
   );
 };
+
 export default SocialLoginModal;
