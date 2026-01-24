@@ -67,6 +67,7 @@ const userAuthReducer = createSlice({
       })
       .addCase(refreshUserSession.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
+        state.user = action.payload.user;
         state.isUserAuthenticated = true;
         localStorage.setItem("accessToken", action.payload.accessToken);
       })
