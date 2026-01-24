@@ -4,7 +4,8 @@ axios.defaults.baseURL = "https://nika-gold-back-fe0ff35469d7.herokuapp.com/";
 
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token =
+      localStorage.getItem("accessToken") || localStorage.getItem("token");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -14,7 +15,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
@@ -33,7 +34,7 @@ axios.interceptors.response.use(
 
         const { data } = await axios.post(refreshUrl, { refreshToken });
 
-        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
         const tokenPayload = JSON.parse(atob(data.accessToken.split(".")[1]));
         if (tokenPayload?.role) {
           localStorage.setItem("userRole", tokenPayload.role);
@@ -41,16 +42,16 @@ axios.interceptors.response.use(
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
         return axios(error.config);
       } catch (refreshError) {
-        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
 
         localStorage.removeItem("refreshToken");
         window.location.href =
-          userRole === "admin" ? "/admin/auth/login" : "/user/auth/login"; // Залежно від ролі
+          userRole === "admin" ? "/admin/auth/login" : "/user/auth/login";
         return Promise.reject(error);
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axios;

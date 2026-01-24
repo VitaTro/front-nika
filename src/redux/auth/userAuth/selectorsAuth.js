@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 
 export const selectAuthUser = createSelector(
   (state) => state.userAuth?.user,
-  (user) => user || {}
+  (user) => user || {},
 );
 
 export const selectAuthToken = (state) => state.auth.token;
@@ -11,3 +11,5 @@ export const selectAuthError = (state) => state.auth?.error ?? null;
 export const selectIsLoggedIn = (state) => state.auth?.isLoggedIn ?? false;
 export const selectIsUserAuthenticated = (state) =>
   !!state.userAuth?.accessToken && state.userAuth?.isLoggedIn;
+export const selectToken = (state) =>
+  state.userAuth?.accessToken || localStorage.getItem("accessToken");

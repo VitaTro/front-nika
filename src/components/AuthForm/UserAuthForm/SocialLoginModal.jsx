@@ -70,7 +70,9 @@ const SocialLoginModal = ({ onClose }) => {
                   refreshToken: data.refreshToken,
                 }),
               );
-
+              localStorage.setItem("accessToken", data.accessToken);
+              localStorage.setItem("refreshToken", data.refreshToken);
+              localStorage.setItem("user", JSON.stringify(data.user));
               onClose();
               navigate("/user/main");
             });
@@ -139,7 +141,9 @@ const SocialLoginModal = ({ onClose }) => {
               refreshToken: data.refreshToken,
             }),
           );
-
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("refreshToken", data.refreshToken);
+          localStorage.setItem("user", JSON.stringify(data.user));
           onClose();
           navigate("/user/main");
         } catch (err) {
