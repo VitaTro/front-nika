@@ -10,10 +10,10 @@ export const registerUser = createAsyncThunk(
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Помилка реєстрації"
+        error.response?.data?.message || "Помилка реєстрації",
       );
     }
-  }
+  },
 );
 
 export const loginUser = createAsyncThunk(
@@ -35,7 +35,7 @@ export const loginUser = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const logoutUser = createAsyncThunk(
@@ -47,10 +47,10 @@ export const logoutUser = createAsyncThunk(
       return null;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Помилка виходу"
+        error.response?.data?.message || "Помилка виходу",
       );
     }
-  }
+  },
 );
 
 // Скидання пароля
@@ -64,10 +64,10 @@ export const resetPassword = createAsyncThunk(
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Помилка скидання пароля"
+        error.response?.data?.message || "Помилка скидання пароля",
       );
     }
-  }
+  },
 );
 
 // Оновлення пароля
@@ -84,10 +84,10 @@ export const updatePassword = createAsyncThunk(
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "Помилка оновлення пароля"
+        error.response?.data?.message || "Помилка оновлення пароля",
       );
     }
-  }
+  },
 );
 
 export const verifyEmail = createAsyncThunk(
@@ -98,7 +98,7 @@ export const verifyEmail = createAsyncThunk(
         `/api/user/auth/verify-email?token=${token}`,
         {
           method: "GET",
-        }
+        },
       );
       const data = await response.json();
 
@@ -110,7 +110,7 @@ export const verifyEmail = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 export const refreshSession = createAsyncThunk(
   "auth/refreshSession",
@@ -132,5 +132,22 @@ export const refreshSession = createAsyncThunk(
       console.error("❌ Refresh token failed:", error);
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
+);
+export const refreshUserSession = createAsyncThunk(
+  "auth/refreshUserSession",
+  async (_, thunkAPI) => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) return thunkAPI.rejectWithValue("No refresh token");
+
+      const response = await axios.post("/api/user/auth/refresh", {
+        refreshToken,
+      });
+
+      return response.data; // { accessToken }
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Session expired");
+    }
+  },
 );

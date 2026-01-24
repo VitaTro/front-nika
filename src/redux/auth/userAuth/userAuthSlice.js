@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   loginUser,
   logoutUser,
+  refreshUserSession,
   registerUser,
   resetPassword,
   updatePassword,
@@ -63,6 +64,18 @@ const userAuthReducer = createSlice({
       })
       .addCase(verifyEmail.rejected, (state, action) => {
         state.error = action.payload;
+      })
+      .addCase(refreshUserSession.fulfilled, (state, action) => {
+        state.accessToken = action.payload.accessToken;
+        state.isUserAuthenticated = true;
+        localStorage.setItem("accessToken", action.payload.accessToken);
+      })
+      .addCase(refreshUserSession.rejected, (state) => {
+        state.isUserAuthenticated = false;
+        state.user = null;
+        state.accessToken = null;
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       });
   },
 });

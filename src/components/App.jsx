@@ -10,6 +10,7 @@ import {
   selectAuthUser,
   selectIsUserAuthenticated,
 } from "../redux/auth/userAuth/selectorsAuth";
+
 import { Wrapper } from "./App.styled";
 import Header from "./Header/Header";
 import UserHeader from "./Header/UserHeader";
@@ -41,6 +42,7 @@ import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMove
 import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель
+import { useEffect } from "react";
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
 import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OfflineOrder/OfflineOrder";
 import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrder";
@@ -58,11 +60,13 @@ import UserOrderPage from "../pages/ProfileUser/OrderPage";
 import ProfilePage from "../pages/ProfileUser/ProfilePage";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
+import { refreshUserSession } from "../redux/auth/userAuth/operationAuth";
 import MobileMenuHeader from "./Header/MobileMenuHeader";
 import CookiesPolicy from "./Policy/CookiesPolicy";
 import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
+import ProtectedRoute from "./ProtectedRoute";
 export const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -83,6 +87,12 @@ export const App = () => {
     "/user/auth/reset-password",
   ].some((route) => location.pathname.startsWith(route));
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      dispatch(refreshUserSession(token));
+    }
+  }, []);
   {
     !isAdminAuthenticated &&
       !isAuthPage &&
@@ -168,7 +178,7 @@ export const App = () => {
 
               {/* Захищена user панель */}
               {isUserAuthenticated ? (
-                <>
+                <Route element={<ProtectedRoute />}>
                   <Route path="/user/main" element={<MainPage />} />
                   <Route path="/user/wishlist" element={<WishlistPage />} />
                   <Route
@@ -211,7 +221,7 @@ export const App = () => {
                     element={<Products type="handmade" />}
                   />{" "}
                   <Route path="/user/products/:type" element={<Products />} />
-                </>
+                </Route>
               ) : (
                 <Route path="/user/auth/login" element={<UserLoginForm />} />
               )}
