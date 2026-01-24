@@ -129,6 +129,7 @@
   "length": "Довжина",
   "price": "Ціна",
   "in_stock": "В наявності",
+  "available_quantity": "Кількість на складі",
   "yes": "Так",
   "no": "Ні",
   "not_available": "Не вказано",

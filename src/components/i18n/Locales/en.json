@@ -129,6 +129,7 @@
   "length": "Length",
   "price": "Price",
   "in_stock": "In Stock",
+  "available_quantity": "Quantity in stock",
   "yes": "Yes",
   "no": "No",
   "not_available": "Not specified",

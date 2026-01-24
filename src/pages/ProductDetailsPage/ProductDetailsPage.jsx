@@ -10,7 +10,6 @@ import {
   selectProductsError,
   selectProductsLoading,
 } from "../../redux/products/selectorsProducts";
-import { getUserProductsById } from "../../redux/user/userOperations";
 import {
   CloseButton,
   DetailsContainer,
@@ -20,7 +19,10 @@ import {
   InfoContainer,
   InfoItem,
   InfoList,
+  NumberValue,
+  PriceValue,
   ProductImage,
+  QuantityValue,
 } from "./ProductDetailsPage.styled";
 
 const ProductDetailsPage = () => {
@@ -34,42 +36,52 @@ const ProductDetailsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
-  const [productCount, setProductCount] = useState(1);
   const [isZoomed, setIsZoomed] = useState(false);
-
-  const displayValue = (val, t) =>
-    val === undefined || val === null || val === "" || val === "N/A"
-      ? t("not_available")
-      : val;
 
   const product =
     isUserAuthenticated && location.pathname.includes("/user/")
       ? userProduct
       : publicProduct;
+
   useEffect(() => {
     if (!id) return;
-    if (isUserAuthenticated && location.pathname.includes("/user")) {
-      dispatch(getUserProductsById(id));
-    } else {
-      dispatch(getProductById(id));
-    }
-  }, [dispatch, id, isUserAuthenticated, location.pathname]);
+    dispatch(getProductById(id));
+  }, [dispatch, id]);
 
   const handleImageClick = () => {
     setIsZoomed(!isZoomed);
   };
-  const getLengthWithUnit = (product, t) => {
-    if (!product?.length) return t("not_available");
 
-    const mmCategories = ["pendants", "crosses", "incense"];
-    const unit = mmCategories.includes(product.subcategory?.toLowerCase())
-      ? "mm"
-      : "cm";
+  // UNIVERSAL PARSER
+  const parseValueWithUnit = (raw, defaultUnit = "mm") => {
+    if (!raw) return { value: null, unit: "" };
 
-    return `${product.length}${unit}`;
+    // number or "4"
+    if (typeof raw === "number" || /^\d+(\.\d+)?$/.test(raw)) {
+      return { value: raw, unit: defaultUnit };
+    }
+
+    // "4mm", "4 mm", "2.5cm"
+    const match = raw.match(/^(\d+(?:\.\d+)?)[\s]*([a-zA-Z]+)$/);
+    if (match) {
+      return { value: match[1], unit: match[2] };
+    }
+
+    return { value: null, unit: "" };
   };
-  if (!product || !product.name) return <Loader />;
 
+  // LENGTH LOGIC (mm for pendants/crosses/incense, else cm)
+  const lengthUnit = ["pendants", "crosses", "incense"].includes(
+    product?.subcategory?.toLowerCase(),
+  )
+    ? "mm"
+    : "cm";
+
+  const sizeParts = parseValueWithUnit(product?.size, "mm");
+  const widthParts = parseValueWithUnit(product?.width, "mm");
+  const lengthParts = parseValueWithUnit(product?.length, lengthUnit);
+
+  if (!product || !product.name) return <Loader />;
   if (loading) return <Loader />;
   if (error) return <p>❌ Error: {error.message}</p>;
 
@@ -92,32 +104,75 @@ const ProductDetailsPage = () => {
             />
           )}
         </ImageContainer>
+
         <InfoContainer>
           <DetailsHeader>{product.name}</DetailsHeader>
-          <InfoList>
-            <InfoItem>
-              🎨 {t("color")}: {displayValue(product.color, t)}
-            </InfoItem>
-            <InfoItem>
-              📐 {t("size")}: {displayValue(product.size, t)}
-            </InfoItem>
-            <InfoItem>
-              ↔️ {t("width")}: {displayValue(product.width, t)} mm
-            </InfoItem>
-            <InfoItem>
-              ↕️ {t("length")}: {getLengthWithUnit(product, t)}
-            </InfoItem>
-            {product.materials && (
-              <InfoItem>
-                🧵 {t("materials")}: {displayValue(product.materials, t)}
-              </InfoItem>
-            )}
 
+          <InfoList>
+            {/* COLOR */}
             <InfoItem>
-              💰 {t("price")}: {product.lastRetailPrice} zł
+              🎨 {t("color")}:{" "}
+              {product.color ? (
+                <NumberValue>{product.color}</NumberValue>
+              ) : (
+                t("not_available")
+              )}
             </InfoItem>
+
+            {/* SIZE */}
             <InfoItem>
-              📦 {t("in_stock")}: {product.inStock ? t("yes") : t("no")}
+              📐 {t("size")}:{" "}
+              {!sizeParts.value ? (
+                t("not_available")
+              ) : (
+                <>
+                  <NumberValue>{sizeParts.value}</NumberValue> {sizeParts.unit}
+                </>
+              )}
+            </InfoItem>
+
+            {/* WIDTH */}
+            <InfoItem>
+              ↔️ {t("width")}:{" "}
+              {!widthParts.value ? (
+                t("not_available")
+              ) : (
+                <>
+                  <NumberValue>{widthParts.value}</NumberValue>{" "}
+                  {widthParts.unit}
+                </>
+              )}
+            </InfoItem>
+
+            {/* LENGTH */}
+            <InfoItem>
+              ↕️ {t("length")}:{" "}
+              {!lengthParts.value ? (
+                t("not_available")
+              ) : (
+                <>
+                  <NumberValue>{lengthParts.value}</NumberValue>{" "}
+                  {lengthParts.unit}
+                </>
+              )}
+            </InfoItem>
+
+            {/* STOCK */}
+            <InfoItem>
+              📦 {t("available_quantity")}:{" "}
+              {product.currentStock === null ||
+              product.currentStock === undefined ? (
+                t("not_available")
+              ) : (
+                <QuantityValue>{product.currentStock}</QuantityValue>
+              )}{" "}
+              szt
+            </InfoItem>
+
+            {/* PRICE */}
+            <InfoItem>
+              💰 {t("price")}:{" "}
+              <PriceValue>{product.lastRetailPrice}</PriceValue> zł
             </InfoItem>
           </InfoList>
         </InfoContainer>

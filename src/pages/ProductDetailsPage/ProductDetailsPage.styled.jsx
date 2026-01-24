@@ -45,21 +45,35 @@ export const DetailsHeader = styled.h3`
         : "0 0 15px rgba(167, 182, 208, 1)"};
   }
 `;
-// export const CloseButton = styled.button`
-// position: absolute;
-// top: 10px;
-// right: 10px;
-// background: none;
-// border: none;
-// font-size: 20px;
-// cursor: pointer;
-// color: ${(props) => (props.theme.isDarkMode ? "#ff5555" : "#333")};
 
-// &:hover {
-//   color: #ff5555;
-// }
+export const QuantityValue = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  margin-left: 4px;
+  color: red;
+  transition: color 0.2s ease-in-out;
+  @media (max-width: 480px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
+export const NumberValue = styled.span`
+  font-size: 18px;
+  font-weight: 600;
+  color: #302934;
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+`;
+export const PriceValue = styled.span`
+  font-size: 18px;
+  font-weight: 700;
+  color: #d4a017;
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+`;
 
-// `;
 export const CloseButton = styled.button`
   position: fixed;
   top: 100px;
@@ -87,17 +101,11 @@ export const CloseButton = styled.button`
 `;
 
 export const ProductImage = styled.img`
-  max-width: ${({ $isZoomed }) =>
-    $isZoomed ? "800px" : "300px"}; /* Змінюємо розмір */
+  max-width: ${({ $isZoomed }) => ($isZoomed ? "800px" : "300px")};
   height: auto;
   cursor: pointer;
-  transition: max-width 0.3s ease-in-out; /* Плавна анімація */
+  transition: max-width 0.3s ease-in-out;
   border-radius: 5px;
-`;
-
-export const Description = styled.p`
-  font-size: 16px;
-  margin: 10px 0;
 `;
 
 export const InfoList = styled.ul`
@@ -134,10 +142,4 @@ export const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-export const ProductAction = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
 `;
