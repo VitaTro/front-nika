@@ -7,6 +7,9 @@ export const ShoppingContainer = styled.div`
   font-family: Arial, sans-serif;
 
   min-height: 100vh;
+  @media (max-width: 768px) {
+    padding: 8px 10px 30px;
+  }
 `;
 
 export const ShoppingItem = styled.div`
@@ -15,6 +18,11 @@ export const ShoppingItem = styled.div`
   justify-content: space-between;
   padding: 10px 40px;
   border-bottom: 1px solid #ddd;
+  @media (max-width: 768px) {
+    padding: 4px 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 `;
 export const ProductImage = styled.img`
   max-width: 50px;
@@ -43,8 +51,8 @@ export const ProductPrice = styled.span`
   margin-left: 20px;
 
   @media (max-width: 768px) {
-    margin-left: 5px;
-    font-size: 16px;
+    margin-left: 2px;
+    font-size: 12px;
   }
 `;
 
@@ -52,7 +60,7 @@ export const AllButton = styled.div`
   display: flex;
   gap: 25px;
   @media (max-width: 768px) {
-    gap: 10px;
+    gap: 6px;
   }
 `;
 export const WishlistActions = styled.div`
@@ -113,7 +121,9 @@ export const ContainerCart = styled.div`
   gap: 30px;
   align-items: center;
   @media (max-width: 768px) {
-    gap: 10px;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 `;
 export const ButtonQuantity = styled.button`
