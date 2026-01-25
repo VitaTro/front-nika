@@ -1,1 +1,1 @@
-https://nika-gold.netlify.app/
+https://nika-gold.net/
