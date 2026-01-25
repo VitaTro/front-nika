@@ -10,12 +10,19 @@ import {
   selectAuthUser,
   selectIsUserAuthenticated,
 } from "../../redux/auth/userAuth/selectorsAuth";
+import {
+  selectGuestCart,
+  selectGuestCartCount,
+} from "../../redux/guest/shopping/guestShoppingSelectors";
+import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import {
   selectAuthError,
   selectAuthLoading,
 } from "../../redux/user/userSelectors";
 import Logo from "../icons/logo.png";
+import Moon from "../icons/moon.png";
+import Sun from "../icons/sun.png";
 import Loader from "../Loader";
 import {
   Container,
@@ -32,7 +39,6 @@ import {
   UtilityContainer,
 } from "./Header.styled";
 import MobileMenuHeader from "./MobileMenuHeader";
-
 const Header = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
@@ -48,7 +54,9 @@ const Header = () => {
   const error = useSelector(selectAuthError);
   const isLoading = useSelector(selectAuthLoading);
   const [showLoginModal, setShowLoginModal] = useState(false);
-
+  const guestCart = useSelector(selectGuestCart);
+  const guestWishlist = useSelector(selectGuestWishlist);
+  const guestCartCount = useSelector(selectGuestCartCount);
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -57,7 +65,7 @@ const Header = () => {
   }, [dispatch]);
   useEffect(() => {
     if (isUserAuthenticated) {
-      dispatch(fetchUserMain()); // 🔹 Запит до `/api/user/main`
+      dispatch(fetchUserMain());
     }
   }, [dispatch, isUserAuthenticated]);
   const handleThemeToggle = () => {
@@ -95,15 +103,31 @@ const Header = () => {
           />
         </NavLinkStyled>
 
-        <HamburgerButton
+        {/* <HamburgerButton
           $isOpen={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
           <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-        </HamburgerButton>
-
+        </HamburgerButton> */}
+        {!menuOpen && (
+          <HamburgerButton onClick={() => setMenuOpen(true)}>
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: "18px",
+                fontFamily: '"Noto Sans", sans-serif',
+                color: isDarkMode ? "lightgray" : "darkgray",
+                textShadow: isDarkMode
+                  ? "0 0 5px rgba(255, 255, 255, 0.8)"
+                  : "0 0 5px rgb(167, 182, 208)",
+              }}
+            >
+              ☰ MENU
+            </span>
+          </HamburgerButton>
+        )}
         {/* Меню */}
         <NavList>
           <NavItem>
@@ -127,7 +151,29 @@ const Header = () => {
               {t("about")}
             </NavLinkStyled>
           </NavItem>
-          {/* {isUserAuthenticated ? (
+
+          {!isUserAuthenticated && (
+            <>
+              <NavItem>
+                <NavLinkStyled
+                  to="/guest-wishlist"
+                  $isActive={location.pathname === "/guest-wishlist"}
+                >
+                  {t("wishlist")} ({guestWishlist.length})
+                </NavLinkStyled>
+              </NavItem>
+
+              {/* <NavItem>
+                <NavLinkStyled
+                  to="/guest-cart"
+                  $isActive={location.pathname === "/guest-cart"}
+                >
+                  {t("basket")} ({guestCartCount})
+                </NavLinkStyled>
+              </NavItem> */}
+            </>
+          )}
+          {isUserAuthenticated && (
             <>
               <NavItem>
                 <NavLinkStyled
@@ -136,7 +182,8 @@ const Header = () => {
                 >
                   {t("wishlist")}
                 </NavLinkStyled>
-              </NavItem>{" "}
+              </NavItem>
+
               <NavItem>
                 <NavLinkStyled
                   to="/shopping-cart"
@@ -145,22 +192,21 @@ const Header = () => {
                   {t("basket")}
                 </NavLinkStyled>
               </NavItem>
+
               <NavItem>
                 <NavLinkStyled to="/profile">
                   {user.username || t("my_account")}
                 </NavLinkStyled>
               </NavItem>
+
               <NavItem>
                 <NavLinkStyled to="/" onClick={handleLogout}>
                   {t("logout")}
                 </NavLinkStyled>
               </NavItem>
             </>
-          ) : (
-            <NavItem>
-              <NavLinkStyled to="/user/auth/login">{t("login")}</NavLinkStyled>
-            </NavItem>
-          )} */}
+          )}
+
           <NavItem>
             <NavLinkStyled
               to="#"
@@ -179,13 +225,13 @@ const Header = () => {
             <ThemeToggle onClick={handleThemeToggle}>
               <Slider isDarkMode={isDarkMode}>
                 <ThemeIcon
-                  src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/sun_prnb60.jpg"
+                  src={Sun}
                   alt="Sun icon"
                   $position="right"
                   $visible={!isDarkMode}
                 />
                 <ThemeIcon
-                  src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/moon_krwywm.jpg"
+                  src={Moon}
                   alt="Moon icon"
                   $position="left"
                   $visible={isDarkMode}

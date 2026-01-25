@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { mergeGuestCart } from "../guest/shopping/guestShoppingSlice";
 import {
   addProductToShoppingCart,
   getShoppingCart,
@@ -6,7 +7,6 @@ import {
   removeProductFromShoppingCart,
   updateProductToShoppingCart,
 } from "./operationShopping";
-
 const shoppingCartReducer = createSlice({
   name: "shoppingCart",
   initialState: {
@@ -27,7 +27,7 @@ const shoppingCartReducer = createSlice({
         state.products = payload;
         state.totalAmount = payload.reduce(
           (sum, p) => sum + p.price * p.quantity,
-          0
+          0,
         );
         state.totalQuantity = payload.reduce((sum, p) => sum + p.quantity, 0);
       })
@@ -39,7 +39,7 @@ const shoppingCartReducer = createSlice({
       .addCase(addProductToShoppingCart.fulfilled, (state, { payload }) => {
         console.log("✅ Redux state updated with new product:", payload);
         const existingProduct = state.products.find(
-          (p) => p.productId === payload.productId
+          (p) => p.productId === payload.productId,
         );
         if (existingProduct) {
           existingProduct.quantity += payload.quantity;
@@ -62,18 +62,34 @@ const shoppingCartReducer = createSlice({
           state.products = state.products.filter((p) => p._id !== payload);
           state.totalAmount = state.products.reduce(
             (sum, p) => sum + p.price * p.quantity,
-            0
+            0,
           );
           state.totalQuantity = state.products.reduce(
             (sum, p) => sum + p.quantity,
-            0
+            0,
           );
-        }
+        },
       )
       .addCase(moveProductToWishlist.fulfilled, (state, { payload }) => {
         state.products = state.products.filter((p) => p._id !== payload._id);
         state.totalAmount -= payload.price * payload.quantity;
         state.totalQuantity -= payload.quantity;
+      })
+      .addCase(mergeGuestCart.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(mergeGuestCart.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.products = payload;
+        state.totalAmount = payload.reduce(
+          (sum, p) => sum + p.price * p.quantity,
+          0,
+        );
+        state.totalQuantity = payload.reduce((sum, p) => sum + p.quantity, 0);
+      })
+      .addCase(mergeGuestCart.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       });
   },
 });

@@ -30,7 +30,7 @@ const wishlistSlice = createSlice({
       })
       .addCase(addProductToWishlist.fulfilled, (state, { payload }) => {
         const exists = state.products.some(
-          (product) => product.productId === payload.productId
+          (product) => product.productId === payload.productId,
         );
         if (!exists) {
           state.products.push(payload);
@@ -42,7 +42,7 @@ const wishlistSlice = createSlice({
       })
       .addCase(removeProductFromWishlist.fulfilled, (state, { payload }) => {
         state.products = state.products.filter(
-          (product) => product.productId !== payload
+          (product) => product.productId !== payload,
         );
       })
 
@@ -54,7 +54,7 @@ const wishlistSlice = createSlice({
 
         // Видаляємо товар зі списку бажань
         state.products = state.products.filter(
-          (product) => product._id !== payload._id
+          (product) => product._id !== payload._id,
         );
       })
       .addCase(moveProductToShoppingCart.rejected, (state, { payload }) => {

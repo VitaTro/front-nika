@@ -1,7 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toggleTheme } from "../../redux/themeSlice";
 
+import { selectGuestCartCount } from "../../redux/guest/shopping/guestShoppingSelectors";
+import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
+import Moon from "../icons/moon.png";
+import Sun from "../icons/sun.png";
 import {
   CloseButton,
   MobileMenu,
@@ -14,7 +18,6 @@ import {
   ThemeIcon,
   ThemeToggle,
 } from "./Header.styled";
-
 const MobileMenuHeader = ({
   user,
   isUserAuthenticated,
@@ -30,6 +33,8 @@ const MobileMenuHeader = ({
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const guestWishlist = useSelector(selectGuestWishlist);
+  const guestCartCount = useSelector(selectGuestCartCount);
   return (
     <MobileMenu
       style={{
@@ -47,15 +52,20 @@ const MobileMenuHeader = ({
         <ThemeToggle onClick={() => dispatch(toggleTheme())}>
           <Slider isDarkMode={isDarkMode}>
             <ThemeIcon
-              src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/sun_prnb60.jpg"
+              src={Sun}
               alt="Sun icon"
+              $position="right"
+              $visible={!isDarkMode}
             />
             <ThemeIcon
-              src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/moon_krwywm.jpg"
+              src={Moon}
               alt="Moon icon"
+              $position="left"
+              $visible={isDarkMode}
             />
           </Slider>
         </ThemeToggle>
+
         <Select
           value={selectedLanguage}
           onChange={(e) => changeLanguage(e.target.value)}
@@ -109,6 +119,30 @@ const MobileMenuHeader = ({
           {t("about")}
         </NavLinkStyledMObile>
       </NavItem>
+
+      {!isUserAuthenticated && (
+        <>
+          <NavItem>
+            <NavLinkStyledMObile
+              to="/guest-wishlist"
+              $isActive={location.pathname === "/guest-wishlist"}
+              onClick={() => setMenuOpen(false)}
+            >
+              {t("wishlist")} ({guestWishlist.length})
+            </NavLinkStyledMObile>
+          </NavItem>
+
+          {/* <NavItem>
+            <NavLinkStyledMObile
+              to="/guest-cart"
+              $isActive={location.pathname === "/guest-cart"}
+              onClick={() => setMenuOpen(false)}
+            >
+              {t("basket")} ({guestCartCount})
+            </NavLinkStyledMObile>
+          </NavItem> */}
+        </>
+      )}
 
       {isUserAuthenticated && (
         <>

@@ -20,10 +20,11 @@ import productsReducer from "./products/productsSlice";
 import searchReducer from "./search/searchSlice";
 
 // 💸 Покупки / Кошик / Платежі
+import guestCartReducer from "./guest/shopping/guestShoppingSlice";
+import guestWishlistReducer from "./guest/wishlist/guestWishlistSlice";
 import paymentReducer from "./payment/paymentSlice";
 import shoppingCartReducer from "./shopping/shoppingSlice";
 import wishlistReducer from "./wishlist/wishlistSlice";
-
 // 📊 Фінанси
 import { expenseReducer } from "./finance/expense/expenseSlice";
 import offlineOrdersReducer from "./finance/offlineOrder/offlineOrderSlice";
@@ -60,7 +61,8 @@ const rootReducer = combineReducers({
   shoppingCart: shoppingCartReducer,
   payment: paymentReducer,
   wishlist: wishlistReducer,
-
+  guestWishlist: guestWishlistReducer,
+  guestCart: guestCartReducer,
   // Фінанси
   expenses: expenseReducer,
   offlineOrders: offlineOrdersReducer,

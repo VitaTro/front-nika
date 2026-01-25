@@ -3,12 +3,21 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import noShopImg from "../../components/UserDashboard/tab/ProfileMain/No_shop.png";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
-import { selectStockMovements } from "../../redux/inventory/stockMovement/selectorsStockMovement";
+
+import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+
+// Guest cart
+import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
+import {
+  removeGuestCartItem,
+  updateGuestCartQuantity,
+} from "../../redux/guest/shopping/guestShoppingSlice";
+
+// Backend cart
 import {
   getShoppingCart,
   moveProductToWishlist,
@@ -21,8 +30,14 @@ import {
   selectShoppingCartLoading,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
-import { fetchUserOrders } from "../../redux/user/userOrders/operationsUserOrders";
+
+// Wishlist
 import { getWishlist } from "../../redux/wishlist/operationWishlist";
+
+// Products list (for guest stock lookup)
+import { selectProducts } from "../../redux/products/selectorsProducts";
+
+import { QuantityValue } from "../ProductDetailsPage/ProductDetailsPage.styled";
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
 import {
   ButtonHeart,
@@ -41,67 +56,80 @@ import {
 } from "./ShoppingCartPage.styled";
 
 const ShoppingCartPage = () => {
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartItems = useSelector(selectShoppingCartItems);
 
-  const wishlist = useSelector((state) => state.wishlist.items || []);
-  // const shoppingCart = useSelector(selectShoppingCartItems) || [];
-  const totalAmount = useSelector(selectTotalAmount);
-  const error = useSelector(selectShoppingCartError);
-  const isLoading = useSelector(selectShoppingCartLoading);
-  const movements = useSelector(selectStockMovements);
+  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+
+  // Full products list (for guest stock lookup)
+  const allProducts = useSelector(selectProducts);
+
+  // Cart items
+  const cartItems = isUserAuthenticated
+    ? useSelector(selectShoppingCartItems)
+    : useSelector(selectGuestCart);
+
+  // Wishlist (only for authenticated)
+  const wishlist = isUserAuthenticated
+    ? useSelector((state) => state.wishlist.items)
+    : [];
+
+  // Total amount
+  const totalAmount = isUserAuthenticated
+    ? useSelector(selectTotalAmount)
+    : cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // Loading & error (only backend)
+  const isLoading = isUserAuthenticated
+    ? useSelector(selectShoppingCartLoading)
+    : false;
+
+  const error = isUserAuthenticated
+    ? useSelector(selectShoppingCartError)
+    : null;
+
+  // Load backend data only for authenticated users
   useEffect(() => {
-    dispatch(getShoppingCart());
-    dispatch(getWishlist());
-    dispatch(fetchUserOrders());
-    console.log("🔄 Fetching orders after new order...");
-  }, [dispatch]);
+    if (isUserAuthenticated) {
+      dispatch(getShoppingCart());
+      dispatch(getWishlist());
+    }
+  }, [dispatch, isUserAuthenticated]);
+
+  // Quantity change
   const handleQuantityChange = (id, quantity) => {
-    if (quantity < 1) return;
-    dispatch(updateProductToShoppingCart({ id, quantity }));
-  };
-
-  const handleRemove = (id) => {
-    dispatch(removeProductFromShoppingCart(id));
-  };
-
-  const handleMoveToWishlist = (id) => {
-    dispatch(moveProductToWishlist(id));
-  };
-  const getLatestStockForProduct = (productId) => {
-    const filtered = movements.filter((m) => m.productId === productId);
-    return filtered.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-  };
-  const handleToggleWishlist = async (product) => {
-    if (!product || !product.productId) {
-      console.error("⚠️ Missing productId, cannot move to wishlist!");
+    if (quantity < 1) {
+      handleRemove(id);
       return;
     }
 
-    try {
-      const response = await dispatch(
-        moveProductToWishlist(product._id)
-      ).unwrap();
-      console.log("✅ Moved to wishlist:", response);
-      dispatch(getWishlist());
-    } catch (error) {
-      console.error("❌ Error moving product to wishlist:", error);
+    if (isUserAuthenticated) {
+      dispatch(updateProductToShoppingCart({ id, quantity }));
+    } else {
+      dispatch(updateGuestCartQuantity({ id, quantity }));
     }
   };
 
-  // const handleQuantityChange = async (id, quantity) => {
-  //   if (quantity < 1) return;
-  //   dispatch(updateProductToShoppingCart({ id, quantity }));
-  // };
+  // Remove item
+  const handleRemove = (id) => {
+    if (isUserAuthenticated) {
+      dispatch(removeProductFromShoppingCart(id));
+    } else {
+      dispatch(removeGuestCartItem(id));
+    }
+  };
 
-  // const handleRemove = async (id) => {
-  //   dispatch(removeProductFromShoppingCart(id));
-  // };
+  // Move to wishlist (only for authenticated)
+  const handleMoveToWishlist = (id) => {
+    if (!isUserAuthenticated) {
+      toast.info(t("login_required"));
+      return;
+    }
+    dispatch(moveProductToWishlist(id));
+  };
 
-  // Сортування кошика за датою додавання
+  // Sort cart by addedAt
   const sortedCart = cartItems.slice().sort((a, b) => {
     const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
     const dateB = b.addedAt ? new Date(b.addedAt) : new Date(0);
@@ -109,50 +137,83 @@ const ShoppingCartPage = () => {
   });
 
   const displayProducts = sortedCart.map((item) => {
-    const latest = getLatestStockForProduct(item.productId);
-    const displayPrice = latest?.price ?? item.price;
+    const id = item._id || item.id;
+
+    // Correct stock logic
+    let stock = item.currentStock ?? 0;
+
+    if (!isUserAuthenticated) {
+      const product = allProducts.find(
+        (p) => p._id === (item.productId || item.id),
+      );
+      stock = product?.currentStock ?? 0;
+    }
 
     return (
-      <ShoppingItem key={item._id}>
+      <ShoppingItem key={id}>
         <ItemHeader>
-          <ZoomableProductImage
-            src={item.photoUrl}
-            alt={item.name}
-            tabIndex="0"
-          />
+          <ZoomableProductImage src={item.photoUrl} alt={item.name} />
           <ProductName>{item.name}</ProductName>
         </ItemHeader>
+
         <ContainerCart>
-          <QuantityController>
-            <ButtonQuantity
-              onClick={() =>
-                handleQuantityChange(item._id, Math.max(item.quantity - 1, 1))
-              }
-            >
-              ➖
-            </ButtonQuantity>
-            <span>{item.quantity}</span>
-            <ButtonQuantity
-              onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
-            >
-              ➕
-            </ButtonQuantity>
-          </QuantityController>
           <ProductPrice>
-            <span>{item.quantity * displayPrice} zł</span>
+            <span>{item.quantity * item.price} zł</span>
           </ProductPrice>
-          {latest?.quantity < item.quantity && (
-            <Typography fontSize="0.75rem" color="error">
+
+          <QuantityValue style={{ textAlign: "center", marginTop: "4px" }}>
+            {t("available")}: {stock} szt
+          </QuantityValue>
+
+          {item.quantity > stock && (
+            <Typography fontSize="0.75rem" color="error" textAlign="center">
               {t("limited_stock")}
             </Typography>
           )}
-          <ButtonHeart
-            onClick={() => handleToggleWishlist(item)}
-            $isActive={wishlist.some((w) => w.productId === item.productId)}
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "8px",
+            }}
           >
-            {wishlist.some((w) => w.productId === item.productId) ? "❤️" : "🖤"}
-          </ButtonHeart>
-          <RemoveButton onClick={() => handleRemove(item._id)}>🗑️</RemoveButton>
+            <QuantityController>
+              <ButtonQuantity
+                onClick={() =>
+                  handleQuantityChange(id, Math.max(item.quantity - 1, 1))
+                }
+              >
+                ➖
+              </ButtonQuantity>
+
+              <span>{item.quantity}</span>
+
+              <ButtonQuantity
+                disabled={item.quantity >= stock}
+                onClick={() => {
+                  if (item.quantity < stock) {
+                    handleQuantityChange(id, item.quantity + 1);
+                  }
+                }}
+              >
+                ➕
+              </ButtonQuantity>
+            </QuantityController>
+          </div>
+
+          {isUserAuthenticated && (
+            <ButtonHeart
+              onClick={() => handleMoveToWishlist(id)}
+              $isActive={wishlist.some((w) => w.productId === item.productId)}
+            >
+              {wishlist.some((w) => w.productId === item.productId)
+                ? "❤️"
+                : "🖤"}
+            </ButtonHeart>
+          )}
+
+          <RemoveButton onClick={() => handleRemove(id)}>🗑️</RemoveButton>
         </ContainerCart>
       </ShoppingItem>
     );
@@ -161,6 +222,7 @@ const ShoppingCartPage = () => {
   return (
     <>
       <WelcomeGeneral>{t("basket")}</WelcomeGeneral>
+
       {isLoading && <Loader />}
       {error && (
         <p>
@@ -169,56 +231,34 @@ const ShoppingCartPage = () => {
       )}
 
       {!cartItems.length && !isLoading && (
-        <Box
-          sx={{
-            textAlign: "center",
-            py: 6,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          <img
-            src={noShopImg}
-            alt="No orders"
-            style={{ width: 200, maxWidth: "80%", opacity: 0.8 }}
-          />
-          <Typography variant="h6" color="text.secondary">
-            {t("empty_cart")}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {t("add_products_hint")}
-          </Typography>
+        <Box sx={{ textAlign: "center", py: 6 }}>
+          <img src={noShopImg} alt="No orders" style={{ width: 200 }} />
+          <Typography variant="h6">{t("empty_cart")}</Typography>
+          <Typography variant="body2">{t("add_products_hint")}</Typography>
         </Box>
       )}
+
       {cartItems.length > 0 && <ShoppingList>{displayProducts}</ShoppingList>}
+
       {cartItems.length > 0 && (
-        <TotalHeader style={{ color: isDarkMode ? "#0c0" : "#333" }}>
-          {t("total")}:{" "}
-          <TotalAmount style={{ color: isDarkMode ? "#e1a42b" : "#333" }}>
-            {totalAmount} zł
-          </TotalAmount>
+        <TotalHeader>
+          {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
         </TotalHeader>
       )}
 
       {cartItems.length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
-        >
-          <ButtonOrder>
-            <Link to="/user/orders" style={{ textDecoration: "none" }}>
-              {t("place_order")}
-            </Link>
-          </ButtonOrder>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {isUserAuthenticated ? (
+            <ButtonOrder>
+              <Link to="/user/orders">{t("place_order")}</Link>
+            </ButtonOrder>
+          ) : (
+            <ButtonOrder onClick={() => navigate("/user/auth/login")}>
+              {t("login_required")}
+            </ButtonOrder>
+          )}
         </div>
       )}
-
-      <ToastContainer />
     </>
   );
 };

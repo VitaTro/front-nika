@@ -15,12 +15,12 @@ import {
   selectAuthLoading,
 } from "../../redux/user/userSelectors";
 
+import Logo from "../icons/logo.png";
 import Loader from "../Loader";
 import {
   Container,
   HamburgerButton,
   HeaderComponent,
-  LogoImageUser,
   NavItem,
   NavLinkStyled,
   NavList,
@@ -32,7 +32,6 @@ import {
   UtilityContainer,
 } from "./Header.styled";
 import MobileMenuHeader from "./MobileMenuHeader";
-
 const UserHeader = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
@@ -79,24 +78,32 @@ const UserHeader = () => {
     <Container>
       <HeaderComponent>
         <NavLinkStyled to="user/main">
-          <LogoImageUser
-            src={
-              isDarkMode
-                ? "https://res.cloudinary.com/dblh78pvc/image/upload/v1733218509/logoDark_d2zgpc.png"
-                : "https://res.cloudinary.com/dblh78pvc/image/upload/v1733218461/logoLigth_zer4gb.png"
-            }
-            alt="My brand logo"
+          <img
+            src={Logo}
+            alt="Logo"
+            style={{
+              width: "60px",
+              height: "60px",
+            }}
           />
         </NavLinkStyled>
-
-        <HamburgerButton
-          $isOpen={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-          <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-          <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-        </HamburgerButton>
+        {!menuOpen && (
+          <HamburgerButton onClick={() => setMenuOpen(true)}>
+            <span
+              style={{
+                fontWeight: 600,
+                fontSize: "18px",
+                fontFamily: '"Noto Sans", sans-serif',
+                color: isDarkMode ? "lightgray" : "darkgray",
+                textShadow: isDarkMode
+                  ? "0 0 5px rgba(255, 255, 255, 0.8)"
+                  : "0 0 5px rgb(167, 182, 208)",
+              }}
+            >
+              ☰ MENU
+            </span>
+          </HamburgerButton>
+        )}
 
         {/* Меню */}
         <NavList>

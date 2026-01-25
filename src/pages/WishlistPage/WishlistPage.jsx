@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
 import PaginationComponent from "../../components/PaginationComponent/PaginationComponent";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
+import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+import { addGuestCartItem } from "../../redux/guest/shopping/guestShoppingSlice";
+import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
+import { toggleGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSlice";
 import { getShoppingCart } from "../../redux/shopping/operationShopping";
 import {
   getWishlist,
@@ -29,62 +33,77 @@ import {
 } from "./WishlistPage.styled";
 
 const WishlistPage = () => {
+  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 18;
-  const wishlist = useSelector(selectWishlistProducts);
-  const isLoading = useSelector(selectWishlistLoading);
-  const error = useSelector(selectWishlistError);
 
+  const isLoading = isUserAuthenticated
+    ? useSelector(selectWishlistLoading)
+    : false;
+
+  const error = isUserAuthenticated ? useSelector(selectWishlistError) : null;
+
+  const wishlist = isUserAuthenticated
+    ? useSelector(selectWishlistProducts)
+    : useSelector(selectGuestWishlist);
+
+  // Load backend wishlist
   useEffect(() => {
-    dispatch(getWishlist());
-  }, [dispatch]);
-
-  // Оновлення списку після видалення
-  const handleRemove = (_id) => {
-    dispatch(removeProductFromWishlist(_id)).then(() => {
+    if (isUserAuthenticated) {
       dispatch(getWishlist());
-    });
-  };
+    }
+  }, [dispatch, isUserAuthenticated]);
 
-  const handleMoveToCart = async (id) => {
-    try {
-      const response = await dispatch(moveProductToShoppingCart(id)).unwrap();
-      console.log("✅ Product successfully moved!", response);
-
-      // 🎉 Відображаємо повідомлення
-      toast.success(t("productAdded"), {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+  // Remove item
+  const handleRemove = (id) => {
+    if (isUserAuthenticated) {
+      dispatch(removeProductFromWishlist(id)).then(() => {
+        dispatch(getWishlist());
       });
+    } else {
+      dispatch(toggleGuestWishlist({ id }));
+      toast.success(t("removed_from_wishlist"));
+    }
+  };
+  const handleMoveToCart = async (id) => {
+    if (!isUserAuthenticated) {
+      const product = wishlist.find((item) => item.id === id);
 
-      // 🔄 Оновлюємо кошик і вішліст
+      if (!product) return;
+
+      dispatch(
+        addGuestCartItem({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          photoUrl: product.photoUrl,
+        }),
+      );
+
+      dispatch(toggleGuestWishlist({ id }));
+
+      toast.success(t("productAdded"));
+      return;
+    }
+    try {
+      await dispatch(moveProductToShoppingCart(id)).unwrap();
+      toast.success(t("productAdded"));
       dispatch(getShoppingCart());
       dispatch(getWishlist());
     } catch (error) {
       console.error("❌ Error moving product to cart:", error);
-      toast.error(t("errorMessage"), {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      toast.error(t("errorMessage"));
     }
   };
-
-  // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentWishlist = wishlist.slice(
     indexOfFirstProduct,
-    indexOfLastProduct
+    indexOfLastProduct,
   );
 
   const totalPages = Math.ceil(wishlist.length / productsPerPage);
@@ -93,45 +112,77 @@ const WishlistPage = () => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const displayProducts = currentWishlist.map((product, index) => {
+    const productId = isUserAuthenticated ? product.productId : product.id;
 
-  const displayProducts = currentWishlist.map((product, index) => (
-    <WishlistItem
-      key={`${product.productId}-${product.name}`}
-      $isLastItem={
-        wishlist.length <= productsPerPage &&
-        index === currentWishlist.length - 1
-      }
-    >
-      <ZoomableProductImage
-        src={product.photoUrl}
-        alt={product.name}
-        tabIndex="0"
-      />
-      <ProductName>{product.name}</ProductName>
-      <ProductPrice>{product.price} zł</ProductPrice>
-      <AllButton>
-        <AddToCartButton onClick={() => handleMoveToCart(product._id)}>
-          🛒
-        </AddToCartButton>
-        <RemoveButton onClick={() => handleRemove(product._id)}>
-          🗑️
-        </RemoveButton>
-      </AllButton>
-    </WishlistItem>
-  ));
+    return (
+      <WishlistItem
+        key={productId}
+        $isLastItem={
+          wishlist.length <= productsPerPage &&
+          index === currentWishlist.length - 1
+        }
+      >
+        <ZoomableProductImage
+          src={product.photoUrl}
+          alt={product.name}
+          tabIndex="0"
+        />
+
+        <ProductName>{product.name}</ProductName>
+        <ProductPrice>{product.price} zł</ProductPrice>
+
+        <AllButton>
+          {isUserAuthenticated ? (
+            <AddToCartButton onClick={() => handleMoveToCart(productId)}>
+              {" "}
+              🛒{" "}
+            </AddToCartButton>
+          ) : (
+            <AddToCartButton
+              onClick={() => {
+                const product = wishlist.find((item) => item.id === productId);
+                if (!product) return;
+                dispatch(
+                  addGuestCartItem({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                    photoUrl: product.photoUrl,
+                  }),
+                );
+                toast.success(t("productAdded"));
+              }}
+            >
+              {" "}
+              🛒{" "}
+            </AddToCartButton>
+          )}
+          <RemoveButton onClick={() => handleRemove(productId)}>
+            {" "}
+            🗑️{" "}
+          </RemoveButton>
+        </AllButton>
+      </WishlistItem>
+    );
+  });
 
   return (
     <>
       <WelcomeGeneral>{t("wishlist_page")}</WelcomeGeneral>
-      {/* Показуємо різний контент залежно від стану */}
+
       {isLoading && <Loader />}
       {error && (
         <p>
           {t("error")}: {error}
         </p>
       )}
+
       {!wishlist.length && !isLoading && <NoResults />}
+
       {wishlist.length > 0 && <>{displayProducts}</>}
+
       {wishlist.length > productsPerPage && (
         <div
           style={{
@@ -146,7 +197,6 @@ const WishlistPage = () => {
             currentPage={currentPage}
             onPageChange={paginate}
           />
-          <ToastContainer />
         </div>
       )}
     </>

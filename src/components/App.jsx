@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "../redux/GlobalStyles";
@@ -10,7 +9,6 @@ import {
   selectAuthUser,
   selectIsUserAuthenticated,
 } from "../redux/auth/userAuth/selectorsAuth";
-
 import { Wrapper } from "./App.styled";
 import Header from "./Header/Header";
 import UserHeader from "./Header/UserHeader";
@@ -43,6 +41,7 @@ import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
 import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OfflineOrder/OfflineOrder";
 import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrder";
@@ -67,6 +66,7 @@ import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
 import ProtectedRoute from "./ProtectedRoute";
+
 export const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <ScrollToTop />
       <GlobalStyles />
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} />
       <Wrapper>
         <ErrorBoundary>
           {/* ✅ Хедер не рендериться на сторінках логіну/реєстрації */}
@@ -150,7 +150,8 @@ export const App = () => {
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
               <Route path="/policy-returns" element={<ReturnsPolicy />} />
               <Route path="/data-deletion" element={<DataDeletion />} />
-
+              {/* <Route path="/guest-cart" element={<ShoppingCartPage />} /> */}
+              <Route path="/guest-wishlist" element={<WishlistPage />} />
               <Route
                 path="/products"
                 element={

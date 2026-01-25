@@ -279,6 +279,12 @@ export const HamburgerButton = styled.div`
   top: 30px;
   right: 30px;
   z-index: 1100;
+  // font-family: Arial, sans-serif;
+  // color: ${(props) => (props.theme.$isDarkMode ? "#fff" : "lightgray")};
+  // text-shadow: ${(props) =>
+    props.theme.$isDarkMode
+      ? "0 0 5px rgba(255, 255, 255, 0.8)"
+      : "0 0 5px rgb(167, 182, 208)"};
   div {
     width: 30px;
     height: 3px;
