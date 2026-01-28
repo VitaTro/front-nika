@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import BannerCarousel from "../../components/BannerCarousel/BannerCarousel";
 import Loader from "../../components/Loader";
 import { fetchPublicMain } from "../../redux/main/mainOperations";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductsPage from "../ProductsPage/ProductsPage";
-
 const MainPage = () => {
   const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
   const dispatch = useDispatch();
@@ -27,8 +27,7 @@ const MainPage = () => {
 
   return (
     <>
-      {/* <Header /> */}
-      {/* // <ImageWork src={HoursOfWork} alt="hours of work" /> */}
+      <BannerCarousel />
       <ProductsPage isUserAuthenticated={isUserAuthenticated} />
     </>
   );
