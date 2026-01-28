@@ -8,12 +8,23 @@ export const BannerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 
-  /* Мобільна адаптація */
-  @media (max-width: 600px) {
-    padding: 0 8px;
+  @media (max-width: 480px) {
+    padding: 0 4px;
+    overflow-x: hidden;
   }
 `;
 export const BannerImage = styled.img`
-width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px;
-@media (max-width: 600px) { .banner-image { max-height: 170px; object-fit: contain; border-radius: 8px; }`;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+  @media (max-width: 600px) {
+    max-height: 210px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+`;
