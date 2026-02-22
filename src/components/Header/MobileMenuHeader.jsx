@@ -132,7 +132,7 @@ const MobileMenuHeader = ({
             </NavLinkStyledMObile>
           </NavItem>
 
-          {/* <NavItem>
+          <NavItem>
             <NavLinkStyledMObile
               to="/guest-cart"
               $isActive={location.pathname === "/guest-cart"}
@@ -140,7 +140,7 @@ const MobileMenuHeader = ({
             >
               {t("basket")} ({guestCartCount})
             </NavLinkStyledMObile>
-          </NavItem> */}
+          </NavItem>
         </>
       )}
 

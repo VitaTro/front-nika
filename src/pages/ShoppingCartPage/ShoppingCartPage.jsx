@@ -1,23 +1,27 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import SocialLoginModal from "../../components/AuthForm/UserAuthForm/SocialLoginModal";
 import Loader from "../../components/Loader";
 import noShopImg from "../../components/UserDashboard/tab/ProfileMain/No_shop.png";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
-
 import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
-
-// Guest cart
+import {
+  selectDiscount,
+  selectDiscountPercent,
+  selectFinalPrice,
+} from "../../redux/finance/onlineOrder/selectorsOnlineOrder";
 import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
 import {
+  mergeGuestCart,
   removeGuestCartItem,
   updateGuestCartQuantity,
 } from "../../redux/guest/shopping/guestShoppingSlice";
-
-// Backend cart
+import { getProducts } from "../../redux/products/operationProducts";
+import { selectProducts } from "../../redux/products/selectorsProducts";
 import {
   getShoppingCart,
   moveProductToWishlist,
@@ -30,14 +34,8 @@ import {
   selectShoppingCartLoading,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
-
-// Wishlist
 import { getWishlist } from "../../redux/wishlist/operationWishlist";
-
-// Products list (for guest stock lookup)
-import { selectProducts } from "../../redux/products/selectorsProducts";
-
-import { QuantityValue } from "../ProductDetailsPage/ProductDetailsPage.styled";
+import { calculateDiscount } from "../../utils/calculateDiscount";
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
 import {
   ButtonHeart,
@@ -48,29 +46,27 @@ import {
   ProductName,
   ProductPrice,
   QuantityController,
+  QuantityValueCartDesktop,
+  QuantityValueCartMobile,
   RemoveButton,
   ShoppingItem,
   ShoppingList,
   TotalAmount,
   TotalHeader,
 } from "./ShoppingCartPage.styled";
-
 const ShoppingCartPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [hasMerged, setHasMerged] = useState(false);
+
   const navigate = useNavigate();
-
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
-
-  // Full products list (for guest stock lookup)
   const allProducts = useSelector(selectProducts);
-
-  // Cart items
   const cartItems = isUserAuthenticated
     ? useSelector(selectShoppingCartItems)
     : useSelector(selectGuestCart);
 
-  // Wishlist (only for authenticated)
   const wishlist = isUserAuthenticated
     ? useSelector((state) => state.wishlist.items)
     : [];
@@ -80,7 +76,21 @@ const ShoppingCartPage = () => {
     ? useSelector(selectTotalAmount)
     : cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // Loading & error (only backend)
+  let discount = 0;
+  let discountPercent = 0;
+  let finalPrice = totalAmount;
+
+  if (isUserAuthenticated) {
+    discount = useSelector(selectDiscount);
+    discountPercent = useSelector(selectDiscountPercent);
+    finalPrice = useSelector(selectFinalPrice);
+  } else {
+    const d = calculateDiscount(totalAmount);
+    discount = d.discount;
+    discountPercent = d.discountPercent;
+    finalPrice = d.final;
+  }
+
   const isLoading = isUserAuthenticated
     ? useSelector(selectShoppingCartLoading)
     : false;
@@ -89,15 +99,38 @@ const ShoppingCartPage = () => {
     ? useSelector(selectShoppingCartError)
     : null;
 
-  // Load backend data only for authenticated users
   useEffect(() => {
-    if (isUserAuthenticated) {
+    if (!allProducts.length) {
+      dispatch(getProducts());
+    }
+  }, [dispatch, allProducts.length]);
+
+  useEffect(() => {
+    if (!isUserAuthenticated || hasMerged) return;
+
+    if (cartItems.length === 0) {
       dispatch(getShoppingCart());
       dispatch(getWishlist());
+      setHasMerged(true);
+      return;
     }
-  }, [dispatch, isUserAuthenticated]);
 
-  // Quantity change
+    dispatch(mergeGuestCart(cartItems))
+      .unwrap()
+      .then(() => {
+        dispatch(removeGuestCartItem(null));
+      })
+      .finally(() => {
+        dispatch(getShoppingCart());
+        dispatch(getWishlist());
+        setHasMerged(true);
+      });
+  }, [dispatch, isUserAuthenticated, cartItems.length, hasMerged]);
+
+  useEffect(() => {
+    if (isUserAuthenticated) setIsLoginModalOpen(false);
+  }, [isUserAuthenticated]);
+
   const handleQuantityChange = (id, quantity) => {
     if (quantity < 1) {
       handleRemove(id);
@@ -111,7 +144,6 @@ const ShoppingCartPage = () => {
     }
   };
 
-  // Remove item
   const handleRemove = (id) => {
     if (isUserAuthenticated) {
       dispatch(removeProductFromShoppingCart(id));
@@ -120,7 +152,6 @@ const ShoppingCartPage = () => {
     }
   };
 
-  // Move to wishlist (only for authenticated)
   const handleMoveToWishlist = (id) => {
     if (!isUserAuthenticated) {
       toast.info(t("login_required"));
@@ -128,6 +159,12 @@ const ShoppingCartPage = () => {
     }
     dispatch(moveProductToWishlist(id));
   };
+
+  useEffect(() => {
+    if (isUserAuthenticated) {
+      setIsLoginModalOpen(false);
+    }
+  }, [isUserAuthenticated]);
 
   // Sort cart by addedAt
   const sortedCart = cartItems.slice().sort((a, b) => {
@@ -139,13 +176,13 @@ const ShoppingCartPage = () => {
   const displayProducts = sortedCart.map((item) => {
     const id = item._id || item.id;
 
-    // Correct stock logic
     let stock = item.currentStock ?? 0;
 
     if (!isUserAuthenticated) {
       const product = allProducts.find(
         (p) => p._id === (item.productId || item.id),
       );
+
       stock = product?.currentStock ?? 0;
     }
 
@@ -161,16 +198,9 @@ const ShoppingCartPage = () => {
             <span>{item.quantity * item.price} zł</span>
           </ProductPrice>
 
-          <QuantityValue style={{ textAlign: "center", marginTop: "4px" }}>
+          <QuantityValueCartDesktop>
             {t("available")}: {stock} szt
-          </QuantityValue>
-
-          {item.quantity > stock && (
-            <Typography fontSize="0.75rem" color="error" textAlign="center">
-              {t("limited_stock")}
-            </Typography>
-          )}
-
+          </QuantityValueCartDesktop>
           <div
             style={{
               display: "flex",
@@ -214,6 +244,9 @@ const ShoppingCartPage = () => {
           )}
 
           <RemoveButton onClick={() => handleRemove(id)}>🗑️</RemoveButton>
+          <QuantityValueCartMobile>
+            {t("available")}: {stock} szt
+          </QuantityValueCartMobile>
         </ContainerCart>
       </ShoppingItem>
     );
@@ -242,7 +275,23 @@ const ShoppingCartPage = () => {
 
       {cartItems.length > 0 && (
         <TotalHeader>
-          {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
+          <div style={{ textAlign: "right" }}>
+            <div>
+              {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
+            </div>
+
+            {discount > 0 && (
+              <div style={{ color: "red", fontSize: "0.9rem" }}>
+                {t("discount")}: -{discount} zł ({discountPercent}%)
+              </div>
+            )}
+
+            {discount > 0 && (
+              <div style={{ fontWeight: "bold", marginTop: "5px" }}>
+                {t("final_price")}: <TotalAmount>{finalPrice} zł</TotalAmount>
+              </div>
+            )}
+          </div>
         </TotalHeader>
       )}
 
@@ -253,12 +302,16 @@ const ShoppingCartPage = () => {
               <Link to="/user/orders">{t("place_order")}</Link>
             </ButtonOrder>
           ) : (
-            <ButtonOrder onClick={() => navigate("/user/auth/login")}>
-              {t("login_required")}
+            <ButtonOrder onClick={() => setIsLoginModalOpen(true)}>
+              {t("place_order")}
             </ButtonOrder>
           )}
         </div>
       )}
+      <SocialLoginModal
+        open={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </>
   );
 };

@@ -72,6 +72,9 @@ const AdminLayout = () => {
         <ListItemButton component={Link} to="/admin/dashboard">
           <ListItemText primary="Головна панель" />
         </ListItemButton>
+        <ListItemButton component={Link} to="/admin/stock/monthly-report">
+          <ListItemText primary="Звітність" />
+        </ListItemButton>
         <ListItemButton component={Link} to="/admin/products">
           <ListItemText primary="Товари" />
         </ListItemButton>

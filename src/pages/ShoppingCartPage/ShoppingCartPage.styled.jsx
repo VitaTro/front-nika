@@ -18,6 +18,7 @@ export const ShoppingItem = styled.div`
   justify-content: space-between;
   padding: 10px 40px;
   border-bottom: 1px solid #ddd;
+
   @media (max-width: 768px) {
     padding: 4px 10px;
     flex-wrap: wrap;
@@ -39,6 +40,7 @@ export const ProductImage = styled.img`
 export const ProductName = styled.span`
   flex: 2;
   font-size: 16px;
+
   @media (max-width: 768px) {
     font-size: 12px;
   }
@@ -71,23 +73,28 @@ export const ItemHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
   @media (max-width: 768px) {
     gap: 5px;
   }
 `;
+
 export const QuantityController = styled.div`
   align-items: center;
   display: flex;
+
   gap: 5px;
 `;
 export const ShoppingList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   @media (max-width: 768px) {
     gap: 10px;
   }
 `;
+
 export const ButtonHeart = styled.button`
   background: none;
   border: none;
@@ -106,6 +113,7 @@ export const ButtonHeart = styled.button`
     font-size: 20px;
   }
 `;
+
 export const RemoveButton = styled.button`
   background: none;
   border: none;
@@ -120,6 +128,7 @@ export const ContainerCart = styled.div`
   display: flex;
   gap: 30px;
   align-items: center;
+
   @media (max-width: 768px) {
     gap: 6px;
     flex-wrap: wrap;
@@ -137,6 +146,7 @@ export const ButtonQuantity = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+
   @media (max-width: 768px) {
     padding: 3px 5px;
     font-size: 12px;
@@ -164,4 +174,39 @@ export const ButtonOrder = styled.button`
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 40px;
+`;
+export const QuantityValueCart = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 4px;
+  color: red;
+  transition: color 0.2s ease-in-out;
+  @media (max-width: 480px) {
+    font-size: 10px;
+    font-weight: 400;
+  }
+`;
+export const QuantityValueCartDesktop = styled.div`
+  font-size: 0.85rem;
+  color: red;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+export const QuantityValueCartMobile = styled.div`
+  font-size: 0.85rem;
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-top: 6px;
+  justify-content: center;
+  @media (min-width: 769px) {
+    display: none;
+  }
 `;

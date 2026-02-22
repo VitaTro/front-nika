@@ -163,14 +163,14 @@ const Header = () => {
                 </NavLinkStyled>
               </NavItem>
 
-              {/* <NavItem>
+              <NavItem>
                 <NavLinkStyled
                   to="/guest-cart"
                   $isActive={location.pathname === "/guest-cart"}
                 >
                   {t("basket")} ({guestCartCount})
                 </NavLinkStyled>
-              </NavItem> */}
+              </NavItem>
             </>
           )}
           {isUserAuthenticated && (

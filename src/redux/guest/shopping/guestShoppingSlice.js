@@ -64,13 +64,19 @@ export const {
   clearGuestCart,
 } = guestCartSlice.actions;
 
-export default guestCartSlice.reducer;
 export const mergeGuestCart = createAsyncThunk(
   "shoppingCart/mergeGuestCart",
-  async (localCart, thunkAPI) => {
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const localCart = state.guestCart.items;
+
+    const normalized = localCart.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    }));
     try {
-      const { data } = await axios.post("/api/shopping-cart/merge", {
-        localCart,
+      const { data } = await axios.post("/api/user/shopping-cart/merge", {
+        localCart: normalized,
       });
 
       return data.cart;
@@ -79,3 +85,4 @@ export const mergeGuestCart = createAsyncThunk(
     }
   },
 );
+export default guestCartSlice.reducer;

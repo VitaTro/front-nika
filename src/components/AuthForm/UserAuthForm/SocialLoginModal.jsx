@@ -8,7 +8,7 @@ import FacebookIcon from "../../icons/facebook.svg";
 import GoogleIcon from "../../icons/google.svg";
 import { Backdrop, Modal, SocialButton } from "../AuthFormRegister.styled";
 
-const SocialLoginModal = ({ onClose }) => {
+const SocialLoginModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -154,7 +154,7 @@ const SocialLoginModal = ({ onClose }) => {
 
     window.google.accounts.id.prompt();
   };
-
+  if (!open) return null;
   return (
     <Backdrop onClick={onClose}>
       <Modal onClick={(e) => e.stopPropagation()}>

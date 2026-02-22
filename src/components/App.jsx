@@ -150,7 +150,7 @@ export const App = () => {
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
               <Route path="/policy-returns" element={<ReturnsPolicy />} />
               <Route path="/data-deletion" element={<DataDeletion />} />
-              {/* <Route path="/guest-cart" element={<ShoppingCartPage />} /> */}
+              <Route path="/guest-cart" element={<ShoppingCartPage />} />
               <Route path="/guest-wishlist" element={<WishlistPage />} />
               <Route
                 path="/products"
