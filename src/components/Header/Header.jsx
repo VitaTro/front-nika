@@ -15,6 +15,7 @@ import {
   selectGuestCartCount,
 } from "../../redux/guest/shopping/guestShoppingSelectors";
 import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
+import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import {
   selectAuthError,
@@ -39,6 +40,7 @@ import {
   UtilityContainer,
 } from "./Header.styled";
 import MobileMenuHeader from "./MobileMenuHeader";
+
 const Header = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
@@ -51,6 +53,9 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const user = useSelector(selectAuthUser) || {};
   const userData = useSelector((state) => state.user.data);
+  const userCartItems = useSelector(selectShoppingCartItems) || [];
+  const userWishlist = useSelector((state) => state.wishlist.items) || [];
+
   const error = useSelector(selectAuthError);
   const isLoading = useSelector(selectAuthLoading);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -73,11 +78,6 @@ const Header = () => {
     dispatch(toggleTheme());
     localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
-  // useEffect(() => {
-  //   if (isUserAuthenticated) {
-  //     dispatch(fetchUserInfo()); // ✅ Завантажуємо дані користувача після входу
-  //   }
-  // }, [dispatch, isUserAuthenticated]);
 
   const changeLanguage = (lang) => {
     setSelectedLanguage(lang);
@@ -180,7 +180,7 @@ const Header = () => {
                   to="/wishlist"
                   $isActive={location.pathname === "/wishlist"}
                 >
-                  {t("wishlist")}
+                  {t("wishlist")} ({userWishlist.length})
                 </NavLinkStyled>
               </NavItem>
 
@@ -189,7 +189,7 @@ const Header = () => {
                   to="/shopping-cart"
                   $isActive={location.pathname === "/shopping-cart"}
                 >
-                  {t("basket")}
+                  {t("basket")} ({userCartItems.length})
                 </NavLinkStyled>
               </NavItem>
 

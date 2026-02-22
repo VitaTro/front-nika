@@ -20,7 +20,7 @@ import {
   selectUserOrdersLoading,
 } from "../../../../../redux/user/userOrders/selectorsUserOrders";
 import Loader from "../../../../Loader";
-import NoResults from "../../../../NoResults/NoResults";
+import shop from "../../../../icons/shop.png";
 import OrderDetailsCard from "./OrderDetailsCard";
 import StatusChip from "./StatusChip";
 
@@ -68,7 +68,9 @@ const UserOrderDetails = () => {
       </Typography>
 
       {loading && <Loader />}
-      {!loading && !orders.length && <NoResults message={t("no_orders")} />}
+      {!loading && !orders.length && (
+        <img src={shop} alt="No orders" style={{ width: 200 }} />
+      )}
 
       <Stack spacing={2}>
         {orders.map((order) => (

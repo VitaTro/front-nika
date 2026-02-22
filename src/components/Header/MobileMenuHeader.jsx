@@ -4,6 +4,7 @@ import { toggleTheme } from "../../redux/themeSlice";
 
 import { selectGuestCartCount } from "../../redux/guest/shopping/guestShoppingSelectors";
 import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
+import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
 import Moon from "../icons/moon.png";
 import Sun from "../icons/sun.png";
 import {
@@ -18,6 +19,7 @@ import {
   ThemeIcon,
   ThemeToggle,
 } from "./Header.styled";
+
 const MobileMenuHeader = ({
   user,
   isUserAuthenticated,
@@ -35,6 +37,8 @@ const MobileMenuHeader = ({
   const location = useLocation();
   const guestWishlist = useSelector(selectGuestWishlist);
   const guestCartCount = useSelector(selectGuestCartCount);
+  const userCartItems = useSelector(selectShoppingCartItems) || [];
+  const userWishlist = useSelector((state) => state.wishlist.items) || [];
   return (
     <MobileMenu
       style={{
@@ -152,7 +156,7 @@ const MobileMenuHeader = ({
               $isActive={location.pathname === "/user/wishlist"}
               onClick={() => setMenuOpen(false)}
             >
-              {t("wishlist")}
+              {t("wishlist")} ({userWishlist.length})
             </NavLinkStyledMObile>
           </NavItem>
           <NavItem>
@@ -161,7 +165,7 @@ const MobileMenuHeader = ({
               $isActive={location.pathname === "/user/shopping-cart"}
               onClick={() => setMenuOpen(false)}
             >
-              {t("basket")}
+              {t("basket")} ({userCartItems.length})
             </NavLinkStyledMObile>
           </NavItem>
         </>

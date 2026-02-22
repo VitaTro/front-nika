@@ -8,8 +8,9 @@ import {
   selectUserOrdersError,
   selectUserOrdersLoading,
 } from "../../../../redux/user/userOrders/selectorsUserOrders";
+import shop from "../../../icons/shop.png";
 import Loader from "../../../Loader";
-import noShopImg from "./No_shop.png";
+
 const UserPurchaseHistory = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -39,11 +40,7 @@ const UserPurchaseHistory = () => {
             gap: 2,
           }}
         >
-          <img
-            src={noShopImg}
-            alt="No orders"
-            style={{ width: 200, maxWidth: "80%", opacity: 0.8 }}
-          />
+          <img src={shop} alt="No orders" style={{ width: 200 }} />
           <Typography variant="h6" color="text.secondary">
             {t("no_purchase_history")}
           </Typography>

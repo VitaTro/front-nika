@@ -37,17 +37,13 @@ const ProfileMain = () => {
         email: user.email || "",
         phone: user.phone || "",
       };
-      const isEqual = Object.entries(filled).every(
-        ([key, value]) => formData[key] === value
+      setFormData(filled);
+
+      const savedOrderForm = JSON.parse(
+        localStorage.getItem("orderForm") || "{}",
       );
-      if (!isEqual) {
-        setFormData(filled);
-        const savedOrderForm = JSON.parse(
-          localStorage.getItem("orderForm") || "{}"
-        );
-        const merged = { ...savedOrderForm, ...filled };
-        localStorage.setItem("orderForm", JSON.stringify(merged));
-      }
+      const merged = { ...savedOrderForm, ...filled };
+      localStorage.setItem("orderForm", JSON.stringify(merged));
     }
   }, [user, formData]);
 
@@ -58,7 +54,7 @@ const ProfileMain = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUserInfo(formData));
-    alert("✅ Дані оновлено успішно!");
+    alert("✅ Dane zostały pomyślnie zaktualizowane!");
     setShowDialog(false);
   };
 

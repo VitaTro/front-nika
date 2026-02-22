@@ -9,13 +9,15 @@ import {
   selectAuthUser,
   selectIsUserAuthenticated,
 } from "../../redux/auth/userAuth/selectorsAuth";
+import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import {
   selectAuthError,
   selectAuthLoading,
 } from "../../redux/user/userSelectors";
-
 import Logo from "../icons/logo.png";
+import Moon from "../icons/moon.png";
+import Sun from "../icons/sun.png";
 import Loader from "../Loader";
 import {
   Container,
@@ -35,6 +37,8 @@ import MobileMenuHeader from "./MobileMenuHeader";
 const UserHeader = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
+  const userCartItems = useSelector(selectShoppingCartItems) || [];
+  const userWishlist = useSelector((state) => state.wishlist.items) || [];
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
   const navigate = useNavigate();
   const location = useLocation();
@@ -139,7 +143,7 @@ const UserHeader = () => {
               to="/user/wishlist"
               $isActive={location.pathname === "/wishlist"}
             >
-              {t("wishlist")}
+              {t("wishlist")} ({userWishlist.length})
             </NavLinkStyled>
           </NavItem>{" "}
           <NavItem>
@@ -147,7 +151,7 @@ const UserHeader = () => {
               to="/user/shopping-cart"
               $isActive={location.pathname === "/shopping-cart"}
             >
-              {t("basket")}
+              {t("basket")} ({userCartItems.length})
             </NavLinkStyled>
           </NavItem>
           <NavItem>
@@ -167,13 +171,13 @@ const UserHeader = () => {
             <ThemeToggle onClick={handleThemeToggle}>
               <Slider isDarkMode={isDarkMode}>
                 <ThemeIcon
-                  src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/sun_prnb60.jpg"
+                  src={Sun}
                   alt="Sun icon"
                   $position="right"
                   $visible={!isDarkMode}
                 />
                 <ThemeIcon
-                  src="https://res.cloudinary.com/dblh78pvc/image/upload/v1741275631/moon_krwywm.jpg"
+                  src={Moon}
                   alt="Moon icon"
                   $position="left"
                   $visible={isDarkMode}
