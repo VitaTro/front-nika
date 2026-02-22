@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import SocialLoginModal from "../../components/AuthForm/UserAuthForm/SocialLoginModal";
+import shop from "../../components/icons/shop.png";
 import Loader from "../../components/Loader";
-import noShopImg from "../../components/UserDashboard/tab/ProfileMain/No_shop.png";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
 import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
 import {
@@ -265,7 +265,7 @@ const ShoppingCartPage = () => {
 
       {!cartItems.length && !isLoading && (
         <Box sx={{ textAlign: "center", py: 6 }}>
-          <img src={noShopImg} alt="No orders" style={{ width: 200 }} />
+          <img src={shop} alt="No orders" style={{ width: 200 }} />
           <Typography variant="h6">{t("empty_cart")}</Typography>
           <Typography variant="body2">{t("add_products_hint")}</Typography>
         </Box>
