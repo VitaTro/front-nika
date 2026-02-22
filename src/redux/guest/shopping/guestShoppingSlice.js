@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import axios from "../../axiosConfig";
 const LOCAL_KEY = "guest_cart";
 
 const loadFromLocalStorage = () => {

@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import SocialLoginModal from "../../components/AuthForm/UserAuthForm/SocialLoginModal";
@@ -11,12 +11,6 @@ import Loader from "../../components/Loader";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
 
 import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
-
-import {
-  selectDiscount,
-  selectDiscountPercent,
-  selectFinalPrice,
-} from "../../redux/finance/onlineOrder/selectorsOnlineOrder";
 
 import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
 import {
@@ -69,64 +63,48 @@ import {
 const ShoppingCartPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [hasMerged, setHasMerged] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
+  // --- селектори (усі зверху, без умов) ---
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
 
-  const allProducts = useSelector(selectProducts);
+  const allProducts = useSelector(selectProducts) || [];
   const guestCart = useSelector(selectGuestCart) || [];
   const backendCartItems = useSelector(selectShoppingCartItems) || [];
 
+  const wishlist = useSelector((state) => state.wishlist.items) || [];
+
+  const backendTotalAmount = useSelector(selectTotalAmount) || 0;
+  const isLoading = useSelector(selectShoppingCartLoading);
+  const error = useSelector(selectShoppingCartError);
+
+  // --- похідні значення ---
   const cartItems = isUserAuthenticated ? backendCartItems : guestCart;
 
-  const wishlist = isUserAuthenticated
-    ? useSelector((state) => state.wishlist.items) || []
-    : [];
-
   const totalAmount = isUserAuthenticated
-    ? useSelector(selectTotalAmount) || 0
+    ? backendTotalAmount
     : cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const reduxDiscount = useSelector(selectDiscount);
-  const reduxDiscountPercent = useSelector(selectDiscountPercent);
-  const reduxFinalPrice = useSelector(selectFinalPrice);
+  const {
+    discount,
+    discountPercent,
+    final: finalPrice,
+  } = calculateDiscount(totalAmount);
 
-  let discount = 0;
-  let discountPercent = 0;
-  let finalPrice = totalAmount;
-
-  if (isUserAuthenticated) {
-    discount = reduxDiscount || 0;
-    discountPercent = reduxDiscountPercent || 0;
-    finalPrice = reduxFinalPrice || totalAmount;
-  } else {
-    const d = calculateDiscount(totalAmount);
-    discount = d.discount;
-    discountPercent = d.discountPercent;
-    finalPrice = d.final;
-  }
-
-  const isLoading = isUserAuthenticated
-    ? useSelector(selectShoppingCartLoading)
-    : false;
-
-  const error = isUserAuthenticated
-    ? useSelector(selectShoppingCartError)
-    : null;
-
+  // --- завантаження продуктів для stock (гості) ---
   useEffect(() => {
     if (!allProducts.length) {
       dispatch(getProducts());
     }
   }, [dispatch, allProducts.length]);
 
+  // --- мердж гостьового кошика після логіну ---
   useEffect(() => {
     if (!isUserAuthenticated || hasMerged) return;
 
-    if (guestCart.length === 0) {
+    if (!guestCart.length) {
       dispatch(getShoppingCart());
       dispatch(getWishlist());
       setHasMerged(true);
@@ -136,7 +114,7 @@ const ShoppingCartPage = () => {
     dispatch(mergeGuestCart(guestCart))
       .unwrap()
       .then(() => {
-        dispatch(removeGuestCartItem(null));
+        dispatch(removeGuestCartItem(null)); // очистити guest cart
       })
       .finally(() => {
         dispatch(getShoppingCart());
@@ -145,10 +123,12 @@ const ShoppingCartPage = () => {
       });
   }, [dispatch, isUserAuthenticated, guestCart, hasMerged]);
 
+  // --- закривати модалку логіну, якщо вже залогований ---
   useEffect(() => {
     if (isUserAuthenticated) setIsLoginModalOpen(false);
   }, [isUserAuthenticated]);
 
+  // --- зміна кількості ---
   const handleQuantityChange = (id, quantity) => {
     if (quantity < 1) {
       handleRemove(id);
@@ -164,6 +144,7 @@ const ShoppingCartPage = () => {
     }
   };
 
+  // --- видалення товару ---
   const handleRemove = (id) => {
     if (isUserAuthenticated) {
       dispatch(removeProductFromShoppingCart(id))
@@ -174,14 +155,18 @@ const ShoppingCartPage = () => {
     }
   };
 
+  // --- move to wishlist ---
   const handleMoveToWishlist = (id) => {
     if (!isUserAuthenticated) {
       toast.info(t("login_required"));
       return;
     }
-    dispatch(moveProductToWishlist(id));
+    dispatch(moveProductToWishlist(id))
+      .unwrap()
+      .then(() => dispatch(getShoppingCart()));
   };
 
+  // --- сортування кошика ---
   const sortedCart = cartItems.slice().sort((a, b) => {
     const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
     const dateB = b.addedAt ? new Date(b.addedAt) : new Date(0);
@@ -189,12 +174,20 @@ const ShoppingCartPage = () => {
   });
 
   const displayProducts = sortedCart.map((item) => {
-    const id = item._id || item.id;
+    const id = isUserAuthenticated ? item._id : item.id || item.productId;
 
-    const product = allProducts.find(
-      (p) => p._id === (item.productId || item.id),
-    );
-    const stock = product?.currentStock ?? 0;
+    let stock = 0;
+
+    if (isUserAuthenticated) {
+      // бекенд уже додає availableQuantity
+      stock = item.availableQuantity ?? 0;
+    } else {
+      // гість: беремо зі списку продуктів
+      const product = allProducts.find(
+        (p) => p._id === (item.productId || item.id),
+      );
+      stock = product?.currentStock ?? 0;
+    }
 
     return (
       <ShoppingItem key={id}>
@@ -231,7 +224,7 @@ const ShoppingCartPage = () => {
               <span>{item.quantity}</span>
 
               <ButtonQuantity
-                disabled={item.quantity >= stock}
+                disabled={stock === 0 || item.quantity >= stock}
                 onClick={() => {
                   if (item.quantity < stock) {
                     handleQuantityChange(id, item.quantity + 1);
@@ -246,9 +239,13 @@ const ShoppingCartPage = () => {
           {isUserAuthenticated && (
             <ButtonHeart
               onClick={() => handleMoveToWishlist(id)}
-              $isActive={wishlist.some((w) => w.productId === item.productId)}
+              $isActive={wishlist.some(
+                (w) => w.productId?.toString() === item.productId?.toString(),
+              )}
             >
-              {wishlist.some((w) => w.productId === item.productId)
+              {wishlist.some(
+                (w) => w.productId?.toString() === item.productId?.toString(),
+              )
                 ? "❤️"
                 : "🖤"}
             </ButtonHeart>
