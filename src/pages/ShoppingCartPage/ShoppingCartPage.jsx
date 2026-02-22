@@ -68,7 +68,7 @@ const ShoppingCartPage = () => {
     : useSelector(selectGuestCart);
 
   const wishlist = isUserAuthenticated
-    ? useSelector((state) => state.wishlist.items)
+    ? useSelector((state) => state.wishlist.items) || []
     : [];
 
   // Total amount
