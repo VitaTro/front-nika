@@ -4,39 +4,50 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import SocialLoginModal from "../../components/AuthForm/UserAuthForm/SocialLoginModal";
 import shop from "../../components/icons/shop.png";
 import Loader from "../../components/Loader";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
+
 import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+
 import {
   selectDiscount,
   selectDiscountPercent,
   selectFinalPrice,
 } from "../../redux/finance/onlineOrder/selectorsOnlineOrder";
+
 import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
 import {
   mergeGuestCart,
   removeGuestCartItem,
   updateGuestCartQuantity,
 } from "../../redux/guest/shopping/guestShoppingSlice";
+
 import { getProducts } from "../../redux/products/operationProducts";
 import { selectProducts } from "../../redux/products/selectorsProducts";
+
 import {
   getShoppingCart,
   moveProductToWishlist,
   removeProductFromShoppingCart,
   updateProductToShoppingCart,
 } from "../../redux/shopping/operationShopping";
+
 import {
   selectShoppingCartError,
   selectShoppingCartItems,
   selectShoppingCartLoading,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
+
 import { getWishlist } from "../../redux/wishlist/operationWishlist";
+
 import { calculateDiscount } from "../../utils/calculateDiscount";
+
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
+
 import {
   ButtonHeart,
   ButtonOrder,
@@ -54,36 +65,43 @@ import {
   TotalAmount,
   TotalHeader,
 } from "./ShoppingCartPage.styled";
+
 const ShoppingCartPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [hasMerged, setHasMerged] = useState(false);
-
   const navigate = useNavigate();
+
+  const [hasMerged, setHasMerged] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+
   const allProducts = useSelector(selectProducts);
-  const cartItems = isUserAuthenticated
-    ? useSelector(selectShoppingCartItems)
-    : useSelector(selectGuestCart);
+  const guestCart = useSelector(selectGuestCart) || [];
+  const backendCartItems = useSelector(selectShoppingCartItems) || [];
+
+  const cartItems = isUserAuthenticated ? backendCartItems : guestCart;
 
   const wishlist = isUserAuthenticated
     ? useSelector((state) => state.wishlist.items) || []
     : [];
 
-  // Total amount
   const totalAmount = isUserAuthenticated
-    ? useSelector(selectTotalAmount)
+    ? useSelector(selectTotalAmount) || 0
     : cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const reduxDiscount = useSelector(selectDiscount);
+  const reduxDiscountPercent = useSelector(selectDiscountPercent);
+  const reduxFinalPrice = useSelector(selectFinalPrice);
 
   let discount = 0;
   let discountPercent = 0;
   let finalPrice = totalAmount;
 
   if (isUserAuthenticated) {
-    discount = useSelector(selectDiscount);
-    discountPercent = useSelector(selectDiscountPercent);
-    finalPrice = useSelector(selectFinalPrice);
+    discount = reduxDiscount || 0;
+    discountPercent = reduxDiscountPercent || 0;
+    finalPrice = reduxFinalPrice || totalAmount;
   } else {
     const d = calculateDiscount(totalAmount);
     discount = d.discount;
@@ -108,14 +126,14 @@ const ShoppingCartPage = () => {
   useEffect(() => {
     if (!isUserAuthenticated || hasMerged) return;
 
-    if (cartItems.length === 0) {
+    if (guestCart.length === 0) {
       dispatch(getShoppingCart());
       dispatch(getWishlist());
       setHasMerged(true);
       return;
     }
 
-    dispatch(mergeGuestCart(cartItems))
+    dispatch(mergeGuestCart(guestCart))
       .unwrap()
       .then(() => {
         dispatch(removeGuestCartItem(null));
@@ -125,7 +143,7 @@ const ShoppingCartPage = () => {
         dispatch(getWishlist());
         setHasMerged(true);
       });
-  }, [dispatch, isUserAuthenticated, cartItems.length, hasMerged]);
+  }, [dispatch, isUserAuthenticated, guestCart, hasMerged]);
 
   useEffect(() => {
     if (isUserAuthenticated) setIsLoginModalOpen(false);
@@ -138,7 +156,9 @@ const ShoppingCartPage = () => {
     }
 
     if (isUserAuthenticated) {
-      dispatch(updateProductToShoppingCart({ id, quantity }));
+      dispatch(updateProductToShoppingCart({ id, quantity }))
+        .unwrap()
+        .then(() => dispatch(getShoppingCart()));
     } else {
       dispatch(updateGuestCartQuantity({ id, quantity }));
     }
@@ -146,7 +166,9 @@ const ShoppingCartPage = () => {
 
   const handleRemove = (id) => {
     if (isUserAuthenticated) {
-      dispatch(removeProductFromShoppingCart(id));
+      dispatch(removeProductFromShoppingCart(id))
+        .unwrap()
+        .then(() => dispatch(getShoppingCart()));
     } else {
       dispatch(removeGuestCartItem(id));
     }
@@ -160,13 +182,6 @@ const ShoppingCartPage = () => {
     dispatch(moveProductToWishlist(id));
   };
 
-  useEffect(() => {
-    if (isUserAuthenticated) {
-      setIsLoginModalOpen(false);
-    }
-  }, [isUserAuthenticated]);
-
-  // Sort cart by addedAt
   const sortedCart = cartItems.slice().sort((a, b) => {
     const dateA = a.addedAt ? new Date(a.addedAt) : new Date(0);
     const dateB = b.addedAt ? new Date(b.addedAt) : new Date(0);
@@ -176,15 +191,10 @@ const ShoppingCartPage = () => {
   const displayProducts = sortedCart.map((item) => {
     const id = item._id || item.id;
 
-    let stock = item.currentStock ?? 0;
-
-    if (!isUserAuthenticated) {
-      const product = allProducts.find(
-        (p) => p._id === (item.productId || item.id),
-      );
-
-      stock = product?.currentStock ?? 0;
-    }
+    const product = allProducts.find(
+      (p) => p._id === (item.productId || item.id),
+    );
+    const stock = product?.currentStock ?? 0;
 
     return (
       <ShoppingItem key={id}>
@@ -201,6 +211,7 @@ const ShoppingCartPage = () => {
           <QuantityValueCartDesktop>
             {t("available")}: {stock} szt
           </QuantityValueCartDesktop>
+
           <div
             style={{
               display: "flex",
@@ -244,6 +255,7 @@ const ShoppingCartPage = () => {
           )}
 
           <RemoveButton onClick={() => handleRemove(id)}>🗑️</RemoveButton>
+
           <QuantityValueCartMobile>
             {t("available")}: {stock} szt
           </QuantityValueCartMobile>
@@ -257,6 +269,7 @@ const ShoppingCartPage = () => {
       <WelcomeGeneral>{t("basket")}</WelcomeGeneral>
 
       {isLoading && <Loader />}
+
       {error && (
         <p>
           {t("error")}: {error}
@@ -281,15 +294,15 @@ const ShoppingCartPage = () => {
             </div>
 
             {discount > 0 && (
-              <div style={{ color: "red", fontSize: "0.9rem" }}>
-                {t("discount")}: -{discount} zł ({discountPercent}%)
-              </div>
-            )}
+              <>
+                <div style={{ color: "red", fontSize: "0.9rem" }}>
+                  {t("discount")}: -{discount} zł ({discountPercent}%)
+                </div>
 
-            {discount > 0 && (
-              <div style={{ fontWeight: "bold", marginTop: "5px" }}>
-                {t("final_price")}: <TotalAmount>{finalPrice} zł</TotalAmount>
-              </div>
+                <div style={{ fontWeight: "bold", marginTop: "5px" }}>
+                  {t("final_price")}: <TotalAmount>{finalPrice} zł</TotalAmount>
+                </div>
+              </>
             )}
           </div>
         </TotalHeader>
@@ -308,6 +321,7 @@ const ShoppingCartPage = () => {
           )}
         </div>
       )}
+
       <SocialLoginModal
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
