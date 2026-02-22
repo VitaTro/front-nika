@@ -274,7 +274,10 @@ const Header = () => {
       />
       <>
         {showLoginModal && (
-          <SocialLoginModal onClose={() => setShowLoginModal(false)} />
+          <SocialLoginModal
+            onClose={() => setShowLoginModal(false)}
+            open={showLoginModal}
+          />
         )}
       </>
     </Container>
