@@ -143,3 +143,58 @@ export const InfoContainer = styled.div`
   flex-direction: column;
   gap: 16px;
 `;
+export const MobileCarousel = styled.div`
+  display: none;
+
+  @media (max-width: 600px) {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+`;
+
+export const CarouselItem = styled.img`
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+export const Thumbnails = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+export const ThumbnailImage = styled.img`
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;

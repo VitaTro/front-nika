@@ -11,6 +11,7 @@ import {
   selectProductsLoading,
 } from "../../redux/products/selectorsProducts";
 import {
+  CarouselItem,
   CloseButton,
   DetailsContainer,
   DetailsHeader,
@@ -19,10 +20,13 @@ import {
   InfoContainer,
   InfoItem,
   InfoList,
+  MobileCarousel,
   NumberValue,
   PriceValue,
   ProductImage,
   QuantityValue,
+  ThumbnailImage,
+  Thumbnails,
 } from "./ProductDetailsPage.styled";
 
 const ProductDetailsPage = () => {
@@ -37,6 +41,7 @@ const ProductDetailsPage = () => {
   const location = useLocation();
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [activePhoto, setActivePhoto] = useState(null);
 
   const product =
     isUserAuthenticated && location.pathname.includes("/user/")
@@ -51,6 +56,11 @@ const ProductDetailsPage = () => {
   const handleImageClick = () => {
     setIsZoomed(!isZoomed);
   };
+  useEffect(() => {
+    if (product?.photoUrl) {
+      setActivePhoto(product.photoUrl);
+    }
+  }, [product]);
 
   // UNIVERSAL PARSER
   const parseValueWithUnit = (raw, defaultUnit = "mm") => {
@@ -93,7 +103,8 @@ const ProductDetailsPage = () => {
         <ImageContainer>
           {product.photoUrl && (
             <ProductImage
-              src={product.photoUrl}
+              id="main-product-image"
+              src={activePhoto}
               alt={product.name}
               style={{
                 transform: isZoomed ? "scale(1.5)" : "scale(1)",
@@ -102,6 +113,43 @@ const ProductDetailsPage = () => {
               }}
               onClick={handleImageClick}
             />
+          )}
+          {product.additionalPhotos.length > 0 && (
+            <Thumbnails>
+              {product.additionalPhotos.map((photo, index) => (
+                <ThumbnailImage
+                  key={index}
+                  src={photo}
+                  alt={`additional-${index}`}
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    border: "1px solid #ccc",
+                  }}
+                  onClick={() => {
+                    setActivePhoto(photo);
+                    const img = document.querySelector("#main-product-image");
+                    if (img) img.src = photo;
+                  }}
+                />
+              ))}
+            </Thumbnails>
+          )}
+          {product.additionalPhotos.length > 0 && (
+            <MobileCarousel>
+              {" "}
+              {product.additionalPhotos.map((photo, index) => (
+                <CarouselItem
+                  key={index}
+                  src={photo}
+                  alt={`carousel-${index}`}
+                  onClick={() => setActivePhoto(photo)}
+                />
+              ))}{" "}
+            </MobileCarousel>
           )}
         </ImageContainer>
 
