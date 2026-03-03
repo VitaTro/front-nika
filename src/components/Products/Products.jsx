@@ -1,34 +1,49 @@
+import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
+import CategoryFilter from "../Filters/CategoryFilter/CategoryFilter";
 import Loader from "../Loader";
 import PaginationComponent from "../PaginationComponent/PaginationComponent";
 import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
-import {
-  ProductsContainer,
-  ProductsGrid,
-  TabButton,
-  Tabs,
-} from "./Products.styled";
+import { ProductsContainer, ProductsGrid } from "./Products.styled";
+import SidebarTabs from "./SidebarTabs";
 
 const Products = ({ type }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
+  const isMobile = useMediaQuery("(max-width:600px)");
+
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeCategory, setActiveCategory] = useState("all");
-  const [filteredProducts, setFilteredProducts] = useState(products); // ✅ Виправлено!
+
+  const [availableColors, setAvailableColors] = useState([]);
+  const [availableLengths, setAvailableLengths] = useState([]);
+  const [availableClasps, setAvailableClasps] = useState([]);
+  const [availableLetters, setAvailableLetters] = useState([]);
 
   const productsPerPage = 18;
 
+  const [filters, setFilters] = useState({
+    clasp: "",
+    stoneColor: "",
+    length: "",
+    withStones: "",
+    letters: [],
+  });
+
+  // SEARCH
   useEffect(() => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -36,7 +51,6 @@ const Products = ({ type }) => {
       const filtered = products.filter((product) => {
         const name = product.name?.toLowerCase() || "";
         const description = product.description?.toLowerCase() || "";
-
         return name.includes(query) || description.includes(query);
       });
 
@@ -51,53 +65,153 @@ const Products = ({ type }) => {
     setCurrentPage(1);
   };
 
+  // FETCH DATA + FILTERS
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      isUserAuthenticated;
-    }
-
     const fetchData = async () => {
       setIsLoading(true);
       setError("");
 
       try {
-        const endpoint = isUserAuthenticated
-          ? "/api/user/products"
-          : "/api/products";
         const response = await axios.get("/api/products", {
-          params: {
-            type: type,
-            category: activeCategory,
-          },
+          params: { type, category: activeCategory },
         });
-        const data = response.data;
-        let filteredProducts = data;
 
+        let filtered = response.data;
+
+        // CATEGORY FILTERS
         if (type !== "all") {
-          filteredProducts = filteredProducts.filter(
-            (product) => product.category === type
-          );
+          filtered = filtered.filter((p) => p.category === type);
         }
+
         if (activeCategory !== "all") {
-          filteredProducts = filteredProducts.filter(
-            (product) => product.subcategory === activeCategory
+          filtered = filtered.filter((p) => p.subcategory === activeCategory);
+        }
+
+        // Earrings
+        if (activeCategory === "earrings") {
+          if (filters.clasp) {
+            filtered = filtered.filter((p) =>
+              p.description
+                ?.toLowerCase()
+                .includes(filters.clasp.toLowerCase()),
+            );
+          }
+          if (filters.stoneColor) {
+            filtered = filtered.filter(
+              (p) =>
+                p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
+            );
+          }
+        }
+
+        // Chains
+        if (activeCategory === "chains" && filters.length) {
+          const lengthStr = String(filters.length).toLowerCase();
+          filtered = filtered.filter((p) =>
+            p.description?.toLowerCase().includes(lengthStr),
           );
         }
-        const sortByCustomOrder = (a, b) => {
+
+        // Bracelets
+        if (activeCategory === "bracelets") {
+          if (filters.length) {
+            const lengthStr = String(filters.length).toLowerCase();
+            filtered = filtered.filter((p) =>
+              p.description?.toLowerCase().includes(lengthStr),
+            );
+          }
+          if (filters.stoneColor) {
+            filtered = filtered.filter(
+              (p) =>
+                p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
+            );
+          }
+        }
+
+        // Crosses
+        if (activeCategory === "crosses") {
+          if (filters.withStones === "yes") {
+            filtered = filtered.filter((p) =>
+              p.description?.toLowerCase().includes("stone"),
+            );
+          }
+          if (filters.withStones === "no") {
+            filtered = filtered.filter(
+              (p) => !p.description?.toLowerCase().includes("stone"),
+            );
+          }
+        }
+
+        // Pendants
+        if (activeCategory === "pendants") {
+          if (filters.letters?.length > 0) {
+            filtered = filtered.filter((p) =>
+              filters.letters.some((l) =>
+                p.description?.toLowerCase().includes(l.toLowerCase()),
+              ),
+            );
+          }
+          if (filters.withStones === "yes") {
+            filtered = filtered.filter((p) =>
+              p.description?.toLowerCase().includes("stone"),
+            );
+          }
+          if (filters.withStones === "no") {
+            filtered = filtered.filter(
+              (p) => !p.description?.toLowerCase().includes("stone"),
+            );
+          }
+          if (filters.stoneColor) {
+            filtered = filtered.filter(
+              (p) =>
+                p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
+            );
+          }
+        }
+
+        // AVAILABLE OPTIONS
+        setAvailableColors([
+          ...new Set(filtered.map((p) => p.color).filter(Boolean)),
+        ]);
+
+        setAvailableLengths([
+          ...new Set(
+            filtered
+              .map((p) => p.description?.match(/\d+/)?.[0])
+              .filter(Boolean),
+          ),
+        ]);
+
+        setAvailableClasps([
+          ...new Set(
+            filtered
+              .map((p) => p.description?.toLowerCase())
+              .filter(Boolean)
+              .flatMap((d) =>
+                ["english", "stud", "hoop", "round", "hook"].filter((c) =>
+                  d.includes(c),
+                ),
+              ),
+          ),
+        ]);
+
+        setAvailableLetters([
+          ...new Set(
+            filtered
+              .map((p) => p.description?.match(/[A-Za-z]/)?.[0])
+              .filter(Boolean),
+          ),
+        ]);
+
+        // SORT
+        const sorted = filtered.sort((a, b) => {
           if (a.quantity > 0 && b.quantity === 0) return -1;
           if (a.quantity === 0 && b.quantity > 0) return 1;
-          // }
-          // const sortByDate = (a, b) => {
-          const dateA = new Date(a.createdAt || Date.now());
-          const dateB = new Date(b.createdAt || Date.now());
-          return dateB - dateA;
-        };
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
 
-        const sortedProducts = filteredProducts.sort(sortByCustomOrder);
-
-        setProducts(sortedProducts);
-        setFilteredProducts(sortedProducts);
+        setProducts(sorted);
+        setFilteredProducts(sorted);
       } catch (error) {
         setError("Failed to fetch products. Please try again.");
       } finally {
@@ -106,38 +220,35 @@ const Products = ({ type }) => {
     };
 
     fetchData();
-  }, [type, activeCategory]);
+  }, [
+    type,
+    activeCategory,
+    filters.clasp,
+    filters.stoneColor,
+    filters.length,
+    filters.withStones,
+    filters.letters,
+  ]);
 
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // PAGINATION
   const availableProducts = filteredProducts.filter(
-    (product) =>
-      product.inStock !== false &&
-      (product.currentStock ?? product.quantity ?? 0) > 0
+    (p) => p.inStock !== false && (p.currentStock ?? p.quantity ?? 0) > 0,
   );
 
-  const currentProducts = availableProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-
+  const indexOfLast = currentPage * productsPerPage;
+  const indexOfFirst = indexOfLast - productsPerPage;
+  const currentProducts = availableProducts.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(availableProducts.length / productsPerPage);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
     setCurrentPage(1);
   };
 
-  // const totalPages = Math.ceil(products.length / productsPerPage);
-
   return (
     <>
       <SearchBar onSearch={handleSearch} />
+
       <ProductsContainer>
         <WelcomeGeneral>
           {type === "all" ? t("all_products") : t(`${type}_products`)}
@@ -149,66 +260,98 @@ const Products = ({ type }) => {
           </p>
         )}
 
-        {(type === "gold" || type === "silver" || type === "goldLight") && (
-          <Tabs>
-            {[
-              "all",
-              "chains",
-              "earrings",
-              "bracelets",
-              "rings",
-              "pendants",
-              "crosses",
-              "incense",
-            ].map((category) => (
-              <TabButton
-                key={`tab-${category}`}
-                onClick={() => handleCategoryChange(category)}
-                className={activeCategory === category ? "active" : ""}
-              >
-                {t(category)}
-              </TabButton>
-            ))}
-          </Tabs>
-        )}
-        {type === "handmade" && (
-          <Tabs>
-            {["all", "beaded", "thread", "beads"].map((category) => (
-              <TabButton
-                key={`tab-${category}`}
-                onClick={() => handleCategoryChange(category)}
-                className={activeCategory === category ? "active" : ""}
-              >
-                {t(category)}
-              </TabButton>
-            ))}
-          </Tabs>
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: 3,
+            alignItems: "flex-start",
+          }}
+        >
+          {/* LEFT SIDEBAR */}
+          <Box
+            sx={{
+              width: isMobile ? "100%" : "220px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            {(type === "gold" || type === "silver" || type === "goldLight") && (
+              <>
+                <SidebarTabs
+                  activeCategory={activeCategory}
+                  onChange={handleCategoryChange}
+                  categories={[
+                    "all",
+                    "chains",
+                    "earrings",
+                    "bracelets",
+                    "rings",
+                    "pendants",
+                    "crosses",
+                    "incense",
+                  ]}
+                />
 
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <ProductsGrid>
-              {currentProducts.map((product, index) => (
-                <ErrorBoundary key={`product-${product._id || index}`}>
-                  <ProductsCard
-                    product={product}
-                    t={t}
-                    isUserAuthenticated={isUserAuthenticated}
-                  />
+                <CategoryFilter
+                  category={activeCategory}
+                  filters={filters}
+                  setFilters={setFilters}
+                  availableColors={availableColors}
+                  availableLengths={availableLengths}
+                  availableClasps={availableClasps}
+                  availableLetters={availableLetters}
+                />
+              </>
+            )}
 
-                  {/* ✅ Додано лог для перевірки ціни */}
-                </ErrorBoundary>
-              ))}
-            </ProductsGrid>
-            <PaginationComponent
-              totalPages={totalPages}
-              currentPage={currentPage}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        )}
+            {type === "handmade" && (
+              <SidebarTabs
+                activeCategory={activeCategory}
+                onChange={handleCategoryChange}
+                categories={["all", "beaded", "thread", "beads"]}
+              />
+            )}
+          </Box>
+
+          {/* RIGHT SIDE */}
+          <Box sx={{ flexGrow: 1 }}>
+            {isLoading ? (
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "40px 0",
+                }}
+              >
+                <Loader />
+              </Box>
+            ) : (
+              <>
+                <ProductsGrid>
+                  {currentProducts.map((product, index) => (
+                    <ErrorBoundary key={product._id || index}>
+                      <ProductsCard
+                        product={product}
+                        t={t}
+                        isUserAuthenticated={isUserAuthenticated}
+                      />
+                    </ErrorBoundary>
+                  ))}
+                </ProductsGrid>
+
+                <PaginationComponent
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  onPageChange={setCurrentPage}
+                />
+              </>
+            )}
+          </Box>
+        </Box>
       </ProductsContainer>
     </>
   );

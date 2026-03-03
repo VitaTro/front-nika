@@ -128,3 +128,25 @@ export const ProductImageWithLightbox = styled.img`
   object-fit: contain; /* Запобігаємо обтинанню */
   border-radius: 5px;
 `;
+export const SidebarWrapper = styled.div`
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+`;
+export const SidebarItem = styled.div`
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+  &.active {
+    background: #dbac01;
+    color: white;
+    font-weight: bold;
+  }
+  &:hover {
+    background: #f2d37a;
+  }
+`;

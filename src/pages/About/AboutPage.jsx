@@ -24,7 +24,6 @@ const AboutPage = () => {
         flexDirection: isMobile ? "column" : "row",
         gap: 3,
         padding: "20px",
-     
       }}
     >
       <Tabs
@@ -37,16 +36,16 @@ const AboutPage = () => {
           alignItems: isMobile ? "center" : "start",
           fontFamily: "Arial",
           order: isMobile ? -1 : 0,
-          marginBottom: "40px"
+          marginBottom: "40px",
         }}
       >
         <Tab
           label={t("about")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+          style={{ color: isDarkMode ? "#0c0" : "#dbac01" }}
         />
         <Tab
           label={t("contact")}
-          style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+          style={{ color: isDarkMode ? "#0c0" : "#dbac01" }}
         />
       </Tabs>
       <Box>
