@@ -26,7 +26,7 @@ export const ProductCardContainer = styled.div`
   background-color: ${(props) => (props.theme.$isDarkMode ? "#222" : "#fff")};
   color: ${(props) => (props.theme.$isDarkMode ? "#fff" : "#000")};
   transition: all 0.3s ease;
-
+  position: relative;
   &:hover {
     box-shadow: 0 4px 8px
       ${(props) =>
@@ -134,4 +134,18 @@ export const ButtonDetailsWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+`;
+export const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const LogoOverlay = styled.img`
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 50px;
+  opacity: 0.9;
+  z-index: 10;
+  pointer-events: none;
 `;

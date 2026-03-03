@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
+import Logo from "../icons/logo.png";
 // BACKEND cart
 import {
   addProductToShoppingCart,
@@ -30,7 +30,9 @@ import {
   ButtonHeart,
   ButtonQuantity,
   ButtonShopping,
+  ImageWrapper,
   ItemPrice,
+  LogoOverlay,
   ProductAction,
   ProductCardContainer,
   ProductsHeader,
@@ -150,10 +152,13 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           <ProductsHeader>{product.name}</ProductsHeader>
 
           {product.photoUrl ? (
-            <ProductImageWithLightbox
-              src={product.photoUrl}
-              alt={product.name}
-            />
+            <ImageWrapper>
+              <ProductImageWithLightbox
+                src={product.photoUrl}
+                alt={product.name}
+              />
+              <LogoOverlay src={Logo} alt="logo" />
+            </ImageWrapper>
           ) : (
             <div>{t("no_image")}</div>
           )}
