@@ -2,6 +2,7 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { FILTER_CONFIG } from "../../components/Filters/FILTER_CONFIG";
 import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
@@ -12,7 +13,6 @@ import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
 import { ProductsContainer, ProductsGrid } from "./Products.styled";
 import SidebarTabs from "./SidebarTabs";
-
 const Products = ({ type }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -65,7 +65,207 @@ const Products = ({ type }) => {
     setCurrentPage(1);
   };
 
+  const applyFilters = (products, filters, category) => {
+    const config = FILTER_CONFIG[category] ?? [];
+
+    return products.filter((p) => {
+      return config.every((f) => {
+        const value = filters[f.key];
+        if (!value) return true;
+
+        const desc = p.description?.toLowerCase() || "";
+
+        if (f.key === "stoneColor") {
+          return p.color?.toLowerCase() === value.toLowerCase();
+        }
+
+        if (f.key === "length") {
+          return desc.includes(String(value));
+        }
+
+        if (f.key === "clasp") {
+          return desc.includes(value.toLowerCase());
+        }
+
+        if (f.key === "withStones") {
+          const has = desc.includes("stone");
+          return value === "yes" ? has : !has;
+        }
+
+        if (f.key === "hasLetter") {
+          return /[A-Za-z]/.test(desc);
+        }
+
+        return true;
+      });
+    });
+  };
+
   // FETCH DATA + FILTERS
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     setError("");
+
+  //     try { filtered.filter((p) => p.category === type);
+  //       }
+
+  //       if (activeCategory !== "all") {
+  //         filtered = filtered.filter((p) => p.subcategory === activeCategory);
+  //       }
+
+  // Earrings
+  // if (activeCategory === "earrings") {
+  //   if (filters.clasp) {
+  //     filtered = filtered.filter((p) =>
+  //       p.description
+  //         ?.toLowerCase()
+  //         .includes(filters.clasp.toLowerCase()),
+  //     );
+  //   }
+  //   if (filters.stoneColor) {
+  //     filtered = filtered.filter(
+  //       (p) =>
+  //         p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
+  //     );
+  //   }
+  // }
+
+  // Chains
+  // if (activeCategory === "chains" && filters.length) {
+  // const lengthStr = String(filters.length).toLowerCase();
+  // filtered = filtered.filter((p) =>
+  //   p.description?.toLowerCase().includes(lengthStr),
+  // );
+  // }
+
+  // Bracelets
+  // if (activeCategory === "bracelets") {
+  // if (filters.length) {
+  //   const lengthStr = String(filters.length).toLowerCase();
+  //   filtered = filtered.filter((p) =>
+  //       p.description?.toLowerCase().includes(lengthStr),
+  //     );
+  //   }
+  //   if (filters.stoneColor) {
+  //     filtered = filtered.filter(
+  //       (p) =>
+  //         p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
+  // );
+  //   }
+  // }
+
+  // Crosses
+  // if (activeCategory === "crosses") {
+  //   if (filters.withStones === "yes") {
+  //     filtered = filtered.filter((p) =>
+  //       p.description?.toLowerCase().includes("stone"),
+  //     );
+  //   }
+  //   if (filters.withStones === "no") {
+  //     filtered = filtered.filter(
+  //       (p) => !p.description?.toLowerCase().includes("stone"),
+  //     );
+  //   }
+  // }
+
+  // Pendants
+  // if (activeCategory === "pendants") {
+  //   if (filters.letters?.length > 0) {
+  //     filtered = filtered.filter((p) =>
+  //       filters.letters.some((l) =>
+  //         p.description?.toLowerCase().includes(l.toLowerCase()),
+  //       ),
+  //     );
+  //   }
+  //   if (filters.withStones === "yes") {
+  //     filtered = filtered.filter((p) =>
+  //       p.description?.toLowerCase().includes("stone"),
+  //   );
+  // }
+  // if (filters.withStones === "no") {
+  //   filtered = filtered.filter(
+  //     (p) => !p.description?.toLowerCase().includes("stone"),
+  //   );
+  // }
+  // if (filters.stoneColor) {
+  //   filtered = filtered.filter(
+  //       (p) =>
+  //         p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
+  //     );
+  //   }
+  // }
+
+  // AVAILABLE OPTIONS
+  // setAvailableC
+  // const response = await axios.get("/api/products", {
+  //   params: { type, category: activeCategory },
+  // });
+
+  // let filtered = response.data;
+
+  // // CATEGORY FILTERS
+  // if (type !== "all") {
+  //   filtered =olors([
+  //   ...new Set(filtered.map((p) => p.color).filter(Boolean)),
+  // ]);
+  //
+  // setAvailableLengths([
+  //   ...new Set(
+  //     filtered
+  //       .map((p) => p.description?.match(/\d+/)?.[0])
+  //       .filter(Boolean),
+  //   ),
+  // ]);
+  //
+  // setAvailableClasps([
+  //   ...new Set(
+  //     filtered
+  //       .map((p) => p.description?.toLowerCase())
+  //       .filter(Boolean)
+  //       .flatMap((d) =>
+  //         ["english", "stud", "hoop", "round", "hook"].filter((c) =>
+  //           d.includes(c),
+  //         ),
+  //       ),
+  //   ),
+  // ]);
+
+  // setAvailableLetters([
+  //   ...new Set(
+  //     filtered
+  //       .map((p) => p.description?.match(/[A-Za-z]/)?.[0])
+  //       .filter(Boolean),
+  //   ),
+  // ]);
+
+  // SORT
+  //     const sorted = filtered.sort((a, b) => {
+  //       if (a.quantity > 0 && b.quantity === 0) return -1;
+  //       if (a.quantity === 0 && b.quantity > 0) return 1;
+  //       return new Date(b.createdAt) - new Date(a.createdAt);
+  //     });
+
+  //     setProducts(sorted);
+  //     setFilteredProducts(sorted);
+  //   } catch (error) {
+  //     setError("Failed to fetch products. Please try again.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // fetchData();
+  // }, [
+  // type,
+  // activeCategory,
+  // filters.clasp,
+  // filters.stoneColor,
+  // filters.length,
+  // filters.withStones,
+  // filters.letters,
+  // ]);
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -87,87 +287,8 @@ const Products = ({ type }) => {
           filtered = filtered.filter((p) => p.subcategory === activeCategory);
         }
 
-        // Earrings
-        if (activeCategory === "earrings") {
-          if (filters.clasp) {
-            filtered = filtered.filter((p) =>
-              p.description
-                ?.toLowerCase()
-                .includes(filters.clasp.toLowerCase()),
-            );
-          }
-          if (filters.stoneColor) {
-            filtered = filtered.filter(
-              (p) =>
-                p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
-            );
-          }
-        }
-
-        // Chains
-        if (activeCategory === "chains" && filters.length) {
-          const lengthStr = String(filters.length).toLowerCase();
-          filtered = filtered.filter((p) =>
-            p.description?.toLowerCase().includes(lengthStr),
-          );
-        }
-
-        // Bracelets
-        if (activeCategory === "bracelets") {
-          if (filters.length) {
-            const lengthStr = String(filters.length).toLowerCase();
-            filtered = filtered.filter((p) =>
-              p.description?.toLowerCase().includes(lengthStr),
-            );
-          }
-          if (filters.stoneColor) {
-            filtered = filtered.filter(
-              (p) =>
-                p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
-            );
-          }
-        }
-
-        // Crosses
-        if (activeCategory === "crosses") {
-          if (filters.withStones === "yes") {
-            filtered = filtered.filter((p) =>
-              p.description?.toLowerCase().includes("stone"),
-            );
-          }
-          if (filters.withStones === "no") {
-            filtered = filtered.filter(
-              (p) => !p.description?.toLowerCase().includes("stone"),
-            );
-          }
-        }
-
-        // Pendants
-        if (activeCategory === "pendants") {
-          if (filters.letters?.length > 0) {
-            filtered = filtered.filter((p) =>
-              filters.letters.some((l) =>
-                p.description?.toLowerCase().includes(l.toLowerCase()),
-              ),
-            );
-          }
-          if (filters.withStones === "yes") {
-            filtered = filtered.filter((p) =>
-              p.description?.toLowerCase().includes("stone"),
-            );
-          }
-          if (filters.withStones === "no") {
-            filtered = filtered.filter(
-              (p) => !p.description?.toLowerCase().includes("stone"),
-            );
-          }
-          if (filters.stoneColor) {
-            filtered = filtered.filter(
-              (p) =>
-                p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
-            );
-          }
-        }
+        // APPLY UNIVERSAL FILTERS
+        filtered = applyFilters(filtered, filters, activeCategory);
 
         // AVAILABLE OPTIONS
         setAvailableColors([
@@ -184,22 +305,18 @@ const Products = ({ type }) => {
 
         setAvailableClasps([
           ...new Set(
-            filtered
-              .map((p) => p.description?.toLowerCase())
-              .filter(Boolean)
-              .flatMap((d) =>
-                ["english", "stud", "hoop", "round", "hook"].filter((c) =>
-                  d.includes(c),
-                ),
-              ),
+            filtered.flatMap((p) => {
+              const d = p.description?.toLowerCase() || "";
+              return ["english", "stud", "hoop", "round", "hook"].filter((c) =>
+                d.includes(c),
+              );
+            }),
           ),
         ]);
 
         setAvailableLetters([
           ...new Set(
-            filtered
-              .map((p) => p.description?.match(/[A-Za-z]/)?.[0])
-              .filter(Boolean),
+            filtered.flatMap((p) => p.description?.match(/[A-Za-z]/g) || []),
           ),
         ]);
 
@@ -220,15 +337,7 @@ const Products = ({ type }) => {
     };
 
     fetchData();
-  }, [
-    type,
-    activeCategory,
-    filters.clasp,
-    filters.stoneColor,
-    filters.length,
-    filters.withStones,
-    filters.letters,
-  ]);
+  }, [type, activeCategory, filters]);
 
   // PAGINATION
   const availableProducts = filteredProducts.filter(
@@ -277,34 +386,34 @@ const Products = ({ type }) => {
               gap: 2,
             }}
           >
-            {(type === "gold" || type === "silver" || type === "goldLight") && (
-              <>
-                <SidebarTabs
-                  activeCategory={activeCategory}
-                  onChange={handleCategoryChange}
-                  categories={[
-                    "all",
-                    "chains",
-                    "earrings",
-                    "bracelets",
-                    "rings",
-                    "pendants",
-                    "crosses",
-                    "incense",
-                  ]}
-                />
+            {/* {(type === "gold" || type === "silver" || type === "goldLight") && ( */}
+            <>
+              <SidebarTabs
+                activeCategory={activeCategory}
+                onChange={handleCategoryChange}
+                categories={[
+                  "all",
+                  "chains",
+                  "earrings",
+                  "bracelets",
+                  "rings",
+                  "pendants",
+                  "crosses",
+                  "incense",
+                ]}
+              />
 
-                <CategoryFilter
-                  category={activeCategory}
-                  filters={filters}
-                  setFilters={setFilters}
-                  availableColors={availableColors}
-                  availableLengths={availableLengths}
-                  availableClasps={availableClasps}
-                  availableLetters={availableLetters}
-                />
-              </>
-            )}
+              <CategoryFilter
+                category={activeCategory}
+                filters={filters}
+                setFilters={setFilters}
+                availableColors={availableColors}
+                availableLengths={availableLengths}
+                availableClasps={availableClasps}
+                availableLetters={availableLetters}
+              />
+            </>
+            {/* )} */}
 
             {type === "handmade" && (
               <SidebarTabs
