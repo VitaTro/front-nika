@@ -156,6 +156,10 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
               <ProductImageWithLightbox
                 src={product.photoUrl}
                 alt={product.name}
+                gallery={[
+                  product.photoUrl,
+                  ...(product.additionalPhotos || []),
+                ]}
               />
               <LogoOverlay src={Logo} alt="logo" />
             </ImageWrapper>

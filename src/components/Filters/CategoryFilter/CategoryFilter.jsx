@@ -12,6 +12,10 @@ const CategoryFilter = ({
   availableLengths,
   availableClasps,
   availableLetters,
+  availableWidths,
+  availableRingSizes,
+  availableBraceletClasps,
+  availableChainClasps,
 }) => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
@@ -20,11 +24,22 @@ const CategoryFilter = ({
 
   const config = FILTER_CONFIG[category] ?? [];
 
+  // 🔥 УЗГОДЖЕНІ ДЖЕРЕЛА
   const sources = {
     availableColors,
     availableLengths,
     availableClasps,
     availableLetters,
+    availableWidths,
+    availableRingSizes,
+    availableBraceletClasps,
+    availableChainClasps,
+
+    // Сортування по ціні
+    availablePriceSort: [
+      { value: "asc", label: "cheap_first" },
+      { value: "desc", label: "expensive_first" },
+    ],
   };
 
   return (
@@ -45,21 +60,54 @@ const CategoryFilter = ({
           const options = sources[f.source] ?? [];
 
           return (
-            <Box key={f.key}>
+            <Box key={f.key} sx={{ marginBottom: "15px" }}>
               <Label>{t(f.label)}</Label>
+
               <Select
-                value={value}
-                onChange={(e) =>
-                  setFilters({ ...filters, [f.key]: e.target.value })
-                }
+                value={value || ""}
+                onChange={(e) => {
+                  let val = e.target.value;
+
+                  // якщо це число — конвертуємо
+                  if (
+                    f.key === "length" ||
+                    f.key === "width" ||
+                    f.key === "ringSize"
+                  ) {
+                    val = val === "" ? "" : Number(val);
+                  }
+
+                  setFilters({ ...filters, [f.key]: val });
+                }}
               >
                 <option value="">{t("all")}</option>
 
-                {options.map((o) => (
-                  <option key={o} value={o}>
-                    {t(`value.${o}`, o)}
-                  </option>
-                ))}
+                {options.map((o) => {
+                  // 🔹 ЧИСЛА — показуємо як є
+                  if (typeof o === "number") {
+                    return (
+                      <option key={o} value={o}>
+                        {o}
+                      </option>
+                    );
+                  }
+
+                  // 🔹 РЯДКИ — перекладаємо через value.*
+                  if (typeof o === "string") {
+                    return (
+                      <option key={o} value={o}>
+                        {t(`value.${o}`, o)}
+                      </option>
+                    );
+                  }
+
+                  // 🔹 ОБʼЄКТИ (priceSort)
+                  return (
+                    <option key={o.value} value={o.value}>
+                      {t(`value.${o.label}`, o.label)}
+                    </option>
+                  );
+                })}
               </Select>
             </Box>
           );
@@ -68,7 +116,7 @@ const CategoryFilter = ({
         // BOOLEAN FILTER
         if (f.type === "boolean") {
           return (
-            <Box key={f.key} sx={{ marginTop: "10px" }}>
+            <Box key={f.key} sx={{ marginBottom: "15px" }}>
               <Label>{t(f.label)}</Label>
               <label
                 style={{ display: "flex", alignItems: "center", gap: "8px" }}

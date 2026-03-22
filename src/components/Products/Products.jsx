@@ -1,7 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FILTER_CONFIG } from "../../components/Filters/FILTER_CONFIG";
 import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
@@ -13,35 +13,48 @@ import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
 import { ProductsContainer, ProductsGrid } from "./Products.styled";
 import SidebarTabs from "./SidebarTabs";
+
+const productsPerPage = 18;
+
+const cleanPrice = (p) =>
+  Number(String(p?.price ?? 0).replace(/[^\d.-]/g, "")) || 0;
+
 const Products = ({ type }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
   const isMobile = useMediaQuery("(max-width:600px)");
-
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeCategory, setActiveCategory] = useState("all");
-
   const [availableColors, setAvailableColors] = useState([]);
   const [availableLengths, setAvailableLengths] = useState([]);
-  const [availableClasps, setAvailableClasps] = useState([]);
+  const [availableWidths, setAvailableWidths] = useState([]);
+  const [availableEarringClasps, setAvailableEarringClasps] = useState([]);
   const [availableLetters, setAvailableLetters] = useState([]);
-
-  const productsPerPage = 18;
-
+  const [availableChainClasps, setAvailableChainClasps] = useState([]);
+  const [availableBraceletClasps, setAvailableBraceletClasps] = useState([]);
   const [filters, setFilters] = useState({
     clasp: "",
     stoneColor: "",
     length: "",
     withStones: "",
     letters: [],
+    priceSort: "",
   });
+  const defaultFilters = {
+    clasp: "",
+    stoneColor: "",
+    length: "",
+    width: "",
+    withStones: "",
+    letters: [],
+    ringSize: "",
+    priceSort: "",
+  };
 
   // SEARCH
   useEffect(() => {
@@ -68,23 +81,26 @@ const Products = ({ type }) => {
   const applyFilters = (products, filters, category) => {
     const config = FILTER_CONFIG[category] ?? [];
 
-    return products.filter((p) => {
-      return config.every((f) => {
+    return products.filter((p) =>
+      config.every((f) => {
         const value = filters[f.key];
         if (!value) return true;
 
         const desc = p.description?.toLowerCase() || "";
 
         if (f.key === "stoneColor") {
-          return p.color?.toLowerCase() === value.toLowerCase();
+          return p.color?.toLowerCase().includes(value.toLowerCase());
         }
 
         if (f.key === "length") {
-          return desc.includes(String(value));
+          return Number(p.length) === Number(value);
+        }
+        if (f.key === "width") {
+          return Number(p.width) === Number(value);
         }
 
         if (f.key === "clasp") {
-          return desc.includes(value.toLowerCase());
+          return p.clasp?.toLowerCase() === value.toLowerCase();
         }
 
         if (f.key === "withStones") {
@@ -97,174 +113,9 @@ const Products = ({ type }) => {
         }
 
         return true;
-      });
-    });
+      }),
+    );
   };
-
-  // FETCH DATA + FILTERS
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     setError("");
-
-  //     try { filtered.filter((p) => p.category === type);
-  //       }
-
-  //       if (activeCategory !== "all") {
-  //         filtered = filtered.filter((p) => p.subcategory === activeCategory);
-  //       }
-
-  // Earrings
-  // if (activeCategory === "earrings") {
-  //   if (filters.clasp) {
-  //     filtered = filtered.filter((p) =>
-  //       p.description
-  //         ?.toLowerCase()
-  //         .includes(filters.clasp.toLowerCase()),
-  //     );
-  //   }
-  //   if (filters.stoneColor) {
-  //     filtered = filtered.filter(
-  //       (p) =>
-  //         p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
-  //     );
-  //   }
-  // }
-
-  // Chains
-  // if (activeCategory === "chains" && filters.length) {
-  // const lengthStr = String(filters.length).toLowerCase();
-  // filtered = filtered.filter((p) =>
-  //   p.description?.toLowerCase().includes(lengthStr),
-  // );
-  // }
-
-  // Bracelets
-  // if (activeCategory === "bracelets") {
-  // if (filters.length) {
-  //   const lengthStr = String(filters.length).toLowerCase();
-  //   filtered = filtered.filter((p) =>
-  //       p.description?.toLowerCase().includes(lengthStr),
-  //     );
-  //   }
-  //   if (filters.stoneColor) {
-  //     filtered = filtered.filter(
-  //       (p) =>
-  //         p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
-  // );
-  //   }
-  // }
-
-  // Crosses
-  // if (activeCategory === "crosses") {
-  //   if (filters.withStones === "yes") {
-  //     filtered = filtered.filter((p) =>
-  //       p.description?.toLowerCase().includes("stone"),
-  //     );
-  //   }
-  //   if (filters.withStones === "no") {
-  //     filtered = filtered.filter(
-  //       (p) => !p.description?.toLowerCase().includes("stone"),
-  //     );
-  //   }
-  // }
-
-  // Pendants
-  // if (activeCategory === "pendants") {
-  //   if (filters.letters?.length > 0) {
-  //     filtered = filtered.filter((p) =>
-  //       filters.letters.some((l) =>
-  //         p.description?.toLowerCase().includes(l.toLowerCase()),
-  //       ),
-  //     );
-  //   }
-  //   if (filters.withStones === "yes") {
-  //     filtered = filtered.filter((p) =>
-  //       p.description?.toLowerCase().includes("stone"),
-  //   );
-  // }
-  // if (filters.withStones === "no") {
-  //   filtered = filtered.filter(
-  //     (p) => !p.description?.toLowerCase().includes("stone"),
-  //   );
-  // }
-  // if (filters.stoneColor) {
-  //   filtered = filtered.filter(
-  //       (p) =>
-  //         p.color?.toLowerCase() === filters.stoneColor.toLowerCase(),
-  //     );
-  //   }
-  // }
-
-  // AVAILABLE OPTIONS
-  // setAvailableC
-  // const response = await axios.get("/api/products", {
-  //   params: { type, category: activeCategory },
-  // });
-
-  // let filtered = response.data;
-
-  // // CATEGORY FILTERS
-  // if (type !== "all") {
-  //   filtered =olors([
-  //   ...new Set(filtered.map((p) => p.color).filter(Boolean)),
-  // ]);
-  //
-  // setAvailableLengths([
-  //   ...new Set(
-  //     filtered
-  //       .map((p) => p.description?.match(/\d+/)?.[0])
-  //       .filter(Boolean),
-  //   ),
-  // ]);
-  //
-  // setAvailableClasps([
-  //   ...new Set(
-  //     filtered
-  //       .map((p) => p.description?.toLowerCase())
-  //       .filter(Boolean)
-  //       .flatMap((d) =>
-  //         ["english", "stud", "hoop", "round", "hook"].filter((c) =>
-  //           d.includes(c),
-  //         ),
-  //       ),
-  //   ),
-  // ]);
-
-  // setAvailableLetters([
-  //   ...new Set(
-  //     filtered
-  //       .map((p) => p.description?.match(/[A-Za-z]/)?.[0])
-  //       .filter(Boolean),
-  //   ),
-  // ]);
-
-  // SORT
-  //     const sorted = filtered.sort((a, b) => {
-  //       if (a.quantity > 0 && b.quantity === 0) return -1;
-  //       if (a.quantity === 0 && b.quantity > 0) return 1;
-  //       return new Date(b.createdAt) - new Date(a.createdAt);
-  //     });
-
-  //     setProducts(sorted);
-  //     setFilteredProducts(sorted);
-  //   } catch (error) {
-  //     setError("Failed to fetch products. Please try again.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // fetchData();
-  // }, [
-  // type,
-  // activeCategory,
-  // filters.clasp,
-  // filters.stoneColor,
-  // filters.length,
-  // filters.withStones,
-  // filters.letters,
-  // ]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -278,7 +129,6 @@ const Products = ({ type }) => {
 
         let filtered = response.data;
 
-        // CATEGORY FILTERS
         if (type !== "all") {
           filtered = filtered.filter((p) => p.category === type);
         }
@@ -287,48 +137,88 @@ const Products = ({ type }) => {
           filtered = filtered.filter((p) => p.subcategory === activeCategory);
         }
 
-        // APPLY UNIVERSAL FILTERS
         filtered = applyFilters(filtered, filters, activeCategory);
 
-        // AVAILABLE OPTIONS
-        setAvailableColors([
-          ...new Set(filtered.map((p) => p.color).filter(Boolean)),
-        ]);
+        const sortedByDate = [...filtered].sort((a, b) => {
+          const stockA = a.currentStock ?? a.quantity ?? 0;
+          const stockB = b.currentStock ?? b.quantity ?? 0;
 
-        setAvailableLengths([
+          if (stockA > 0 && stockB === 0) return -1;
+          if (stockA === 0 && stockB > 0) return 1;
+
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        setProducts(sortedByDate);
+        setFilteredProducts(sortedByDate);
+
+        setAvailableColors(
+          [
+            ...new Set(
+              sortedByDate
+                .flatMap((p) => (p.color ? p.color.split(" ") : []))
+                .filter(Boolean),
+            ),
+          ].sort(),
+        );
+        setProducts(sortedByDate);
+        setFilteredProducts(sortedByDate);
+        setAvailableLengths(
+          [
+            ...new Set(
+              sortedByDate
+                .map((p) => p.length)
+                .filter((v) => v !== null && v !== undefined),
+            ),
+          ].sort((a, b) => a - b),
+        );
+
+        // 🎧 Сережки
+        setAvailableEarringClasps([
           ...new Set(
-            filtered
-              .map((p) => p.description?.match(/\d+/)?.[0])
+            sortedByDate
+              .filter((p) => p.subcategory === "earrings")
+              .map((p) => p.clasp)
               .filter(Boolean),
           ),
         ]);
 
-        setAvailableClasps([
+        // 🔗 Ланцюжки
+        setAvailableChainClasps([
           ...new Set(
-            filtered.flatMap((p) => {
-              const d = p.description?.toLowerCase() || "";
-              return ["english", "stud", "hoop", "round", "hook"].filter((c) =>
-                d.includes(c),
-              );
-            }),
+            sortedByDate
+              .filter((p) => p.subcategory === "chains")
+              .map((p) => p.clasp)
+              .filter(Boolean),
           ),
         ]);
+
+        // 📿 Браслети
+        setAvailableBraceletClasps([
+          ...new Set(
+            sortedByDate
+              .filter((p) => p.subcategory === "bracelets")
+              .map((p) => p.clasp)
+              .filter(Boolean),
+          ),
+        ]);
+        setAvailableWidths(
+          [
+            ...new Set(
+              sortedByDate
+                .map((p) => p.width)
+                .filter((v) => v !== null && v !== undefined),
+            ),
+          ].sort((a, b) => a - b),
+        );
 
         setAvailableLetters([
           ...new Set(
-            filtered.flatMap((p) => p.description?.match(/[A-Za-z]/g) || []),
+            sortedByDate.flatMap(
+              (p) => p.description?.match(/[A-Za-z]/g) || [],
+            ),
           ),
         ]);
-
-        // SORT
-        const sorted = filtered.sort((a, b) => {
-          if (a.quantity > 0 && b.quantity === 0) return -1;
-          if (a.quantity === 0 && b.quantity > 0) return 1;
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-
-        setProducts(sorted);
-        setFilteredProducts(sorted);
       } catch (error) {
         setError("Failed to fetch products. Please try again.");
       } finally {
@@ -339,8 +229,23 @@ const Products = ({ type }) => {
     fetchData();
   }, [type, activeCategory, filters]);
 
+  let listForView = [...filteredProducts];
+
+  // ⭐ СОРТУВАННЯ ПО ЦІНІ (lastRetailPrice)
+  if (filters.priceSort === "asc") {
+    listForView = [...listForView].sort(
+      (a, b) => (a.lastRetailPrice ?? a.price) - (b.lastRetailPrice ?? b.price),
+    );
+  }
+
+  if (filters.priceSort === "desc") {
+    listForView = [...listForView].sort(
+      (a, b) => (b.lastRetailPrice ?? b.price) - (a.lastRetailPrice ?? a.price),
+    );
+  }
+
   // PAGINATION
-  const availableProducts = filteredProducts.filter(
+  const availableProducts = listForView.filter(
     (p) => p.inStock !== false && (p.currentStock ?? p.quantity ?? 0) > 0,
   );
 
@@ -352,6 +257,8 @@ const Products = ({ type }) => {
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
     setCurrentPage(1);
+
+    setFilters(defaultFilters);
   };
 
   return (
@@ -377,7 +284,6 @@ const Products = ({ type }) => {
             alignItems: "flex-start",
           }}
         >
-          {/* LEFT SIDEBAR */}
           <Box
             sx={{
               width: isMobile ? "100%" : "220px",
@@ -386,45 +292,35 @@ const Products = ({ type }) => {
               gap: 2,
             }}
           >
-            {/* {(type === "gold" || type === "silver" || type === "goldLight") && ( */}
-            <>
-              <SidebarTabs
-                activeCategory={activeCategory}
-                onChange={handleCategoryChange}
-                categories={[
-                  "all",
-                  "chains",
-                  "earrings",
-                  "bracelets",
-                  "rings",
-                  "pendants",
-                  "crosses",
-                  "incense",
-                ]}
-              />
+            <SidebarTabs
+              activeCategory={activeCategory}
+              onChange={handleCategoryChange}
+              categories={[
+                "all",
+                "chains",
+                "earrings",
+                "bracelets",
+                "rings",
+                "pendants",
+                "crosses",
+                "incense",
+              ]}
+            />
 
-              <CategoryFilter
-                category={activeCategory}
-                filters={filters}
-                setFilters={setFilters}
-                availableColors={availableColors}
-                availableLengths={availableLengths}
-                availableClasps={availableClasps}
-                availableLetters={availableLetters}
-              />
-            </>
-            {/* )} */}
-
-            {type === "handmade" && (
-              <SidebarTabs
-                activeCategory={activeCategory}
-                onChange={handleCategoryChange}
-                categories={["all", "beaded", "thread", "beads"]}
-              />
-            )}
+            <CategoryFilter
+              category={activeCategory}
+              filters={filters}
+              setFilters={setFilters}
+              availableColors={availableColors}
+              availableLengths={availableLengths}
+              availableWidths={availableWidths}
+              availableClasps={availableEarringClasps}
+              availableBraceletClasps={availableBraceletClasps}
+              availableChainClasps={availableChainClasps}
+              availableLetters={availableLetters}
+            />
           </Box>
 
-          {/* RIGHT SIDE */}
           <Box sx={{ flexGrow: 1 }}>
             {isLoading ? (
               <Box
