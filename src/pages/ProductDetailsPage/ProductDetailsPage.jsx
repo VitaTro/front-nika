@@ -204,6 +204,18 @@ const ProductDetailsPage = () => {
                 </>
               )}
             </InfoItem>
+            {product?.subcategory?.toLowerCase() === "bracelets" && (
+              <InfoItem>
+                🔗 {t("extension")}:{" "}
+                {product.hasExtension ? (
+                  <>
+                    <NumberValue>{product.extension}</NumberValue> cm
+                  </>
+                ) : (
+                  t("not_available")
+                )}
+              </InfoItem>
+            )}
 
             {/* STOCK */}
             <InfoItem>
