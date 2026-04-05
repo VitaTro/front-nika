@@ -2,7 +2,10 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { FILTER_CONFIG } from "../../components/Filters/FILTER_CONFIG";
+import {
+  CATEGORY_MAP_BY_TYPE,
+  FILTER_CONFIG,
+} from "../../components/Filters/FILTER_CONFIG";
 import { WelcomeGeneral } from "../../pages/ProductsPage/ProductsPage.styled";
 import axios from "../../redux/axiosConfig";
 import ErrorBoundary from "../ErrorBoundary";
@@ -13,7 +16,6 @@ import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
 import { ProductsContainer, ProductsGrid } from "./Products.styled";
 import SidebarTabs from "./SidebarTabs";
-
 const productsPerPage = 18;
 
 const cleanPrice = (p) =>
@@ -297,13 +299,14 @@ const Products = ({ type }) => {
               onChange={handleCategoryChange}
               categories={[
                 "all",
-                "chains",
-                "earrings",
-                "bracelets",
-                "rings",
-                "pendants",
-                "crosses",
-                "incense",
+                // "chains",
+                // "earrings",
+                // "bracelets",
+                // "rings",
+                // "pendants",
+                // "crosses",
+                // "incense",
+                ...(CATEGORY_MAP_BY_TYPE[type] ?? []),
               ]}
             />
 

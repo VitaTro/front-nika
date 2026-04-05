@@ -161,7 +161,12 @@ const ProductDetailsPage = () => {
             <InfoItem>
               🎨 {t("color")}:{" "}
               {product.color ? (
-                <NumberValue>{product.color}</NumberValue>
+                <NumberValue>
+                  {product.color
+                    .split(" ")
+                    .map((c) => t(`value.${c}`, { defaultValue: c }))
+                    .join(" ")}
+                </NumberValue>
               ) : (
                 t("not_available")
               )}

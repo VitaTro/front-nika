@@ -23,6 +23,8 @@
   "set_products": "Garnitur",
   "handmade_products": "Handgemachte Produkte",
   "box_products": "Geschenkverpackung",
+  "boxes": "Boxes",
+  "bags": "Bags",
   "type_clasp": "Verschlussart",
   "extension": "Verlängerung",
   "value": {
@@ -33,6 +35,8 @@
     "hook": "Haken",
     "expensive_first": "Teuerste zuerst",
     "cheap_first": "Günstigste zuerst",
+    "boxes": "Schachteln",
+    "bags": "Taschen",
     "spring": "Federverschluss",
     "box": "Boxverschluss",
     "carabiner": "Karabiner",

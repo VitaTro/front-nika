@@ -142,4 +142,36 @@ export const FILTER_CONFIG = {
       source: "availablePriceSort",
     },
   ],
+  box: [
+    {
+      key: "priceSort",
+      type: "select",
+      label: "sort_price",
+      source: "availablePriceSort",
+    },
+    {
+      key: "color",
+      type: "select",
+      label: "color",
+      source: "availableColors",
+    },
+  ],
+};
+export const CATEGORY_MAP_BY_TYPE = {
+  gold: ["chains", "earrings", "bracelets", "rings", "pendants", "crosses"],
+  goldLight: [
+    "chains",
+    "earrings",
+    "bracelets",
+    "rings",
+    "pendants",
+    "crosses",
+  ],
+  silver: ["chains", "earrings", "bracelets", "rings", "pendants", "crosses"],
+
+  box: ["boxes", "bags"],
+
+  handmade: ["thread", "beaded", "beads"],
+
+  // set: ["sets"],
 };
