@@ -42,6 +42,7 @@ import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import { usePageView } from "../hooks/usePageView";
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
 import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OfflineOrder/OfflineOrder";
 import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrder";
@@ -69,6 +70,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 export const App = () => {
   const location = useLocation();
+  usePageView(location.pathname);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ maxWidth: 768 });

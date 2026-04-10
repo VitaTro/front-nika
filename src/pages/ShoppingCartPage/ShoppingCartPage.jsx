@@ -110,14 +110,22 @@ const ShoppingCartPage = () => {
       setHasMerged(true);
       return;
     }
-
     dispatch(mergeGuestCart(guestCart))
       .unwrap()
-      .then(() => {
-        dispatch(removeGuestCartItem(null)); // очистити guest cart
+      .then(() => dispatch(getShoppingCart()))
+      .then((backendCart) => {
+        const backendIds = backendCart.map((i) => i.productId);
+        const guestIds = guestCart.map((i) => i.productId);
+
+        const allMerged = guestIds.every((id) => backendIds.includes(id));
+
+        if (allMerged) {
+          dispatch(removeGuestCartItem(null));
+        } else {
+          console.warn("Not all items merged — guest cart preserved");
+        }
       })
       .finally(() => {
-        dispatch(getShoppingCart());
         dispatch(getWishlist());
         setHasMerged(true);
       });

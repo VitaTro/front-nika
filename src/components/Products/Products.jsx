@@ -38,6 +38,7 @@ const Products = ({ type }) => {
   const [availableEarringClasps, setAvailableEarringClasps] = useState([]);
   const [availableLetters, setAvailableLetters] = useState([]);
   const [availableChainClasps, setAvailableChainClasps] = useState([]);
+  const [availableRingSizes, setAvailableRingSizes] = useState([]);
   const [availableBraceletClasps, setAvailableBraceletClasps] = useState([]);
   const [filters, setFilters] = useState({
     clasp: "",
@@ -104,6 +105,9 @@ const Products = ({ type }) => {
         if (f.key === "clasp") {
           return p.clasp?.toLowerCase() === value.toLowerCase();
         }
+        if (f.key === "ringSize") {
+          return Number(p.size) === Number(value);
+        }
 
         if (f.key === "withStones") {
           const has = desc.includes("stone");
@@ -163,6 +167,17 @@ const Products = ({ type }) => {
             ),
           ].sort(),
         );
+        setAvailableRingSizes(
+          [
+            ...new Set(
+              sortedByDate
+                .filter((p) => p.subcategory === "rings")
+                .map((p) => p.size)
+                .filter((v) => v !== null && v !== undefined),
+            ),
+          ].sort((a, b) => a - b),
+        );
+
         setProducts(sortedByDate);
         setFilteredProducts(sortedByDate);
         setAvailableLengths(
@@ -297,17 +312,7 @@ const Products = ({ type }) => {
             <SidebarTabs
               activeCategory={activeCategory}
               onChange={handleCategoryChange}
-              categories={[
-                "all",
-                // "chains",
-                // "earrings",
-                // "bracelets",
-                // "rings",
-                // "pendants",
-                // "crosses",
-                // "incense",
-                ...(CATEGORY_MAP_BY_TYPE[type] ?? []),
-              ]}
+              categories={["all", ...(CATEGORY_MAP_BY_TYPE[type] ?? [])]}
             />
 
             <CategoryFilter
@@ -321,6 +326,7 @@ const Products = ({ type }) => {
               availableBraceletClasps={availableBraceletClasps}
               availableChainClasps={availableChainClasps}
               availableLetters={availableLetters}
+              availableRingSizes={availableRingSizes}
             />
           </Box>
 
