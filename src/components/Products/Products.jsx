@@ -2,6 +2,7 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+
 import {
   CATEGORY_MAP_BY_TYPE,
   FILTER_CONFIG,
@@ -15,7 +16,9 @@ import PaginationComponent from "../PaginationComponent/PaginationComponent";
 import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
 import { ProductsContainer, ProductsGrid } from "./Products.styled";
+
 import SidebarTabs from "./SidebarTabs";
+
 const productsPerPage = 18;
 
 const cleanPrice = (p) =>

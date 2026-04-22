@@ -138,7 +138,7 @@ const Header = () => {
           <NavItem>
             <NavLinkStyled
               to="/products"
-              $isActive={location.pathname === "/products"}
+              $isActive={location.pathname === "/products/all"}
             >
               {t("products")}
             </NavLinkStyled>
