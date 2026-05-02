@@ -75,16 +75,14 @@ const UserInfoForm = ({ formData, setFormData }) => {
             style={{
               display: "flex",
               alignItems: "center",
-              padding: "10px 12px",
-              background: "#f3f3f3",
+              padding: "0 8px",
+              border: "1px solid #ddd",
               borderRadius: "6px",
-              border: "1px solid #ccc",
-              fontWeight: "bold",
-              minWidth: "85px",
-              justifyContent: "center",
+              background: isDarkMode ? "#ffffff10" : "#fff",
+              height: "42px",
             }}
           >
-            🇵🇱 +48
+            <span style={{ fontSize: "18px" }}>🇵🇱</span>
           </div>
 
           <InputField
@@ -114,15 +112,14 @@ const UserInfoForm = ({ formData, setFormData }) => {
         <label
           style={{
             color: isDarkMode ? "#060270" : "#1f871a",
-            fontWeight: "bold",
           }}
         >
-          Paczkomat (np. WRO15N)
+          {t("parcel_locker")} (np WRO15N)
         </label>
 
         <InputField
           name="pickupPointId"
-          placeholder="WRO15N"
+          // placeholder="WRO15N"
           value={formData.pickupPointId}
           onChange={(e) =>
             setFormData((prev) => ({
