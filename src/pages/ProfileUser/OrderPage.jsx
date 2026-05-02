@@ -128,27 +128,6 @@ const UserOrderPage = () => {
       <PaymentMethodNotice method={formData.paymentMethod} />
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />
-        <div style={{ marginTop: "20px" }}>
-          <label style={{ fontWeight: "bold" }}>Paczkomat (np. WRO15N)</label>
-          <input
-            type="text"
-            value={formData.pickupPointId}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                pickupPointId: e.target.value,
-              }))
-            }
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-            }}
-          />
-        </div>
 
         {/* <OrderAddressPicker formData={formData} setFormData={setFormData} /> */}
         <ButtonWrapper>

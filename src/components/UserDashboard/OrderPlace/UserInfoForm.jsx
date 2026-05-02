@@ -62,11 +62,76 @@ const UserInfoForm = ({ formData, setFormData }) => {
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("phone")}
         </label>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginTop: "5px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "10px 12px",
+              background: "#f3f3f3",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              fontWeight: "bold",
+              minWidth: "85px",
+              justifyContent: "center",
+            }}
+          >
+            🇵🇱 +48
+          </div>
+
+          <InputField
+            type="tel"
+            name="phone"
+            placeholder="123 456 789"
+            value={formData.phone}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                phone: e.target.value.replace(/\D/g, ""), // тільки цифри
+              }))
+            }
+            required
+            style={{ flex: 1 }}
+          />
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          marginTop: "20px",
+        }}
+      >
+        <label
+          style={{
+            color: isDarkMode ? "#060270" : "#1f871a",
+            fontWeight: "bold",
+          }}
+        >
+          Paczkomat (np. WRO15N)
+        </label>
+
         <InputField
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
+          name="pickupPointId"
+          placeholder="WRO15N"
+          value={formData.pickupPointId}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              pickupPointId: e.target.value.toUpperCase(), // автоматично робимо великі літери
+            }))
+          }
           required
+          style={{ marginTop: "5px" }}
         />
       </div>
 
