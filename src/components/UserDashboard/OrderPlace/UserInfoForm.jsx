@@ -80,9 +80,11 @@ const UserInfoForm = ({ formData, setFormData }) => {
               borderRadius: "6px",
               background: isDarkMode ? "#ffffff10" : "#fff",
               height: "42px",
+              gap: "6px",
             }}
           >
-            <span style={{ fontSize: "18px" }}>🇵🇱</span>
+            <span style={{ fontSize: "14px", lineHeight: "1" }}>🇵🇱</span>
+            <span style={{ color: "#666", fontSize: "14px" }}>+48</span>
           </div>
 
           <InputField
@@ -97,7 +99,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
               }))
             }
             required
-            style={{ flex: 1 }}
+            style={{ flex: 1, height: "42px" }}
           />
         </div>
       </div>
