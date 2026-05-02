@@ -67,7 +67,7 @@ const ShoppingCartPage = () => {
   const [hasMerged, setHasMerged] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  // --- селектори (усі зверху, без умов) ---
+  // --- селектори ---
   const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
 
   const allProducts = useSelector(selectProducts) || [];
@@ -104,31 +104,36 @@ const ShoppingCartPage = () => {
   useEffect(() => {
     if (!isUserAuthenticated || hasMerged) return;
 
-    if (!guestCart.length) {
-      dispatch(getShoppingCart());
-      dispatch(getWishlist());
-      setHasMerged(true);
-      return;
-    }
-    dispatch(mergeGuestCart(guestCart))
-      .unwrap()
-      .then(() => dispatch(getShoppingCart()))
-      .then((backendCart) => {
-        const backendIds = backendCart.map((i) => i.productId);
-        const guestIds = guestCart.map((i) => i.productId);
-
-        const allMerged = guestIds.every((id) => backendIds.includes(id));
-
-        if (allMerged) {
-          dispatch(removeGuestCartItem(null));
-        } else {
-          console.warn("Not all items merged — guest cart preserved");
+    const merge = async () => {
+      try {
+        // якщо гостьовий кошик порожній — просто тягнемо бекендовий
+        if (!guestCart.length) {
+          await dispatch(getShoppingCart());
+          await dispatch(getWishlist());
+          setHasMerged(true);
+          return;
         }
-      })
-      .finally(() => {
-        dispatch(getWishlist());
+
+        // 1. мерджимо гостьовий кошик у бекенд
+        await dispatch(mergeGuestCart(guestCart)).unwrap();
+
+        // 2. оновлюємо бекендовий кошик
+        await dispatch(getShoppingCart());
+
+        // 3. очищаємо гостьовий кошик ПОВНІСТЮ
+        dispatch(removeGuestCartItem("ALL"));
+
+        // 4. оновлюємо wishlist
+        await dispatch(getWishlist());
+
         setHasMerged(true);
-      });
+      } catch (err) {
+        console.error("Merge error:", err);
+        setHasMerged(true);
+      }
+    };
+
+    merge();
   }, [dispatch, isUserAuthenticated, guestCart, hasMerged]);
 
   // --- закривати модалку логіну, якщо вже залогований ---

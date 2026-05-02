@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { loginSuccess } from "../../../redux/auth/userAuth/userAuthSlice";
 import EmailIcon from "../../icons/email.png";
 import FacebookIcon from "../../icons/facebook.svg";
@@ -12,8 +12,10 @@ const SocialLoginModal = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [errorMessage, setErrorMessage] = useState("");
 
+  const redirectTo = location.state?.from || "/user/main";
   // ---------------- FACEBOOK SDK ----------------
   useEffect(() => {
     // fbAsyncInit MUST be defined before loading SDK
@@ -74,7 +76,7 @@ const SocialLoginModal = ({ open, onClose }) => {
               localStorage.setItem("refreshToken", data.refreshToken);
               localStorage.setItem("user", JSON.stringify(data.user));
               onClose();
-              navigate("/user/main");
+              navigate(redirectTo);
             });
         }
       },
@@ -145,7 +147,7 @@ const SocialLoginModal = ({ open, onClose }) => {
           localStorage.setItem("refreshToken", data.refreshToken);
           localStorage.setItem("user", JSON.stringify(data.user));
           onClose();
-          navigate("/user/main");
+          navigate(redirectTo);
         } catch (err) {
           console.error("Google login failed:", err);
         }
@@ -171,7 +173,7 @@ const SocialLoginModal = ({ open, onClose }) => {
         <SocialButton
           onClick={() => {
             onClose();
-            navigate("/user/auth/login");
+            navigate("/user/auth/login", { state: { from: redirectTo } });
           }}
         >
           <img src={EmailIcon} alt="Email" /> {t("user_login")} email
