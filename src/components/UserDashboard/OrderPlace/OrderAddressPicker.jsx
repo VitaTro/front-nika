@@ -1,39 +1,39 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import pointsData1 from "../../../data/points.json";
-import pointsData10 from "../../../data/points10.json";
-import pointsData11 from "../../../data/points11.json";
-import pointsData12 from "../../../data/points12.json";
-import pointsData13 from "../../../data/points13.json";
-import pointsData14 from "../../../data/points14.json";
-import pointsData15 from "../../../data/points15.json";
-import pointsData16 from "../../../data/points16.json";
-import pointsData17 from "../../../data/points17.json";
-import pointsData18 from "../../../data/points18.json";
-import pointsData19 from "../../../data/points19.json";
-import pointsData2 from "../../../data/points2.json";
-import pointsData20 from "../../../data/points20.json";
-import pointsData21 from "../../../data/points21.json";
-import pointsData22 from "../../../data/points22.json";
-import pointsData23 from "../../../data/points23.json";
-import pointsData24 from "../../../data/points24.json";
-import pointsData25 from "../../../data/points25.json";
-import pointsData26 from "../../../data/points26.json";
-import pointsData27 from "../../../data/points27.json";
-import pointsData28 from "../../../data/points28.json";
-import pointsData29 from "../../../data/points29.json";
-import pointsData3 from "../../../data/points3.json";
-import pointsData30 from "../../../data/points30.json";
-import pointsData31 from "../../../data/points31.json";
-import pointsData32 from "../../../data/points32.json";
-import pointsData33 from "../../../data/points33.json";
-import pointsData4 from "../../../data/points4.json";
-import pointsData5 from "../../../data/points5.json";
-import pointsData6 from "../../../data/points6.json";
-import pointsData7 from "../../../data/points7.json";
-import pointsData8 from "../../../data/points8.json";
-import pointsData9 from "../../../data/points9.json";
+// import pointsData1 from "../../../data/points.json";
+// import pointsData10 from "../../../data/points10.json";
+// import pointsData11 from "../../../data/points11.json";
+// import pointsData12 from "../../../data/points12.json";
+// import pointsData13 from "../../../data/points13.json";
+// import pointsData14 from "../../../data/points14.json";
+// import pointsData15 from "../../../data/points15.json";
+// import pointsData16 from "../../../data/points16.json";
+// import pointsData17 from "../../../data/points17.json";
+// import pointsData18 from "../../../data/points18.json";
+// import pointsData19 from "../../../data/points19.json";
+// import pointsData2 from "../../../data/points2.json";
+// import pointsData20 from "../../../data/points20.json";
+// import pointsData21 from "../../../data/points21.json";
+// import pointsData22 from "../../../data/points22.json";
+// import pointsData23 from "../../../data/points23.json";
+// import pointsData24 from "../../../data/points24.json";
+// import pointsData25 from "../../../data/points25.json";
+// import pointsData26 from "../../../data/points26.json";
+// import pointsData27 from "../../../data/points27.json";
+// import pointsData28 from "../../../data/points28.json";
+// import pointsData29 from "../../../data/points29.json";
+// import pointsData3 from "../../../data/points3.json";
+// import pointsData30 from "../../../data/points30.json";
+// import pointsData31 from "../../../data/points31.json";
+// import pointsData32 from "../../../data/points32.json";
+// import pointsData33 from "../../../data/points33.json";
+// import pointsData4 from "../../../data/points4.json";
+// import pointsData5 from "../../../data/points5.json";
+// import pointsData6 from "../../../data/points6.json";
+// import pointsData7 from "../../../data/points7.json";
+// import pointsData8 from "../../../data/points8.json";
+// import pointsData9 from "../../../data/points9.json";
 import { useSelector } from "react-redux";
 import {
   CheckboxStyled,
@@ -43,121 +43,120 @@ import {
   SelectField,
 } from "./OrderPlace.styled";
 
-const regions = [
-  "Dolnośląskie",
-  "Kujawsko-Pomorskie",
-  "Lubelskie",
-  "Lubuskie",
-  "Łódzkie",
-  "Małopolskie",
-  "Mazowieckie",
-  "Opolskie",
-  "Podkarpackie",
-  "Podlaskie",
-  "Pomorskie",
-  "Śląskie",
-  "Świętokrzyskie",
-  "Warmińsko-Mazurskie",
-  "Wielkopolskie",
-  "Zachodniopomorskie",
-];
+// const regions = [
+//   "Dolnośląskie",
+//   "Kujawsko-Pomorskie",
+//   "Lubelskie",
+//   "Lubuskie",
+//   "Łódzkie",
+//   "Małopolskie",
+//   "Mazowieckie",
+//   "Opolskie",
+//   "Podkarpackie",
+//   "Podlaskie",
+//   "Pomorskie",
+//   "Śląskie",
+//   "Świętokrzyskie",
+//   "Warmińsko-Mazurskie",
+//   "Wielkopolskie",
+//   "Zachodniopomorskie",
+// ];
 
-const fetchPickupPointsLocally = (city) => {
-  if (!city || city.length < 3) {
-    return []; 
-  }
+// const fetchPickupPointsLocally = (city) => {
+//   if (!city || city.length < 3) {
+//     return [];
+//   }
 
-  const allPoints = [
-    ...pointsData1.items, ...pointsData2.items, ...pointsData3.items,
-    ...pointsData4.items, ...pointsData5.items, ...pointsData6.items,
-    ...pointsData7.items, ...pointsData8.items, ...pointsData9.items,
-    ...pointsData10.items, ...pointsData11.items, ...pointsData12.items,
-    ...pointsData13.items, ...pointsData14.items, ...pointsData15.items,
-    ...pointsData16.items, ...pointsData17.items, ...pointsData18.items,
-    ...pointsData19.items, ...pointsData20.items, ...pointsData21.items,
-    ...pointsData22.items, ...pointsData23.items, ...pointsData24.items,
-    ...pointsData25.items, ...pointsData26.items, ...pointsData27.items,
-    ...pointsData28.items, ...pointsData29.items, ...pointsData30.items,
-    ...pointsData31.items, ...pointsData32.items, ...pointsData33.items,
-  ];
+//   const allPoints = [
+//     ...pointsData1.items, ...pointsData2.items, ...pointsData3.items,
+//     ...pointsData4.items, ...pointsData5.items, ...pointsData6.items,
+//     ...pointsData7.items, ...pointsData8.items, ...pointsData9.items,
+//     ...pointsData10.items, ...pointsData11.items, ...pointsData12.items,
+//     ...pointsData13.items, ...pointsData14.items, ...pointsData15.items,
+//     ...pointsData16.items, ...pointsData17.items, ...pointsData18.items,
+//     ...pointsData19.items, ...pointsData20.items, ...pointsData21.items,
+//     ...pointsData22.items, ...pointsData23.items, ...pointsData24.items,
+//     ...pointsData25.items, ...pointsData26.items, ...pointsData27.items,
+//     ...pointsData28.items, ...pointsData29.items, ...pointsData30.items,
+//     ...pointsData31.items, ...pointsData32.items, ...pointsData33.items,
+//   ];
 
-  return allPoints.filter((point) => 
-    point.address_details.city?.toLowerCase().startsWith(city.toLowerCase())
-    && point.type.includes("parcel_locker")
-    && point.status === "Operating"
-  );
-};
+//   return allPoints.filter((point) =>
+//     point.address_details.city?.toLowerCase().startsWith(city.toLowerCase())
+//     && point.type.includes("parcel_locker")
+//     && point.status === "Operating"
+//   );
+// };
 
 const OrderAddressPicker = ({ formData, setFormData }) => {
-    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
-  const [pickupPoints, setPickupPoints] = useState([]);
-  const [selectedPickupPoint, setSelectedPickupPoint] = useState("");
+  // const [pickupPoints, setPickupPoints] = useState([]);
+  // const [selectedPickupPoint, setSelectedPickupPoint] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-   useEffect(() => {
-    if (!formData.city || formData.city.length < 3) return;
+  //    useEffect(() => {
+  //     if (!formData.city || formData.city.length < 3) return;
 
-    const fetchData = async () => {
-      setLoading(true);
+  //     const fetchData = async () => {
+  //       setLoading(true);
 
-      try {
-        const points = fetchPickupPointsLocally(formData.city);
-        setPickupPoints(points);
+  //       try {
+  //         const points = fetchPickupPointsLocally(formData.city);
+  //         setPickupPoints(points);
 
-        // Якщо список пустий, очищаємо вибраний пункт
-        if (points.length === 0) {
-          setSelectedPickupPoint("");
-        }
+  //         // Якщо список пустий, очищаємо вибраний пункт
+  //         if (points.length === 0) {
+  //           setSelectedPickupPoint("");
+  //         }
 
-        setError(points.length === 0 ? "🚫 Nie ma dostępnych paczkomatów w tym mieście." : "");
-      } catch (err) {
-        setError("❌Błąd ładowania paczkomatów.");
-        console.error("❌ Błąd:", err);
-      }
+  //         setError(points.length === 0 ? "🚫 Nie ma dostępnych paczkomatów w tym mieście." : "");
+  //       } catch (err) {
+  //         setError("❌Błąd ładowania paczkomatów.");
+  //         console.error("❌ Błąd:", err);
+  //       }
 
-      setLoading(false);
-    };
+  //       setLoading(false);
+  //     };
 
-    fetchData();
-  }, [formData.city]);
+  //     fetchData();
+  //   }, [formData.city]);
 
-const handlePickupPointChange = (e) => {
-  setSelectedPickupPoint(e.target.value);
-  setFormData((prev) => ({
-    ...prev,
-    pickupPointId: e.target.value,
-  }));
-};
+  // const handlePickupPointChange = (e) => {
+  //   setSelectedPickupPoint(e.target.value);
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     pickupPointId: e.target.value,
+  //   }));
+  // };
 
-const handleCheckboxChange = (e) => {
-  setFormData((prev) => ({
-    ...prev,
-    deliveryAddress: {
-      ...prev.deliveryAddress,
-      isPrivateHouse: e.target.checked,
-      apartmentNumber: "",
-    },
-  }));
-};
+  // const handleCheckboxChange = (e) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     deliveryAddress: {
+  //       ...prev.deliveryAddress,
+  //       isPrivateHouse: e.target.checked,
+  //       apartmentNumber: "",
+  //     },
+  //   }));
+  // };
 
-
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prev) => ({
-    ...prev,
-    deliveryAddress: {
-      ...prev.deliveryAddress,
-      [name]: value,
-    },
-  }));
-};
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     deliveryAddress: {
+  //       ...prev.deliveryAddress,
+  //       [name]: value,
+  //     },
+  //   }));
+  // };
 
   return (
     <div>
       <HeaderOrderAddress>{t("your_address")} </HeaderOrderAddress>
-      <div>
+      {/* <div>
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("region")}</label>
         <SelectField
           name="region"
@@ -235,8 +234,8 @@ const handleCheckboxChange = (e) => {
             />
           </div>
         )}
-      </FormContainerAddress>
-      <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("parcel_locker")}</label>
+      </FormContainerAddress> */}
+      {/* <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>{t("parcel_locker")}</label>
       {loading ? (
         <p>🔄 Завантаження поштоматів...</p>
       ) : error ? (
@@ -255,6 +254,24 @@ const handleCheckboxChange = (e) => {
           ))}
         </SelectField>
       )}
+    </div> */}
+      <div style={{ marginTop: "20px" }}>
+        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
+          {t("parcel_locker")} (np. WRO15N)
+        </label>
+
+        <InputField
+          name="pickupPointId"
+          value={formData.pickupPointId || ""}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              pickupPointId: e.target.value,
+            }))
+          }
+          required
+        />
+      </div>
     </div>
   );
 };

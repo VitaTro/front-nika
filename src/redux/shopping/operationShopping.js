@@ -75,3 +75,17 @@ export const moveProductToWishlist = createAsyncThunk(
     }
   },
 );
+export const mergeGuestCart = createAsyncThunk(
+  "shoppingCart/mergeGuestCart",
+  async (localCart, thunkAPI) => {
+    try {
+      const { data } = await axios.post("/api/user/shopping-cart/merge", {
+        localCart,
+      });
+
+      return data.cart; // повертаємо злитий кошик
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);

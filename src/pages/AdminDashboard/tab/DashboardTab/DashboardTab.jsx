@@ -2,12 +2,12 @@ import { Box, Button, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import PopularProductsSection from "../../../../components/AdminDashboard/PopularProductsSection";
-import StatisticsSection from "../../../../components/AdminDashboard/StatisticsSection";
-import WishlistSection from "../../../../components/AdminDashboard/WishlistSection";
 import Loader from "../../../../components/Loader";
 import { fetchAdminDashboard } from "../../../../redux/admin/operationsAdmin";
 import { selectAdminData } from "../../../../redux/admin/selectorsAdmin";
+import PopularProductsSection from "./AdminDashboard/PopularProductsSection";
+import StatisticsSection from "./AdminDashboard/StatisticsSection";
+import WishlistSection from "./AdminDashboard/WishlistSection";
 
 const DashboardTab = () => {
   const dispatch = useDispatch();
@@ -35,6 +35,13 @@ const DashboardTab = () => {
         }}
       >
         <Button
+          variant={viewMode === "stats" ? "contained" : "outlined"}
+          color="primary"
+          onClick={() => setViewMode("stats")}
+        >
+          Статистика
+        </Button>
+        <Button
           variant={viewMode === "popular" ? "contained" : "outlined"}
           color="secondary"
           onClick={() => setViewMode("popular")}
@@ -51,7 +58,12 @@ const DashboardTab = () => {
       </Box>
 
       {/* Відображення вибраного контенту */}
-      {viewMode === "stats" && <StatisticsSection stats={dashboard.stats} />}
+      {viewMode === "stats" && (
+        <StatisticsSection
+          stats={dashboard.stats}
+          graph={dashboard.analyticsOverview?.graph}
+        />
+      )}
       {viewMode === "popular" && (
         <PopularProductsSection
           popularItems={dashboard.productsOverview?.popularItems}

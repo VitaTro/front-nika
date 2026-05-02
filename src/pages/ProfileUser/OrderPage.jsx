@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import OrderAddressPicker from "../../components/UserDashboard/OrderPlace/OrderAddressPicker";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import {
   checkPaymentStatus,
@@ -12,10 +11,7 @@ import {
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
 import { updateUserInfo } from "../../redux/user/userOperations";
-import {
-  createOrder,
-  fetchPickupPoints,
-} from "../../redux/user/userOrders/operationsUserOrders";
+import { createOrder } from "../../redux/user/userOrders/operationsUserOrders";
 import PaymentMethodNotice from "./Payment/PaymentBanner";
 import {
   ButtonWrapper,
@@ -23,6 +19,7 @@ import {
   HeaderOrder,
   SubmitButton,
 } from "./ProfileUser.styled";
+
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
@@ -36,12 +33,12 @@ const UserOrderPage = () => {
       firstName: savedData.firstName || "",
       lastName: savedData.lastName || "",
       phone: savedData.phone || "",
-      city: savedData.city || "",
-      street: savedData.street || "",
-      postalCode: savedData.postalCode || "",
-      houseNumber: savedData.houseNumber || "",
-      apartmentNumber: savedData.apartmentNumber || "",
-      isPrivateHouse: savedData.isPrivateHouse || false,
+      // city: savedData.city || "",
+      // street: savedData.street || "",
+      // postalCode: savedData.postalCode || "",
+      // houseNumber: savedData.houseNumber || "",
+      // apartmentNumber: savedData.apartmentNumber || "",
+      // isPrivateHouse: savedData.isPrivateHouse || false,
       paymentMethod: savedData.paymentMethod || "bank_transfer",
       pickupPointId: savedData.pickupPointId || "",
     };
@@ -49,9 +46,9 @@ const UserOrderPage = () => {
 
   const [createdOrderId, setCreatedOrderId] = useState(null);
 
-  useEffect(() => {
-    dispatch(fetchPickupPoints({ cache: "reload" }));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchPickupPoints({ cache: "reload" }));
+  // }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,7 +65,7 @@ const UserOrderPage = () => {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phone: formData.phone,
-      })
+      }),
     );
 
     const cleanedProducts = shoppingCart.map((item) => ({
@@ -91,7 +88,7 @@ const UserOrderPage = () => {
         },
         cleanedProducts,
         totalPrice: totalAmount,
-      })
+      }),
     );
 
     console.log("📦 Order response:", orderResponse);
@@ -110,7 +107,7 @@ const UserOrderPage = () => {
         orderId: createdOrder._id,
         amount: totalAmount,
         paymentMethod: formData.paymentMethod,
-      })
+      }),
     );
 
     if (result.payload) {
@@ -131,7 +128,29 @@ const UserOrderPage = () => {
       <PaymentMethodNotice method={formData.paymentMethod} />
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />
-        <OrderAddressPicker formData={formData} setFormData={setFormData} />
+        <div style={{ marginTop: "20px" }}>
+          <label style={{ fontWeight: "bold" }}>Paczkomat (np. WRO15N)</label>
+          <input
+            type="text"
+            value={formData.pickupPointId}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                pickupPointId: e.target.value,
+              }))
+            }
+            required
+            style={{
+              width: "100%",
+              padding: "10px",
+              marginTop: "5px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </div>
+
+        {/* <OrderAddressPicker formData={formData} setFormData={setFormData} /> */}
         <ButtonWrapper>
           <SubmitButton type="submit">{t("place_order")}</SubmitButton>
         </ButtonWrapper>

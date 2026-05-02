@@ -67,7 +67,6 @@ import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
 import ProtectedRoute from "./ProtectedRoute";
-
 export const App = () => {
   const location = useLocation();
   usePageView(location.pathname);
