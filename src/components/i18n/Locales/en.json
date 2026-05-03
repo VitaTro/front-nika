@@ -186,6 +186,7 @@
   "your_address": "Your delivery address",
   "region": "Voivodeship",
   "select_region": "Select voivodeship",
+  "elavon_online_payment_notice": "Online payment — the fastest and most convenient method. After clicking, you will be redirected to Elavon's secure payment page.",
   "city": "City",
   "street": "Street",
   "postal_code": "Postal Code",

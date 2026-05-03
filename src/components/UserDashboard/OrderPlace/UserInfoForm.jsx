@@ -1,39 +1,27 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useEffect } from "react";
 import { getPaymentMethods } from "../../../redux/payment/operationPayment";
 import { selectPaymentMethods } from "../../../redux/payment/selectorPayment";
-import PaymentBlik from "../../Payment/PaymentBlik";
-import PaymentMethod from "../../Payment/PaymentMethod";
 import { InputField, SelectField } from "./OrderPlace.styled";
+
 const UserInfoForm = ({ formData, setFormData }) => {
   const paymentMethods = useSelector(selectPaymentMethods);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const renderPaymentSection = () => {
-    switch (formData.paymentMethod) {
-      case "BLIK":
-        return <PaymentBlik />;
-      case "bank_transfer":
-        return <PaymentMethod />;
-      default:
-        return null;
-    }
-  };
-  {
-    renderPaymentSection();
-  }
 
   useEffect(() => {
     dispatch(getPaymentMethods());
   }, [dispatch]);
+
   return (
     <div>
+      {/* First name */}
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("first_name")}
@@ -46,6 +34,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
         />
       </div>
 
+      {/* Last name */}
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("last_name")}
@@ -58,6 +47,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
         />
       </div>
 
+      {/* Phone */}
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("phone")}
@@ -83,7 +73,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
               gap: "6px",
             }}
           >
-            <span style={{ fontSize: "14px", lineHeight: "1" }}>🇵🇱</span>
+            <span style={{ fontSize: "14px" }}>🇵🇱</span>
             <span style={{ color: "#666", fontSize: "14px" }}>+48</span>
           </div>
 
@@ -95,14 +85,15 @@ const UserInfoForm = ({ formData, setFormData }) => {
             onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                phone: e.target.value.replace(/\D/g, ""), // тільки цифри
+                phone: e.target.value.replace(/\D/g, ""),
               }))
             }
             required
-            style={{ flex: 1, height: "42px" }}
           />
         </div>
       </div>
+
+      {/* Paczkomat */}
       <div
         style={{
           display: "flex",
@@ -111,22 +102,17 @@ const UserInfoForm = ({ formData, setFormData }) => {
           marginTop: "20px",
         }}
       >
-        <label
-          style={{
-            color: isDarkMode ? "#060270" : "#1f871a",
-          }}
-        >
+        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("parcel_locker")} (np WRO15N)
         </label>
 
         <InputField
           name="pickupPointId"
-          // placeholder="WRO15N"
           value={formData.pickupPointId}
           onChange={(e) =>
             setFormData((prev) => ({
               ...prev,
-              pickupPointId: e.target.value.toUpperCase(), // автоматично робимо великі літери
+              pickupPointId: e.target.value.toUpperCase(),
             }))
           }
           required
@@ -134,25 +120,23 @@ const UserInfoForm = ({ formData, setFormData }) => {
         />
       </div>
 
+      {/* Payment method */}
       <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("payment_method")}
         </label>
+
         <SelectField
           name="paymentMethod"
           value={formData.paymentMethod}
           onChange={handleChange}
         >
-          <option value="BLIK">BLIK</option>
+          <option value="elavon_link">{t("online_payment")}</option>
           <option value="bank_transfer">{t("bank_transfer")}</option>
-          {/* {paymentMethods.map((method) => {
-            <option key={method} value={method}>
-              {method === "blik" ? "BLIK" : "bank_transfer"}
-            </option>;
-          })} */}
         </SelectField>
       </div>
     </div>
   );
 };
+
 export default UserInfoForm;

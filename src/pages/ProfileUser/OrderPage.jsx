@@ -12,6 +12,7 @@ import {
 } from "../../redux/shopping/selectorsShopping";
 import { updateUserInfo } from "../../redux/user/userOperations";
 import { createOrder } from "../../redux/user/userOrders/operationsUserOrders";
+import { calculateDiscount } from "../../utils/calculateDiscount";
 import PaymentMethodNotice from "./Payment/PaymentBanner";
 import {
   ButtonWrapper,
@@ -33,22 +34,12 @@ const UserOrderPage = () => {
       firstName: savedData.firstName || "",
       lastName: savedData.lastName || "",
       phone: savedData.phone || "",
-      // city: savedData.city || "",
-      // street: savedData.street || "",
-      // postalCode: savedData.postalCode || "",
-      // houseNumber: savedData.houseNumber || "",
-      // apartmentNumber: savedData.apartmentNumber || "",
-      // isPrivateHouse: savedData.isPrivateHouse || false,
       paymentMethod: savedData.paymentMethod || "bank_transfer",
       pickupPointId: savedData.pickupPointId || "",
     };
   });
 
-  const [createdOrderId, setCreatedOrderId] = useState(null);
-
-  // useEffect(() => {
-  //   dispatch(fetchPickupPoints({ cache: "reload" }));
-  // }, [dispatch]);
+  const [bankDetails, setBankDetails] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,25 +64,19 @@ const UserOrderPage = () => {
       quantity: item.quantity,
     }));
 
-    console.log("🟡 Sending order data:", {
-      ...formData,
-      products: cleanedProducts,
-      totalPrice: totalAmount,
-      deliveryType: "pickup",
-    });
+    const { final: finalPrice } = calculateDiscount(totalAmount);
 
     const orderResponse = await dispatch(
       createOrder({
         formData: {
           ...formData,
-          deliveryType: "pickup", // або "courier", коли буде потрібно
+          deliveryType: "pickup",
         },
         cleanedProducts,
         totalPrice: totalAmount,
+        finalPrice,
       }),
     );
-
-    console.log("📦 Order response:", orderResponse);
 
     const createdOrder = orderResponse.payload?.order || orderResponse.payload;
 
@@ -100,20 +85,25 @@ const UserOrderPage = () => {
       return;
     }
 
-    setCreatedOrderId(createdOrder._id);
-
     const result = await dispatch(
       initiatePayment({
         orderId: createdOrder._id,
-        amount: totalAmount,
         paymentMethod: formData.paymentMethod,
       }),
     );
 
-    if (result.payload) {
-      dispatch(checkPaymentStatus(createdOrder._id));
+    // 🔵 Elavon online payment → redirect
+    if (result.payload?.payLink) {
+      window.location.href = result.payload.payLink;
+      return;
     }
 
+    // 🟡 Bank transfer → show bank details
+    if (result.payload?.bankDetails) {
+      setBankDetails(result.payload.bankDetails);
+    }
+
+    dispatch(checkPaymentStatus(createdOrder._id));
     alert("✅ Zamówienie zostało złożone!");
   };
 
@@ -125,28 +115,40 @@ const UserOrderPage = () => {
       }}
     >
       <HeaderOrder>{t("order_placement")}</HeaderOrder>
+
       <PaymentMethodNotice method={formData.paymentMethod} />
+
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />
 
-        {/* <OrderAddressPicker formData={formData} setFormData={setFormData} /> */}
         <ButtonWrapper>
           <SubmitButton type="submit">{t("place_order")}</SubmitButton>
         </ButtonWrapper>
       </form>
 
-      {/* 🧾 Відображення оплати */}
-      {/* {createdOrderId && formData.paymentMethod === "BLIK" && (
-        <BlikPhoneTransferInfo
-          orderId={createdOrderId}
-          totalPrice={totalAmount}
-        />
-      )} */}
-      {formData.paymentMethod === "bank_transfer" && (
-        <p style={{ color: "#4caf50", fontWeight: "bold" }}>{t("card_1")}</p>
-      )}
-      {["BLIK", "card"].includes(formData.paymentMethod) && (
-        <p style={{ color: "#f39c12" }}>{t("bank_transfer_link_1")}</p>
+      {/* 🧾 Bank transfer details */}
+      {bankDetails && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>{t("bank_transfer_details")}</h3>
+          <p>
+            <b>Bank:</b> {bankDetails.bankName}
+          </p>
+          <p>
+            <b>IBAN:</b> {bankDetails.iban}
+          </p>
+          <p>
+            <b>SWIFT:</b> {bankDetails.swift}
+          </p>
+          <p>
+            <b>Odbiorca:</b> {bankDetails.recipientName}
+          </p>
+          <p>
+            <b>Tytuł:</b> {bankDetails.reference}
+          </p>
+          <p>
+            <b>Kwota:</b> {bankDetails.amount} PLN
+          </p>
+        </div>
       )}
     </FormContainer>
   );

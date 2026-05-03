@@ -12,6 +12,8 @@ const PaymentInfoBanner = styled.div`
 
 const PaymentMethodNotice = ({ method }) => {
   const { t } = useTranslation();
+
+  // 🟡 Bank transfer
   if (method === "bank_transfer") {
     return (
       <PaymentInfoBanner
@@ -22,11 +24,12 @@ const PaymentMethodNotice = ({ method }) => {
     );
   }
 
-  if (method === "BLIK" || method === "card") {
+  // 🔵 Elavon online payment
+  if (method === "elavon_link") {
     return (
       <PaymentInfoBanner
         dangerouslySetInnerHTML={{
-          __html: t("card"),
+          __html: t("elavon_online_payment_notice"),
         }}
       />
     );

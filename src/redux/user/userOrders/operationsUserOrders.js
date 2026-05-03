@@ -11,7 +11,7 @@ export const fetchUserOrders = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 // ✅ Фільтри статусів
@@ -24,7 +24,7 @@ export const fetchUnpaidOrders = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const fetchProcessingOrders = createAsyncThunk(
@@ -36,7 +36,7 @@ export const fetchProcessingOrders = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const fetchShippedOrders = createAsyncThunk(
@@ -48,13 +48,16 @@ export const fetchShippedOrders = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 // ✅ Створити замовлення
 export const createOrder = createAsyncThunk(
   "userOrders/createOrder",
-  async ({ formData, cleanedProducts, totalPrice }, { rejectWithValue }) => {
+  async (
+    { formData, cleanedProducts, totalPrice, finalPrice },
+    { rejectWithValue },
+  ) => {
     try {
       const {
         paymentMethod,
@@ -67,7 +70,7 @@ export const createOrder = createAsyncThunk(
 
       if (!cleanedProducts || !cleanedProducts.length) {
         return rejectWithValue(
-          "🛒 The basket is empty, it is not possible to place an order."
+          "🛒 The basket is empty, it is not possible to place an order.",
         );
       }
 
@@ -79,7 +82,7 @@ export const createOrder = createAsyncThunk(
         const { postalCode, city, street, houseNumber } = deliveryAddress || {};
         if (!postalCode || !city || !street || !houseNumber) {
           return rejectWithValue(
-            "🏠 Please fill in all the required fields of the delivery address."
+            "🏠 Please fill in all the required fields of the delivery address.",
           );
         }
       }
@@ -99,6 +102,7 @@ export const createOrder = createAsyncThunk(
         deliveryAddress,
         smartboxDetails,
         notes,
+        finalPrice,
       });
 
       return response.data.order;
@@ -107,7 +111,7 @@ export const createOrder = createAsyncThunk(
         error.response?.data?.error || "❌ Order creation failed on server";
       return rejectWithValue(message);
     }
-  }
+  },
 );
 
 // ✅ Запит на повернення
@@ -123,7 +127,7 @@ export const returnOrder = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 // ✅ Користувач підтверджує отримання
@@ -132,13 +136,13 @@ export const confirmOrderReceived = createAsyncThunk(
   async (orderId, { rejectWithValue }) => {
     try {
       const response = await axios.patch(
-        `/api/user/orders/${orderId}/received`
+        `/api/user/orders/${orderId}/received`,
       );
       return response.data.order;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 // ✅ Історія покупок
@@ -151,7 +155,7 @@ export const fetchPurchaseHistory = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const trackOrder = createAsyncThunk(
@@ -159,13 +163,13 @@ export const trackOrder = createAsyncThunk(
   async (trackingNumber, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/api/user/orders/track/${trackingNumber}`
+        `/api/user/orders/track/${trackingNumber}`,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const fetchPickupPoints = createAsyncThunk(
@@ -179,5 +183,5 @@ export const fetchPickupPoints = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );

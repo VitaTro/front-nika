@@ -41,6 +41,8 @@ export const InputField = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  height: 42px;
+  flex: 1;
   &::placeholder {
     color: #a2a0a0;
   }
