@@ -14,6 +14,7 @@ import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAu
 
 import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
 import {
+  clearGuestCart,
   mergeGuestCart,
   removeGuestCartItem,
   updateGuestCartQuantity,
@@ -121,7 +122,7 @@ const ShoppingCartPage = () => {
         await dispatch(getShoppingCart());
 
         // 3. очищаємо гостьовий кошик ПОВНІСТЮ
-        dispatch(removeGuestCartItem("ALL"));
+        dispatch(clearGuestCart());
 
         // 4. оновлюємо wishlist
         await dispatch(getWishlist());
@@ -335,6 +336,7 @@ const ShoppingCartPage = () => {
       <SocialLoginModal
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
+        redirectAfterLogin="/user/shopping-cart"
       />
     </>
   );

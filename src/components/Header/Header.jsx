@@ -62,6 +62,8 @@ const Header = () => {
   const guestCart = useSelector(selectGuestCart);
   const guestWishlist = useSelector(selectGuestWishlist);
   const guestCartCount = useSelector(selectGuestCartCount);
+  const [redirectAfterLogin, setRedirectAfterLogin] = useState("/user/main");
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
@@ -212,6 +214,7 @@ const Header = () => {
               to="#"
               onClick={(e) => {
                 e.preventDefault();
+                setRedirectAfterLogin(location.pathname);
                 setShowLoginModal(true);
               }}
             >
@@ -277,6 +280,7 @@ const Header = () => {
           <SocialLoginModal
             onClose={() => setShowLoginModal(false)}
             open={showLoginModal}
+            redirectAfterLogin={redirectAfterLogin}
           />
         )}
       </>
