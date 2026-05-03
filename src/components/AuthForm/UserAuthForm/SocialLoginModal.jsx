@@ -8,14 +8,14 @@ import FacebookIcon from "../../icons/facebook.svg";
 import GoogleIcon from "../../icons/google.svg";
 import { Backdrop, Modal, SocialButton } from "../AuthFormRegister.styled";
 
-const SocialLoginModal = ({ open, onClose }) => {
+const SocialLoginModal = ({ open, onClose, redirectAfterLogin }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const redirectTo = location.state?.from || "/user/main";
+  const redirectTo = location.state?.from || redirectAfterLogin || "/user/main";
   // ---------------- FACEBOOK SDK ----------------
   useEffect(() => {
     // fbAsyncInit MUST be defined before loading SDK
