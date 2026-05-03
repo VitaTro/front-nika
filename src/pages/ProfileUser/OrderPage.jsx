@@ -64,7 +64,9 @@ const UserOrderPage = () => {
       quantity: item.quantity,
     }));
 
-    const { final: finalPrice } = calculateDiscount(totalAmount);
+    const { final } = calculateDiscount(totalAmount);
+    const finalPrice = Number(final);
+    console.log("FINAL PRICE:", finalPrice);
 
     const orderResponse = await dispatch(
       createOrder({

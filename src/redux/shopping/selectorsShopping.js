@@ -4,11 +4,11 @@ export const selectShoppingCartState = (state) => state.shoppingCart;
 
 export const selectShopping = createSelector(
   [selectShoppingCartState],
-  (state) => state.products
+  (state) => state.products,
 );
 export const selectShoppingCartError = createSelector(
   [selectShoppingCartState],
-  (state) => state.error
+  (state) => state.error,
 );
 
 export const isProductInShoppingCart = createSelector(
@@ -16,17 +16,22 @@ export const isProductInShoppingCart = createSelector(
   (shopping, productId) =>
     shopping.some(
       (item) =>
-        item.productId?._id === productId || item.productId === productId
-    )
+        item.productId?._id === productId || item.productId === productId,
+    ),
 );
 export const selectShoppingCartLoading = createSelector(
   [selectShoppingCartState],
-  (state) => state.loading ?? false
+  (state) => state.loading ?? false,
 );
 
 export const selectTotalAmount = createSelector([selectShopping], (shopping) =>
-  shopping.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  shopping.reduce((acc, item) => {
+    const price = Number(item.price) || 0;
+    const qty = Number(item.quantity) || 0;
+    return acc + price * qty;
+  }, 0),
 );
+
 export const selectShoppingCartItems = createSelector(
   [selectShopping],
   (shopping) =>
@@ -35,5 +40,5 @@ export const selectShoppingCartItems = createSelector(
       productId: item.productId?._id || item.productId,
       addedAt: item.addedAt,
       productIndex: item.productIndex, // ✳️ якщо є в схемі
-    }))
+    })),
 );
