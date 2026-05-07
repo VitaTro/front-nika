@@ -171,6 +171,15 @@ const ProductDetailsPage = () => {
                 t("not_available")
               )}
             </InfoItem>
+            {/* MATERIAL */}
+            <InfoItem>
+              🧵 {t("material")}:{" "}
+              {product.material ? (
+                <NumberValue>{product.material}</NumberValue>
+              ) : (
+                t("not_available")
+              )}
+            </InfoItem>
 
             {/* SIZE */}
             <InfoItem>

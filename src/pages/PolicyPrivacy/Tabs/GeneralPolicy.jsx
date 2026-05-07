@@ -17,12 +17,15 @@ const GeneralPolicy = () => {
           components={{ em: <em /> }}
         />
       </p>
+      <h2>{t("privacy_policy.summary.admin_title")}</h2>
+      <h5>{t("privacy_policy.summary.admin_text")}</h5>
       <p>
         <Trans
           i18nKey="privacy_policy.summary.questions"
           components={{ strong: <strong /> }}
         />
       </p>
+
       <h2>{t("privacy_policy.summary.summary_title")}</h2>
       <p>
         <Trans
