@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { SearchButton, SearchForm, SearchInput } from "./SearchBar.styled";
+import { SearchForm, SearchInput } from "./SearchBar.styled";
 
 const SearchBar = ({ placeholder = "Search...", onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +27,18 @@ const SearchBar = ({ placeholder = "Search...", onSearch }) => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <SearchButton type="submit">{t("search")}</SearchButton>
+      <FiSearch
+        size={20}
+        onClick={handleSearch}
+        style={{
+          position: "absolute",
+          right: "10px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          cursor: "pointer",
+          opacity: 0.7,
+        }}
+      />
     </SearchForm>
   );
 };

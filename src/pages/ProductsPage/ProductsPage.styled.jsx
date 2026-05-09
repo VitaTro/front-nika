@@ -6,7 +6,7 @@ export const WelcomeGeneral = styled.h1`
   font-family: "Noto Sans", sans-serif;
   font-size: 42px;
   font-weight: 700;
-  color: ${(props) => (props.theme.$isDarkMode ? "lightgray" : "gray")};
+  color: ${(props) => (props.theme.$isDarkMode ? "#bfa76f" : "#b09456")};
   background: ${(props) =>
     props.$isActive
       ? props.theme.$isDarkMode

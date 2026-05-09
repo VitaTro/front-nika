@@ -1,6 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import {
+  FaEnvelope,
+  FaFacebook,
+  FaGlobe,
+  FaIdCard,
+  FaInstagram,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaShoppingCart,
+} from "react-icons/fa";
 import {
   ContactContainer,
   ContactItem,
@@ -10,60 +18,79 @@ import {
 
 const ContactSection = () => {
   const { t } = useTranslation();
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   return (
     <ContactContainer>
-      <h2 style={{ fontSize: "28px", fontWeight: "bold" }}>
+      <h2 style={{ fontSize: "28px", fontWeight: "700", color: "#bfa76f" }}>
         {t("contact_info")}
       </h2>
-      <p>{t("questions_any_time")}</p>
+      <p style={{ marginBottom: "20px" }}>{t("questions_any_time")}</p>
 
       <ContactItem>
-        🏢 Polska, ul. Świeradowska 51-57, 50-559 Wrocław
+        <FaMapMarkerAlt color="#bfa76f" /> Polska, ul. Świeradowska 51-57,
+        50-559 Wrocław
       </ContactItem>
-      <ContactItem>🕒 {t("working_hours")}</ContactItem>
-      <ContactItem>🛒 {t("order_processing_24_7")}</ContactItem>
 
       <ContactItem>
-        ✉️{" "}
+        <FaShoppingCart color="#bfa76f" /> Przetwarzanie zamówień 24/7!
+      </ContactItem>
+
+      <ContactItem>
+        <FaEnvelope color="#bfa76f" />{" "}
         <ContactLink href="mailto:huping.nika.gold@gmail.com">
           huping.nika.gold@gmail.com
         </ContactLink>
       </ContactItem>
 
-      <ContactItem>📞 +48 516 174 555</ContactItem>
-      <ContactItem>NIP 9121950449</ContactItem>
+      <ContactItem>
+        <FaPhone color="#bfa76f" />{" "}
+        <ContactLink href="tel:+48516174555">+48 516 174 555</ContactLink>
+      </ContactItem>
 
       <ContactItem>
-        🌍{" "}
-        <ContactLink href="https://nika-gold.net/main">
+        <FaIdCard color="#bfa76f" /> NIP 9121950449
+      </ContactItem>
+
+      <ContactItem>
+        <FaGlobe color="#bfa76f" />{" "}
+        <ContactLink href="https://nika-gold.net">
           https://nika-gold.net
         </ContactLink>
       </ContactItem>
 
-      <ContactItem>
-        🌍 <ContactLink href="https://nika-gold.net/">Nika Gold</ContactLink>
-      </ContactItem>
-
-      <SocialRow>
-        <FaInstagram size={24} color="#E4405F" />
+      <SocialRow
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          marginTop: "20px",
+        }}
+      >
         <ContactLink
           href="https://www.instagram.com/nika_gold_huping/"
-          size="18px"
-          top="-2px"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            color: "#000",
+            transition: "all 0.3s ease",
+          }}
         >
-          Instagram
+          <FaInstagram size={18} color="#E4405F" />
+          <span>Instagram</span>
         </ContactLink>
-      </SocialRow>
 
-      <SocialRow>
-        <FaFacebook size={24} color="#1877F2" />
         <ContactLink
           href="https://www.facebook.com/nika.gold.420361/"
-          size="18px"
-          top="-2px"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            color: "#000",
+            transition: "all 0.3s ease",
+          }}
         >
-          Facebook
+          <FaFacebook size={18} color="#1877F2" />
+          <span>Facebook</span>
         </ContactLink>
       </SocialRow>
     </ContactContainer>

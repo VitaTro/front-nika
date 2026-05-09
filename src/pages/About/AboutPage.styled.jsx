@@ -171,13 +171,36 @@ export const ContactContainer = styled.div`
 `;
 
 export const ContactItem = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   font-family: "Noto Sans", sans-serif;
-  margin: 5px 0;
-  color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
-  padding-bottom: 10px;
+  margin: 8px 0;
   width: 80%;
+  padding: 10px 0 10px 14px;
+  position: relative;
   text-align: center;
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  svg {
+    margin-right: 10px;
+    transition: all 0.3s ease;
+  }
+
+  svg:hover {
+    filter: drop-shadow(0 0 4px #bfa76f);
+    transform: scale(1.12);
+  }
 
   @media (max-width: 1024px) {
     font-size: 17px;
@@ -192,24 +215,50 @@ export const ContactItem = styled.div`
   @media (max-width: 480px) {
     font-size: 14px;
     width: 100%;
-    padding-bottom: 5px;
   }
 `;
+
 export const ContactLink = styled.a`
   color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
   text-decoration: none;
   font-size: ${({ size }) => size || "16px"};
-  position: relative;
-  top: ${({ top }) => top || "0"};
+  transition: all 0.3s ease;
 
   &:hover {
+    color: #bfa76f;
     text-decoration: underline;
   }
 `;
 
-export const SocialRow = styled(ContactItem)`
+export const SocialRow = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #bfa76f;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: ${({ theme }) => (theme.isDarkMode ? "#fff" : "#000")};
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #bfa76f;
+      transform: translateY(-2px);
+    }
+
+    svg {
+      transition: all 0.3s ease;
+    }
+
+    &:hover svg {
+      filter: drop-shadow(0 0 4px #bfa76f);
+      transform: scale(1.1);
+    }
+  }
 `;

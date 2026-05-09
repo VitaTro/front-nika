@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -348,6 +348,32 @@ const Products = ({ type }) => {
               </Box>
             ) : (
               <>
+                {/* CATEGORY DESCRIPTION */}
+                {activeCategory !== "all" && (
+                  <Box sx={{ marginBottom: "25px", textAlign: "center" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "18px",
+                        lineHeight: "1.8",
+                        fontFamily: "'Regar', serif",
+                        color: "#3a3a3a",
+                        letterSpacing: "0.3px",
+                        borderTop: "1px solid #d4af37",
+                        borderBottom: "1px solid #d4af37",
+                        marginBottom: " 25px",
+                        textAlign: "center",
+                        backgroundColor: " #faf7f2",
+                        borderRadius: "8px",
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                        padding: "30px",
+                      }}
+                    >
+                      {t(`${type}_type.${activeCategory}`)}
+                    </Typography>
+                  </Box>
+                )}
+
                 <ProductsGrid>
                   {currentProducts.map((product, index) => (
                     <ErrorBoundary key={product._id || index}>

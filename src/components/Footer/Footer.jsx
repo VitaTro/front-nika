@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import ContactModal from "../DataRequest/ContactModal";
+import {
+  FaEnvelope,
+  FaFacebook,
+  FaIdCard,
+  FaInstagram,
+  FaMapMarkerAlt,
+  FaPhone,
+} from "react-icons/fa";
+import { LuUser } from "react-icons/lu";
+
 import {
   DevNote,
   FooterBottom,
@@ -69,12 +77,30 @@ const Footer = () => {
 
         <FooterSection>
           <FooterTitle>{t("contact")}</FooterTitle>
-          <FooterLink onClick={() => setOpen(true)}>
-            {t("contact_admin")}
-          </FooterLink>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <LuUser size={16} color="#bfa76f" />
+            <span>Nika Gold - Vitaliia Troian</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <FaMapMarkerAlt size={16} color="#bfa76f" />
+            <span>ul. Świeradowska 51/57, 50-559 Wrocław</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <FaIdCard size={16} color="#bfa76f" />
+            <span>NIP: 9121950449</span>
+          </div>
 
-          <ContactModal open={open} handleClose={() => setOpen(false)} />
-          <a href="tel:+48516174555">+48 516 174 555</a>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <FaPhone size={16} color="#bfa76f" />
+            <a href="tel:+48516174555">+48 516 174 555</a>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <FaEnvelope size={16} color="#bfa76f" />
+            <a href="mailto:huping.nika.gold@gmail.com">
+              huping.nika.gold@gmail.com
+            </a>
+          </div>
         </FooterSection>
       </div>
       <FooterBottom>

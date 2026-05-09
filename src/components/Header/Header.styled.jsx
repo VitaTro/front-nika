@@ -116,45 +116,42 @@ export const SearchContainer = styled.div`
   }
 `;
 export const NavLinkStyled = styled(Link)`
-  color: ${(props) => (props.theme.$isDarkMode ? "#E0E0E0" : "gray")};
+  color: ${(props) =>
+    props.theme.$isDarkMode ? "#bfa76f" : "#b09456"}; /* Золотисті відтінки */
   font-family: "Nunito", sans-serif;
   font-weight: 400;
   font-size: 18px;
   text-decoration: none;
   list-style: none;
 
-  /* Тінь для активної сторінки */
   text-shadow: ${(props) =>
     props.$isActive
       ? props.theme.$isDarkMode
-        ? "0 6px 12px rgba(164, 159, 159, 0.5)"
-        : "0 6px 12px rgba(176, 173, 173, 0.6)"
+        ? "0 6px 12px rgba(191, 167, 111, 0.5)"
+        : "0 6px 12px rgba(176, 148, 86, 0.6)"
       : "none"};
 
-  /* Градієнт кольору для активної сторінки */
   background: ${(props) =>
     props.$isActive
       ? props.theme.$isDarkMode
-        ? "linear-gradient(90deg, #8BC34A,rgb(9, 66, 12))"
-        : "linear-gradient(90deg, #91A1B8,rgb(20, 159, 252))"
+        ? "linear-gradient(90deg, #bfa76f, #8a7b5a)"
+        : "linear-gradient(90deg, #b09456, #d4af37)"
       : "none"};
   background-clip: text;
   -webkit-background-clip: text;
-  color: ${(props) =>
-    props.$isActive
-      ? "transparent"
-      : ""}; /* Прозорий текст для активного стану */
+  color: ${(props) => (props.$isActive ? "transparent" : "")};
 
-  /* Ефект при наведенні */
   &:hover {
     color: ${(props) =>
-      props.theme.$isDarkMode ? "lightgray" : "darkgray"}; /* Зміна кольору */
+      props.theme.$isDarkMode
+        ? "#d4af37"
+        : "#bfa76f"}; /* Світліше золото при наведенні */
     text-shadow: ${(props) =>
       props.theme.$isDarkMode
-        ? "0 8px 8px rgba(221, 219, 219, 0.79)"
-        : "0 8px 8px rgba(248, 247, 247, 0.8)"};
-    transform: scale(1.05); /* Легке збільшення */
-    transition: all 0.3s ease-in-out; /* Плавний перехід */
+        ? "0 8px 8px rgba(212, 175, 55, 0.7)"
+        : "0 8px 8px rgba(191, 167, 111, 0.8)"};
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
   }
 `;
 

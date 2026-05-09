@@ -40,7 +40,7 @@ export const DevNote = styled.div`
   font-size: 11px;
   opacity: 0.6;
   margin-top: 10px;
-  color: #000000;
+  color: #4a3a13;
 `;
 
 export const SocialLinks = styled.div`
