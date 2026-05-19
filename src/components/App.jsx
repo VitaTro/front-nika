@@ -94,26 +94,6 @@ export const App = () => {
   useEffect(() => {
     dispatch(checkUserSession());
   }, []);
-  {
-    /* Хедер */
-  }
-  {
-    !isAdminAuthenticated &&
-      !isAuthPage &&
-      (isUserAuthenticated && user?.name ? (
-        isMobile ? (
-          <MobileMenuHeader
-            isUserAuthenticated={isUserAuthenticated}
-            user={user}
-            isAuthPage={isAuthPage}
-          />
-        ) : (
-          <UserHeader />
-        )
-      ) : (
-        <Header />
-      ));
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -123,9 +103,21 @@ export const App = () => {
       <Wrapper>
         <ErrorBoundary>
           {/* ✅ Хедер не рендериться на сторінках логіну/реєстрації */}
+          {/* {!isAdminAuthenticated &&
+            !isAuthPage &&
+            (isUserAuthenticated ? <UserHeader /> : <Header />)} */}
           {!isAdminAuthenticated &&
             !isAuthPage &&
-            (isUserAuthenticated ? <UserHeader /> : <Header />)}
+            (isUserAuthenticated && user?.name ? (
+              isMobile ? (
+                <MobileMenuHeader user={user} />
+              ) : (
+                <UserHeader />
+              )
+            ) : (
+              <Header />
+            ))}
+
           <main>
             <Routes>
               {/* Авторизація */}
