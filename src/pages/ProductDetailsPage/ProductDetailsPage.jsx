@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
-import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+import { selectIsLoggedIn } from "../../redux/auth/userAuth/selectorsAuth";
 import { getProductById } from "../../redux/products/operationProducts";
 import {
   selectCurrentProduct,
@@ -39,7 +39,7 @@ const ProductDetailsPage = () => {
   const error = useSelector(selectProductsError);
   const navigate = useNavigate();
   const location = useLocation();
-  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const isUserAuthenticated = useSelector(selectIsLoggedIn);
   const [isZoomed, setIsZoomed] = useState(false);
   const [activePhoto, setActivePhoto] = useState(null);
 

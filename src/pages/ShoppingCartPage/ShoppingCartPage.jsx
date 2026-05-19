@@ -10,7 +10,7 @@ import shop from "../../components/icons/shop.png";
 import Loader from "../../components/Loader";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
 
-import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+import { selectIsLoggedIn } from "../../redux/auth/userAuth/selectorsAuth";
 
 import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
 import {
@@ -69,7 +69,7 @@ const ShoppingCartPage = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // --- селектори ---
-  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const isUserAuthenticated = useSelector(selectIsLoggedIn);
 
   const allProducts = useSelector(selectProducts) || [];
   const guestCart = useSelector(selectGuestCart) || [];

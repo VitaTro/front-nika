@@ -7,7 +7,7 @@ import { toggleTheme } from "../../redux/themeSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   selectAuthUser,
-  selectIsUserAuthenticated,
+  selectIsLoggedIn,
 } from "../../redux/auth/userAuth/selectorsAuth";
 import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
 import { fetchUserMain } from "../../redux/user/userOperations";
@@ -39,7 +39,7 @@ const UserHeader = () => {
   const dispatch = useDispatch();
   const userCartItems = useSelector(selectShoppingCartItems) || [];
   const userWishlist = useSelector((state) => state.wishlist.items) || [];
-  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const isUserAuthenticated = useSelector(selectIsLoggedIn);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedLanguage, setSelectedLanguage] = useState("pl");

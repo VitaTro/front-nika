@@ -18,9 +18,11 @@ export const fetchAdminRegister = createAsyncThunk(
 
 export const fetchAdminLogin = createAsyncThunk(
   "adminAuth/fetchAdminLogin",
-  async (adminData, { rejectWithValue }) => {
+  async (adminData, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post("/api/admin/auth/login", adminData);
+      await axios.post("/api/admin/auth/login", adminData, {
+        withCredentials: true,
+      });
 
       // if (!response.data.token) {
       //   throw new Error("❌ No token received from server!");
@@ -28,8 +30,8 @@ export const fetchAdminLogin = createAsyncThunk(
 
       // localStorage.setItem("adminToken", response.data.token); // Використовуємо `token`
       // localStorage.setItem("refreshToken", response.data.refreshToken);
-
-      return response.data;
+      const check = await dispatch(checkAdminSession()).unwrap();
+      return check;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

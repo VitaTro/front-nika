@@ -7,7 +7,7 @@ import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
 import PaginationComponent from "../../components/PaginationComponent/PaginationComponent";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
-import { selectIsUserAuthenticated } from "../../redux/auth/userAuth/selectorsAuth";
+import { selectIsLoggedIn } from "../../redux/auth/userAuth/selectorsAuth";
 import { addGuestCartItem } from "../../redux/guest/shopping/guestShoppingSlice";
 import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
 import { toggleGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSlice";
@@ -33,7 +33,7 @@ import {
 } from "./WishlistPage.styled";
 
 const WishlistPage = () => {
-  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const isUserAuthenticated = useSelector(selectIsLoggedIn);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();

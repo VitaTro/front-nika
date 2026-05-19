@@ -49,7 +49,7 @@ export const logoutUser = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await axios.post("/api/user/auth/logout", {}, { withCredentials: true });
-      localStorage.removeItem("accessToken");
+      // localStorage.removeItem("accessToken");
       return null;
     } catch (error) {
       return thunkAPI.rejectWithValue("Bląd przy wyjściu");
@@ -133,43 +133,25 @@ export const verifyEmail = createAsyncThunk(
     }
   },
 );
-export const refreshSession = createAsyncThunk(
-  "auth/refreshSession",
-  async (_, thunkAPI) => {
+
+export const checkUserSession = createAsyncThunk(
+  "auth/checkSession",
+  async (_, { rejectWithValue }) => {
     try {
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) throw new Error("❌ No refresh token");
-
-      console.log("🔄 Refreshing access token...");
-
-      const response = await axios.post("/api/user/auth/refresh", {
-        refreshToken,
+      const { data } = await axios.get("/api/user/auth/check", {
+        withCredentials: true,
       });
 
-      localStorage.setItem("token", response.data.accessToken);
+      if (!data.isUser) {
+        return { isUser: false, user: null };
+      }
 
-      return response.data;
+      return {
+        isUser: true,
+        user: { id: data.userId },
+      };
     } catch (error) {
-      console.error("❌ Refresh token failed:", error);
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  },
-);
-
-export const refreshUserSession = createAsyncThunk(
-  "auth/refreshUserSession",
-  async (_, thunkAPI) => {
-    try {
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) return thunkAPI.rejectWithValue("No refresh token");
-
-      const response = await axios.post("/api/user/auth/refresh", {
-        refreshToken,
-      });
-
-      return response.data; // { accessToken }
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Session expired");
+      return rejectWithValue("Session check failed");
     }
   },
 );

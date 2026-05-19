@@ -7,8 +7,10 @@ import SocialLoginModal from "../AuthForm/UserAuthForm/SocialLoginModal";
 // import UserAvatar from "../UserAvatar/UserAvatar";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  selectAuthError,
+  selectAuthLoading,
   selectAuthUser,
-  selectIsUserAuthenticated,
+  selectIsLoggedIn,
 } from "../../redux/auth/userAuth/selectorsAuth";
 import {
   selectGuestCart,
@@ -17,10 +19,8 @@ import {
 import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
 import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
 import { fetchUserMain } from "../../redux/user/userOperations";
-import {
-  selectAuthError,
-  selectAuthLoading,
-} from "../../redux/user/userSelectors";
+
+import { logoutUser } from "../../redux/auth/userAuth/operationAuth";
 import Logo from "../icons/logo.png";
 import Moon from "../icons/moon.png";
 import Sun from "../icons/sun.png";
@@ -44,7 +44,7 @@ import MobileMenuHeader from "./MobileMenuHeader";
 const Header = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
-  const isUserAuthenticated = useSelector(selectIsUserAuthenticated);
+  const isUserAuthenticated = useSelector(selectIsLoggedIn);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedLanguage, setSelectedLanguage] = useState("pl");

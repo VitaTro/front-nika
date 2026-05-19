@@ -52,6 +52,24 @@ const UserLoginForm = () => {
   if (loading) return <Loader />;
   return (
     <ResponsiveContainer>
+      <button
+        onClick={() => {
+          if (window.history.length > 2) navigate(-1);
+          else navigate("/main");
+        }}
+        style={{
+          background: "none",
+          border: "none",
+          fontSize: "18px",
+          fontWeight: 600,
+          cursor: "pointer",
+          marginBottom: "10px",
+          color: "#666",
+        }}
+      >
+        ← {t("back")}
+      </button>
+
       <HeaderForm>{t("user_login")}</HeaderForm>
       {errorMessage && (
         <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>
