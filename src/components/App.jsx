@@ -60,6 +60,7 @@ import UserOrderPage from "../pages/ProfileUser/OrderPage";
 import ProfilePage from "../pages/ProfileUser/ProfilePage";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
+import { checkAdminSession } from "../redux/auth/adminAuth/operationsAdminAuth";
 import { refreshUserSession } from "../redux/auth/userAuth/operationAuth";
 import MobileMenuHeader from "./Header/MobileMenuHeader";
 import CookiesPolicy from "./Policy/CookiesPolicy";
@@ -87,7 +88,9 @@ export const App = () => {
     "/admin/auth/register",
     "/user/auth/reset-password",
   ].some((route) => location.pathname.startsWith(route));
-
+  useEffect(() => {
+    dispatch(checkAdminSession());
+  }, []);
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {

@@ -13,7 +13,7 @@ export const fetchAdminRegister = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
 );
 
 export const fetchAdminLogin = createAsyncThunk(
@@ -22,18 +22,18 @@ export const fetchAdminLogin = createAsyncThunk(
     try {
       const response = await axios.post("/api/admin/auth/login", adminData);
 
-      if (!response.data.token) {
-        throw new Error("❌ No token received from server!");
-      }
+      // if (!response.data.token) {
+      //   throw new Error("❌ No token received from server!");
+      // }
 
-      localStorage.setItem("adminToken", response.data.token); // Використовуємо `token`
-      localStorage.setItem("refreshToken", response.data.refreshToken);
+      // localStorage.setItem("adminToken", response.data.token); // Використовуємо `token`
+      // localStorage.setItem("refreshToken", response.data.refreshToken);
 
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );
 
 export const sendAdminEmail = createAsyncThunk(
@@ -42,13 +42,27 @@ export const sendAdminEmail = createAsyncThunk(
     try {
       const { data } = await axios.post(
         "/api/admin/auth/send-email",
-        emailData
+        emailData,
       );
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
-  }
+  },
+);
+
+export const checkAdminSession = createAsyncThunk(
+  "adminAuth/checkSession",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/api/admin/auth/check", {
+        withCredentials: true,
+      });
+      return response.data.isAdmin;
+    } catch (error) {
+      return rejectWithValue(false);
+    }
+  },
 );
 
 export const logoutAdmin = createAsyncThunk(
@@ -59,7 +73,7 @@ export const logoutAdmin = createAsyncThunk(
       // localStorage.removeItem("adminToken"); // Очищаємо токен
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || error.message);
     }
-  }
+  },
 );

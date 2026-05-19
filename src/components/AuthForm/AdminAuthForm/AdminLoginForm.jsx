@@ -27,12 +27,29 @@ const AdminLoginForm = () => {
   const errorMessage = useSelector(selectAdminError);
   const loading = useSelector(selectAdminLoading);
 
+  // const handleLogin = async (e) => {
+  //   e.preventDefault();
+  //   dispatch(fetchAdminLogin({ email, password }))
+  //     .unwrap()
+  //     .then(() =>
+  //       setTimeout(() => {
+  //         console.log("ADMIN STATE:", window.store.getState().adminAuth);
+  //       }, 500)((window.location.href = "/admin/dashboard")),
+  //     ) // 🔀 Перекидаємо адміна після успішного входу
+  //     .catch((error) => console.error("Login failed:", error));
+  // };
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(fetchAdminLogin({ email, password }))
-      .unwrap()
-      .then(() => navigate("/admin/dashboard")) // 🔀 Перекидаємо адміна після успішного входу
-      .catch((error) => console.error("Login failed:", error));
+    try {
+      const resultAction = await dispatch(fetchAdminLogin({ email, password }));
+
+      if (fetchAdminLogin.fulfilled.match(resultAction)) {
+        // ✅ Redux уже має admin = true
+        navigate("/admin/dashboard");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (

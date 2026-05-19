@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  checkAdminSession,
   fetchAdminLogin,
   fetchAdminRegister,
   logoutAdmin,
@@ -39,8 +40,9 @@ const adminAuthReducer = createSlice({
       })
       .addCase(fetchAdminLogin.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.token;
-        state.admin = action.payload.user;
+        state.admin = true;
+        // state.token = action.payload.token;
+        // state.admin = action.payload.user;
       })
       .addCase(fetchAdminLogin.rejected, (state, action) => {
         state.loading = false;
@@ -57,9 +59,12 @@ const adminAuthReducer = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(checkAdminSession.fulfilled, (state, action) => {
+        state.admin = action.payload === true;
+      })
       .addCase(logoutAdmin.fulfilled, (state) => {
         state.admin = null;
-        state.token = null;
+        // state.token = null;
         state.loading = false;
       })
       .addCase(logoutAdmin.rejected, (state, action) => {

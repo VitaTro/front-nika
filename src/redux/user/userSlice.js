@@ -11,7 +11,6 @@ import {
   fetchWallet,
   getUserProducts,
   getUserProductsById,
-  restoreSession,
   sendAdminMessage,
   updateUserAddress,
   updateUserInfo,
@@ -26,7 +25,7 @@ const userReducer = createSlice({
   initialState: {
     isLoggedIn: false,
     user: null,
-    token: localStorage.getItem("token") || null,
+    // token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
     recentViews: [],
@@ -51,8 +50,8 @@ const userReducer = createSlice({
       state.orders = [];
       state.purchaseHistory = [];
       // ❌ Не видаляємо кошик і вішліст
-      localStorage.removeItem("token");
-      localStorage.removeItem("refreshToken");
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("refreshToken");
     },
   },
   extraReducers: (builder) => {
@@ -129,24 +128,23 @@ const userReducer = createSlice({
         state.loading = false;
         state.error = action.payload || "Failed to fetch products";
       })
-      .addCase(restoreSession.fulfilled, (state, { payload }) => {
-        console.log("✅ Restoring session:", payload);
-        state.token = payload.token;
-        state.user = payload.user;
-        state.isLoggedIn = true;
-        state.loading = false;
-      })
-      .addCase(restoreSession.pending, (state) => {
-        console.log("🔄 Restoring session...");
-        state.loading = true;
-      })
-      .addCase(restoreSession.rejected, (state, action) => {
-        console.error("❌ Session restore failed:", action.payload);
-        state.loading = false;
-        state.token = null;
-        state.user = null;
-        state.isLoggedIn = false;
-      })
+      // .addCase(restoreSession.fulfilled, (state, { payload }) => {
+      //   console.log("✅ Restoring session:", payload);
+      //   state.token = payload.token;
+      //   state.user = payload.user;
+      //   state.isLoggedIn = true;
+      //   state.loading = false;
+      // })
+
+      //   state.loading = true;
+      // })
+      // .addCase(restoreSession.rejected, (state, action) => {
+      //   console.error("❌ Session restore failed:", action.payload);
+      //   state.loading = false;
+      //   state.token = null;
+      //   state.user = null;
+      //   state.isLoggedIn = false;
+      // })
       .addCase(getShoppingCart.fulfilled, (state, action) => {
         state.shoppingCart = action.payload;
       })

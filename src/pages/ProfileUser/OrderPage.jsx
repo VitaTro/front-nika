@@ -3,17 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import {
-  checkPaymentStatus,
-  initiatePayment,
-} from "../../redux/payment/operationPayment";
-import {
   selectShoppingCartItems,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
 import { updateUserInfo } from "../../redux/user/userOperations";
 import { createOrder } from "../../redux/user/userOrders/operationsUserOrders";
 import { calculateDiscount } from "../../utils/calculateDiscount";
-import PaymentMethodNotice from "./Payment/PaymentBanner";
 import {
   ButtonWrapper,
   FormContainer,
@@ -34,12 +29,10 @@ const UserOrderPage = () => {
       firstName: savedData.firstName || "",
       lastName: savedData.lastName || "",
       phone: savedData.phone || "",
-      paymentMethod: savedData.paymentMethod || "bank_transfer",
+      paymentMethod: "tpay",
       pickupPointId: savedData.pickupPointId || "",
     };
   });
-
-  const [bankDetails, setBankDetails] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,13 +59,13 @@ const UserOrderPage = () => {
 
     const { final } = calculateDiscount(totalAmount);
     const finalPrice = Number(final);
-    console.log("FINAL PRICE:", finalPrice);
 
     const orderResponse = await dispatch(
       createOrder({
         formData: {
           ...formData,
           deliveryType: "pickup",
+          paymentMethod: "tpay",
         },
         cleanedProducts,
         totalPrice: totalAmount,
@@ -87,26 +80,25 @@ const UserOrderPage = () => {
       return;
     }
 
-    const result = await dispatch(
-      initiatePayment({
+    // 🔵 Tpay
+    const res = await fetch("/api/payments/tpay/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         orderId: createdOrder._id,
-        paymentMethod: formData.paymentMethod,
+        amount: finalPrice,
+        email: formData.email,
       }),
-    );
+    });
 
-    // 🔵 Elavon online payment → redirect
-    if (result.payload?.payLink) {
-      window.location.href = result.payload.payLink;
+    const data = await res.json();
+
+    if (data.transactionUrl) {
+      window.location.href = data.transactionUrl;
       return;
     }
 
-    // 🟡 Bank transfer → show bank details
-    if (result.payload?.bankDetails) {
-      setBankDetails(result.payload.bankDetails);
-    }
-
-    dispatch(checkPaymentStatus(createdOrder._id));
-    alert("✅ Zamówienie zostało złożone!");
+    alert("❌ Błąd przy tworzeniu transakcji Tpay.");
   };
 
   return (
@@ -118,8 +110,6 @@ const UserOrderPage = () => {
     >
       <HeaderOrder>{t("order_placement")}</HeaderOrder>
 
-      <PaymentMethodNotice method={formData.paymentMethod} />
-
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />
 
@@ -127,31 +117,6 @@ const UserOrderPage = () => {
           <SubmitButton type="submit">{t("place_order")}</SubmitButton>
         </ButtonWrapper>
       </form>
-
-      {/* 🧾 Bank transfer details */}
-      {bankDetails && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>{t("bank_transfer_details")}</h3>
-          <p>
-            <b>Bank:</b> {bankDetails.bankName}
-          </p>
-          <p>
-            <b>IBAN:</b> {bankDetails.iban}
-          </p>
-          <p>
-            <b>SWIFT:</b> {bankDetails.swift}
-          </p>
-          <p>
-            <b>Odbiorca:</b> {bankDetails.recipientName}
-          </p>
-          <p>
-            <b>Tytuł:</b> {bankDetails.reference}
-          </p>
-          <p>
-            <b>Kwota:</b> {bankDetails.amount} PLN
-          </p>
-        </div>
-      )}
     </FormContainer>
   );
 };

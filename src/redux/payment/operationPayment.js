@@ -1,25 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axiosConfig";
 
-const PAYMENT_METHODS = {
-  ELAVON: "elavon_link",
-  TRANSFER: "bank_transfer",
-};
-
 // ✅ 1️⃣ Ініціація платежу
 export const initiatePayment = createAsyncThunk(
   "payment/initiate",
-  async ({ orderId, paymentMethod }, { rejectWithValue }) => {
-    // 🔹 Перевіряємо, чи метод оплати коректний
-    if (!Object.values(PAYMENT_METHODS).includes(paymentMethod)) {
-      return rejectWithValue("Nieprawidłowy metod opłaty");
-    }
+  async ({ orderId}, { rejectWithValue }) => {
+   
     try {
       const { data } = await axios.post(`/api/user/payments/initiate`, {
         orderId,
-        paymentMethod,
       });
-      return data;
+      return {
+        paymentUrl: data.paymentUrl,
+        paymentId: data.paymentId,
+      }
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Błąd inicjacji płatności",
