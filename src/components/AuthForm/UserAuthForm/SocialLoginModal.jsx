@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useFacebookLogin } from "../../../hooks/useFacebookLogin";
+import { useGoogleLogin } from "../../../hooks/useGoogleLogin";
 import { loginSuccess } from "../../../redux/auth/userAuth/userAuthSlice";
 import EmailIcon from "../../icons/email.png";
 import FacebookIcon from "../../icons/facebook.svg";
@@ -17,145 +19,100 @@ const SocialLoginModal = ({ open, onClose, redirectAfterLogin }) => {
 
   const redirectTo = location.state?.from || redirectAfterLogin || "/user/main";
   // ---------------- FACEBOOK SDK ----------------
-  useEffect(() => {
-    // fbAsyncInit MUST be defined before loading SDK
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: import.meta.env.VITE_FACEBOOK_APP_ID,
-        cookie: true,
-        xfbml: true,
-        version: "v24.0",
-      });
-    };
+  const facebookAppId = import.meta.env.VITE_FACEBOOK_APP_ID;
 
-    // Load SDK only once
-    if (!document.getElementById("facebook-jssdk")) {
-      const script = document.createElement("script");
-      script.id = "facebook-jssdk";
-      script.src = "https://connect.facebook.net/en_US/sdk.js";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
+  const handleFacebookCallback = async (accessToken) => {
+    try {
+      const res = await fetch(
+        "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/facebook",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ accessToken }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (data.message && !data.accessToken) {
+        setErrorMessage(data.message);
+        return;
+      }
+
+      dispatch(
+        loginSuccess({
+          user: data.user,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        }),
+      );
+
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      onClose();
+      navigate(redirectTo);
+    } catch (err) {
+      console.error("Facebook login failed:", err);
     }
-  }, []);
+  };
+
+  const { loginWithFacebook } = useFacebookLogin(
+    facebookAppId,
+    handleFacebookCallback,
+  );
 
   const handleFacebookLogin = () => {
-    if (!window.FB) {
-      setErrorMessage("Facebook SDK is not loaded yet");
-      return;
-    }
-
-    FB.login(
-      function (response) {
-        if (response.authResponse) {
-          const accessToken = response.authResponse.accessToken;
-
-          fetch(
-            "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/facebook",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ accessToken }),
-            },
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.message && !data.accessToken) {
-                setErrorMessage(data.message);
-                return;
-              }
-
-              dispatch(
-                loginSuccess({
-                  user: data.user,
-                  accessToken: data.accessToken,
-                  refreshToken: data.refreshToken,
-                }),
-              );
-              localStorage.setItem("accessToken", data.accessToken);
-              localStorage.setItem("refreshToken", data.refreshToken);
-              localStorage.setItem("user", JSON.stringify(data.user));
-              onClose();
-              navigate(redirectTo);
-            });
-        }
-      },
-      { scope: "email" },
-    );
+    loginWithFacebook();
   };
-
   // ---------------- GOOGLE SDK ----------------
-  useEffect(() => {
-    if (!document.getElementById("google-client")) {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      script.id = "google-client";
-      document.body.appendChild(script);
+  const googleClientId =
+    "738133641682-a1gt7dqs0p82pkt5htgeqb9i5e6i1fds.apps.googleusercontent.com";
+
+  const handleGoogleCallback = async (response) => {
+    try {
+      const res = await fetch(
+        "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/google",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ credential: response.credential }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (data.message && !data.accessToken) {
+        setErrorMessage(data.message);
+        return;
+      }
+
+      dispatch(
+        loginSuccess({
+          user: data.user,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+        }),
+      );
+
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      onClose();
+      navigate(redirectTo);
+    } catch (err) {
+      console.error("Google login failed:", err);
     }
-  }, []);
-
-  const waitForGoogleSDK = () =>
-    new Promise((resolve) => {
-      const check = () => {
-        if (
-          window.google &&
-          window.google.accounts &&
-          window.google.accounts.id
-        ) {
-          resolve();
-        } else {
-          setTimeout(check, 50);
-        }
-      };
-      check();
-    });
-
-  const handleGoogleLogin = async () => {
-    await waitForGoogleSDK();
-
-    window.google.accounts.id.initialize({
-      client_id:
-        "738133641682-a1gt7dqs0p82pkt5htgeqb9i5e6i1fds.apps.googleusercontent.com",
-      callback: async (response) => {
-        try {
-          const res = await fetch(
-            "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/google",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ credential: response.credential }),
-            },
-          );
-
-          const data = await res.json();
-
-          if (data.message && !data.accessToken) {
-            setErrorMessage(data.message);
-            return;
-          }
-
-          dispatch(
-            loginSuccess({
-              user: data.user,
-              accessToken: data.accessToken,
-              refreshToken: data.refreshToken,
-            }),
-          );
-          localStorage.setItem("accessToken", data.accessToken);
-          localStorage.setItem("refreshToken", data.refreshToken);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          onClose();
-          navigate(redirectTo);
-        } catch (err) {
-          console.error("Google login failed:", err);
-        }
-      },
-    });
-
-    window.google.accounts.id.prompt();
   };
+
+  const { promptGoogle } = useGoogleLogin(googleClientId, handleGoogleCallback);
+
+  const handleGoogleLogin = () => {
+    promptGoogle();
+  };
+
   if (!open) return null;
   return (
     <Backdrop onClick={onClose}>
