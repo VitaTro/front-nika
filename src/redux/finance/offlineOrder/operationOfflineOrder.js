@@ -28,17 +28,17 @@ export const createOfflineOrder = (orderData) => async (dispatch) => {
   try {
     const response = await axios.post(
       "/api/admin/finance/offline/orders",
-      orderData
+      orderData,
     );
 
     dispatch(createOfflineOrderSuccess(response.data.order));
   } catch (error) {
     console.error(
       "❌ createOfflineOrder помилка:",
-      error.response?.data || error.message
+      error.response?.data || error.message,
     );
     dispatch(
-      createOfflineOrderFailure(error.response?.data?.error || error.message)
+      createOfflineOrderFailure(error.response?.data?.error || error.message),
     );
   }
 };
@@ -50,7 +50,7 @@ export const updateOfflineOrder =
     try {
       const response = await axios.patch(
         `/api/admin/finance/offline/orders/${orderId}`,
-        updatedData
+        updatedData,
       );
       dispatch(updateOfflineOrderSuccess(response.data.order));
     } catch (error) {

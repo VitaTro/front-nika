@@ -25,34 +25,28 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post("/api/user/auth/login", credentials, {
         withCredentials: true,
       });
-      // localStorage.setItem("token", response.data.accessToken);
-      // localStorage.setItem("refreshToken", response.data.refreshToken);
 
+      // 🔥 Якщо бекенд повертає user — використовуємо його
+      if (response.data.user) {
+        return {
+          user: response.data.user,
+          isVerified: response.data.isVerified,
+        };
+      }
+
+      // 🔥 Якщо бекенд НЕ повернув user — тоді робимо check
       const { data: userData } = await axios.get("/api/user/profile/info", {
-        // headers: { Authorization: `Bearer ${response.data.accessToken}` },
         withCredentials: true,
       });
+
       return {
-        // ...response.data,
-        isVerified: response.data.isVerified,
         user: userData,
+        isVerified: response.data.isVerified,
       };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-      error.response?.data?.message || "Bląd przy wejściu";
-    }
-  },
-);
-
-export const logoutUser = createAsyncThunk(
-  "auth/logoutUser",
-  async (_, thunkAPI) => {
-    try {
-      await axios.post("/api/user/auth/logout", {}, { withCredentials: true });
-      // localStorage.removeItem("accessToken");
-      return null;
-    } catch (error) {
-      return thunkAPI.rejectWithValue("Bląd przy wyjściu");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Bląd przy wejściu",
+      );
     }
   },
 );
@@ -110,7 +104,18 @@ export const updatePassword = createAsyncThunk(
     }
   },
 );
-
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, thunkAPI) => {
+    try {
+      await axios.post("/api/user/auth/logout", {}, { withCredentials: true });
+      // localStorage.removeItem("accessToken");
+      return null;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Bląd przy wyjściu");
+    }
+  },
+);
 export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
   async (token, thunkAPI) => {

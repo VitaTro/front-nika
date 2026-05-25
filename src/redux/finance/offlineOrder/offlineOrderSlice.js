@@ -22,20 +22,21 @@ const offlineOrdersReducer = (state = initialState, action) => {
     case CREATE_OFFLINE_ORDER_REQUEST:
     case UPDATE_OFFLINE_ORDER_REQUEST:
       return { ...state, loading: true, error: null };
-
     case FETCH_OFFLINE_ORDERS_SUCCESS:
       return { ...state, offlineOrders: action.payload, loading: false };
+
     case CREATE_OFFLINE_ORDER_SUCCESS:
       return {
         ...state,
         offlineOrders: [...state.offlineOrders, action.payload],
         loading: false,
       };
+
     case UPDATE_OFFLINE_ORDER_SUCCESS:
       return {
         ...state,
         offlineOrders: state.offlineOrders.map((order) =>
-          order._id === action.payload._id ? action.payload : order
+          order._id === action.payload._id ? action.payload : order,
         ),
         loading: false,
       };

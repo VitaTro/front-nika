@@ -16,7 +16,7 @@ const OrderForm = ({
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("terminal");
   const [saleDate, setSaleDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [buyerType, setBuyerType] = useState("anonim");
   const [buyerInfo, setBuyerInfo] = useState({
@@ -40,7 +40,7 @@ const OrderForm = ({
           createOfflineSale({
             orderId: lastOrder._id,
             saleDate,
-          })
+          }),
         );
       }
       alert("✅ Замовлення створено!");
@@ -54,7 +54,7 @@ const OrderForm = ({
         `/api/admin/finance/offline/orders/${orderId}`,
         {
           status: "completed",
-        }
+        },
       );
 
       console.log("✅ Статус замовлення оновлено!", response.data);
@@ -81,7 +81,7 @@ const OrderForm = ({
           saleDate,
           lastRetailPrice,
           index,
-        })
+        }),
       ),
       paymentMethod: selectedPaymentMethod,
       status: "pending",
@@ -101,7 +101,7 @@ const OrderForm = ({
       // 🛒 Створення замовлення
       const response = await axios.post(
         "/api/admin/finance/offline/orders",
-        orderData
+        orderData,
       );
       const createdOrder = response.data.order;
 

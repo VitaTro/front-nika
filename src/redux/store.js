@@ -33,8 +33,8 @@ import onlineOrdersReducer from "./finance/onlineOrder/onlineOrderSlice";
 import onlineSalesReducer from "./finance/onlineSale/onlineSaleSlice";
 import overviewReducer from "./finance/overview/overviewSlice";
 import platformReducer from "./finance/platform/platformSlice";
+import offlineReservationsReducer from "./finance/reservation/reserveSlice";
 import settingsReducer from "./finance/settings/settingsSlice";
-
 // 🏭 Склад — ТИ самостійно імпортуєш 👇
 import inventoryReducer from "./inventory/inventoryReducer";
 
@@ -72,7 +72,7 @@ const rootReducer = combineReducers({
   overview: overviewReducer,
   settings: settingsReducer,
   platform: platformReducer,
-
+  offlineReservations: offlineReservationsReducer,
   // Склад
   inventory: inventoryReducer,
 });

@@ -1,10 +1,12 @@
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOfflineOrders } from "../../../../../../redux/finance/offlineOrder/selectorsOfflineOrder";
+import { selectActiveReservations } from "../../../../../../redux/finance/reservation/selectorsReserve";
 import { getProducts } from "../../../../../../redux/products/operationProducts";
 import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
 import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
+import ReservationForm from "../Reservation/ReservationForm";
 import Cart from "./Cart";
 import {
   CategoryButton,
@@ -22,29 +24,47 @@ import SaleButton from "./SaleButton";
 const OfflineOrder = () => {
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const activeReservations = useSelector(selectActiveReservations);
   const orderState = useSelector(selectOfflineOrders);
+  const offlineOrders = orderState?.offlineOrders || [];
+  const success = orderState?.success;
+  const [mode, setMode] = useState("sale");
+
+  // 🧭 Режим роботи: продаж або резервація
+  // const [mode, setMode] = useState(
+  //   () => localStorage.getItem("mode") || "sale",
+  // );
+  // useEffect(() => {
+  //   localStorage.setItem("mode", mode);
+  // }, [mode]);
+
+  // 🛒 Стан кошика
   const [cart, setCart] = useState(() => {
     return JSON.parse(localStorage.getItem("cart")) || [];
   });
   const [viewCart, setViewCart] = useState(false);
 
+  // 🔍 Фільтри
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  // 🧩 Видалення з кошика
   const removeFromCart = (productId) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.filter(
-        (item) => item.productId !== productId
+        (item) => item.productId !== productId,
       );
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
   };
 
+  // 🧩 Категорії та підкатегорії
   const categories = [...new Set(products.map((product) => product.category))];
   const subcategoriesByCategory = {};
   products.forEach((product) => {
@@ -54,6 +74,7 @@ const OfflineOrder = () => {
     subcategoriesByCategory[product.category].add(product.subcategory);
   });
 
+  // 🔎 Фільтрація товарів
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -71,22 +92,21 @@ const OfflineOrder = () => {
     );
   });
 
+  // ➕ Додавання до кошика
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingProduct = prevCart.find(
-        (item) => item.productId === product._id
+        (item) => item.productId === product._id,
       );
-
       if (existingProduct) {
         const updatedCart = prevCart.map((item) =>
           item.productId === product._id
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
         localStorage.setItem("cart", JSON.stringify(updatedCart));
         return updatedCart;
       }
-
       const updatedCart = [
         ...prevCart,
         {
@@ -106,28 +126,58 @@ const OfflineOrder = () => {
   const updateQuantity = (productId, newQuantity) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.map((item) =>
-        item.productId === productId ? { ...item, quantity: newQuantity } : item
+        item.productId === productId
+          ? { ...item, quantity: newQuantity }
+          : item,
       );
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
     });
   };
+
+  // 💰 Підрахунок суми
   const totalAmount = cart.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
-    0
+    0,
   );
   const { discount, discountPercent, final } = calculateDiscount(totalAmount);
 
+  // 🔐 Активні резерви
+  const reservedOrders = offlineOrders.filter(
+    (order) => order.status === "reserved",
+  );
+
   return (
     <GeneralOfflineOrder>
-      {/* 🔍 Лівий блок */}
-      <LeftColumn>
+      {/* 🔹 Ліва колонка */}
+      <LeftColumn
+      // style={{ backgroundColor: mode === "reserve" ? "#fff7e6" : "#e6f7ff" }}
+      >
+        {/* <Typography variant="h6">⚙️ Режим роботи</Typography>
+        <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+          <Button
+            variant={mode === "sale" ? "contained" : "outlined"}
+            color="primary"
+            onClick={() => setMode("sale")}
+          >
+            💸 Продаж
+          </Button>
+          <Button
+            variant={mode === "reserve" ? "contained" : "outlined"}
+            color="warning"
+            onClick={() => setMode("reserve")}
+          >
+            🔐 Резервація
+          </Button>
+        </Box> */}
+
         <Typography variant="h6">🔎 Пошук</Typography>
         <SearchBox
           placeholder="Введіть назву товару..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+
         <Typography variant="h6">📂 Категорії</Typography>
         {categories.map((category) => (
           <CategoryButton
@@ -141,6 +191,7 @@ const OfflineOrder = () => {
             {category}
           </CategoryButton>
         ))}
+
         {selectedCategory && (
           <>
             <Typography variant="h6">📑 Субкатегорії</Typography>
@@ -153,11 +204,12 @@ const OfflineOrder = () => {
                 >
                   {subcategory}
                 </CategoryButton>
-              )
+              ),
             )}
           </>
         )}
-        <Typography variant="h6">🛒 Кошик ({cart.length} товарів)</Typography>{" "}
+
+        <Typography variant="h6">🛒 Кошик ({cart.length} товарів)</Typography>
         <Typography>💰 Сума до знижки: {totalAmount.toFixed(2)} zł</Typography>
         {discount > 0 && (
           <Typography sx={{ color: "red" }}>
@@ -166,12 +218,13 @@ const OfflineOrder = () => {
         )}
         <Typography sx={{ fontWeight: "bold", mt: 1 }}>
           ✅ До сплати: {final.toFixed(2)} zł
-        </Typography>{" "}
+        </Typography>
         <Button variant="contained" onClick={() => setViewCart(!viewCart)}>
           {viewCart ? "⬅️ Назад до товарів" : "➡️ Переглянути кошик"}
         </Button>
       </LeftColumn>
 
+      {/* 🔹 Права колонка */}
       <RightColumn>
         {viewCart ? (
           <>
@@ -180,17 +233,46 @@ const OfflineOrder = () => {
               updateQuantity={updateQuantity}
               removeFromCart={removeFromCart}
             />
-            <OrderForm
-              cart={cart}
-              setCart={setCart}
-              finalPrice={final}
-              discount={discount}
-              discountPercent={discountPercent}
-            />
-            {orderState.success && orderState.offlineOrders.length > 0 && (
-              <SaleButton
-                orderId={orderState.offlineOrders.slice(-1)[0]._id}
-                saleDate={new Date()}
+            <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+              <Button
+                variant={mode === "sale" ? "contained" : "outlined"}
+                onClick={() => setMode("sale")}
+              >
+                💸 Продаж
+              </Button>
+
+              <Button
+                variant={mode === "reserve" ? "contained" : "outlined"}
+                onClick={() => setMode("reserve")}
+              >
+                🔐 Резервація
+              </Button>
+            </Box>
+
+            {mode === "sale" ? (
+              <>
+                <OrderForm
+                  cart={cart}
+                  setCart={setCart}
+                  finalPrice={final}
+                  discount={discount}
+                  discountPercent={discountPercent}
+                />
+
+                {orderState.success && orderState.offlineOrders.length > 0 && (
+                  <SaleButton
+                    orderId={orderState.offlineOrders.slice(-1)[0]._id}
+                    saleDate={new Date()}
+                    finalPrice={final}
+                    discount={discount}
+                    discountPercent={discountPercent}
+                  />
+                )}
+              </>
+            ) : (
+              <ReservationForm
+                cart={cart}
+                setCart={setCart}
                 finalPrice={final}
                 discount={discount}
                 discountPercent={discountPercent}
@@ -199,17 +281,59 @@ const OfflineOrder = () => {
           </>
         ) : (
           <>
+            {mode === "reserve" && (
+              <>
+                <Typography variant="h6" sx={{ mb: 1 }}>
+                  🔐 Активні резерви
+                </Typography>
+
+                {activeReservations.length === 0 ? (
+                  <Typography sx={{ mb: 2 }}>
+                    Немає активних резервів
+                  </Typography>
+                ) : (
+                  activeReservations.map((order) => (
+                    <Box
+                      key={order._id}
+                      sx={{
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        p: 2,
+                        mb: 2,
+                        background: "#fff7e6",
+                      }}
+                    >
+                      <Typography sx={{ fontWeight: "bold" }}>
+                        Резерв № {order._id.slice(-6)}
+                      </Typography>
+
+                      {order.reservationExpiresAt && (
+                        <Typography>
+                          До:{" "}
+                          {new Date(
+                            order.reservationExpiresAt,
+                          ).toLocaleDateString("uk-UA")}
+                        </Typography>
+                      )}
+                    </Box>
+                  ))
+                )}
+              </>
+            )}
+
             <Typography variant="h6">📦 Вибір товарів</Typography>
+
             <ProductGrid>
               {filteredProducts.map((product) => {
                 const isInCart = cart.some(
-                  (item) => item.productId === product._id
+                  (item) => item.productId === product._id,
                 );
 
                 return (
                   <ProductCard key={product._id}>
                     <ProductImage src={product.photoUrl} alt={product.name} />
                     <ProductTitle>{product.name}</ProductTitle>
+
                     <Typography sx={{ fontSize: "18px" }}>
                       Ціна: {product.lastRetailPrice} zł
                     </Typography>

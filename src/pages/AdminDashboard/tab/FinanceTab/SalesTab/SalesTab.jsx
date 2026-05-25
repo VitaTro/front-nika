@@ -1,6 +1,7 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import ActiveReservationsPanel from "../OrderTab/Reservation/ActiveReservationsPanel.jsx";
 import OfflineSale from "./OfflineSale/OfflineSale.jsx";
 import OnlineSale from "./OnlineSale/OnlineSale.jsx";
 import ProfileSale from "./ProfileSale/ProfileSale.jsx";
@@ -11,6 +12,7 @@ const SaleTab = () => {
 
   const saleTabs = [
     { label: "Офлайн", value: "offline", color: "primary" },
+    { label: "Резерви", value: "reservations", color: "warning" },
     { label: "Онлайн", value: "online", color: "secondary" },
     { label: "Платформа", value: "profile", color: "secondary" },
   ];
@@ -38,6 +40,7 @@ const SaleTab = () => {
       </Box>
 
       {viewMode === "offline" && <OfflineSale />}
+      {viewMode === "reservations" && <ActiveReservationsPanel />}
       {viewMode === "online" && <OnlineSale />}
       {viewMode === "profile" && <ProfileSale />}
       <Outlet />
