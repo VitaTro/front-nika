@@ -95,5 +95,5 @@ const userAuthReducer = createSlice({
       });
   },
 });
-export const { loginSuccess } = userAuthReducer.actions;
+
 export default userAuthReducer.reducer;
