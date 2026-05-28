@@ -61,8 +61,10 @@ import ProfilePage from "../pages/ProfileUser/ProfilePage";
 import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { checkAdminSession } from "../redux/auth/adminAuth/operationsAdminAuth";
-import { checkUserSession } from "../redux/auth/userAuth/operationAuth";
-import { loginSuccess } from "../redux/auth/userAuth/userAuthSlice";
+import {
+  checkUserSession,
+  loginSuccess,
+} from "../redux/auth/userAuth/operationAuth";
 import CookiesPolicy from "./Policy/CookiesPolicy";
 import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
