@@ -197,12 +197,12 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useFacebookLogin } from "../../../hooks/useFacebookLogin";
-import { loginSuccess } from "../../../redux/auth/userAuth/userAuthSlice";
 
 import EmailIcon from "../../icons/email.png";
 import FacebookIcon from "../../icons/facebook.svg";
 import GoogleIcon from "../../icons/google.svg";
 
+import { checkUserSession } from "../../../redux/auth/userAuth/operationAuth";
 import { Backdrop, Modal, SocialButton } from "../AuthFormRegister.styled";
 
 const SocialLoginModal = ({
@@ -241,7 +241,7 @@ const SocialLoginModal = ({
         return;
       }
 
-      dispatch(loginSuccess({ user: data.user }));
+      dispatch(checkUserSession());
 
       setTimeout(() => {
         onClose();
@@ -281,7 +281,7 @@ const SocialLoginModal = ({
         return;
       }
 
-      dispatch(loginSuccess({ user: data.user }));
+      dispatch(checkUserSession());
 
       setTimeout(() => {
         onClose();
