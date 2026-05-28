@@ -197,7 +197,6 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useFacebookLogin } from "../../../hooks/useFacebookLogin";
-import { useGoogleLogin } from "../../../hooks/useGoogleLogin";
 import { loginSuccess } from "../../../redux/auth/userAuth/userAuthSlice";
 
 import EmailIcon from "../../icons/email.png";
@@ -206,7 +205,12 @@ import GoogleIcon from "../../icons/google.svg";
 
 import { Backdrop, Modal, SocialButton } from "../AuthFormRegister.styled";
 
-const SocialLoginModal = ({ open, onClose, redirectAfterLogin }) => {
+const SocialLoginModal = ({
+  open,
+  onClose,
+  redirectAfterLogin,
+  promptGoogle,
+}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -289,7 +293,7 @@ const SocialLoginModal = ({ open, onClose, redirectAfterLogin }) => {
     }
   };
 
-  const { promptGoogle } = useGoogleLogin(googleClientId, handleGoogleCallback);
+  // const { promptGoogle } = useGoogleLogin(googleClientId, handleGoogleCallback);
 
   if (!open) return null;
 

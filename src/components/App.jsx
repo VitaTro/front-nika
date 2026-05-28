@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "styled-components";
+import { useGoogleLogin } from "../hooks/useGoogleLogin";
 import { GlobalStyles } from "../redux/GlobalStyles";
 import { selectIsAdminAuthenticated } from "../redux/auth/adminAuth/selectorsAdminAuth";
 import {
@@ -10,10 +11,10 @@ import {
   selectIsLoggedIn,
 } from "../redux/auth/userAuth/selectorsAuth";
 import { Wrapper } from "./App.styled";
-import Header from "./Header/Header";
-import UserHeader from "./Header/UserHeader";
 import "./i18n/i18n";
 // 📌 Компоненти
+import Header from "../components/Header/Header";
+import UserHeader from "../components/Header/UserHeader";
 import AboutPage from "../pages/About/AboutPage";
 import MainPage from "../pages/MainPage/MainPage";
 import NotFoundPage from "../pages/NotFountPage/NotFoundPage";
@@ -22,7 +23,6 @@ import Footer from "./Footer/Footer";
 import Products from "./Products/Products";
 import ScrollToTop from "./ScrollTop";
 import SearchResults from "./SearchBar/SearchResults";
-
 // 📌 Авторизація
 import AdminLoginForm from "./AuthForm/AdminAuthForm/AdminLoginForm";
 import AdminRegisterForm from "./AuthForm/AdminAuthForm/AdminRegisterForm";
@@ -62,7 +62,6 @@ import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { checkAdminSession } from "../redux/auth/adminAuth/operationsAdminAuth";
 import { checkUserSession } from "../redux/auth/userAuth/operationAuth";
-import MobileMenuHeader from "./Header/MobileMenuHeader";
 import CookiesPolicy from "./Policy/CookiesPolicy";
 import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
@@ -77,9 +76,12 @@ export const App = () => {
   const isAdminAuthenticated = useSelector(selectIsAdminAuthenticated);
   const user = useSelector(selectAuthUser) || {};
   const isUserAuthenticated = useSelector(selectIsLoggedIn);
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const theme = { isDarkMode };
+  const GOOGLE_CLIENT_ID =
+    "738133641682-a1gt7dqs0p82pkt5htgeqb9i5e6i1fds.apps.googleusercontent.com";
 
   const isAuthPage = [
     "/user/auth/login",
@@ -94,6 +96,33 @@ export const App = () => {
   useEffect(() => {
     dispatch(checkUserSession());
   }, []);
+  const handleGoogleCallback = async (response) => {
+    try {
+      const res = await fetch(
+        "https://nika-gold-back-fe0ff35469d7.herokuapp.com/api/user/auth/google",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ credential: response.credential }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!data.user) return;
+
+      dispatch(loginSuccess({ user: data.user }));
+      navigate("/user/main");
+    } catch (err) {
+      console.error("Google login failed:", err);
+    }
+  };
+
+  const { promptGoogle } = useGoogleLogin(
+    GOOGLE_CLIENT_ID,
+    handleGoogleCallback,
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -106,9 +135,9 @@ export const App = () => {
           {/* {!isAdminAuthenticated &&
             !isAuthPage &&
             (isUserAuthenticated ? <UserHeader /> : <Header />)} */}
-          {!isAdminAuthenticated &&
+          {/* {!isAdminAuthenticated &&
             !isAuthPage &&
-            (isUserAuthenticated && user?.name ? (
+            (isUserAuthenticated && user?.username ? (
               isMobile ? (
                 <MobileMenuHeader user={user} />
               ) : (
@@ -116,6 +145,12 @@ export const App = () => {
               )
             ) : (
               <Header />
+            ))} */}
+          {!isAdminPage &&
+            (isUserAuthenticated ? (
+              <UserHeader />
+            ) : (
+              <Header promptGoogle={promptGoogle} />
             ))}
 
           <main>
@@ -252,14 +287,10 @@ export const App = () => {
                   </Route>
                 </Route>
               ) : null}
-
-              {/* 📌 Сторінка 404 */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
         </ErrorBoundary>
-
-        {/* ✅ Футер не рендериться на сторінках логіну/реєстрації */}
         {!isAdminAuthenticated && !isAuthPage && <Footer />}
       </Wrapper>
     </ThemeProvider>

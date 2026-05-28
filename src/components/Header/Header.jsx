@@ -270,6 +270,7 @@ const Header = () => {
         changeLanguage={changeLanguage}
         showLoginModal={showLoginModal}
         setShowLoginModal={setShowLoginModal}
+        promptGoogle={promptGoogle}
         t={t}
         // isUserAuthenticated={isUserAuthenticated}
         user={user}
@@ -281,6 +282,7 @@ const Header = () => {
             onClose={() => setShowLoginModal(false)}
             open={showLoginModal}
             redirectAfterLogin={redirectAfterLogin}
+            promptGoogle={promptGoogle}
           />
         )}
       </>

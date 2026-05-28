@@ -32,6 +32,7 @@ const MobileMenuHeader = ({
   t,
   handleLogout,
   setShowLoginModal,
+  promptGoogle,
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();

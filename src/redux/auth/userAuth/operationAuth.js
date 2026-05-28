@@ -18,6 +18,38 @@ export const registerUser = createAsyncThunk(
   },
 );
 
+// export const loginUser = createAsyncThunk(
+//   "auth/loginUser",
+//   async (credentials, thunkAPI) => {
+//     try {
+//       const response = await axios.post("/api/user/auth/login", credentials, {
+//         withCredentials: true,
+//       });
+
+//       // 🔥 Якщо бекенд повертає user — використовуємо його
+//       if (response.data.user) {
+//         return {
+//           user: response.data.user,
+//           isVerified: response.data.isVerified,
+//         };
+//       }
+
+//       // 🔥 Якщо бекенд НЕ повернув user — тоді робимо check
+//       const { data: userData } = await axios.get("/api/user/profile/info", {
+//         withCredentials: true,
+//       });
+
+//       return {
+//         user: userData,
+//         isVerified: response.data.isVerified,
+//       };
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(
+//         error.response?.data?.message || "Bląd przy wejściu",
+//       );
+//     }
+//   },
+// );
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials, thunkAPI) => {
@@ -26,21 +58,8 @@ export const loginUser = createAsyncThunk(
         withCredentials: true,
       });
 
-      // 🔥 Якщо бекенд повертає user — використовуємо його
-      if (response.data.user) {
-        return {
-          user: response.data.user,
-          isVerified: response.data.isVerified,
-        };
-      }
-
-      // 🔥 Якщо бекенд НЕ повернув user — тоді робимо check
-      const { data: userData } = await axios.get("/api/user/profile/info", {
-        withCredentials: true,
-      });
-
       return {
-        user: userData,
+        user: response.data.user,
         isVerified: response.data.isVerified,
       };
     } catch (error) {
@@ -139,6 +158,27 @@ export const verifyEmail = createAsyncThunk(
   },
 );
 
+// export const checkUserSession = createAsyncThunk(
+//   "auth/checkSession",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const { data } = await axios.get("/api/user/auth/check", {
+//         withCredentials: true,
+//       });
+
+//       if (!data.isUser) {
+//         return { isUser: false, user: null };
+//       }
+
+//       return {
+//         isUser: true,
+//         user: { id: data.userId },
+//       };
+//     } catch (error) {
+//       return rejectWithValue("Session check failed");
+//     }
+//   },
+// );
 export const checkUserSession = createAsyncThunk(
   "auth/checkSession",
   async (_, { rejectWithValue }) => {
@@ -147,13 +187,13 @@ export const checkUserSession = createAsyncThunk(
         withCredentials: true,
       });
 
-      if (!data.isUser) {
+      if (!data.isUser || !data.user) {
         return { isUser: false, user: null };
       }
 
       return {
         isUser: true,
-        user: { id: data.userId },
+        user: data.user, // ← ПОВЕРТАЄМО ВСЬОГО ЮЗЕРА
       };
     } catch (error) {
       return rejectWithValue("Session check failed");
