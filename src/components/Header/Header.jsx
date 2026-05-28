@@ -41,7 +41,7 @@ import {
 } from "./Header.styled";
 import MobileMenuHeader from "./MobileMenuHeader";
 
-const Header = () => {
+const Header = ({ promptGoogle }) => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const dispatch = useDispatch();
   const isUserAuthenticated = useSelector(selectIsLoggedIn);
