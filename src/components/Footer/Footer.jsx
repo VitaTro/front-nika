@@ -7,6 +7,7 @@ import {
   FaInstagram,
   FaMapMarkerAlt,
   FaPhone,
+  FaTiktok,
 } from "react-icons/fa";
 import { LuUser } from "react-icons/lu";
 
@@ -51,6 +52,14 @@ const Footer = () => {
               aria-label="Facebook"
             >
               <FaFacebook size={20} />
+            </a>
+            <a
+              href="https://www.tiktok.com/@vita.trojan_nikagold?_r=1&_t=ZN-96kCikAQFFe"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok"
+            >
+              <FaTiktok size={20} />
             </a>
           </SocialLinks>
           <DevNote>
