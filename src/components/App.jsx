@@ -62,6 +62,7 @@ import ShoppingCartPage from "../pages/ShoppingCartPage/ShoppingCartPage";
 import WishlistPage from "../pages/WishlistPage/WishlistPage";
 import { checkAdminSession } from "../redux/auth/adminAuth/operationsAdminAuth";
 import { checkUserSession } from "../redux/auth/userAuth/operationAuth";
+import CookieConsent from "./Cookies/CookieConsent";
 import CookiesPolicy from "./Policy/CookiesPolicy";
 import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
@@ -181,7 +182,10 @@ export const App = () => {
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
               <Route path="/policy-returns" element={<ReturnsPolicy />} />
               <Route path="/data-deletion" element={<DataDeletion />} />
-              <Route path="/guest-cart" element={<ShoppingCartPage />} />
+              <Route
+                path="/guest-cart"
+                element={<ShoppingCartPage promptGoogle={promptGoogle} />}
+              />
               <Route path="/guest-wishlist" element={<WishlistPage />} />
               <Route
                 path="/products"
@@ -293,6 +297,7 @@ export const App = () => {
         </ErrorBoundary>
         {!isAdminAuthenticated && !isAuthPage && <Footer />}
       </Wrapper>
+      <CookieConsent />
     </ThemeProvider>
   );
 };
