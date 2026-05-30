@@ -114,7 +114,7 @@ export const App = () => {
       if (!data.user) return;
 
       dispatch(checkUserSession());
-      navigate("/user/main");
+      // navigate("/user/main");
     } catch (err) {
       console.error("Google login failed:", err);
     }
