@@ -61,7 +61,7 @@ import {
   TotalHeader,
 } from "./ShoppingCartPage.styled";
 
-const ShoppingCartPage = () => {
+const ShoppingCartPage = ({ promptGoogle }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -336,6 +336,7 @@ const ShoppingCartPage = () => {
       <SocialLoginModal
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
+        promptGoogle={promptGoogle}
         redirectAfterLogin="/user/shopping-cart"
       />
     </>
