@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
+import { selectAuthUser } from "../../redux/auth/userAuth/selectorsAuth";
 import {
   selectShoppingCartItems,
   selectTotalAmount,
@@ -22,18 +23,30 @@ const UserOrderPage = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const totalAmount = useSelector(selectTotalAmount);
   const { t } = useTranslation();
-
+  const user = useSelector(selectAuthUser);
   const [formData, setFormData] = useState(() => {
     const savedData = JSON.parse(localStorage.getItem("orderForm")) || {};
     return {
       firstName: savedData.firstName || "",
       lastName: savedData.lastName || "",
       phone: savedData.phone || "",
+      email: savedData.email || "",
       paymentMethod: "tpay",
       pickupPointId: savedData.pickupPointId || "",
     };
   });
-
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        firstName: prev.firstName || user.firstName || "",
+        lastName: prev.lastName || user.lastName || "",
+        phone: prev.phone || user.phone || "",
+        email: prev.email || user.email || "",
+        paymentMethod: "tpay",
+      }));
+    }
+  }, [user]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 

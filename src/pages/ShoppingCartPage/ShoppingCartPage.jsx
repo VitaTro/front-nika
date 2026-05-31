@@ -2,16 +2,18 @@ import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
 import SocialLoginModal from "../../components/AuthForm/UserAuthForm/SocialLoginModal";
+import ApplePay from "../../components/icons/apple_pay.png";
+import Blik from "../../components/icons/blik.png";
+import GooglePay from "../../components/icons/google_pay.png";
+import Mastercard from "../../components/icons/Mastercard.png";
 import shop from "../../components/icons/shop.png";
+import Tpay from "../../components/icons/tpay.png";
+import Visa from "../../components/icons/visa.png";
 import Loader from "../../components/Loader";
 import ZoomableProductImage from "../../components/ZoomableProductImage";
-
 import { selectIsLoggedIn } from "../../redux/auth/userAuth/selectorsAuth";
-
 import { selectGuestCart } from "../../redux/guest/shopping/guestShoppingSelectors";
 import {
   clearGuestCart,
@@ -19,36 +21,34 @@ import {
   removeGuestCartItem,
   updateGuestCartQuantity,
 } from "../../redux/guest/shopping/guestShoppingSlice";
-
 import { getProducts } from "../../redux/products/operationProducts";
 import { selectProducts } from "../../redux/products/selectorsProducts";
-
 import {
   getShoppingCart,
   moveProductToWishlist,
   removeProductFromShoppingCart,
   updateProductToShoppingCart,
 } from "../../redux/shopping/operationShopping";
-
 import {
   selectShoppingCartError,
   selectShoppingCartItems,
   selectShoppingCartLoading,
   selectTotalAmount,
 } from "../../redux/shopping/selectorsShopping";
-
 import { getWishlist } from "../../redux/wishlist/operationWishlist";
-
 import { calculateDiscount } from "../../utils/calculateDiscount";
-
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
-
 import {
   ButtonHeart,
-  ButtonOrder,
+  ButtonOrderNeutral,
   ButtonQuantity,
+  CartLayout,
+  CartLeft,
+  CartRight,
+  CheckoutBox,
   ContainerCart,
   ItemHeader,
+  PaymentLogos,
   ProductName,
   ProductPrice,
   QuantityController,
@@ -64,50 +64,37 @@ import {
 const ShoppingCartPage = ({ promptGoogle }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
   const [hasMerged, setHasMerged] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  // --- селектори ---
   const isUserAuthenticated = useSelector(selectIsLoggedIn);
-
   const allProducts = useSelector(selectProducts) || [];
   const guestCart = useSelector(selectGuestCart) || [];
   const backendCartItems = useSelector(selectShoppingCartItems) || [];
-
   const wishlist = useSelector((state) => state.wishlist.items) || [];
-
   const backendTotalAmount = useSelector(selectTotalAmount) || 0;
   const isLoading = useSelector(selectShoppingCartLoading);
   const error = useSelector(selectShoppingCartError);
-
-  // --- похідні значення ---
   const cartItems = isUserAuthenticated ? backendCartItems : guestCart;
-
   const totalAmount = isUserAuthenticated
     ? backendTotalAmount
     : cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
   const {
     discount,
     discountPercent,
     final: finalPrice,
   } = calculateDiscount(totalAmount);
 
-  // --- завантаження продуктів для stock (гості) ---
   useEffect(() => {
     if (!allProducts.length) {
       dispatch(getProducts());
     }
   }, [dispatch, allProducts.length]);
 
-  // --- мердж гостьового кошика після логіну ---
   useEffect(() => {
     if (!isUserAuthenticated || hasMerged) return;
 
     const merge = async () => {
       try {
-        // якщо гостьовий кошик порожній — просто тягнемо бекендовий
         if (!guestCart.length) {
           await dispatch(getShoppingCart());
           await dispatch(getWishlist());
@@ -115,16 +102,9 @@ const ShoppingCartPage = ({ promptGoogle }) => {
           return;
         }
 
-        // 1. мерджимо гостьовий кошик у бекенд
         await dispatch(mergeGuestCart(guestCart)).unwrap();
-
-        // 2. оновлюємо бекендовий кошик
         await dispatch(getShoppingCart());
-
-        // 3. очищаємо гостьовий кошик ПОВНІСТЮ
         dispatch(clearGuestCart());
-
-        // 4. оновлюємо wishlist
         await dispatch(getWishlist());
 
         setHasMerged(true);
@@ -277,61 +257,88 @@ const ShoppingCartPage = ({ promptGoogle }) => {
 
   return (
     <>
-      <WelcomeGeneral>{t("basket")}</WelcomeGeneral>
+      <CartLayout>
+        <CartLeft>
+          {/* ЛІВА КОЛОНКА — твій основний контент */}
+          <>
+            <WelcomeGeneral>{t("basket")}</WelcomeGeneral>
 
-      {isLoading && <Loader />}
+            {isLoading && <Loader />}
 
-      {error && (
-        <p>
-          {t("error")}: {error}
-        </p>
-      )}
-
-      {!cartItems.length && !isLoading && (
-        <Box sx={{ textAlign: "center", py: 6 }}>
-          <img src={shop} alt="No orders" style={{ width: 200 }} />
-          <Typography variant="h6">{t("empty_cart")}</Typography>
-          <Typography variant="body2">{t("add_products_hint")}</Typography>
-        </Box>
-      )}
-
-      {cartItems.length > 0 && <ShoppingList>{displayProducts}</ShoppingList>}
-
-      {cartItems.length > 0 && (
-        <TotalHeader>
-          <div style={{ textAlign: "right" }}>
-            <div>
-              {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
-            </div>
-
-            {discount > 0 && (
-              <>
-                <div style={{ color: "red", fontSize: "0.9rem" }}>
-                  {t("discount")}: -{discount} zł ({discountPercent}%)
-                </div>
-
-                <div style={{ fontWeight: "bold", marginTop: "5px" }}>
-                  {t("final_price")}: <TotalAmount>{finalPrice} zł</TotalAmount>
-                </div>
-              </>
+            {error && (
+              <p>
+                {t("error")}: {error}
+              </p>
             )}
-          </div>
-        </TotalHeader>
-      )}
 
-      {cartItems.length > 0 && (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {isUserAuthenticated ? (
-            <ButtonOrder>
-              <Link to="/user/orders">{t("place_order")}</Link>
-            </ButtonOrder>
-          ) : (
-            <ButtonOrder onClick={() => setIsLoginModalOpen(true)}>
-              {t("place_order")}
-            </ButtonOrder>
+            {!cartItems.length && !isLoading && (
+              <Box sx={{ textAlign: "center", py: 6 }}>
+                <img src={shop} alt="No orders" style={{ width: 200 }} />
+                <Typography variant="h6">{t("empty_cart")}</Typography>
+                <Typography variant="body2">
+                  {t("add_products_hint")}
+                </Typography>
+              </Box>
+            )}
+
+            {cartItems.length > 0 && (
+              <ShoppingList>{displayProducts}</ShoppingList>
+            )}
+          </>
+        </CartLeft>
+
+        <CartRight style={{ marginTop: "calc(var(--header-height) + 20px)" }}>
+          {cartItems.length > 0 && (
+            <CheckoutBox>
+              {cartItems.length > 0 && (
+                <TotalHeader>
+                  <div style={{ textAlign: "right" }}>
+                    <div>
+                      {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
+                    </div>
+
+                    {discount > 0 && (
+                      <>
+                        <div style={{ color: "red", fontSize: "0.9rem" }}>
+                          {t("discount")}: -{discount} zł ({discountPercent}%)
+                        </div>
+
+                        <div style={{ fontWeight: "bold", marginTop: "5px" }}>
+                          {t("final_price")}:{" "}
+                          <TotalAmount>{finalPrice} zł</TotalAmount>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </TotalHeader>
+              )}
+
+              <ButtonOrderNeutral onClick={() => setIsLoginModalOpen(true)}>
+                <img
+                  src={Tpay}
+                  alt="Tpay"
+                  height="26"
+                  style={{ marginRight: "8px" }}
+                />
+                {t("place_order")}
+              </ButtonOrderNeutral>
+
+              <PaymentLogos>
+                <p style={{ fontWeight: 600, marginBottom: "10px" }}>
+                  {t("tpay_place")}
+                </p>
+                <div className="logos">
+                  <img src={Visa} alt="Visa" height="32" />
+                  <img src={Mastercard} alt="MasterCard" height="32" />
+                  <img src={Blik} alt="BLIK" height="32" />
+                  <img src={ApplePay} alt="Apple Pay" height="32" />
+                  <img src={GooglePay} alt="Google Pay" height="34" />
+                </div>
+              </PaymentLogos>
+            </CheckoutBox>
           )}
-        </div>
-      )}
+        </CartRight>
+      </CartLayout>
 
       <SocialLoginModal
         open={isLoginModalOpen}

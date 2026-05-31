@@ -205,8 +205,97 @@ export const QuantityValueCartMobile = styled.div`
   text-align: center;
   width: 100%;
   margin-top: 6px;
-  justify-content: center;
+
   @media (min-width: 769px) {
     display: none;
+  }
+`;
+export const CartLayout = styled.div`
+  display: flex;
+  gap: 100px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 40px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+`;
+
+export const CartLeft = styled.div`
+  flex: 2;
+  max-width: 800px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
+
+export const CartRight = styled.div`
+  flex: 1;
+  max-width: 420px;
+  position: sticky;
+  top: 20px;
+  top: 35%;
+  justify-content: center;
+  padding-right: 20px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    position: static;
+  }
+`;
+export const ButtonOrderNeutral = styled.button`
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f7f7f7;
+  }
+`;
+
+export const TotalAmountTop = styled.div`
+  font-size: 1.1rem;
+  color: #333;
+`;
+
+export const PaymentLogos = styled.div`
+  margin-top: 20px;
+  text-align: center;
+
+  .logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+`;
+export const CheckoutBox = styled.div`
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 20px 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    border: none;
+    box-shadow: none;
+    padding: 0;
   }
 `;

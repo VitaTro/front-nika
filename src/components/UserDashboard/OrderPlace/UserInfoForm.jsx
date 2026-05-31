@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getPaymentMethods } from "../../../redux/payment/operationPayment";
 import { selectPaymentMethods } from "../../../redux/payment/selectorPayment";
-import { InputField, SelectField } from "./OrderPlace.styled";
+import { InputField } from "./OrderPlace.styled";
 
 const UserInfoForm = ({ formData, setFormData }) => {
   const paymentMethods = useSelector(selectPaymentMethods);
@@ -70,6 +70,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
               borderRadius: "6px",
               background: isDarkMode ? "#ffffff10" : "#fff",
               height: "42px",
+              width: "80px",
               gap: "6px",
             }}
           >
@@ -89,6 +90,10 @@ const UserInfoForm = ({ formData, setFormData }) => {
               }))
             }
             required
+            style={{
+              flex: 1,
+              height: "42px",
+            }}
           />
         </div>
       </div>
@@ -121,7 +126,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
       </div>
 
       {/* Payment method */}
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+      {/* <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
         <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
           {t("payment_method")}
         </label>
@@ -134,7 +139,7 @@ const UserInfoForm = ({ formData, setFormData }) => {
           <option value="elavon_link">{t("online_payment")}</option>
           <option value="bank_transfer">{t("bank_transfer")}</option>
         </SelectField>
-      </div>
+      </div> */}
     </div>
   );
 };
