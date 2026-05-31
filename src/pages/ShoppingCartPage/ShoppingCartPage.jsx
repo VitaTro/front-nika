@@ -21,6 +21,8 @@ import {
   removeGuestCartItem,
   updateGuestCartQuantity,
 } from "../../redux/guest/shopping/guestShoppingSlice";
+
+import { useNavigate } from "react-router-dom";
 import { getProducts } from "../../redux/products/operationProducts";
 import { selectProducts } from "../../redux/products/selectorsProducts";
 import {
@@ -74,6 +76,7 @@ const ShoppingCartPage = ({ promptGoogle }) => {
   const backendTotalAmount = useSelector(selectTotalAmount) || 0;
   const isLoading = useSelector(selectShoppingCartLoading);
   const error = useSelector(selectShoppingCartError);
+  const navigate = useNavigate();
   const cartItems = isUserAuthenticated ? backendCartItems : guestCart;
   const totalAmount = isUserAuthenticated
     ? backendTotalAmount
@@ -257,12 +260,13 @@ const ShoppingCartPage = ({ promptGoogle }) => {
 
   return (
     <>
+      <WelcomeGeneral style={{ marginTop: "auto" }}>
+        {t("basket")}
+      </WelcomeGeneral>
       <CartLayout>
         <CartLeft>
           {/* ЛІВА КОЛОНКА — твій основний контент */}
           <>
-            <WelcomeGeneral>{t("basket")}</WelcomeGeneral>
-
             {isLoading && <Loader />}
 
             {error && (
@@ -313,7 +317,15 @@ const ShoppingCartPage = ({ promptGoogle }) => {
                 </TotalHeader>
               )}
 
-              <ButtonOrderNeutral onClick={() => setIsLoginModalOpen(true)}>
+              <ButtonOrderNeutral
+                onClick={() => {
+                  if (!isUserAuthenticated) {
+                    setIsLoginModalOpen(true);
+                  } else {
+                    navigate("/user/orders");
+                  }
+                }}
+              >
                 <img
                   src={Tpay}
                   alt="Tpay"

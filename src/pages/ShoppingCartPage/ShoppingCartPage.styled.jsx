@@ -5,7 +5,7 @@ export const ShoppingContainer = styled.div`
   // margin: 0 auto;
   padding: 10px 30px 40px;
   font-family: Arial, sans-serif;
-
+  background-color: #fffdf6;
   min-height: 100vh;
   @media (max-width: 768px) {
     padding: 8px 10px 30px;
@@ -18,7 +18,12 @@ export const ShoppingItem = styled.div`
   justify-content: space-between;
   padding: 10px 40px;
   border-bottom: 1px solid #ddd;
-
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
   @media (max-width: 768px) {
     padding: 4px 10px;
     flex-wrap: wrap;
@@ -88,7 +93,7 @@ export const QuantityController = styled.div`
 export const ShoppingList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 4px;
 
   @media (max-width: 768px) {
     gap: 10px;
@@ -212,14 +217,15 @@ export const QuantityValueCartMobile = styled.div`
 `;
 export const CartLayout = styled.div`
   display: flex;
-  gap: 100px;
-  justify-content: flex-start;
   align-items: flex-start;
-  padding: 40px;
+  justify-content: flex-start;
+  gap: 60px;
+  padding: 0 40px 40px;
 
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 20px;
+    padding: 20px;
   }
 `;
 
@@ -235,17 +241,17 @@ export const CartLeft = styled.div`
 export const CartRight = styled.div`
   flex: 1;
   max-width: 420px;
-  position: sticky;
-  top: 20px;
-  top: 35%;
-  justify-content: center;
+  margin-left: auto;
   padding-right: 20px;
-
+  background-color: #f9f7f3;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   @media (max-width: 768px) {
     max-width: 100%;
-    position: static;
+    margin-left: 0;
+    padding-right: 0;
   }
 `;
+
 export const ButtonOrderNeutral = styled.button`
   background-color: #fff;
   color: #333;
@@ -282,7 +288,7 @@ export const PaymentLogos = styled.div`
 `;
 export const CheckoutBox = styled.div`
   width: 100%;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #e6e6e6;
   border-radius: 10px;
   padding: 20px 18px;
