@@ -80,9 +80,9 @@ const UserOrderPage = () => {
       }),
     );
 
-    const createdOrder = orderResponse.payload?.order;
+    const createdOrder = orderResponse.payload;
 
-    if (!createdOrder?._id) {
+    if (!createdOrder?.order?._id) {
       alert("❌ Błąd przy tworzeniu zamówienia.");
       return;
     }
