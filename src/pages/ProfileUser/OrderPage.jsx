@@ -9,7 +9,6 @@ import {
 } from "../../redux/shopping/selectorsShopping";
 import { updateUserInfo } from "../../redux/user/userOperations";
 import { createOrder } from "../../redux/user/userOrders/operationsUserOrders";
-import { calculateDiscount } from "../../utils/calculateDiscount";
 import {
   ButtonWrapper,
   FormContainer,
@@ -47,6 +46,7 @@ const UserOrderPage = () => {
       }));
     }
   }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -70,48 +70,28 @@ const UserOrderPage = () => {
       quantity: item.quantity,
     }));
 
-    const { final } = calculateDiscount(totalAmount);
-    const finalPrice = Number(final);
-
     const orderResponse = await dispatch(
       createOrder({
-        formData: {
-          ...formData,
-          deliveryType: "pickup",
-          paymentMethod: "tpay",
-        },
-        cleanedProducts,
-        totalPrice: totalAmount,
-        finalPrice,
+        products: cleanedProducts,
+        country: "Poland",
+        pickupPointId: formData.pickupPointId,
+        paymentMethod: "tpay",
+        notes: "",
       }),
     );
 
-    const createdOrder = orderResponse.payload?.order || orderResponse.payload;
+    const createdOrder = orderResponse.payload?.order;
 
     if (!createdOrder?._id) {
       alert("❌ Błąd przy tworzeniu zamówienia.");
       return;
     }
 
-    // 🔵 Tpay
-    const res = await fetch("/api/payments/tpay/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        orderId: createdOrder._id,
-        amount: finalPrice,
-        email: formData.email,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (data.transactionUrl) {
-      window.location.href = data.transactionUrl;
+    if (createdOrder.paymentUrl) {
+      window.location.href = createdOrder.paymentUrl;
       return;
     }
-
-    alert("❌ Błąd przy tworzeniu transakcji Tpay.");
+    alert("❌ Błąd linku do płatności");
   };
 
   return (

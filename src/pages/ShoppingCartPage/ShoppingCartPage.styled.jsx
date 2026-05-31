@@ -305,3 +305,12 @@ export const CheckoutBox = styled.div`
     padding: 0;
   }
 `;
+export const EmptyCart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  min-height: 60vh;
+`;

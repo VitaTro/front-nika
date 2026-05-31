@@ -1,40 +1,32 @@
+// redux/user/userOrders/userOrdersSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import {
   confirmOrderReceived,
   createOrder,
-  fetchPickupPoints,
-  fetchProcessingOrders,
   fetchPurchaseHistory,
-  fetchShippedOrders,
-  fetchUnpaidOrders,
   fetchUserOrders,
   returnOrder,
-  trackOrder,
 } from "./operationsUserOrders";
 
 const initialState = {
   orders: [],
   purchaseHistory: [],
-  trackingInfo: null,
-  pickupPoints: [],
   loading: false,
   error: null,
-  selectedOrder: null,
-  paymentStatus: null,
 };
 
-const userOrdersReducer = createSlice({
+const userOrdersSlice = createSlice({
   name: "userOrders",
   initialState,
-  reducers: {
-    resetTracking: (state) => {
-      state.trackingInfo = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
+      // ===============================
+      // GET USER ORDERS
+      // ===============================
       .addCase(fetchUserOrders.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchUserOrders.fulfilled, (state, action) => {
         state.loading = false;
@@ -44,55 +36,58 @@ const userOrdersReducer = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(fetchUnpaidOrders.fulfilled, (state, action) => {
-        state.orders = action.payload;
-      })
-      .addCase(fetchProcessingOrders.fulfilled, (state, action) => {
-        state.orders = action.payload;
-      })
-      .addCase(fetchShippedOrders.fulfilled, (state, action) => {
-        state.orders = action.payload;
+
+      // ===============================
+      // CREATE ORDER
+      // ===============================
+      .addCase(createOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(createOrder.fulfilled, (state, action) => {
-        state.orders.unshift(action.payload);
-      })
-      .addCase(returnOrder.fulfilled, (state, action) => {
-        state.orders = state.orders.map((order) =>
-          order._id === action.payload._id ? action.payload : order
-        );
-      })
-      .addCase(confirmOrderReceived.fulfilled, (state, action) => {
-        state.orders = state.orders.map((order) =>
-          order._id === action.payload._id ? action.payload : order
-        );
-      })
-      .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
-        state.purchaseHistory = action.payload;
-      })
-      .addCase(trackOrder.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(trackOrder.fulfilled, (state, action) => {
         state.loading = false;
-        state.trackingInfo = action.payload;
+        // бекенд повертає { message, order, paymentUrl }
+        state.orders.unshift(action.payload.order);
       })
-      .addCase(trackOrder.rejected, (state, action) => {
+      .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(fetchPickupPoints.pending, (state) => {
+
+      // ===============================
+      // RETURN ORDER
+      // ===============================
+      .addCase(returnOrder.fulfilled, (state, action) => {
+        state.orders = state.orders.map((order) =>
+          order._id === action.payload._id ? action.payload : order,
+        );
+      })
+
+      // ===============================
+      // CONFIRM RECEIVED
+      // ===============================
+      .addCase(confirmOrderReceived.fulfilled, (state, action) => {
+        state.orders = state.orders.map((order) =>
+          order._id === action.payload._id ? action.payload : order,
+        );
+      })
+
+      // ===============================
+      // PURCHASE HISTORY
+      // ===============================
+      .addCase(fetchPurchaseHistory.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
-      .addCase(fetchPickupPoints.fulfilled, (state, action) => {
+      .addCase(fetchPurchaseHistory.fulfilled, (state, action) => {
         state.loading = false;
-        state.pickupPoints = action.payload; // Збереження точок видачі
-        console.log("✅ Точки додані в Redux:", action.payload);
+        state.purchaseHistory = action.payload;
       })
-      .addCase(fetchPickupPoints.rejected, (state, action) => {
+      .addCase(fetchPurchaseHistory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
-export const { resetTracking } = userOrdersReducer.actions;
-export default userOrdersReducer.reducer;
+
+export default userOrdersSlice.reducer;

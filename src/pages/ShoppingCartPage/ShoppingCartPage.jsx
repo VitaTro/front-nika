@@ -263,59 +263,57 @@ const ShoppingCartPage = ({ promptGoogle }) => {
       <WelcomeGeneral style={{ marginTop: "auto" }}>
         {t("basket")}
       </WelcomeGeneral>
-      <CartLayout>
-        <CartLeft>
-          {/* ЛІВА КОЛОНКА — твій основний контент */}
-          <>
-            {isLoading && <Loader />}
 
+      {/* 🟡 Якщо кошик порожній — показуємо окремий блок */}
+      {!cartItems.length && !isLoading ? (
+        <Box
+          sx={{
+            width: "100%",
+            minHeight: "60vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <img src={shop} alt="No orders" style={{ width: 200 }} />
+          <Typography variant="h6">{t("empty_cart")}</Typography>
+          <Typography variant="body2">{t("add_products_hint")}</Typography>
+        </Box>
+      ) : (
+        // 🟢 Якщо товари є — звичайний layout
+        <CartLayout>
+          <CartLeft>
+            {isLoading && <Loader />}
             {error && (
               <p>
                 {t("error")}: {error}
               </p>
             )}
+            <ShoppingList>{displayProducts}</ShoppingList>
+          </CartLeft>
 
-            {!cartItems.length && !isLoading && (
-              <Box sx={{ textAlign: "center", py: 6 }}>
-                <img src={shop} alt="No orders" style={{ width: 200 }} />
-                <Typography variant="h6">{t("empty_cart")}</Typography>
-                <Typography variant="body2">
-                  {t("add_products_hint")}
-                </Typography>
-              </Box>
-            )}
-
-            {cartItems.length > 0 && (
-              <ShoppingList>{displayProducts}</ShoppingList>
-            )}
-          </>
-        </CartLeft>
-
-        <CartRight style={{ marginTop: "calc(var(--header-height) + 20px)" }}>
-          {cartItems.length > 0 && (
+          <CartRight style={{ marginTop: "calc(var(--header-height) + 20px)" }}>
             <CheckoutBox>
-              {cartItems.length > 0 && (
-                <TotalHeader>
-                  <div style={{ textAlign: "right" }}>
-                    <div>
-                      {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
-                    </div>
-
-                    {discount > 0 && (
-                      <>
-                        <div style={{ color: "red", fontSize: "0.9rem" }}>
-                          {t("discount")}: -{discount} zł ({discountPercent}%)
-                        </div>
-
-                        <div style={{ fontWeight: "bold", marginTop: "5px" }}>
-                          {t("final_price")}:{" "}
-                          <TotalAmount>{finalPrice} zł</TotalAmount>
-                        </div>
-                      </>
-                    )}
+              <TotalHeader>
+                <div style={{ textAlign: "right" }}>
+                  <div>
+                    {t("total")}: <TotalAmount>{totalAmount} zł</TotalAmount>
                   </div>
-                </TotalHeader>
-              )}
+                  {discount > 0 && (
+                    <>
+                      <div style={{ color: "red", fontSize: "0.9rem" }}>
+                        {t("discount")}: -{discount} zł ({discountPercent}%)
+                      </div>
+                      <div style={{ fontWeight: "bold", marginTop: "5px" }}>
+                        {t("final_price")}:{" "}
+                        <TotalAmount>{finalPrice} zł</TotalAmount>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </TotalHeader>
 
               <ButtonOrderNeutral
                 onClick={() => {
@@ -348,9 +346,9 @@ const ShoppingCartPage = ({ promptGoogle }) => {
                 </div>
               </PaymentLogos>
             </CheckoutBox>
-          )}
-        </CartRight>
-      </CartLayout>
+          </CartRight>
+        </CartLayout>
+      )}
 
       <SocialLoginModal
         open={isLoginModalOpen}
