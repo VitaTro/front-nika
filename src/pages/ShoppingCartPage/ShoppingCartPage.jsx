@@ -7,7 +7,7 @@ import SocialLoginModal from "../../components/AuthForm/UserAuthForm/SocialLogin
 import ApplePay from "../../components/icons/apple_pay.png";
 import Blik from "../../components/icons/blik.png";
 import GooglePay from "../../components/icons/google_pay.png";
-import Mastercard from "../../components/icons/Mastercard.png";
+import Mastercard from "../../components/icons/mastercard.png";
 import shop from "../../components/icons/shop.png";
 import Tpay from "../../components/icons/tpay.png";
 import Visa from "../../components/icons/visa.png";
