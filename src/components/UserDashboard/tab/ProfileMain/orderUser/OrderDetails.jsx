@@ -24,7 +24,7 @@ import shop from "../../../../icons/shop.png";
 import OrderDetailsCard from "./OrderDetailsCard";
 import StatusChip from "./StatusChip";
 
-const UserOrderDetails = () => {
+const UserOrderDetails = ({ onSelectOrder }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const orders = useSelector(selectUserOrders);
@@ -127,6 +127,12 @@ const UserOrderDetails = () => {
                 {selected?._id === order._id
                   ? t("hide_details")
                   : t("show_details")}
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => onSelectOrder(order._id)}
+              >
+                {t("show_details")}
               </Button>
 
               {selected?._id === order._id && (

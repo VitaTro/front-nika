@@ -68,6 +68,7 @@ import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
 import ProtectedRoute from "./ProtectedRoute";
+import UserSingleOrder from "./UserDashboard/tab/ProfileMain/orderUser/UserSingleOrder.jsx";
 export const App = () => {
   const location = useLocation();
   usePageView(location.pathname);
@@ -222,7 +223,10 @@ export const App = () => {
                     element={<ShoppingCartPage />}
                   />
                   <Route path="/user/orders" element={<UserOrderPage />} />
-                  {/* <Route path="/user/orders" element={<UserOrderDetails />} /> */}
+                  <Route
+                    path="/user/orders/:orderId"
+                    element={<UserSingleOrder />}
+                  />
                   <Route path="/user/profile/info" element={<ProfilePage />} />
                   <Route
                     path="/user/products/:id"

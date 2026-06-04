@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Tpay from "../../components/icons/tpay.png";
 import DeliverySection from "../../components/UserDashboard/OrderPlace/DeliverySection";
+import PaymentEmailModal from "../../components/UserDashboard/OrderPlace/PaymentEmailModal";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import { selectAuthUser } from "../../redux/auth/userAuth/selectorsAuth";
 import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
@@ -14,12 +16,16 @@ import {
   FormContainer,
   HeaderOrder,
 } from "./ProfileUser.styled";
+
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const { t } = useTranslation();
   const user = useSelector(selectAuthUser);
+  const navigate = useNavigate();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState(null);
 
   const [formData, setFormData] = useState(() => {
     const saved = JSON.parse(localStorage.getItem("orderForm")) || {};
@@ -62,7 +68,6 @@ const UserOrderPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // validate pickup
     if (formData.deliveryType === "pickup" && !formData.pickupPointId) {
       alert("Proszę wybrać paczkomat!");
       return;
@@ -83,13 +88,21 @@ const UserOrderPage = () => {
       quantity: item.quantity,
     }));
 
+    const productsTotal = shoppingCart.reduce(
+      (sum, item) => sum + item.quantity * item.price,
+      0,
+    );
+
+    const finalPrice = productsTotal + formData.deliveryPrice;
+
     const orderResponse = await dispatch(
       createOrder({
         products: cleanedProducts,
-
+        productsTotal,
         deliveryType: formData.deliveryType,
         parcelSize: formData.parcelSize,
         deliveryPrice: formData.deliveryPrice,
+        finalPrice,
 
         pickupPointId:
           formData.deliveryType === "pickup" ? formData.pickupPointId : null,
@@ -109,14 +122,16 @@ const UserOrderPage = () => {
       return;
     }
 
+    dispatch({ type: "shopping/clearCart" });
+    navigate(`/user/orders/${createdOrder.order._id}`);
+
     if (createdOrder.paymentUrl) {
-      window.location.href = createdOrder.paymentUrl;
-      return;
+      setPaymentUrl(createdOrder.paymentUrl);
+      setShowPaymentModal(true);
+    } else {
+      alert("❌ Błąd linku до płatności");
     }
-
-    alert("❌ Błąd linku do płatności");
   };
-
   return (
     <FormContainer
       style={{
@@ -138,11 +153,18 @@ const UserOrderPage = () => {
               height="26"
               style={{ marginRight: "8px" }}
             />
-
             {t("place_order")}
           </ButtonOrderNeutral>
         </ButtonWrapper>
       </form>
+
+      <PaymentEmailModal
+        open={showPaymentModal}
+        onClose={() => {
+          setShowPaymentModal(false);
+          if (paymentUrl) window.location.href = paymentUrl;
+        }}
+      />
     </FormContainer>
   );
 };

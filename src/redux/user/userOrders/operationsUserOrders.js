@@ -83,3 +83,17 @@ export const fetchPurchaseHistory = createAsyncThunk(
     }
   },
 );
+// ===============================
+// GET SINGLE USER ORDER
+// ===============================
+export const fetchUserOrderById = createAsyncThunk(
+  "userOrders/fetchOrderById",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/api/user/orders/${orderId}`);
+      return data.order; // бекенд повертає { order }
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  },
+);

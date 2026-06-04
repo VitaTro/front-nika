@@ -1,9 +1,9 @@
+import { Box, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getPaymentMethods } from "../../../redux/payment/operationPayment";
 import { selectPaymentMethods } from "../../../redux/payment/selectorPayment";
-import { InputField } from "./OrderPlace.styled";
 
 const UserInfoForm = ({ formData, setFormData }) => {
   const paymentMethods = useSelector(selectPaymentMethods);
@@ -22,63 +22,62 @@ const UserInfoForm = ({ formData, setFormData }) => {
   return (
     <div>
       {/* First name */}
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
+      <Box style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Typography
+          variant="h6"
+          style={{ color: isDarkMode ? "#060270" : "#1f871a" }}
+        >
           {t("first_name")}
-        </label>
-        <InputField
+        </Typography>
+        <TextField
           name="firstName"
           value={formData.firstName}
           onChange={handleChange}
           required
+          fullWidth
         />
-      </div>
 
-      {/* Last name */}
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
+        {/* Last name */}
+
+        <Typography
+          variant="h6"
+          style={{ color: isDarkMode ? "#060270" : "#1f871a" }}
+        >
           {t("last_name")}
-        </label>
-        <InputField
+        </Typography>
+        <TextField
           name="lastName"
           value={formData.lastName}
           onChange={handleChange}
+          variant="outlined"
           required
+          fullWidth
         />
-      </div>
 
-      {/* Phone */}
-      <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
-          {t("phone")}
-        </label>
+        {/* Phone */}
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            marginTop: "5px",
-          }}
+        <Typography
+          variant="h6"
+          style={{ color: isDarkMode ? "#060270" : "#1f871a" }}
         >
-          <div
-            style={{
+          {t("phone")}
+        </Typography>
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            sx={{
               display: "flex",
               alignItems: "center",
-              padding: "0 8px",
               border: "1px solid #ddd",
               borderRadius: "6px",
-              background: isDarkMode ? "#ffffff10" : "#fff",
-              height: "42px",
-              width: "80px",
-              gap: "6px",
+              px: 1.5,
+              height: 56,
+              backgroundColor: isDarkMode ? "#ffffff10" : "#fff",
             }}
           >
-            <span style={{ fontSize: "14px" }}>🇵🇱</span>
-            <span style={{ color: "#666", fontSize: "14px" }}>+48</span>
-          </div>
-
-          <InputField
+            <Typography sx={{ fontSize: 14 }}> +48</Typography>
+          </Box>
+          <TextField
             type="tel"
             name="phone"
             placeholder="123 456 789"
@@ -89,57 +88,12 @@ const UserInfoForm = ({ formData, setFormData }) => {
                 phone: e.target.value.replace(/\D/g, ""),
               }))
             }
+            variant="outlined"
+            fullWidth
             required
-            style={{
-              flex: 1,
-              height: "42px",
-            }}
           />
-        </div>
-      </div>
-
-      {/* Paczkomat */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          marginTop: "20px",
-        }}
-      >
-        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
-          {t("parcel_locker")} (np WRO15N)
-        </label>
-
-        <InputField
-          name="pickupPointId"
-          value={formData.pickupPointId}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              pickupPointId: e.target.value.toUpperCase(),
-            }))
-          }
-          required
-          style={{ marginTop: "5px" }}
-        />
-      </div>
-
-      {/* Payment method */}
-      {/* <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
-          {t("payment_method")}
-        </label>
-
-        <SelectField
-          name="paymentMethod"
-          value={formData.paymentMethod}
-          onChange={handleChange}
-        >
-          <option value="elavon_link">{t("online_payment")}</option>
-          <option value="bank_transfer">{t("bank_transfer")}</option>
-        </SelectField>
-      </div> */}
+        </Box>
+      </Box>
     </div>
   );
 };

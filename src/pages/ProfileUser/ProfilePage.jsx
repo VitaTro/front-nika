@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import UserOrderDetails from "../../components/UserDashboard/tab/ProfileMain/orderUser/OrderDetails";
+import UserSingleOrder from "../../components/UserDashboard/tab/ProfileMain/orderUser/UserSingleOrder.jsx";
 import ProfileAddress from "../../components/UserDashboard/tab/ProfileMain/ProfileAddress";
 import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
 import UserPurchaseHistory from "../../components/UserDashboard/tab/ProfileMain/UserPurchaseHistory";
@@ -17,6 +18,7 @@ const ProfilePage = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [selectedTab, setSelectedTab] = useState(0);
   const isMobile = useMediaQuery("(max-width:600px)");
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   useEffect(() => {
     dispatch(fetchUserInfo());
@@ -25,7 +27,16 @@ const ProfilePage = () => {
   const tabItems = [
     { label: t("your_data"), component: <ProfileMain /> },
     { label: t("shipping_addresses"), component: <ProfileAddress /> },
-    { label: t("my_orders"), component: <UserOrderDetails /> },
+
+    {
+      label: t("my_orders"),
+      component: selectedOrderId ? (
+        <UserSingleOrder orderId={selectedOrderId} />
+      ) : (
+        <UserOrderDetails onSelectOrder={setSelectedOrderId} />
+      ),
+    },
+
     { label: t("order_history"), component: <UserPurchaseHistory /> },
     {
       label: t("payment_cards"),
@@ -42,6 +53,13 @@ const ProfilePage = () => {
   ];
 
   if (!user) return <p>Loading profile...</p>;
+  {
+    selectedOrderId ? (
+      <UserSingleOrder orderId={selectedOrderId} />
+    ) : (
+      <UserOrderDetails onSelectOrder={setSelectedOrderId} />
+    );
+  }
 
   return (
     <Box

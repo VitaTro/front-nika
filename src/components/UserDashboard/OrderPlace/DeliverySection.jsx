@@ -1,112 +1,257 @@
+import { Box, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+
+import Large from "../../../components/icons/large_package.png";
+import Medium from "../../../components/icons/medium_package.png";
+import Small from "../../../components/icons/small_package.png";
+
+import Home from "../../../components/icons/pickup_home.png";
+import Pickup from "../../../components/icons/pickup_pickup.png";
 
 const DeliverySection = ({ formData, setFormData }) => {
   const { t } = useTranslation();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const isMobile = useMediaQuery("(max-width:768px)");
 
-  const parcelOptions = [
-    { size: "small", price: 16.49 },
-    { size: "medium", price: 18.49 },
-    { size: "large", price: 20.49 },
+  // Base parcel data with translation keys
+  const parcelBase = [
+    {
+      sizeKey: "parcel_small",
+      dimsKey: "parcel_small_dims",
+      weightKey: "parcel_weight",
+      icon: Small,
+      pickupPrice: 16.49,
+      courierPrice: 19.49,
+    },
+    {
+      sizeKey: "parcel_medium",
+      dimsKey: "parcel_medium_dims",
+      weightKey: "parcel_weight",
+      icon: Medium,
+      pickupPrice: 18.49,
+      courierPrice: 20.49,
+    },
+    {
+      sizeKey: "parcel_large",
+      dimsKey: "parcel_large_dims",
+      weightKey: "parcel_weight",
+      icon: Large,
+      pickupPrice: 20.49,
+      courierPrice: 25.49,
+    },
   ];
+
+  // Select correct prices based on delivery type
+  const currentParcelOptions = parcelBase.map((p) => ({
+    ...p,
+    price: formData.deliveryType === "pickup" ? p.pickupPrice : p.courierPrice,
+  }));
 
   return (
     <div style={{ marginTop: "25px" }}>
       {/* DELIVERY TYPE */}
-      <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
-        {t("delivery_method")}
-      </label>
+      <Box sx={{ mt: 3 }}>
+        <Typography
+          variant="h6"
+          style={{ color: isDarkMode ? "#060270" : "#1f871a" }}
+        >
+          {t("delivery_type")}
+        </Typography>
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <button
-          type="button"
-          onClick={() =>
-            setFormData((prev) => ({
-              ...prev,
-              deliveryType: "pickup",
-              deliveryAddress: null,
-            }))
-          }
-          style={{
-            padding: "10px 15px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            background:
-              formData.deliveryType === "pickup" ? "#1f871a" : "#f5f5f5",
-            color: formData.deliveryType === "pickup" ? "#fff" : "#333",
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            flexDirection: isMobile ? "column" : "row",
           }}
         >
-          Paczkomat
-        </button>
+          {/* Paczkomat → Paczkomat */}
+          <Box
+            onClick={() => setFormData({ ...formData, deliveryType: "pickup" })}
+            sx={{
+              flex: 1,
+              border:
+                formData.deliveryType === "pickup"
+                  ? "2px solid #FFD700"
+                  : "1px solid #ddd",
+              borderRadius: "8px",
+              p: 2,
+              cursor: "pointer",
+              backgroundColor:
+                formData.deliveryType === "pickup" ? "#fffbe6" : "#fff",
+              boxShadow:
+                formData.deliveryType === "pickup"
+                  ? "0 0 6px rgba(255,215,0,0.4)"
+                  : "none",
+              transition: "0.2s",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Box
+                sx={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  border: "2px solid #333",
+                  backgroundColor:
+                    formData.deliveryType === "pickup" ? "#333" : "transparent",
+                }}
+              />
+              <img src={Pickup} alt={t("delivery_pickup_title")} width={130} />
+            </Box>
 
-        <button
-          type="button"
-          onClick={() =>
-            setFormData((prev) => ({
-              ...prev,
-              deliveryType: "courier",
-              pickupPointId: "",
-            }))
-          }
-          style={{
-            padding: "10px 15px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            background:
-              formData.deliveryType === "courier" ? "#1f871a" : "#f5f5f5",
-            color: formData.deliveryType === "courier" ? "#fff" : "#333",
-          }}
-        >
-          Kurier InPost
-        </button>
-      </div>
+            <hr style={{ margin: "10px 0", borderColor: "#ddd" }} />
+
+            <Typography fontSize="14px" color="#555">
+              {t("delivery_pickup_from")}
+            </Typography>
+            <Typography fontSize="14px" color="#555">
+              {t("delivery_pickup_to")}
+            </Typography>
+          </Box>
+
+          {/* Paczkomat → Dom lub firma */}
+          <Box
+            onClick={() =>
+              setFormData({ ...formData, deliveryType: "courier" })
+            }
+            sx={{
+              flex: 1,
+              border:
+                formData.deliveryType === "courier"
+                  ? "2px solid #FFD700"
+                  : "1px solid #ddd",
+              borderRadius: "8px",
+              p: 2,
+              cursor: "pointer",
+              backgroundColor:
+                formData.deliveryType === "courier" ? "#fffbe6" : "#fff",
+              boxShadow:
+                formData.deliveryType === "courier"
+                  ? "0 0 6px rgba(255,215,0,0.4)"
+                  : "none",
+              transition: "0.2s",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Box
+                sx={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  border: "2px solid #333",
+                  backgroundColor:
+                    formData.deliveryType === "courier"
+                      ? "#333"
+                      : "transparent",
+                }}
+              />
+              <img src={Home} alt={t("delivery_courier_title")} width={130} />
+            </Box>
+
+            <hr style={{ margin: "10px 0", borderColor: "#ddd" }} />
+
+            <Typography fontSize="14px" color="#555">
+              {t("delivery_courier_from")}
+            </Typography>
+            <Typography fontSize="14px" color="#555">
+              {t("delivery_courier_to")}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
 
       {/* PARCEL SIZE */}
-      <label
-        style={{
-          marginTop: "20px",
-          display: "block",
-          color: isDarkMode ? "#060270" : "#1f871a",
-        }}
+      <Typography
+        style={{ color: isDarkMode ? "#060270" : "#1f871a", marginTop: "20px" }}
+        variant="h6"
       >
         {t("parcel_size")}
-      </label>
+      </Typography>
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        {parcelOptions.map((opt) => (
-          <div
-            key={opt.size}
+      <Box sx={{ mt: 2 }}>
+        {currentParcelOptions.map((opt) => (
+          <Box
+            key={opt.sizeKey}
             onClick={() =>
               setFormData((prev) => ({
                 ...prev,
-                parcelSize: opt.size,
+                parcelSize: opt.sizeKey,
                 deliveryPrice: opt.price,
               }))
             }
-            style={{
-              padding: "10px 15px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              border:
+                formData.parcelSize === opt.sizeKey
+                  ? "2px solid #FFD700"
+                  : "1px solid #ddd",
+              borderRadius: "8px",
+              p: 2,
+              mb: 1.5,
               cursor: "pointer",
-              background:
-                formData.parcelSize === opt.size ? "#1f871a" : "#f5f5f5",
-              color: formData.parcelSize === opt.size ? "#fff" : "#333",
+              backgroundColor:
+                formData.parcelSize === opt.sizeKey ? "#fffbe6" : "#fff",
+              boxShadow:
+                formData.parcelSize === opt.sizeKey
+                  ? "0 0 6px rgba(255,215,0,0.4)"
+                  : "none",
+              transition: "0.2s",
             }}
           >
-            {opt.size} — {opt.price} zł
-          </div>
-        ))}
-      </div>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Box
+                sx={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  border: "2px solid #333",
+                  backgroundColor:
+                    formData.parcelSize === opt.sizeKey
+                      ? "#333"
+                      : "transparent",
+                }}
+              />
+              <img src={opt.icon} alt={t(opt.sizeKey)} width={50} />
+              <Box>
+                <Typography fontWeight={600}>{t(opt.sizeKey)}</Typography>
+                <Typography fontSize="13px" color="#555">
+                  {t(opt.dimsKey)} • {t(opt.weightKey)}
+                </Typography>
+              </Box>
+            </Box>
 
+            <Typography fontWeight={700}>{opt.price} zł</Typography>
+          </Box>
+        ))}
+      </Box>
+      <Box sx={{ mt: 1 }}>
+        <Typography fontSize="12px" color="#888">
+          {t("delivery_cost_info")}
+        </Typography>
+      </Box>
       {/* PICKUP POINT */}
       {formData.deliveryType === "pickup" && (
-        <div style={{ marginTop: "20px" }}>
-          <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
+        <Box
+          sx={{
+            mt: 3,
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            marginBottom: "30px",
+          }}
+        >
+          <Typography
+            variant="h6"
+            style={{ color: isDarkMode ? "#060270" : "#1f871a" }}
+          >
             {t("parcel_locker")} (np WRO15N)
-          </label>
+          </Typography>
 
-          <InputField
+          <TextField
             name="pickupPointId"
             value={formData.pickupPointId || ""}
             onChange={(e) =>
@@ -118,32 +263,17 @@ const DeliverySection = ({ formData, setFormData }) => {
             required
             style={{ marginTop: "5px" }}
           />
-        </div>
+        </Box>
       )}
 
       {/* COURIER ADDRESS */}
       {formData.deliveryType === "courier" && (
-        <div style={{ marginTop: "20px" }}>
-          <label style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
+        <Box sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography style={{ color: isDarkMode ? "#060270" : "#1f871a" }}>
             {t("your_address")}
-          </label>
+          </Typography>
 
-          <InputField
-            placeholder={t("full_name")}
-            value={formData.deliveryAddress?.fullName || ""}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                deliveryAddress: {
-                  ...prev.deliveryAddress,
-                  fullName: e.target.value,
-                },
-              }))
-            }
-            required
-          />
-
-          <InputField
+          <TextField
             placeholder={t("street")}
             value={formData.deliveryAddress?.street || ""}
             onChange={(e) =>
@@ -158,7 +288,7 @@ const DeliverySection = ({ formData, setFormData }) => {
             required
           />
 
-          <InputField
+          <TextField
             placeholder={t("house_number")}
             value={formData.deliveryAddress?.houseNumber || ""}
             onChange={(e) =>
@@ -173,7 +303,7 @@ const DeliverySection = ({ formData, setFormData }) => {
             required
           />
 
-          <InputField
+          <TextField
             placeholder={t("city")}
             value={formData.deliveryAddress?.city || ""}
             onChange={(e) =>
@@ -188,7 +318,7 @@ const DeliverySection = ({ formData, setFormData }) => {
             required
           />
 
-          <InputField
+          <TextField
             placeholder={t("postal_code")}
             value={formData.deliveryAddress?.postalCode || ""}
             onChange={(e) =>
@@ -202,9 +332,10 @@ const DeliverySection = ({ formData, setFormData }) => {
             }
             required
           />
-        </div>
+        </Box>
       )}
     </div>
   );
 };
+
 export default DeliverySection;

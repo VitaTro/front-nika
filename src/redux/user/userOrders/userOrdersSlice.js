@@ -4,6 +4,7 @@ import {
   confirmOrderReceived,
   createOrder,
   fetchPurchaseHistory,
+  fetchUserOrderById,
   fetchUserOrders,
   returnOrder,
 } from "./operationsUserOrders";
@@ -84,6 +85,18 @@ const userOrdersSlice = createSlice({
         state.purchaseHistory = action.payload;
       })
       .addCase(fetchPurchaseHistory.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchUserOrderById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserOrderById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentOrder = action.payload;
+      })
+      .addCase(fetchUserOrderById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

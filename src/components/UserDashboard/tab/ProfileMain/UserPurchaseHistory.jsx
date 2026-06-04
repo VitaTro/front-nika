@@ -24,7 +24,7 @@ const UserPurchaseHistory = () => {
 
   return (
     <Box>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" sx={{ textAlign: "center", mt: 5 }} gutterBottom>
         {t("order_history")}
       </Typography>
 

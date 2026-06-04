@@ -1,6 +1,34 @@
-export const selectUserOrders = (state) => state.userOrders.orders;
-export const selectUserOrdersLoading = (state) => state.userOrders.loading;
-export const selectUserOrdersError = (state) => state.userOrders.error;
-export const selectPurchaseHistory = (state) =>
-  state.userOrders.purchaseHistory;
-export const selectPickupPoints = (state) => state.userOrders.pickupPoints;
+import { createSelector } from "reselect";
+
+const selectUserOrdersState = (state) => state.userOrders || {};
+
+export const selectUserOrders = createSelector(
+  [selectUserOrdersState],
+  (orders) => orders.orders || [],
+);
+
+export const selectUserOrdersLoading = createSelector(
+  [selectUserOrdersState],
+  (orders) => orders.loading || false,
+);
+
+export const selectUserOrdersError = createSelector(
+  [selectUserOrdersState],
+  (orders) => orders.error || null,
+);
+
+export const selectPurchaseHistory = createSelector(
+  [selectUserOrdersState],
+  (orders) =>
+    Array.isArray(orders.purchaseHistory) ? orders.purchaseHistory : [],
+);
+
+export const selectPickupPoints = createSelector(
+  [selectUserOrdersState],
+  (orders) => orders.pickupPoints || [],
+);
+
+export const selectCurrentUserOrder = createSelector(
+  [selectUserOrdersState],
+  (orders) => orders.currentOrder || null,
+);
