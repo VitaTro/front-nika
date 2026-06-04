@@ -60,7 +60,12 @@ const DashboardTab = () => {
       {/* Відображення вибраного контенту */}
       {viewMode === "stats" && (
         <StatisticsSection
-          stats={dashboard.stats}
+          stats={{
+            ...dashboard.stats,
+            expiringReservations: dashboard.expiringReservations,
+            expiredReservations: dashboard.expiredReservations,
+          }}
+          setViewMode={setViewMode}
           graph={dashboard.analyticsOverview?.graph}
         />
       )}

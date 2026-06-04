@@ -21,7 +21,7 @@ export const selectReservationsError = createSelector(
 // 🔹 Активні резерви
 export const selectActiveReservations = createSelector(
   [selectReservations],
-  (reservations) => reservations.filter((r) => r.status === true),
+  (reservations) => reservations.filter((r) => r.status === "reserved"),
 );
 
 // 🔹 Резерви, що скоро закінчуються

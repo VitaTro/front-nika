@@ -6,7 +6,7 @@ import { createReservation } from "../../../../../../redux/finance/reservation/o
 const ReservationForm = ({ cart, setCart }) => {
   const dispatch = useDispatch();
   const [reservationDate, setReservationDate] = useState("");
-
+  const [notes, setNotes] = useState("");
   const handleReserve = async () => {
     if (cart.length === 0) {
       alert("⚠️ Кошик порожній!");
@@ -23,6 +23,7 @@ const ReservationForm = ({ cart, setCart }) => {
         quantity,
       })),
       reservationExpiresAt: reservationDate,
+      notes,
     };
 
     const result = await dispatch(createReservation(reservationData));
@@ -48,7 +49,20 @@ const ReservationForm = ({ cart, setCart }) => {
         onChange={(e) => setReservationDate(e.target.value)}
         style={{ width: "100%", padding: "8px", marginBottom: "12px" }}
       />
-
+      <Typography variant="h6">📝 Примітка</Typography>
+      <textarea
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Для кого або що саме резервуєш?"
+        style={{
+          width: "100%",
+          padding: "8px",
+          marginBottom: "12px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          resize: "vertical",
+        }}
+      />
       <button
         onClick={handleReserve}
         style={{

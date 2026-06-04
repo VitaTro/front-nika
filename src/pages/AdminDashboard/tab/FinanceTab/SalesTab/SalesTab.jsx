@@ -1,10 +1,10 @@
 import { Box, Button, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import ActiveReservationsPanel from "../OrderTab/Reservation/ActiveReservationsPanel.jsx";
 import OfflineSale from "./OfflineSale/OfflineSale.jsx";
 import OnlineSale from "./OnlineSale/OnlineSale.jsx";
 import ProfileSale from "./ProfileSale/ProfileSale.jsx";
+import ActiveReservations from "./Reservation/ActiveReservations.jsx";
 
 const SaleTab = () => {
   const [viewMode, setViewMode] = useState("offline");
@@ -40,7 +40,7 @@ const SaleTab = () => {
       </Box>
 
       {viewMode === "offline" && <OfflineSale />}
-      {viewMode === "reservations" && <ActiveReservationsPanel />}
+      {viewMode === "reservations" && <ActiveReservations />}
       {viewMode === "online" && <OnlineSale />}
       {viewMode === "profile" && <ProfileSale />}
       <Outlet />

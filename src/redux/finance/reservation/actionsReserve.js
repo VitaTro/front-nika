@@ -18,6 +18,9 @@ export const COMPLETE_RESERVATION_REQUEST = "COMPLETE_RESERVATION_REQUEST";
 export const COMPLETE_RESERVATION_SUCCESS = "COMPLETE_RESERVATION_SUCCESS";
 export const COMPLETE_RESERVATION_FAILURE = "COMPLETE_RESERVATION_FAILURE";
 
+export const DELETE_RESERVATION_REQUEST = "DELETE_RESERVATION_REQUEST";
+export const DELETE_RESERVATION_SUCCESS = "DELETE_RESERVATION_SUCCESS";
+export const DELETE_RESERVATION_FAILURE = "DELETE_RESERVATION_FAILURE";
 // ACTION CREATORS
 export const fetchReservationsRequest = () => ({
   type: FETCH_RESERVATIONS_REQUEST,
@@ -64,5 +67,16 @@ export const completeReservationSuccess = (reservation) => ({
 });
 export const completeReservationFailure = (error) => ({
   type: COMPLETE_RESERVATION_FAILURE,
+  payload: error,
+});
+export const deleteReservationRequest = () => ({
+  type: DELETE_RESERVATION_REQUEST,
+});
+export const deleteReservationSuccess = (id) => ({
+  type: DELETE_RESERVATION_SUCCESS,
+  payload: id,
+});
+export const deleteReservationFailure = (error) => ({
+  type: DELETE_RESERVATION_FAILURE,
   payload: error,
 });

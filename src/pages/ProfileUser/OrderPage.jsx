@@ -1,39 +1,52 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
+import Tpay from "../../components/icons/tpay.png";
+import DeliverySection from "../../components/UserDashboard/OrderPlace/DeliverySection";
 import UserInfoForm from "../../components/UserDashboard/OrderPlace/UserInfoForm";
 import { selectAuthUser } from "../../redux/auth/userAuth/selectorsAuth";
-import {
-  selectShoppingCartItems,
-  selectTotalAmount,
-} from "../../redux/shopping/selectorsShopping";
+import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
 import { updateUserInfo } from "../../redux/user/userOperations";
 import { createOrder } from "../../redux/user/userOrders/operationsUserOrders";
+import { ButtonOrderNeutral } from "../ShoppingCartPage/ShoppingCartPage.styled";
 import {
   ButtonWrapper,
   FormContainer,
   HeaderOrder,
-  SubmitButton,
 } from "./ProfileUser.styled";
-
 const UserOrderPage = () => {
   const dispatch = useDispatch();
   const shoppingCart = useSelector(selectShoppingCartItems);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-  const totalAmount = useSelector(selectTotalAmount);
   const { t } = useTranslation();
   const user = useSelector(selectAuthUser);
+
   const [formData, setFormData] = useState(() => {
-    const savedData = JSON.parse(localStorage.getItem("orderForm")) || {};
+    const saved = JSON.parse(localStorage.getItem("orderForm")) || {};
     return {
-      firstName: savedData.firstName || "",
-      lastName: savedData.lastName || "",
-      phone: savedData.phone || "",
-      email: savedData.email || "",
+      firstName: saved.firstName || "",
+      lastName: saved.lastName || "",
+      phone: saved.phone || "",
+      email: saved.email || "",
       paymentMethod: "tpay",
-      pickupPointId: savedData.pickupPointId || "",
+
+      deliveryType: saved.deliveryType || "pickup",
+      parcelSize: saved.parcelSize || null,
+      deliveryPrice: saved.deliveryPrice || 0,
+
+      pickupPointId: saved.pickupPointId || "",
+
+      deliveryAddress: saved.deliveryAddress || {
+        fullName: "",
+        street: "",
+        houseNumber: "",
+        apartmentNumber: "",
+        city: "",
+        postalCode: "",
+      },
     };
   });
+
   useEffect(() => {
     if (user) {
       setFormData((prev) => ({
@@ -42,7 +55,6 @@ const UserOrderPage = () => {
         lastName: prev.lastName || user.lastName || "",
         phone: prev.phone || user.phone || "",
         email: prev.email || user.email || "",
-        paymentMethod: "tpay",
       }));
     }
   }, [user]);
@@ -50,7 +62,8 @@ const UserOrderPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.pickupPointId) {
+    // validate pickup
+    if (formData.deliveryType === "pickup" && !formData.pickupPointId) {
       alert("Proszę wybrać paczkomat!");
       return;
     }
@@ -73,9 +86,18 @@ const UserOrderPage = () => {
     const orderResponse = await dispatch(
       createOrder({
         products: cleanedProducts,
+
+        deliveryType: formData.deliveryType,
+        parcelSize: formData.parcelSize,
+        deliveryPrice: formData.deliveryPrice,
+
+        pickupPointId:
+          formData.deliveryType === "pickup" ? formData.pickupPointId : null,
+
+        deliveryAddress:
+          formData.deliveryType === "courier" ? formData.deliveryAddress : null,
+
         country: "Poland",
-        pickupPointId: formData.pickupPointId,
-        paymentMethod: "tpay",
         notes: "",
       }),
     );
@@ -91,6 +113,7 @@ const UserOrderPage = () => {
       window.location.href = createdOrder.paymentUrl;
       return;
     }
+
     alert("❌ Błąd linku do płatności");
   };
 
@@ -105,9 +128,19 @@ const UserOrderPage = () => {
 
       <form onSubmit={handleSubmit}>
         <UserInfoForm formData={formData} setFormData={setFormData} />
+        <DeliverySection formData={formData} setFormData={setFormData} />
 
         <ButtonWrapper>
-          <SubmitButton type="submit">{t("place_order")}</SubmitButton>
+          <ButtonOrderNeutral type="submit">
+            <img
+              src={Tpay}
+              alt="Tpay"
+              height="26"
+              style={{ marginRight: "8px" }}
+            />
+
+            {t("place_order")}
+          </ButtonOrderNeutral>
         </ButtonWrapper>
       </form>
     </FormContainer>

@@ -2,11 +2,10 @@ import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectOfflineOrders } from "../../../../../../redux/finance/offlineOrder/selectorsOfflineOrder";
-import { selectActiveReservations } from "../../../../../../redux/finance/reservation/selectorsReserve";
 import { getProducts } from "../../../../../../redux/products/operationProducts";
 import { selectProducts } from "../../../../../../redux/products/selectorsProducts";
 import { calculateDiscount } from "../../../../../../utils/calculateDiscount";
-import ReservationForm from "../Reservation/ReservationForm";
+import ReservationForm from "../../SalesTab/Reservation/ReservationForm";
 import Cart from "./Cart";
 import {
   CategoryButton,
@@ -19,6 +18,8 @@ import {
   RightColumn,
   SearchBox,
 } from "./OfflineOrder.styled";
+
+import { selectActiveReservations } from "../../../../../../redux/finance/reservation/selectorsReserve";
 import OrderForm from "./OrderForm";
 import SaleButton from "./SaleButton";
 const OfflineOrder = () => {

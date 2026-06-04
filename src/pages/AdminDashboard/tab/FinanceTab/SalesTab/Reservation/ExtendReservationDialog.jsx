@@ -10,7 +10,11 @@ import { useState } from "react";
 
 const ExtendReservationDialog = ({ open, onClose, onSubmit }) => {
   const [date, setDate] = useState("");
-
+  const handleSubmit = () => {
+    onSubmit(date);
+    setDate("");
+    onClose();
+  };
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>📅 Продовжити резерв</DialogTitle>

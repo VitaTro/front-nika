@@ -6,6 +6,8 @@ import {
   createReservationFailure,
   createReservationRequest,
   createReservationSuccess,
+  deleteReservationRequest,
+  deleteReservationSuccess,
   extendReservationFailure,
   extendReservationRequest,
   extendReservationSuccess,
@@ -19,7 +21,7 @@ export const fetchReservations = () => async (dispatch) => {
   dispatch(fetchReservationsRequest());
   try {
     const response = await axios.get(
-      "/api/admin/finance/offline/orders/reserve",
+      "/api/admin/finance/offline/sales/reserve",
     );
     dispatch(fetchReservationsSuccess(response.data));
   } catch (error) {
@@ -34,7 +36,7 @@ export const createReservation = (data) => async (dispatch) => {
   dispatch(createReservationRequest());
   try {
     const response = await axios.post(
-      "/api/admin/finance/offline/orders/reserve",
+      "/api/admin/finance/offline/sales/reserve",
       data,
     );
     dispatch(createReservationSuccess(response.data.reservation));
@@ -52,7 +54,7 @@ export const extendReservation = (id, newDate) => async (dispatch) => {
   dispatch(extendReservationRequest());
   try {
     const response = await axios.patch(
-      `/api/admin/finance/offline/orders/reserve/${id}/extend`,
+      `/api/admin/finance/offline/sales/reserve/${id}/extend`,
       { newDate },
     );
     dispatch(extendReservationSuccess(response.data.reservation));
@@ -68,13 +70,24 @@ export const completeReservation = (id, paymentMethod) => async (dispatch) => {
   dispatch(completeReservationRequest());
   try {
     const response = await axios.patch(
-      `/api/admin/finance/offline/orders/reserve/${id}/complete`,
+      `/api/admin/finance/offline/sales/reserve/${id}/complete`,
       { paymentMethod },
     );
     dispatch(completeReservationSuccess(response.data.reservation));
   } catch (error) {
     dispatch(
       completeReservationFailure(error.response?.data?.error || error.message),
+    );
+  }
+};
+export const deleteReservation = (id) => async (dispatch) => {
+  dispatch(deleteReservationRequest());
+  try {
+    await axios.delete(`/api/admin/finance/offline/sales/reserve/${id}`);
+    dispatch(deleteReservationSuccess(id));
+  } catch (error) {
+    dispatch(
+      deleteReservationFailure(error.response?.data?.error || error.message),
     );
   }
 };

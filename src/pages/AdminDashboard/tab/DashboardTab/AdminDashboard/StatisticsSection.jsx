@@ -1,7 +1,7 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Alert, Box, Button, Paper, Typography } from "@mui/material";
 import VisitsChart from "./VisitsChart";
 
-const StatisticsSection = ({ stats, graph }) => {
+const StatisticsSection = ({ stats, graph, setViewMode }) => {
   if (!stats) return null;
 
   return (
@@ -17,7 +17,32 @@ const StatisticsSection = ({ stats, graph }) => {
         <Typography>
           Загальна кількість товарів: {stats.totalProducts}
         </Typography>
-
+        {stats.expiringReservations?.count > 0 && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            ⏳ Завтра закінчується {stats.expiringReservations.count} резервів
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{ ml: 2 }}
+              onClick={() => setViewMode("expiring")}
+            >
+              Переглянути
+            </Button>
+          </Alert>
+        )}
+        {stats.expiredReservations?.count > 0 && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            ⚠️ Є прострочені резерви: {stats.expiredReservations.count}
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{ ml: 2 }}
+              onClick={() => setViewMode("expired")}
+            >
+              Переглянути
+            </Button>
+          </Alert>
+        )}
         <Box mt={2}>
           <Typography variant="h6" fontWeight={600} mt={2}>
             Візити

@@ -5,6 +5,9 @@ import {
   CREATE_RESERVATION_FAILURE,
   CREATE_RESERVATION_REQUEST,
   CREATE_RESERVATION_SUCCESS,
+  DELETE_RESERVATION_FAILURE,
+  DELETE_RESERVATION_REQUEST,
+  DELETE_RESERVATION_SUCCESS,
   EXTEND_RESERVATION_FAILURE,
   EXTEND_RESERVATION_REQUEST,
   EXTEND_RESERVATION_SUCCESS,
@@ -25,6 +28,7 @@ const offlineReservationsReducer = (state = initialState, action) => {
     case CREATE_RESERVATION_REQUEST:
     case EXTEND_RESERVATION_REQUEST:
     case COMPLETE_RESERVATION_REQUEST:
+    case DELETE_RESERVATION_REQUEST:
       return { ...state, loading: true, error: null };
 
     case FETCH_RESERVATIONS_SUCCESS:
@@ -46,11 +50,19 @@ const offlineReservationsReducer = (state = initialState, action) => {
         ),
         loading: false,
       };
-
+    case DELETE_RESERVATION_SUCCESS:
+      return {
+        ...state,
+        reservations: state.reservations.filter(
+          (r) => r._id !== action.payload,
+        ),
+        loading: false,
+      };
     case FETCH_RESERVATIONS_FAILURE:
     case CREATE_RESERVATION_FAILURE:
     case EXTEND_RESERVATION_FAILURE:
     case COMPLETE_RESERVATION_FAILURE:
+    case DELETE_RESERVATION_FAILURE:
       return { ...state, error: action.payload, loading: false };
 
     default:
