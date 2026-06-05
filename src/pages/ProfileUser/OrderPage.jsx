@@ -25,7 +25,6 @@ const UserOrderPage = () => {
   const user = useSelector(selectAuthUser);
   const navigate = useNavigate();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentUrl, setPaymentUrl] = useState(null);
 
   const [formData, setFormData] = useState(() => {
     const saved = JSON.parse(localStorage.getItem("orderForm")) || {};
@@ -121,16 +120,13 @@ const UserOrderPage = () => {
       alert("❌ Błąd przy tworzeniu zamówienia.");
       return;
     }
-
+    // очищення корзини
     dispatch({ type: "shopping/clearCart" });
-    navigate(`/user/orders/${createdOrder.order._id}`);
+    // модалка з повідомленням
+    setShowPaymentModal(true);
 
-    if (createdOrder.paymentUrl) {
-      setPaymentUrl(createdOrder.paymentUrl);
-      setShowPaymentModal(true);
-    } else {
-      alert("❌ Błąd linku до płatności");
-    }
+    // перехід на замовлення
+    navigate(`/user/orders/${createdOrder.order._id}`);
   };
   return (
     <FormContainer
@@ -162,7 +158,6 @@ const UserOrderPage = () => {
         open={showPaymentModal}
         onClose={() => {
           setShowPaymentModal(false);
-          if (paymentUrl) window.location.href = paymentUrl;
         }}
       />
     </FormContainer>
