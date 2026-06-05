@@ -5,6 +5,7 @@ import { updateOnlineOrderStatus } from "../../../../../../redux/finance/onlineO
 const statuses = [
   { key: "new", label: "🆕 Нове", color: "info" },
   { key: "received", label: "📥 Отримано", color: "primary" },
+  { key: "paid", label: "💳 Оплачено", color: "secondary" },
   { key: "assembled", label: "🛠 Зібрано", color: "success" },
   { key: "shipped", label: "🚚 Відправлено", color: "warning" },
   { key: "completed", label: "✅ Виконано", color: "secondary" },
@@ -19,7 +20,7 @@ const OrderStatus = ({ order, isMobile }) => {
       updateOnlineOrderStatus({
         orderId: order._id,
         status,
-      })
+      }),
     );
   };
 
