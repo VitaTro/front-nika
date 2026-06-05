@@ -336,6 +336,7 @@
   "returns": "Zwroty i reklamacje",
   "privacy": "Polityka prywatności",
   "cookies": "Pliki cookie",
+  "terms1": "Warunki korzystania",
   "cookies_notice": "Powiadomienie o cookies",
   "jewelry": "Biżuteria, która mówi więcej niż słowa ✨",
   "info": "Informacja",
@@ -561,6 +562,67 @@
   "card_1": "Link do płatności zostanie wysłany na Twój e-mail po złożeniu zamówienia.",
   "bank_transfer_link_1": "Ta metoda pozwala na szybsze przetwarzanie zamówienia.",
   "payment": "Warunki płatności",
+  "terms": {
+    "title": "Warunki korzystania z aplikacji Nika Gold",
+
+    "section1": {
+      "title": "1. Postanowienia ogólne",
+      "p1": "Niniejsze Warunki korzystania określają zasady korzystania z aplikacji oraz usług dostępnych pod adresem https://nika-gold.net.",
+      "p2": "Korzystając z aplikacji, użytkownik akceptuje niniejsze Warunki."
+    },
+
+    "section2": {
+      "title": "2. Właściciel aplikacji",
+      "p1": "Właścicielem aplikacji jest Nika Gold, prowadząca działalność w Polsce.",
+      "p2": "Kontakt: huping.nika.gold@gmail.com"
+    },
+
+    "section3": {
+      "title": "3. Zakres usług",
+      "p1": "Aplikacja umożliwia przeglądanie produktów, składanie zamówień oraz korzystanie z funkcji konta użytkownika.",
+      "list": [
+        "Przeglądanie produktów",
+        "Składanie zamówień",
+        "Korzystanie z konta użytkownika"
+      ]
+    },
+
+    "section4": {
+      "title": "4. Odpowiedzialność użytkownika",
+      "p1": "Użytkownik zobowiązuje się do:",
+      "list": [
+        "korzystania z aplikacji zgodnie z prawem",
+        "niezakłócania działania aplikacji",
+        "podawania prawdziwych danych podczas rejestracji i zamówień"
+      ]
+    },
+
+    "section5": {
+      "title": "5. Odpowiedzialność właściciela",
+      "p1": "Właściciel nie ponosi odpowiedzialności za przerwy techniczne, błędy użytkownika oraz działania osób trzecich."
+    },
+
+    "section6": {
+      "title": "6. Dane osobowe",
+      "p1": "Zasady przetwarzania danych osobowych opisane są w <a href=\"/policy-privacy?tab=1\">Polityce Prywatności</a>."
+    },
+
+    "section7": {
+      "title": "7. Prawa autorskie",
+      "p1": "Wszelkie treści dostępne w aplikacji są chronione prawem autorskim."
+    },
+
+    "section8": {
+      "title": "8. Zmiany warunków",
+      "p1": "Właściciel zastrzega sobie prawo do zmiany niniejszych Warunków."
+    },
+
+    "section9": {
+      "title": "9. Kontakt",
+      "p1": "W przypadku pytań prosimy o kontakt: huping.nika.gold@gmail.com"
+    }
+  },
+
   "regulations": {
     "sections": {
       "section1": "Postanowienia",

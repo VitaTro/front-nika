@@ -337,6 +337,7 @@
   "returns": "Returns and complaints",
   "privacy": "Privacy policy",
   "cookies": "Cookies",
+  "terms1": "Terms of service",
   "cookies_notice": "Cookies Notice",
   "jewelry": "Jewellery that speaks louder than words ✨",
   "info": "Information",
@@ -563,6 +564,62 @@
   "card_1": "A payment link will be sent to your email after the order is created.",
   "bank_transfer_link_1": "This method allows for faster processing of the order.",
   "payment": "Payment Terms",
+  "terms": {
+    "title": "Terms of Service for Nika Gold",
+
+    "section1": {
+      "title": "1. General Provisions",
+      "p1": "These Terms define the rules for using the application and services at https://nika-gold.net.",
+      "p2": "By using the application, the user accepts these Terms."
+    },
+
+    "section2": {
+      "title": "2. Application Owner",
+      "p1": "The application is owned by Nika Gold, operating in Poland.",
+      "p2": "Contact: huping.nika.gold@gmail.com"
+    },
+
+    "section3": {
+      "title": "3. Scope of Services",
+      "p1": "The application allows browsing products, placing orders, and using the user account.",
+      "list": ["Browsing products", "Placing orders", "Using the user account"]
+    },
+
+    "section4": {
+      "title": "4. User Responsibilities",
+      "p1": "The user agrees to:",
+      "list": [
+        "use the application in accordance with the law",
+        "not interfere with the operation of the application",
+        "provide truthful data during registration and orders"
+      ]
+    },
+
+    "section5": {
+      "title": "5. Owner Liability",
+      "p1": "The owner is not responsible for technical interruptions, user errors, or actions of third parties."
+    },
+
+    "section6": {
+      "title": "6. Personal Data",
+      "p1": "Personal data processing rules are described in the Privacy Policy."
+    },
+
+    "section7": {
+      "title": "7. Copyright",
+      "p1": "All content in the application is protected by copyright."
+    },
+
+    "section8": {
+      "title": "8. Changes to Terms",
+      "p1": "The owner reserves the right to modify these Terms."
+    },
+
+    "section9": {
+      "title": "9. Contact",
+      "p1": "For questions, contact: huping.nika.gold@gmail.com"
+    }
+  },
   "regulations": {
     "sections": {
       "section1": "General provisions",

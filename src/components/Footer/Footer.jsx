@@ -82,6 +82,7 @@ const Footer = () => {
           <FooterLink to="/policy-privacy">{t("privacy")}</FooterLink>
           <FooterLink to="/policy-returns">{t("returns")}</FooterLink>
           <FooterLink to="/policy-cookies">{t("cookies")}</FooterLink>
+          <FooterLink to="/policy-terms">{t("terms1")}</FooterLink>
         </FooterSection>
 
         <FooterSection>

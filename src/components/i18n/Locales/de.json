@@ -338,6 +338,7 @@
   "returns": "Rückgaben und Reklamationen",
   "privacy": "Datenschutzrichtlinie",
   "cookies": "Cookies",
+  "terms1": "Nutzungsbedingungen",
   "cookies_notice": "Cookies-Hinweis",
   "jewelry": "Schmuck, der mehr sagt als Worte ✨",
   "info": "Hauptinformation",
@@ -562,6 +563,66 @@
   "card_1": "Der Zahlungslink wird Ihnen nach der Erstellung der Bestellung per E-Mail zugesendet.",
   "bank_transfer_link_1": "Diese Methode ermöglicht eine schnellere Bearbeitung der Bestellung.",
   "payment": "Zahlungsbedingungen",
+  "terms": {
+    "title": "Nutzungsbedingungen für Nika Gold",
+
+    "section1": {
+      "title": "1. Allgemeine Bestimmungen",
+      "p1": "Diese Bedingungen legen die Regeln für die Nutzung der Anwendung und der Dienste unter https://nika-gold.net fest.",
+      "p2": "Durch die Nutzung der Anwendung akzeptiert der Nutzer diese Bedingungen."
+    },
+
+    "section2": {
+      "title": "2. Eigentümer der Anwendung",
+      "p1": "Die Anwendung gehört Nika Gold, die in Polen tätig ist.",
+      "p2": "Kontakt: huping.nika.gold@gmail.com"
+    },
+
+    "section3": {
+      "title": "3. Leistungsumfang",
+      "p1": "Die Anwendung ermöglicht das Durchsuchen von Produkten, das Aufgeben von Bestellungen und die Nutzung des Benutzerkontos.",
+      "list": [
+        "Produkte durchsuchen",
+        "Bestellungen aufgeben",
+        "Benutzerkonto nutzen"
+      ]
+    },
+
+    "section4": {
+      "title": "4. Pflichten des Nutzers",
+      "p1": "Der Nutzer verpflichtet sich:",
+      "list": [
+        "die Anwendung gesetzeskonform zu nutzen",
+        "den Betrieb der Anwendung nicht zu stören",
+        "wahrheitsgemäße Daten bei Registrierung und Bestellungen anzugeben"
+      ]
+    },
+
+    "section5": {
+      "title": "5. Haftung des Eigentümers",
+      "p1": "Der Eigentümer haftet nicht für technische Unterbrechungen, Benutzerfehler oder Handlungen Dritter."
+    },
+
+    "section6": {
+      "title": "6. Personenbezogene Daten",
+      "p1": "Die Verarbeitung personenbezogener Daten ist in der Datenschutzrichtlinie beschrieben."
+    },
+
+    "section7": {
+      "title": "7. Urheberrecht",
+      "p1": "Alle Inhalte der Anwendung sind urheberrechtlich geschützt."
+    },
+
+    "section8": {
+      "title": "8. Änderungen der Bedingungen",
+      "p1": "Der Eigentümer behält sich das Recht vor, diese Bedingungen zu ändern."
+    },
+
+    "section9": {
+      "title": "9. Kontakt",
+      "p1": "Bei Fragen kontaktieren Sie: huping.nika.gold@gmail.com"
+    }
+  },
   "regulations": {
     "sections": {
       "section1": "Bestimmungen",

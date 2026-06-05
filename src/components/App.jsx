@@ -67,6 +67,7 @@ import CookiesPolicy from "./Policy/CookiesPolicy";
 import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
+import TermsPolicy from "./Policy/TermsPolicy.jsx";
 import ProtectedRoute from "./ProtectedRoute";
 import UserSingleOrder from "./UserDashboard/OrderPlace/orderUser/UserSingleOrder.jsx";
 
@@ -183,7 +184,9 @@ export const App = () => {
               <Route path="/policy-cookies" element={<CookiesPolicy />} />
               <Route path="/policy-privacy" element={<PrivacyPolicy />} />
               <Route path="/policy-returns" element={<ReturnsPolicy />} />
+              <Route path="/policy-terms" element={<TermsPolicy />} />
               <Route path="/data-deletion" element={<DataDeletion />} />
+
               <Route
                 path="/guest-cart"
                 element={<ShoppingCartPage promptGoogle={promptGoogle} />}
