@@ -10,6 +10,7 @@ const statusColors = {
   assembled: "success",
   received: "primary",
   cancelled: "error",
+  paid: "success",
 };
 
 const StatusChip = ({ status }) => {

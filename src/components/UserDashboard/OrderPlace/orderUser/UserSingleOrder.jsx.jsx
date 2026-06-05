@@ -1,23 +1,20 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { fetchUserOrderById } from "../../../../redux/user/userOrders/operationsUserOrders";
 import {
   selectCurrentUserOrder,
   selectUserOrdersError,
   selectUserOrdersLoading,
 } from "../../../../redux/user/userOrders/selectorsUserOrders";
-
-import OrderDetailsCard from "./OrderDetailsCard";
-import StatusChip from "./StatusChip";
-
-import { fetchUserOrderById } from "../../../../redux/user/userOrders/operationsUserOrders";
 import Pending from "../../../icons/shop_pending.png";
 import Success from "../../../icons/shop_success.png";
 import Loader from "../../../Loader";
-
+import OrderDetailsCard from "./OrderDetailsCard";
+import StatusChip from "./StatusChip";
+StatusChip;
 const UserSingleOrder = ({ orderId: orderIdProp, onBack }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -60,34 +57,30 @@ const UserSingleOrder = ({ orderId: orderIdProp, onBack }) => {
 
       {/* ВІЗУАЛЬНИЙ СТАТУС */}
       <Box sx={{ textAlign: "center", mt: 2 }}>
-        <img
-          src={isUnpaid ? Pending : Success}
-          alt="Order status"
-          style={{ width: 180, marginBottom: 10 }}
-        />
+        <Stack
+          direction="row"
+          spacing={3}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {/* Іконка оплати */}
+          <Stack direction="column" spacing={1} alignItems="center">
+            <img
+              src={order.paymentStatus === "paid" ? Success : Pending}
+              alt="Payment status"
+              style={{ width: 80 }}
+            />
+            <Typography variant="body2" color="text.secondary">
+              {t(`status.${order.paymentStatus}`)}
+            </Typography>
+          </Stack>
 
-        {isUnpaid ? (
-          <>
-            <Typography variant="h6" sx={{ mt: 1 }}>
-              {t("order_waiting_payment")}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t("payment_link_sent")}
-            </Typography>
-          </>
-        ) : (
-          <>
-            <Typography variant="h6" sx={{ mt: 1 }}>
-              {t("payment_successful")}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t("order_will_be_sent")}
-            </Typography>
-          </>
-        )}
-        <StatusChip status={order.status} />
+          {/* Іконка статусу замовлення */}
+          <Stack direction="column" spacing={1} alignItems="center">
+            <StatusChip status={order.status} />
+          </Stack>
+        </Stack>
       </Box>
-
       {/* ІНФОРМАЦІЯ ПРО ЗАМОВЛЕННЯ */}
       <Box sx={{ mt: 3 }}>
         <Typography variant="body1">

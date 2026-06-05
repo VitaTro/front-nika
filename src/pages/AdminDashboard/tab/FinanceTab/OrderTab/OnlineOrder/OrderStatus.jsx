@@ -35,12 +35,13 @@ const OrderStatus = ({ order, isMobile }) => {
         <Button
           key={key}
           size="small"
-          variant="contained"
+          variant={order.status === key ? "outlined" : "contained"}
           color={color}
           onClick={() => handleStatusChange(key)}
           disabled={order.status === key}
           fullWidth={isMobile}
         >
+          {order.status === key ? "✔️ " : ""}
           {label}
         </Button>
       ))}

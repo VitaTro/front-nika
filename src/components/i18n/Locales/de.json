@@ -332,7 +332,8 @@
     "returned": "Zurückgegeben",
     "assembled": "Zusammengestellt",
     "received": "Erhalten",
-    "cancelled": "Storniert"
+    "cancelled": "Storniert",
+    "paid": "Bezahlt"
   },
   "main": "Haupt",
   "returns": "Rückgaben und Reklamationen",

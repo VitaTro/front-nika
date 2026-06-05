@@ -331,7 +331,8 @@
     "returned": "Returned",
     "assembled": "Assembled",
     "received": "Received",
-    "cancelled": "Cancelled"
+    "cancelled": "Cancelled",
+    "paid": "Paid"
   },
   "main": "Main",
   "returns": "Returns and complaints",

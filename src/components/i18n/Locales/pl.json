@@ -330,7 +330,9 @@
     "returned": "Zwrócone",
     "assembled": "Złożone",
     "received": "Odebrane",
-    "cancelled": "Anulowane"
+    "cancelled": "Anulowane",
+    "paid": "Opłacone",
+    "sold": "Sprzedane"
   },
   "main": "Główna",
   "returns": "Zwroty i reklamacje",
