@@ -84,7 +84,7 @@ export const App = () => {
 
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const theme = { isDarkMode };
-  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const isAuthPage = [
     "/user/auth/login",
