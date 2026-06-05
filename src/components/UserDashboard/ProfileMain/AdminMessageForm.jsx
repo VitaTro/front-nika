@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "styled-components";
-import { sendAdminMessage } from "../../../../redux/user/userOperations";
-import { selectUser } from "../../../../redux/user/userSelectors";
+import { sendAdminMessage } from "../../../redux/user/userOperations";
+import { selectUser } from "../../../redux/user/userSelectors";
 
 const AdminMessageForm = () => {
   const { t } = useTranslation();

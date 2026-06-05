@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import AdminMessageForm from "../../components/UserDashboard/tab/ProfileMain/AdminMessageForm";
+import AdminMessageForm from "../../components/UserDashboard/ProfileMain/AdminMessageForm";
 
 const UserSettings = () => {
   const { t } = useTranslation();

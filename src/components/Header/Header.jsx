@@ -105,14 +105,6 @@ const Header = ({ promptGoogle }) => {
           />
         </NavLinkStyled>
 
-        {/* <HamburgerButton
-          $isOpen={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-          <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-          <div style={{ backgroundColor: isDarkMode ? "#0c0" : "#333" }} />
-        </HamburgerButton> */}
         {!menuOpen && (
           <HamburgerButton onClick={() => setMenuOpen(true)}>
             <span
@@ -256,10 +248,6 @@ const Header = ({ promptGoogle }) => {
           </UtilityContainer>
         )}
       </HeaderComponent>
-      {/* Пошук знизу */}
-      {/* <SearchContainer>
-        <SearchBar onSearch={(query) => console.log("Searching for:", query)} />
-      </SearchContainer> */}
 
       {/* Мобільне меню */}
       <MobileMenuHeader
@@ -272,7 +260,6 @@ const Header = ({ promptGoogle }) => {
         setShowLoginModal={setShowLoginModal}
         promptGoogle={promptGoogle}
         t={t}
-        // isUserAuthenticated={isUserAuthenticated}
         user={user}
         handleLogout={handleLogout}
       />

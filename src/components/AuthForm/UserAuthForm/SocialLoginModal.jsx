@@ -87,12 +87,10 @@ const SocialLoginModal = ({
         return;
       }
 
-      dispatch(checkUserSession());
+      await dispatch(checkUserSession());
 
-      setTimeout(() => {
-        onClose();
-        navigate(redirectTo);
-      }, 200);
+      onClose();
+      navigate(redirectTo);
     } catch (err) {
       console.error("Google login failed:", err);
       setErrorMessage("Google login failed");

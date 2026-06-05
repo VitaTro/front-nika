@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { toggleTheme } from "../../redux/themeSlice";
-// import UserAvatar from "../UserAvatar/UserAvatar";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   selectAuthUser,
   selectIsLoggedIn,
 } from "../../redux/auth/userAuth/selectorsAuth";
 import { selectShoppingCartItems } from "../../redux/shopping/selectorsShopping";
+import { toggleTheme } from "../../redux/themeSlice";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import {
   selectAuthError,
@@ -18,7 +17,6 @@ import {
 import Logo from "../icons/logo.png";
 import Moon from "../icons/moon.png";
 import Sun from "../icons/sun.png";
-import Loader from "../Loader";
 import {
   Container,
   HamburgerButton,
@@ -75,7 +73,6 @@ const UserHeader = () => {
     dispatch(logoutUser());
     navigate("/main");
   };
-  if (isLoading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
 
   return (

@@ -68,7 +68,8 @@ import PaymentPolicy from "./Policy/PaymentPolicy";
 import PrivacyPolicy from "./Policy/PrivacyPolicy";
 import ReturnsPolicy from "./Policy/ReturnsPolicy";
 import ProtectedRoute from "./ProtectedRoute";
-import UserSingleOrder from "./UserDashboard/tab/ProfileMain/orderUser/UserSingleOrder.jsx";
+import UserSingleOrder from "./UserDashboard/OrderPlace/orderUser/UserSingleOrder.jsx";
+
 export const App = () => {
   const location = useLocation();
   usePageView(location.pathname);

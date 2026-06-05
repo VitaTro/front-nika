@@ -2,11 +2,12 @@ import { Box, Button, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import UserOrderDetails from "../../components/UserDashboard/tab/ProfileMain/orderUser/OrderDetails";
-import UserSingleOrder from "../../components/UserDashboard/tab/ProfileMain/orderUser/UserSingleOrder.jsx";
-import ProfileAddress from "../../components/UserDashboard/tab/ProfileMain/ProfileAddress";
-import ProfileMain from "../../components/UserDashboard/tab/ProfileMain/ProfileMain";
-import UserPurchaseHistory from "../../components/UserDashboard/tab/ProfileMain/UserPurchaseHistory";
+
+import UserOrderDetails from "../../components/UserDashboard/OrderPlace/orderUser/OrderDetails.jsx";
+import UserSingleOrder from "../../components/UserDashboard/OrderPlace/orderUser/UserSingleOrder.jsx.jsx";
+import ProfileAddress from "../../components/UserDashboard/ProfileMain/ProfileAddress.jsx";
+import ProfileMain from "../../components/UserDashboard/ProfileMain/ProfileMain.jsx";
+import UserPurchaseHistory from "../../components/UserDashboard/ProfileMain/UserPurchaseHistory.jsx";
 import { fetchUserInfo } from "../../redux/user/userOperations";
 import { selectUser } from "../../redux/user/userSelectors";
 import UserSettings from "./UserSettings";
@@ -31,35 +32,23 @@ const ProfilePage = () => {
     {
       label: t("my_orders"),
       component: selectedOrderId ? (
-        <UserSingleOrder orderId={selectedOrderId} />
+        <UserSingleOrder
+          orderId={selectedOrderId}
+          onBack={() => setSelectedOrderId(null)}
+        />
       ) : (
         <UserOrderDetails onSelectOrder={setSelectedOrderId} />
       ),
     },
 
     { label: t("order_history"), component: <UserPurchaseHistory /> },
-    {
-      label: t("payment_cards"),
-      component: <p>💳 {t("payment_cards_placeholder")}</p>,
-    },
-    {
-      label: t("wallet"),
-      component: <p>👛 {t("wallet_placeholder")}</p>,
-    },
-    {
-      label: t("settings"),
-      component: <UserSettings />,
-    },
+
+    // Можеш прибрати або залишити як заглушку
+
+    { label: t("settings"), component: <UserSettings /> },
   ];
 
   if (!user) return <p>Loading profile...</p>;
-  {
-    selectedOrderId ? (
-      <UserSingleOrder orderId={selectedOrderId} />
-    ) : (
-      <UserOrderDetails onSelectOrder={setSelectedOrderId} />
-    );
-  }
 
   return (
     <Box
@@ -71,7 +60,6 @@ const ProfilePage = () => {
       }}
     >
       {isMobile ? (
-        // 📱 Mobile navigation
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           {tabItems.map((tab, index) => (
             <Button
@@ -114,7 +102,6 @@ const ProfilePage = () => {
         </Tabs>
       )}
 
-      {/* 🔽 Активний контент вкладки */}
       <Box sx={{ flexGrow: 1 }}>{tabItems[selectedTab].component}</Box>
     </Box>
   );

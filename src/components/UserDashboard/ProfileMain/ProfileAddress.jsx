@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import {
   fetchUserAddress,
   updateUserAddress,
-} from "../../../../redux/user/userOperations";
+} from "../../../redux/user/userOperations";
 
 const ProfileAddress = () => {
   const { t } = useTranslation();

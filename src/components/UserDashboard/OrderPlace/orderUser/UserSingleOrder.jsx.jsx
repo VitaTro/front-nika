@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,16 +8,17 @@ import {
   selectCurrentUserOrder,
   selectUserOrdersError,
   selectUserOrdersLoading,
-} from "../../../../../redux/user/userOrders/selectorsUserOrders";
+} from "../../../../redux/user/userOrders/selectorsUserOrders";
 
 import OrderDetailsCard from "./OrderDetailsCard";
 import StatusChip from "./StatusChip";
 
-import { fetchUserOrderById } from "../../../../../redux/user/userOrders/operationsUserOrders";
-import Pending from "../../../../icons/shop_pending.png";
-import Success from "../../../../icons/shop_success.png";
+import { fetchUserOrderById } from "../../../../redux/user/userOrders/operationsUserOrders";
+import Pending from "../../../icons/shop_pending.png";
+import Success from "../../../icons/shop_success.png";
+import Loader from "../../../Loader";
 
-const UserSingleOrder = ({ orderId: orderIdProp }) => {
+const UserSingleOrder = ({ orderId: orderIdProp, onBack }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const UserSingleOrder = ({ orderId: orderIdProp }) => {
   if (loading || !order) {
     return (
       <Box sx={{ textAlign: "center", mt: 5 }}>
-        <CircularProgress />
+        <Loader />
       </Box>
     );
   }
@@ -68,20 +69,19 @@ const UserSingleOrder = ({ orderId: orderIdProp }) => {
         {isUnpaid ? (
           <>
             <Typography variant="h6" sx={{ mt: 1 }}>
-              Zamówienie oczekuje na płatność
+              {t("order_waiting_payment")}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Link do płatności został wysłany na Twój adres e‑mail.
+              {t("payment_link_sent")}
             </Typography>
           </>
         ) : (
           <>
             <Typography variant="h6" sx={{ mt: 1 }}>
-              Płatność zakończona pomyślnie
+              {t("payment_successful")}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              W najbliższym czasie nasi pracownicy przygotują i wyślą Twoje
-              zamówienie.
+              {t("order_will_be_sent")}
             </Typography>
           </>
         )}
@@ -117,7 +117,7 @@ const UserSingleOrder = ({ orderId: orderIdProp }) => {
 
       {/* ПОВЕРНУТИСЯ ДО СПИСКУ */}
       <Box sx={{ textAlign: "center", mt: 4 }}>
-        <Button variant="outlined" onClick={() => navigate("/user/orders")}>
+        <Button variant="outlined" onClick={onBack}>
           {t("back_to_orders")}
         </Button>
       </Box>

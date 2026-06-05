@@ -13,14 +13,14 @@ import {
   confirmOrderReceived,
   fetchUserOrders,
   returnOrder,
-} from "../../../../../redux/user/userOrders/operationsUserOrders";
+} from "../../../../redux/user/userOrders/operationsUserOrders";
 import {
   selectUserOrders,
   selectUserOrdersError,
   selectUserOrdersLoading,
-} from "../../../../../redux/user/userOrders/selectorsUserOrders";
-import Loader from "../../../../Loader";
-import shop from "../../../../icons/shop.png";
+} from "../../../../redux/user/userOrders/selectorsUserOrders";
+import shop from "../../../icons/shop.png";
+import Loader from "../../../Loader";
 import OrderDetailsCard from "./OrderDetailsCard";
 import StatusChip from "./StatusChip";
 
@@ -118,16 +118,7 @@ const UserOrderDetails = ({ onSelectOrder }) => {
                   </Button>
                 )}
               </Stack>
-              <Button
-                onClick={() =>
-                  setSelected(selected?._id === order._id ? null : order)
-                }
-              >
-                {" "}
-                {selected?._id === order._id
-                  ? t("hide_details")
-                  : t("show_details")}
-              </Button>
+
               <Button
                 variant="outlined"
                 onClick={() => onSelectOrder(order._id)}

@@ -1,6 +1,5 @@
 import {
   Box,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -10,24 +9,17 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import StatusChip from "./StatusChip";
 
 const OrderDetailsCard = ({ order }) => {
   const { t } = useTranslation();
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  const formatDate = (date) =>
-    new Date(date).toLocaleString("pl-PL", {
-      dateStyle: "medium",
-      timeStyle: "short",
-    });
-
   const getLengthWithUnit = (product) => {
     if (!product?.length) return t("not_available");
     const mmCategories = ["pendants", "crosses", "incense"];
     const unit = mmCategories.includes(product.subcategory?.toLowerCase())
-      ? "мм"
-      : "см";
+      ? "mm"
+      : "cm";
     return `${product.length} ${unit}`;
   };
 
@@ -96,20 +88,6 @@ const OrderDetailsCard = ({ order }) => {
         </Box>
       ) : (
         <Box sx={{ p: 3, backgroundColor: "#f9f9f9", borderRadius: 2 }}>
-          <Typography variant="h6" gutterBottom>
-            {t("my_orders")}: {order.orderId}
-          </Typography>
-          <Stack direction="row" spacing={2} alignItems="center" mt={1}>
-            <Typography variant="body2" color="text.secondary">
-              {formatDate(order.createdAt)}
-            </Typography>
-            <StatusChip status={order.status} />
-          </Stack>
-
-          <Typography variant="body2">
-            {t("total")}: {order.totalPrice} zł
-          </Typography>
-
           <Table size="small">
             <TableHead>
               <TableRow>

@@ -2,14 +2,15 @@ import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPurchaseHistory } from "../../../../redux/user/userOrders/operationsUserOrders";
+import shop from "../../icons/shop.png";
+import Loader from "../../Loader";
+
+import { fetchPurchaseHistory } from "../../../redux/user/userOrders/operationsUserOrders";
 import {
   selectPurchaseHistory,
   selectUserOrdersError,
   selectUserOrdersLoading,
-} from "../../../../redux/user/userOrders/selectorsUserOrders";
-import shop from "../../../icons/shop.png";
-import Loader from "../../../Loader";
+} from "../../../redux/user/userOrders/selectorsUserOrders";
 
 const UserPurchaseHistory = () => {
   const { t } = useTranslation();
