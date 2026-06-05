@@ -65,8 +65,7 @@ const SocialLoginModal = ({
   );
 
   // ---------------- GOOGLE ----------------
-  const googleClientId =
-    "738133641682-a1gt7dqs0p82pkt5htgeqb9i5e6i1fds.apps.googleusercontent.com";
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const handleGoogleCallback = async (response) => {
     try {
