@@ -17,7 +17,7 @@ const DeliverySection = ({ formData, setFormData }) => {
   // Base parcel data with translation keys
   const parcelBase = [
     {
-      sizeKey: "parcel_small",
+      sizeKey: "small",
       dimsKey: "parcel_small_dims",
       weightKey: "parcel_weight",
       icon: Small,
@@ -25,7 +25,7 @@ const DeliverySection = ({ formData, setFormData }) => {
       courierPrice: 19.49,
     },
     {
-      sizeKey: "parcel_medium",
+      sizeKey: "medium",
       dimsKey: "parcel_medium_dims",
       weightKey: "parcel_weight",
       icon: Medium,
@@ -33,7 +33,7 @@ const DeliverySection = ({ formData, setFormData }) => {
       courierPrice: 20.49,
     },
     {
-      sizeKey: "parcel_large",
+      sizeKey: "large",
       dimsKey: "parcel_large_dims",
       weightKey: "parcel_weight",
       icon: Large,
