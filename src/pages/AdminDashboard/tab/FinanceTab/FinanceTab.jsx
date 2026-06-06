@@ -47,7 +47,7 @@ const FinanceTab = () => {
       {viewMode === "sales" && <SaleTab />}
       {viewMode === "expenses" && <ExpenseManager />}
 
-      <Outlet />
+      {/* <Outlet /> */}
     </Box>
   );
 };

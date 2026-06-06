@@ -2,7 +2,8 @@ import { Box, Button, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import OfflineOrder from "./OfflineOrder/OfflineOrder.jsx";
-import OnlineOrder from "./OnlineOrder/OnlineOrder.jsx";
+import OnlineOrder from "./OnlineOrder/OnlineOrderList.jsx";
+import OnlineOrderPage from "./OnlineOrder/OnlineOrderPage.jsx";
 import ProfileOrder from "./ProfileOrder/ProfileOrder.jsx";
 
 const OrderTab = () => {
@@ -12,6 +13,7 @@ const OrderTab = () => {
   const orderTabs = [
     { label: "Офлайн", value: "offline", color: "primary" },
     { label: "Онлайн", value: "online", color: "secondary" },
+    { label: "Онлайн-деталі", value: "online-details", color: "secondary" },
     { label: "Платформа", value: "profile", color: "secondary" },
   ];
 
@@ -39,8 +41,9 @@ const OrderTab = () => {
 
       {viewMode === "offline" && <OfflineOrder />}
       {viewMode === "online" && <OnlineOrder />}
+      {viewMode === "online-details" && <OnlineOrderPage />}
       {viewMode === "profile" && <ProfileOrder />}
-      <Outlet />
+      {/* <Outlet /> */}
     </Box>
   );
 };

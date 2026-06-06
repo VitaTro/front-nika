@@ -59,8 +59,12 @@ const onlineOrdersReducer = (state = initialState, action) => {
       return {
         ...state,
         onlineOrders: state.onlineOrders.map((order) =>
-          order._id === action.payload._id ? action.payload : order
+          order._id === action.payload._id ? action.payload : order,
         ),
+        currentOrder:
+          state.currentOrder?._id === action.payload._id
+            ? action.payload
+            : state.currentOrder,
         loading: false,
       };
 
@@ -70,7 +74,7 @@ const onlineOrdersReducer = (state = initialState, action) => {
         onlineOrders: state.onlineOrders.map((order) =>
           order._id === action.payload._id
             ? { ...order, status: action.payload.status }
-            : order
+            : order,
         ),
         currentOrder:
           state.currentOrder?._id === action.payload._id

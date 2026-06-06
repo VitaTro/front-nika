@@ -21,15 +21,14 @@ import ProductSummaryPanel from "./ProductSummaryPanel";
 const ProductGridWithSummary = () => {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width:768px)");
-
   const [filterValue, setFilterValue] = useState("");
   const [expanded, setExpanded] = useState(null);
   const productIndexes = useSelector(selectAllProductIndexes);
   const filteredIndexes = productIndexes.filter((index) =>
-    index.toLowerCase().includes(filterValue.toLowerCase())
+    index.toLowerCase().includes(filterValue.toLowerCase()),
   );
   const summary = useSelector((state) =>
-    selectNewProductSummary(state, expanded)
+    selectNewProductSummary(state, expanded),
   );
 
   useEffect(() => {
@@ -52,8 +51,8 @@ const ProductGridWithSummary = () => {
         📦 Товари на складі ({filteredIndexes.length})
       </Typography>
 
-      {filteredIndexes.map((index) => (
-        <Paper key={index} sx={{ p: 2 }}>
+      {filteredIndexes.map((idx, i) => (
+        <Paper key={`${idx}-${i}`} sx={{ p: 2 }}>
           <Box
             sx={{
               display: "flex",
@@ -64,17 +63,18 @@ const ProductGridWithSummary = () => {
               cursor: "pointer",
             }}
           >
-            <Typography>{index}</Typography>
+            <Typography>{idx}</Typography>
+
             <Button
               variant="text"
               size="small"
-              onClick={() => setExpanded(expanded === index ? null : index)}
+              onClick={() => setExpanded(expanded === idx ? null : idx)}
             >
-              {expanded === index ? "🔽 Сховати" : "🔍 Деталі"}
+              {expanded === idx ? "🔽 Сховати" : "🔍 Деталі"}
             </Button>
           </Box>
 
-          <Collapse in={expanded === index}>
+          <Collapse in={expanded === idx}>
             <Box sx={{ mt: 2 }}>
               {summary ? <ProductSummaryPanel summary={summary} /> : <Loader />}
             </Box>
