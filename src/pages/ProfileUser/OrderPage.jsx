@@ -88,11 +88,12 @@ const UserOrderPage = () => {
     }));
 
     const productsTotal = shoppingCart.reduce(
-      (sum, item) => sum + item.quantity * item.price,
+      (sum, item) => sum + Number(item.quantity) * Number(item.price),
       0,
     );
 
-    const finalPrice = productsTotal + formData.deliveryPrice;
+    const finalPrice =
+      Number(productsTotal) + Number(formData.deliveryPrice || 0);
 
     const orderResponse = await dispatch(
       createOrder({
@@ -102,6 +103,9 @@ const UserOrderPage = () => {
         parcelSize: formData.parcelSize,
         deliveryPrice: formData.deliveryPrice,
         finalPrice,
+        buyerName: `${formData.firstName} ${formData.lastName}`,
+        buyerEmail: formData.email,
+        buyerPhone: formData.phone,
 
         pickupPointId:
           formData.deliveryType === "pickup" ? formData.pickupPointId : null,
