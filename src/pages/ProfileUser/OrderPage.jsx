@@ -130,7 +130,7 @@ const UserOrderPage = () => {
     setShowPaymentModal(true);
 
     // перехід на замовлення
-    navigate(`/user/orders/${createdOrder.order._id}`);
+    // navigate(`/user/orders/${createdOrder.order._id}`);
   };
   return (
     <FormContainer
@@ -162,6 +162,7 @@ const UserOrderPage = () => {
         open={showPaymentModal}
         onClose={() => {
           setShowPaymentModal(false);
+          navigate(`/user/orders/${createdOrder.order._id}`);
         }}
       />
     </FormContainer>
