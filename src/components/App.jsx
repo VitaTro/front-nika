@@ -45,7 +45,8 @@ import { ToastContainer } from "react-toastify";
 import { usePageView } from "../hooks/usePageView";
 import InventoryLayout from "../pages/AdminDashboard/InventoryLayout";
 import OfflineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OfflineOrder/OfflineOrder";
-import OnlineOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrder";
+import OnlineOrderList from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrderList.jsx";
+import OnlineOrderPage from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OnlineOrder/OnlineOrderPage.jsx";
 import OrderTab from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/OrderTab";
 import ProfileOrder from "../pages/AdminDashboard/tab/FinanceTab/OrderTab/ProfileOrder/ProfileOrder";
 import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/OfflineSale/OfflineSale";
@@ -277,7 +278,8 @@ export const App = () => {
                   <Route path="finance" element={<FinanceTab />}>
                     <Route path="orders" element={<OrderTab />}>
                       <Route path="offline" element={<OfflineOrder />} />
-                      <Route path="online" element={<OnlineOrder />} />
+                      <Route path="online" element={<OnlineOrderList />} />
+                      <Route path="online/:id" element={<OnlineOrderPage />} />
                       <Route path="profile" element={<ProfileOrder />} />
                     </Route>
                     <Route path="sales" element={<SaleTab />}>
