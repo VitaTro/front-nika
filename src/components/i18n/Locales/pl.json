@@ -223,6 +223,7 @@
   "payment_link_sent": "Link do płatności został wysłany na Twój adres e‑mail.",
   "payment_successful": "Płatność zakończona pomyślnie",
   "order_will_be_sent": "W najbliższym czasie nasi pracownicy przygotują i wyślą Twoje zamówienie.",
+  "order_tracking_info": "Twoje zamówienie zostało przekazane do InPost. Możesz śledzić przesyłkę po numerze, który otrzymasz w wiadomości od InPost.",
   "region": "Wojewódstwo",
   "select_region": "Wybierz wojewódstwo",
   "elavon_online_payment_notice": "Płatność online — najszybsza i najwygodniejsza metoda. Po kliknięciu zostaniesz przekierowany na bezpieczną stronę płatności Elavon.",

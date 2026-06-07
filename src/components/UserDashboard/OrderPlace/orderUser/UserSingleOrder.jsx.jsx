@@ -14,7 +14,7 @@ import Success from "../../../icons/shop_success.png";
 import Loader from "../../../Loader";
 import OrderDetailsCard from "./OrderDetailsCard";
 import StatusChip from "./StatusChip";
-StatusChip;
+
 const UserSingleOrder = ({ orderId: orderIdProp, onBack }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -47,8 +47,6 @@ const UserSingleOrder = ({ orderId: orderIdProp, onBack }) => {
     );
   }
 
-  const isUnpaid = order.paymentStatus === "unpaid";
-
   return (
     <Box sx={{ maxWidth: 900, mx: "auto", p: 2 }}>
       <Typography variant="h5" align="center" gutterBottom>
@@ -80,7 +78,43 @@ const UserSingleOrder = ({ orderId: orderIdProp, onBack }) => {
             <StatusChip status={order.status} />
           </Stack>
         </Stack>
+
+        {/* ДОДАТКОВІ ТЕКСТОВІ ПОВІДОМЛЕННЯ */}
+        <Box sx={{ textAlign: "center", mt: 2 }}>
+          {order.paymentStatus === "unpaid" && (
+            <>
+              <Typography variant="body2" color="text.secondary">
+                {t("order_waiting_payment")}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t("payment_link_sent")}
+              </Typography>
+            </>
+          )}
+
+          {order.paymentStatus === "paid" && order.status !== "shipped" && (
+            <>
+              <Typography variant="body2" color="text.secondary">
+                {t("payment_successful")}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t("order_will_be_sent")}
+              </Typography>
+            </>
+          )}
+          {order.status === "shipped" && (
+            <>
+              <Typography variant="body2" color="text.secondary">
+                {t("payment_successful")}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t("order_tracking_info")}
+              </Typography>
+            </>
+          )}
+        </Box>
       </Box>
+
       {/* ІНФОРМАЦІЯ ПРО ЗАМОВЛЕННЯ */}
       <Box sx={{ mt: 3 }}>
         <Typography variant="body1">

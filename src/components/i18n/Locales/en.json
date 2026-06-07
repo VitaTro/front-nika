@@ -224,6 +224,7 @@
   "payment_link_sent": "A payment link has been sent to your email address.",
   "payment_successful": "Payment completed successfully",
   "order_will_be_sent": "Our staff will prepare and ship your order soon.",
+  "order_tracking_info": "Your order has been handed over to InPost. You will be able to track the parcel using the tracking number that will be sent to you by InPost.",
   "region": "Voivodeship",
   "select_region": "Select voivodeship",
   "elavon_online_payment_notice": "Online payment — the fastest and most convenient method. After clicking, you will be redirected to Elavon's secure payment page.",

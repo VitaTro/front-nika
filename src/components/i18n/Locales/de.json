@@ -226,6 +226,7 @@
   "payment_link_sent": "Ein Zahlungslink wurde an Ihre E‑Mail-Adresse gesendet.",
   "payment_successful": "Zahlung erfolgreich abgeschlossen",
   "order_will_be_sent": "Unsere Mitarbeiter bereiten Ihre Bestellung vor und versenden sie in Kürze.",
+  "order_tracking_info": "Ihre Bestellung wurde an InPost übergeben. Sie können das Paket mit der Sendungsnummer verfolgen, die Sie in einer Nachricht von InPost erhalten.",
   "region": "Woiwodschaft",
   "select_region": "Wählen Sie die Woiwodschaft",
   "elavon_online_payment_notice": "Online‑Zahlung — die schnellste und bequemste Methode. Nach dem Klicken wirst du auf die sichere Zahlungsseite von Elavon weitergeleitet.",
