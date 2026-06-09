@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
 import {
   fetchOnlineSalesFailure,
@@ -11,60 +12,75 @@ import {
   updateOnlineOrderSuccess,
 } from "./actionsOnlineSales";
 
+/* ============================================================
+   📌 FETCH — Отримати всі онлайн‑продажі
+============================================================ */
 export const fetchOnlineSales = () => async (dispatch) => {
   dispatch(fetchOnlineSalesRequest());
   try {
     const response = await axios.get("/api/admin/finance/online/sales");
-    console.log("📦 Отримані онлайн-продажі:", response.data);
     dispatch(fetchOnlineSalesSuccess(response.data));
   } catch (error) {
-    console.error("🔥 Помилка API:", error.response?.data || error.message);
+    toast.error("Не вдалося отримати онлайн‑продажі");
     dispatch(fetchOnlineSalesFailure(error.message));
   }
 };
 
+/* ============================================================
+   📌 UPDATE — Оновити онлайн‑продаж
+============================================================ */
 export const updateOnlineSale = (saleId, updatedData) => async (dispatch) => {
   dispatch(updateOnlineOrderRequest());
   try {
     const response = await axios.patch(
       `/api/admin/finance/online/sales/${saleId}`,
-      updatedData
+      updatedData,
     );
+
+    toast.success("Продаж оновлено успішно");
     dispatch(updateOnlineOrderSuccess(response.data));
   } catch (error) {
-    console.error("❌ Помилка оновлення:", error.message);
+    toast.error("Помилка оновлення продажу");
     dispatch(updateOnlineOrderFailure(error.message));
   }
 };
 
-// ✅ Додаємо `POST` для створення нового онлайн-продажу
+/* ============================================================
+   📌 CREATE — Створити новий онлайн‑продаж
+============================================================ */
 export const createOnlineSale = (saleData) => async (dispatch) => {
   dispatch({ type: "CREATE_ONLINE_SALE_REQUEST" });
 
   try {
     const response = await axios.post(
       "/api/admin/finance/online/sales",
-      saleData
+      saleData,
     );
-    console.log("✅ Новий онлайн-продаж створено:", response.data);
+
+    toast.success(response.data.message); // 💛 Комунікат з бекенду
     dispatch({ type: "CREATE_ONLINE_SALE_SUCCESS", payload: response.data });
+    dispatch(fetchOnlineSales());
   } catch (error) {
-    console.error("❌ Помилка створення онлайн-продажу:", error.message);
+    toast.error(error.response?.data?.error || "Помилка створення продажу");
     dispatch({ type: "CREATE_ONLINE_SALE_FAILURE", payload: error.message });
   }
 };
 
+/* ============================================================
+   📌 RETURN — Повернення онлайн‑продажу
+============================================================ */
 export const returnOnlineSale = (saleId, returnData) => async (dispatch) => {
   dispatch(returnOnlineSaleRequest());
   try {
     const response = await axios.put(
       `/api/admin/finance/online/sales/${saleId}/return`,
-      returnData
+      returnData,
     );
-    console.log("✅ Продаж повернуто:", response.data);
+
+    toast.success("Повернення успішно оформлено");
     dispatch(returnOnlineSaleSuccess(response.data));
   } catch (error) {
-    console.error("❌ Помилка повернення:", error.message);
+    toast.error("Помилка оформлення повернення");
     dispatch(returnOnlineSaleFailure(error.message));
   }
 };

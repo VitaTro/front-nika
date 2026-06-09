@@ -28,7 +28,7 @@ const onlineSalesReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null };
 
     case FETCH_ONLINE_SALES_SUCCESS:
-      return { ...state, onlineSales: action.payload, loading: false };
+      return { ...state, onlineSales: action.payload.sales, loading: false };
 
     case UPDATE_ONLINE_SALES_SUCCESS:
     case CREATE_ONLINE_SALES_SUCCESS:
@@ -41,7 +41,7 @@ const onlineSalesReducer = (state = initialState, action) => {
       return {
         ...state,
         onlineSales: state.onlineSales.map((sale) =>
-          sale.id === action.payload.id ? action.payload : sale
+          sale.id === action.payload.id ? action.payload : sale,
         ),
         loading: false,
       };

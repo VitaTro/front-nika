@@ -11,6 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
@@ -19,18 +20,25 @@ import ReturnOnlineSale from "./ReturnOnlineSale";
 const OnlineSaleDetails = ({ sale, onClose }) => {
   const [openReturnDialog, setOpenReturnDialog] = useState(false);
   const isMobile = useMediaQuery("(max-width:768px)");
+
   return (
     <Dialog open={!!sale} onClose={onClose} fullWidth maxWidth="md">
-      <DialogTitle>🛍 Деталі продажу</DialogTitle>
+      <DialogTitle>🛍 Деталі онлайн‑продажу</DialogTitle>
+
       <DialogContent>
         <Typography>
           <strong>Сума:</strong> {sale?.totalAmount} zł
         </Typography>
         <Typography>
+          <strong>Доставка:</strong> {sale?.shippingCost} zł
+        </Typography>
+        <Typography>
+          <strong>До сплати:</strong> {sale?.finalPrice.toFixed(2)} zł
+        </Typography>
+        <Typography>
           <strong>Метод оплати:</strong> {sale?.paymentMethod}
         </Typography>
 
-        {/* 🏪 Таблиця товарів */}
         <TableContainer component={Paper} sx={{ mt: 2 }}>
           <Table size={isMobile ? "small" : "medium"}>
             <TableHead>
@@ -42,28 +50,30 @@ const OnlineSaleDetails = ({ sale, onClose }) => {
                 <TableCell>Сума</TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
               {sale?.products.map((item, index) => {
-                const itemPrice =
+                const price =
                   item.salePrice > 0
                     ? item.salePrice
                     : item.productId?.price || 0;
-                const totalItemPrice = item.quantity * itemPrice;
 
                 return (
-                  <TableRow key={item.productId._id || index}>
+                  <TableRow key={index}>
                     <TableCell>
                       <img
                         src={item.productId?.photoUrl}
                         alt={item.productId?.name}
                         width="50"
-                        style={{ borderRadius: 4 }}
+                        style={{ borderRadius: 5 }}
                       />
                     </TableCell>
-                    <TableCell>{item.productId?.name || "—"}</TableCell>
+                    <TableCell>{item.productId?.name}</TableCell>
                     <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{itemPrice.toFixed(2)} zł</TableCell>
-                    <TableCell>{totalItemPrice.toFixed(2)} zł</TableCell>
+                    <TableCell>{price} zł</TableCell>
+                    <TableCell>
+                      {(price * item.quantity).toFixed(2)} zł
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -76,6 +86,7 @@ const OnlineSaleDetails = ({ sale, onClose }) => {
         <Button onClick={onClose} color="error" fullWidth={isMobile}>
           ❌ Закрити
         </Button>
+
         <Button
           onClick={() => setOpenReturnDialog(true)}
           variant="contained"

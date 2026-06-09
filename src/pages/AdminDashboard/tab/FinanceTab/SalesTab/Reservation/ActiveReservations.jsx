@@ -6,7 +6,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,8 +26,12 @@ import {
 } from "../../../../../../redux/finance/reservation/operationReserve";
 
 import ExtendReservationDialog from "./ExtendReservationDialog";
+import PaymentMethodDialog from "./PaymentMethodDialog";
 
 const ActiveReservations = () => {
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [paymentId, setPaymentId] = useState(null);
+
   const dispatch = useDispatch();
   const reservations = useSelector(selectReservations) || [];
   const loading = useSelector(selectReservationsLoading);
@@ -207,7 +210,10 @@ const ActiveReservations = () => {
                   <Button
                     variant="contained"
                     color="success"
-                    onClick={() => dispatch(completeReservation(r._id, "cash"))}
+                    onClick={() => {
+                      setPaymentId(r._id);
+                      setPaymentOpen(true);
+                    }}
                   >
                     ✅ Провести
                   </Button>
@@ -241,6 +247,14 @@ const ActiveReservations = () => {
         open={extendOpen}
         onClose={() => setExtendOpen(false)}
         onSubmit={(newDate) => dispatch(extendReservation(extendId, newDate))}
+      />
+      <PaymentMethodDialog
+        open={paymentOpen}
+        onClose={() => setPaymentOpen(false)}
+        onSubmit={(method) => {
+          dispatch(completeReservation(paymentId, method));
+          setPaymentOpen(false);
+        }}
       />
     </Box>
   );
