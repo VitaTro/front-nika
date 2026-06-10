@@ -12,7 +12,7 @@ export const getProducts = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Додати продукт
@@ -21,11 +21,14 @@ export const addProduct = createAsyncThunk(
   async (productData, thunkAPI) => {
     try {
       const response = await axios.post("/api/products", productData);
-      return response.data;
+      if (response.status === 201 || response.status === 200) {
+        return response.data;
+      }
+      return thunkAPI.rejectWithValue("Помилка створення продукту");
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Отримати продукт за типом
@@ -38,7 +41,7 @@ export const getProductByType = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Отримати продукт за ID
@@ -53,7 +56,7 @@ export const getProductById = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Оновити продукт (PATCH)
@@ -66,7 +69,7 @@ export const updateProduct = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Видалити продукт (DELETE)
@@ -82,5 +85,5 @@ export const deleteProduct = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
