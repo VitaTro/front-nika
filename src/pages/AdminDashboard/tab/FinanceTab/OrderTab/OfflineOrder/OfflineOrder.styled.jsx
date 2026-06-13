@@ -128,7 +128,7 @@ export const ProductTitle = styled.p`
 `;
 export const ProductCardShop = styled.div`
   width: 200px;
-  height: 300px;
+  height: 320px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

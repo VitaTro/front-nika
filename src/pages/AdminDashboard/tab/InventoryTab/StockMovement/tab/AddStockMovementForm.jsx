@@ -27,6 +27,7 @@ const AddStockMovementForm = () => {
     quantity: "",
     price: "",
     unitPrice: "",
+    size: "",
     note: "",
     date: new Date().toISOString().split("T")[0],
   });
@@ -41,7 +42,7 @@ const AddStockMovementForm = () => {
     e.preventDefault();
     console.log(
       "🧾 Всі продукти:",
-      products.map((p) => p.index)
+      products.map((p) => p.index),
     );
 
     const product = products.find((p) => p.index === form.index.trim());
@@ -56,7 +57,8 @@ const AddStockMovementForm = () => {
       type: form.type,
       quantity: Number(form.quantity),
       unitPurchasePrice: Number(form.unitPrice),
-      price: Number(form.price), // якщо хочеш одразу передавати
+      price: Number(form.price),
+      size: form.size,
       note: form.note,
       date: form.date,
     };
@@ -126,6 +128,13 @@ const AddStockMovementForm = () => {
         type="number"
         value={form.price}
         onChange={handleChange}
+      />
+      <TextField
+        label="Розмір"
+        name="size"
+        value={form.size}
+        onChange={handleChange}
+        required
       />
 
       <TextField

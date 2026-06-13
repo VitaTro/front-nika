@@ -47,6 +47,7 @@ const OnlineOrderCart = ({ products, deliveryPrice }) => {
           <TableRow>
             <TableCell>Фото</TableCell>
             <TableCell>Назва</TableCell>
+            <TableCell>Розмір</TableCell>
             <TableCell>К-сть</TableCell>
             <TableCell>Ціна</TableCell>
             <TableCell>Сума</TableCell>
@@ -66,6 +67,7 @@ const OnlineOrderCart = ({ products, deliveryPrice }) => {
               </TableCell>
 
               <TableCell>{item.name}</TableCell>
+              <TableCell>{item.size || "-"}</TableCell>
               <TableCell>{item.quantity}</TableCell>
 
               <TableCell>{formatPLN(item.price)}</TableCell>

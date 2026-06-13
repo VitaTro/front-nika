@@ -82,6 +82,10 @@ const StockMovementTable = () => {
                   📅 {new Date(item.date).toLocaleDateString()}
                 </Typography>
                 <Typography variant="body2">🔁 {item.type}</Typography>
+                <Typography variant="body2">
+                  📏 Розмір: {item.size || "-"}
+                </Typography>
+
                 <Typography variant="body2">🔢 {item.quantity}</Typography>
                 <Typography variant="body2">
                   💰 {price !== null ? `${price.toFixed(2)} zł` : "—"}
@@ -106,6 +110,9 @@ const StockMovementTable = () => {
                 </TableCell>
                 <TableCell>
                   <strong>📦 Товар</strong>
+                </TableCell>
+                <TableCell>
+                  <strong>📏 Розмір</strong>
                 </TableCell>
                 <TableCell>
                   <strong>🔁 Тип</strong>
@@ -133,6 +140,7 @@ const StockMovementTable = () => {
                       {new Date(item.date).toLocaleDateString()}
                     </TableCell>
                     <TableCell>{item.productName || "—"}</TableCell>
+                    <TableCell>{item.size || "-"}</TableCell>
                     <TableCell>{item.type}</TableCell>
                     <TableCell>{item.quantity}</TableCell>
                     <TableCell

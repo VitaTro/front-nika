@@ -41,7 +41,7 @@ const ProfileOrder = () => {
   const removeFromCart = (productId) => {
     setPlatformCart((prevCart) => {
       const updatedCart = prevCart.filter(
-        (item) => item.productId !== productId
+        (item) => item.productId !== productId,
       );
       localStorage.setItem("platformCart", JSON.stringify(updatedCart));
       return updatedCart;
@@ -75,14 +75,14 @@ const ProfileOrder = () => {
   const addToCart = (product) => {
     setPlatformCart((prevCart) => {
       const existingProduct = prevCart.find(
-        (item) => item.productId === product._id
+        (item) => item.productId === product._id,
       );
 
       if (existingProduct) {
         const updatedCart = prevCart.map((item) =>
           item.productId === product._id
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
         localStorage.setItem("platformCart", JSON.stringify(updatedCart));
         return updatedCart;
@@ -96,6 +96,8 @@ const ProfileOrder = () => {
           price: product.lastRetailPrice,
           photoUrl: product.photoUrl,
           quantity: 1,
+          size: product.size || null,
+          sku: product.sku || null,
         },
       ];
       localStorage.setItem("platformCart", JSON.stringify(updatedCart));
@@ -112,7 +114,7 @@ const ProfileOrder = () => {
               quantity: newQuantity !== null ? newQuantity : item.quantity,
               price: newPrice !== null ? newPrice : item.price,
             }
-          : item
+          : item,
       );
       localStorage.setItem("platformCart", JSON.stringify(updatedCart));
       return updatedCart;
@@ -120,7 +122,7 @@ const ProfileOrder = () => {
   };
   const totalAmount = platformCart.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
-    0
+    0,
   );
   const { discount, discountPercent, final } = calculateDiscount(totalAmount);
 
@@ -158,7 +160,7 @@ const ProfileOrder = () => {
                 >
                   {subcategory}
                 </CategoryButton>
-              )
+              ),
             )}
           </>
         )}
@@ -209,13 +211,14 @@ const ProfileOrder = () => {
             <ProductGrid>
               {filteredProducts.map((product) => {
                 const isInCart = platformCart.some(
-                  (item) => item.productId === product._id
+                  (item) => item.productId === product._id,
                 );
 
                 return (
                   <ProductCard key={product._id}>
                     <ProductImage src={product.photoUrl} alt={product.name} />
                     <ProductTitle>{product.name}</ProductTitle>
+                    <Typography>Розмір: {product.size || "-"}</Typography>
                     <Typography sx={{ fontSize: "18px" }}>
                       Ціна: {product.lastRetailPrice} zł
                     </Typography>

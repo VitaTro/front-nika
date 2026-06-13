@@ -67,7 +67,7 @@ const UserPurchaseHistory = () => {
                 {sale.onlineOrderId?.paymentMethod || "-"}
               </Typography>
               <Typography variant="body2">
-                {t("total")}: {sale.onlineOrderId?.totalAmount || "-"} zł
+                {t("total")}: {sale.onlineOrderId?.finalPrice || "-"} zł
               </Typography>
               <Chip label={t(sale.onlineOrderId?.status)} size="small" />
             </CardContent>

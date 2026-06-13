@@ -192,6 +192,16 @@ const ProductDetailsPage = () => {
                 </>
               )}
             </InfoItem>
+            {product.subcategory?.toLowerCase() === "rings" && (
+              <InfoItem>
+                🏷️ SKU:{" "}
+                {product.sku ? (
+                  <NumberValue>{product.sku}</NumberValue>
+                ) : (
+                  t("not_available")
+                )}
+              </InfoItem>
+            )}
 
             {/* WIDTH */}
             <InfoItem>

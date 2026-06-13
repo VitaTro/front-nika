@@ -62,7 +62,7 @@ const OrderDetailsCard = ({ order }) => {
                       {t("color")}: {p?.color || "-"}
                     </Typography>
                     <Typography>
-                      {t("size")}: {p?.size || "-"}
+                      {t("size")}: {item.size || "-"}
                     </Typography>
                     <Typography>
                       {t("width")}: {p?.width ? `${p.width} мм` : "-"}
@@ -118,7 +118,7 @@ const OrderDetailsCard = ({ order }) => {
                       />
                     </TableCell>
                     <TableCell>{p?.color || "-"}</TableCell>
-                    <TableCell>{p?.size || "-"}</TableCell>
+                    <TableCell>{item.size || "-"}</TableCell>
                     <TableCell>{p?.width ? `${p.width} мм` : "-"}</TableCell>
                     <TableCell>{getLengthWithUnit(p)}</TableCell>
                     <TableCell>{item.quantity}</TableCell>

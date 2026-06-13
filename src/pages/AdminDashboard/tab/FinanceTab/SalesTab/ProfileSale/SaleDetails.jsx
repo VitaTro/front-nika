@@ -59,6 +59,7 @@ const SaleDetails = ({ products }) => {
             <Typography>
               <strong>{product.name}</strong>
             </Typography>
+            <Typography>📏 Розмір: {product.size || "-"}</Typography>
             <Typography>🔢 Кількість: {product.quantity}</Typography>
             <Typography>💰 Ціна: {product.price} zł</Typography>
           </Box>

@@ -10,7 +10,7 @@ import {
 const Cart = ({ cart, updateQuantity, removeFromCart, lastRetailPrice }) => {
   const totalPrice = cart.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
-    0
+    0,
   );
   const { discount, discountPercent, final } = calculateDiscount(totalPrice);
   return (
@@ -24,6 +24,7 @@ const Cart = ({ cart, updateQuantity, removeFromCart, lastRetailPrice }) => {
               <ProductCardShop key={item.productId}>
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>
+                <Typography>Розмір: {item.size || "-"}</Typography>
                 <Typography>
                   Ціна: {item.price ? `${item.price}` : "—"} zł
                 </Typography>

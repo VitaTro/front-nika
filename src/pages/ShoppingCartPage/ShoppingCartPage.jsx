@@ -190,7 +190,17 @@ const ShoppingCartPage = ({ promptGoogle }) => {
       <ShoppingItem key={id}>
         <ItemHeader>
           <ZoomableProductImage src={item.photoUrl} alt={item.name} />
-          <ProductName>{item.name}</ProductName>
+
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <ProductName>{item.name}</ProductName>
+
+            {/* SKU — тільки для каблучок */}
+            {item.subcategory?.toLowerCase() === "rings" && item.sku && (
+              <span style={{ fontSize: "0.85rem", color: "#666" }}>
+                SKU: {item.sku}
+              </span>
+            )}
+          </div>
         </ItemHeader>
 
         <ContainerCart>

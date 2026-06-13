@@ -157,10 +157,6 @@ const Products = ({ type }) => {
 
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-
-        setProducts(sortedByDate);
-        setFilteredProducts(sortedByDate);
-
         setAvailableColors(
           [
             ...new Set(

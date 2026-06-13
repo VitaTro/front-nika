@@ -21,7 +21,7 @@ const OfflineSaleDetails = ({ sale, onClose }) => {
   const [openReturnDialog, setOpenReturnDialog] = useState(false);
   const isMobile = useMediaQuery("(max-width:768px)");
   const { discountPercent, discount, final } = calculateDiscount(
-    sale.totalAmount
+    sale.totalAmount,
   );
 
   return (
@@ -41,6 +41,7 @@ const OfflineSaleDetails = ({ sale, onClose }) => {
               <TableRow>
                 <TableCell>Фото</TableCell>
                 <TableCell>Назва</TableCell>
+                <TableCell>Розмір</TableCell>
                 <TableCell>К-сть</TableCell>
                 <TableCell>Ціна</TableCell>
                 <Typography>
@@ -69,6 +70,7 @@ const OfflineSaleDetails = ({ sale, onClose }) => {
                     />
                   </TableCell>
                   <TableCell>{item.name}</TableCell>
+                  <TableCell>{item.size || "-"}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
                   <TableCell>{item.price} zł</TableCell>
                   <TableCell>{item.quantity * item.price} zł</TableCell>

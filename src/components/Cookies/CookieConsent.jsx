@@ -42,7 +42,7 @@ const CookieConsent = () => {
         }}
       >
         <img
-          src="https://res.cloudinary.com/dblh78pvc/image/upload/v1780157428/flat-design-chocolate-chip-cookie-icon-vector-removebg-preview_ur13j9.png"
+          src="https://nika-gold-cdn.b-cdn.net/flat-design-chocolate-chip-cookie-icon-vector-removebg-preview.png"
           alt="cookie"
           style={{
             width: window.innerWidth > 768 ? "120px" : "70px",

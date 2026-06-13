@@ -18,9 +18,10 @@ const ReservationForm = ({ cart, setCart }) => {
     }
 
     const reservationData = {
-      products: cart.map(({ productId, quantity }) => ({
+      products: cart.map(({ productId, quantity, size }) => ({
         productId,
         quantity,
+        size,
       })),
       reservationExpiresAt: reservationDate,
       notes,

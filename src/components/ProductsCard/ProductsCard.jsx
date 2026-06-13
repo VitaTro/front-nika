@@ -40,6 +40,8 @@ import {
 
 const ProductsCard = ({ product, isUserAuthenticated }) => {
   const [productCount, setProductCount] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(null);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -108,6 +110,16 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
 
   // ⭐ UNIVERSAL CART HANDLER
   const handleAddToCart = async () => {
+    // Якщо товар має розміри — треба вибрати
+    if (
+      Array.isArray(product.sizes) &&
+      product.sizes.length > 0 &&
+      !selectedSize
+    ) {
+      toast.warn(t("choose_size_first"));
+      return;
+    }
+
     if (!product.inStock) {
       toast.warn(t("product_not_available"));
       return;
@@ -122,6 +134,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             name: product.name,
             price: retailPrice,
             quantity: productCount,
+            size: selectedSize,
           }),
         );
 
@@ -138,6 +151,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           price: retailPrice,
           quantity: productCount,
           photoUrl: product.photoUrl,
+          size: selectedSize,
         }),
       );
 
@@ -165,6 +179,22 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             </ImageWrapper>
           ) : (
             <div>{t("no_image")}</div>
+          )}
+          {Array.isArray(product.sizes) && product.sizes.length > 0 && (
+            <div style={{ marginBottom: "10px" }}>
+              <label>{t("size")}:</label>
+              <select
+                value={selectedSize || ""}
+                onChange={(e) => setSelectedSize(e.target.value)}
+              >
+                <option value="">{t("choose_size")}</option>
+                {product.sizes.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
 
           <ItemPrice className="price">

@@ -30,8 +30,8 @@ const PurchaseOrderForm = ({ cart, setCart }) => {
   const updateItem = (productId, updates) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.productId === productId ? { ...item, ...updates } : item
-      )
+        item.productId === productId ? { ...item, ...updates } : item,
+      ),
     );
   };
 
@@ -52,6 +52,8 @@ const PurchaseOrderForm = ({ cart, setCart }) => {
       quantity: Number(item.quantity),
       unitPurchasePrice: Number(item.unitPurchasePrice),
       price: Number(item.price),
+      size: item.size,
+      sku: item.sku,
       note: meta.note || "",
       date: new Date(meta.date).toISOString(),
     }));
@@ -63,9 +65,10 @@ const PurchaseOrderForm = ({ cart, setCart }) => {
       "quantity",
       "unitPurchasePrice",
       "price",
+      "size",
     ];
     const hasInvalid = movements.some((m) =>
-      requiredFields.some((f) => m[f] === undefined || m[f] === "")
+      requiredFields.some((f) => m[f] === undefined || m[f] === ""),
     );
 
     if (hasInvalid) {

@@ -130,8 +130,13 @@ const WishlistPage = () => {
         />
 
         <ProductName>{product.name}</ProductName>
-        <ProductPrice>{product.price} zł</ProductPrice>
 
+        {product.size && (
+          <div style={{ fontSize: "0.85rem", color: "#666" }}>
+            📏{t("size")}: {product.size}
+          </div>
+        )}
+        <ProductPrice>{product.price} zł</ProductPrice>
         <AllButton>
           {isUserAuthenticated ? (
             <AddToCartButton onClick={() => handleMoveToCart(productId)}>

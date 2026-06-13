@@ -31,7 +31,7 @@ const PlatformOrderForm = ({ platformCart, setPlatformCart }) => {
   const [platformName, setPlatformName] = useState("Allegro");
   const [orderNumber, setOrderNumber] = useState("");
   const [saleDate, setSaleDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0],
   );
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("payu");
   const [buyerType, setBuyerType] = useState("anonim");
@@ -81,7 +81,17 @@ const PlatformOrderForm = ({ platformCart, setPlatformCart }) => {
       platform: platformName.toLowerCase(),
       externalOrderId: orderNumber,
       products: platformCart.map(
-        ({ productId, quantity, price, name, color, index, manualPrice }) => ({
+        ({
+          productId,
+          quantity,
+          price,
+          name,
+          color,
+          index,
+          manualPrice,
+          size,
+          sku,
+        }) => ({
           productId,
           quantity: Number(quantity ?? 1),
           price: Number(price ?? 0),
@@ -89,7 +99,9 @@ const PlatformOrderForm = ({ platformCart, setPlatformCart }) => {
           color,
           index,
           manualPrice: !!manualPrice,
-        })
+          size,
+          sku,
+        }),
       ),
       totalPrice: calculateTotal(platformCart),
       paymentMethod: selectedPaymentMethod,
@@ -114,7 +126,7 @@ const PlatformOrderForm = ({ platformCart, setPlatformCart }) => {
       }
       await new Promise((r) => setTimeout(r, 500));
       await dispatch(
-        createPlatformSale({ orderId: createdOrder._id, saleDate })
+        createPlatformSale({ orderId: createdOrder._id, saleDate }),
       );
       alert("💸 Продаж проведено!");
       setPlatformCart([]);

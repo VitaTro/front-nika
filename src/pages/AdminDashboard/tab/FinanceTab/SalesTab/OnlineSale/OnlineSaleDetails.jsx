@@ -45,6 +45,7 @@ const OnlineSaleDetails = ({ sale, onClose }) => {
               <TableRow>
                 <TableCell>Фото</TableCell>
                 <TableCell>Назва</TableCell>
+                <TableCell>Розмір</TableCell>
                 <TableCell>К-сть</TableCell>
                 <TableCell>Ціна</TableCell>
                 <TableCell>Сума</TableCell>
@@ -69,6 +70,7 @@ const OnlineSaleDetails = ({ sale, onClose }) => {
                       />
                     </TableCell>
                     <TableCell>{item.productId?.name}</TableCell>
+                    <TableCell>{item.size || "-"}</TableCell>
                     <TableCell>{item.quantity}</TableCell>
                     <TableCell>{price} zł</TableCell>
                     <TableCell>

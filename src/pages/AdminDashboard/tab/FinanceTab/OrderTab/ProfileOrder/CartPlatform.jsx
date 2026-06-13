@@ -18,14 +18,14 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
 
   const availableItems = platformCart.filter(
     (item) =>
-      item.inStock !== false && (item.currentStock ?? item.quantity ?? 0) > 0
+      item.inStock !== false && (item.currentStock ?? item.quantity ?? 0) > 0,
   );
 
   const handlePriceChange = (productId, value) => {
     const updated = platformCart.map((item) =>
       item.productId === productId
         ? { ...item, price: value, manualPrice: true } // 💡 додаємо прапорець
-        : item
+        : item,
     );
     setPlatformCart(updated);
     localStorage.setItem("platformCart", JSON.stringify(updated));
@@ -34,7 +34,7 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
 
   const totalPrice = availableItems.reduce(
     (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
-    0
+    0,
   );
   const { discount, discountPercent, final } = calculateDiscount(totalPrice);
   const hasMissingPrices = availableItems.some((item) => !item.price);
@@ -56,6 +56,7 @@ const CartPlatform = ({ updateQuantity, removeFromCart }) => {
               <ProductCardShop key={item.productId}>
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>
+                <Typography>Розмір: {item.size || "-"}</Typography>
                 <div style={{ marginTop: "8px" }}>
                   <label
                     style={{

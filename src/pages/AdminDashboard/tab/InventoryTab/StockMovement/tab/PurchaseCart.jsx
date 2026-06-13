@@ -14,7 +14,7 @@ import {
 const PurchaseCart = ({ cart, updateItem, removeFromCart }) => {
   const totalPurchaseCost = cart.reduce(
     (acc, item) => acc + item.unitPrice * item.quantity,
-    0
+    0,
   );
 
   return (
@@ -77,6 +77,10 @@ const PurchaseCart = ({ cart, updateItem, removeFromCart }) => {
                       📦 Індекс: {item.productIndex}
                     </Typography>
                     <Stack spacing={1}>
+                      <Typography variant="body2" color="text.secondary">
+                        📏 Розмір: {item.size || "-"}
+                      </Typography>
+
                       <TextField
                         label="🔢 Кількість"
                         type="number"

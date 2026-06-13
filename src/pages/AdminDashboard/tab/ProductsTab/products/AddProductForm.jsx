@@ -57,6 +57,7 @@ const AddProductForm = () => {
     photoUrl: "",
     additionalPhotos: [],
     size: "",
+    sku: "",
     width: "",
     length: "",
     color: "",
@@ -232,6 +233,15 @@ const AddProductForm = () => {
         name="size"
         label="Розмір"
         value={newProduct.size}
+        onChange={handleChangeLocal}
+        fullWidth
+        margin="normal"
+        required
+      />
+      <TextField
+        name="sku"
+        label="SKU (унікальний код)"
+        value={newProduct.sku}
         onChange={handleChangeLocal}
         fullWidth
         margin="normal"

@@ -73,7 +73,16 @@ const OrderForm = ({
 
     const orderData = {
       products: cart.map(
-        ({ productId, name, quantity, photoUrl, lastRetailPrice, index }) => ({
+        ({
+          productId,
+          name,
+          quantity,
+          photoUrl,
+          lastRetailPrice,
+          index,
+          size,
+          sku,
+        }) => ({
           productId,
           name,
           quantity,
@@ -81,6 +90,8 @@ const OrderForm = ({
           saleDate,
           lastRetailPrice,
           index,
+          size,
+          sku,
         }),
       ),
       paymentMethod: selectedPaymentMethod,

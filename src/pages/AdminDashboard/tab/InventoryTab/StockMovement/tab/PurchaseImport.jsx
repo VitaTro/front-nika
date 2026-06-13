@@ -42,7 +42,7 @@ const PurchaseImport = () => {
     (product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (!selectedCategory || product.category === selectedCategory) &&
-      (!selectedSubcategory || product.subcategory === selectedSubcategory)
+      (!selectedSubcategory || product.subcategory === selectedSubcategory),
   );
 
   const addToCart = (product) => {
@@ -59,6 +59,8 @@ const PurchaseImport = () => {
           quantity: 1,
           unitPrice: product.purchasePrice?.value || 0,
           price: product.price || 0,
+          size: product.size || null,
+          sku: product.sku || null,
         },
       ];
     });
@@ -67,8 +69,8 @@ const PurchaseImport = () => {
   const updateItem = (productId, updates) => {
     setCart((prev) =>
       prev.map((item) =>
-        item.productId === productId ? { ...item, ...updates } : item
-      )
+        item.productId === productId ? { ...item, ...updates } : item,
+      ),
     );
   };
 
@@ -166,7 +168,7 @@ const PurchaseImport = () => {
             <Grid container columns={12} columnSpacing={2} rowSpacing={2}>
               {filteredProducts.map((product) => {
                 const isInCart = cart.some(
-                  (item) => item.productId === product._id
+                  (item) => item.productId === product._id,
                 );
 
                 return (
@@ -215,6 +217,10 @@ const PurchaseImport = () => {
                         <Typography variant="subtitle1" fontWeight={600}>
                           {product.name}
                         </Typography>
+                        <Typography>
+                          📏 Розмір: {product.size || "-"}
+                        </Typography>
+
                         <Typography variant="body2" color="text.secondary">
                           💰 {product.price} zł
                         </Typography>

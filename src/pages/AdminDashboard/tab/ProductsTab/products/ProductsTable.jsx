@@ -26,15 +26,15 @@ const ProductsTable = ({
     product.lastRetailPrice !== null && product.lastRetailPrice !== undefined
       ? `${product.lastRetailPrice} zł`
       : product.price !== undefined
-      ? `${product.price} zł`
-      : "—";
+        ? `${product.price} zł`
+        : "—";
 
   const renderStock = (product) =>
     product.currentStock !== undefined
       ? `${product.currentStock} шт`
       : product.quantity !== undefined
-      ? `${product.quantity} шт`
-      : "—";
+        ? `${product.quantity} шт`
+        : "—";
 
   const renderPurchase = (product) => {
     const purchase = product.purchasePrice;
@@ -63,8 +63,8 @@ const ProductsTable = ({
         purchase.currency === "PLN"
           ? purchase.value
           : purchase.exchangeRateToPLN
-          ? purchase.value * purchase.exchangeRateToPLN
-          : 0;
+            ? purchase.value * purchase.exchangeRateToPLN
+            : 0;
     }
 
     return stock > 0 ? sum + unitPricePLN * stock : sum;
@@ -116,6 +116,14 @@ const ProductsTable = ({
               <Typography>
                 <strong>Підкатегорія:</strong> {product.subcategory}
               </Typography>
+              <Typography>
+                <strong>Розмір:</strong> {product.size || "-"}
+              </Typography>
+
+              <Typography>
+                <strong>SKU:</strong> {product.sku || "-"}
+              </Typography>
+
               <Typography>
                 <strong>Ціна:</strong> {renderPrice(product)}
               </Typography>
@@ -177,7 +185,10 @@ const ProductsTable = ({
               <TableCell>Підкатегорія</TableCell>
               <TableCell>Ціна</TableCell>
               <TableCell>Індекс</TableCell>
+              <TableCell>Розмір</TableCell>
+              <TableCell>SKU</TableCell>
               <TableCell>Залишок</TableCell>
+
               <TableCell>Закупка</TableCell>
               <TableCell>Наявність</TableCell>
               <TableCell>Дії</TableCell>
@@ -203,7 +214,10 @@ const ProductsTable = ({
                 <TableCell>{product.subcategory}</TableCell>
                 <TableCell>{renderPrice(product)}</TableCell>
                 <TableCell>{product.index}</TableCell>
+                <TableCell>{product.size || "-"}</TableCell>
+                <TableCell>{product.sku || "-"}</TableCell>
                 <TableCell>{renderStock(product)}</TableCell>
+
                 <TableCell>{renderPurchase(product)}</TableCell>
                 <TableCell>{renderAvailability(product)}</TableCell>
                 <TableCell>
