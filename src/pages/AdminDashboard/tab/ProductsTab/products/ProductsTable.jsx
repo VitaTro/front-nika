@@ -117,11 +117,17 @@ const ProductsTable = ({
                 <strong>Підкатегорія:</strong> {product.subcategory}
               </Typography>
               <Typography>
-                <strong>Розмір:</strong> {product.size || "-"}
+                <strong>Розміри:</strong>
+                {product.variants?.length > 0
+                  ? product.variants.map((v) => `${v.size}`).join(", ")
+                  : "-"}
               </Typography>
 
               <Typography>
-                <strong>SKU:</strong> {product.sku || "-"}
+                <strong>SKU:</strong>
+                {product.variants?.length > 0
+                  ? product.variants.map((v) => `${v.variantIndex}`).join(", ")
+                  : "-"}
               </Typography>
 
               <Typography>
@@ -185,10 +191,9 @@ const ProductsTable = ({
               <TableCell>Підкатегорія</TableCell>
               <TableCell>Ціна</TableCell>
               <TableCell>Індекс</TableCell>
-              <TableCell>Розмір</TableCell>
-              <TableCell>SKU</TableCell>
+              <TableCell>Розміри</TableCell>
+              {/* <TableCell>SKU</TableCell> */}
               <TableCell>Залишок</TableCell>
-
               <TableCell>Закупка</TableCell>
               <TableCell>Наявність</TableCell>
               <TableCell>Дії</TableCell>
@@ -214,8 +219,16 @@ const ProductsTable = ({
                 <TableCell>{product.subcategory}</TableCell>
                 <TableCell>{renderPrice(product)}</TableCell>
                 <TableCell>{product.index}</TableCell>
-                <TableCell>{product.size || "-"}</TableCell>
-                <TableCell>{product.sku || "-"}</TableCell>
+                <TableCell>
+                  {product.variants?.length > 0
+                    ? product.variants.map((v) => (
+                        <div key={v._id}>
+                          {v.size} — {v.variantIndex} ({v.stock} шт)
+                        </div>
+                      ))
+                    : "-"}
+                </TableCell>
+
                 <TableCell>{renderStock(product)}</TableCell>
 
                 <TableCell>{renderPurchase(product)}</TableCell>
