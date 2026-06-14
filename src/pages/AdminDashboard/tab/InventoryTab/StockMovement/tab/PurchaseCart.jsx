@@ -78,7 +78,17 @@ const PurchaseCart = ({ cart, updateItem, removeFromCart }) => {
                     </Typography>
                     <Stack spacing={1}>
                       <Typography variant="body2" color="text.secondary">
-                        📏 Розмір: {item.size || "-"}
+                        <TextField
+                          label="📏 Розмір"
+                          size="small"
+                          fullWidth
+                          value={item.size || ""}
+                          onChange={(e) =>
+                            updateItem(item.productId, {
+                              size: e.target.value,
+                            })
+                          }
+                        />
                       </Typography>
 
                       <TextField

@@ -10,10 +10,10 @@ export const fetchStockMovements = createAsyncThunk(
     } catch (err) {
       console.error("🔴 API ERROR:", err.response?.data || err.message);
       return rejectWithValue(
-        err.response?.data?.error || "Не вдалося завантажити рухи"
+        err.response?.data?.error || "Не вдалося завантажити рухи",
       );
     }
-  }
+  },
 );
 
 // ✅ Звичайне створення одиночного руху
@@ -26,6 +26,8 @@ export const uploadSingleMovement = createAsyncThunk(
         productIndex: movementData.productIndex,
         productName: movementData.productName,
         type: movementData.type,
+        size: movementData.size,
+
         quantity: Number(movementData.quantity),
         unitPurchasePrice: Number(movementData.unitPurchasePrice),
         price: Number(movementData.price),
@@ -40,10 +42,10 @@ export const uploadSingleMovement = createAsyncThunk(
     } catch (error) {
       console.error("❌ Error uploading movement:", error);
       return rejectWithValue(
-        error.response?.data?.error || "Не вдалося додати рух"
+        error.response?.data?.error || "Не вдалося додати рух",
       );
     }
-  }
+  },
 );
 
 export const updateMovement = createAsyncThunk(
@@ -52,22 +54,22 @@ export const updateMovement = createAsyncThunk(
     try {
       const response = await axios.put(
         `/api/admin/stock/movement/${id}`,
-        updates
+        updates,
       );
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.error || "Не вдалося оновити запис"
+        error.response?.data?.error || "Не вдалося оновити запис",
       );
     }
-  }
+  },
 );
 export const fetchStockSummary = createAsyncThunk(
   "stockMovement/fetchStockSummary",
   async (productIndex, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/api/admin/stock/movement/index/${productIndex}/summary`
+        `/api/admin/stock/movement/index/${productIndex}/summary`,
       );
       if (!response.data) {
         return rejectWithValue({
@@ -83,7 +85,7 @@ export const fetchStockSummary = createAsyncThunk(
         error: error.response?.data?.error || "Не вдалося отримати саммері",
       });
     }
-  }
+  },
 );
 
 export const deleteMovement = createAsyncThunk(
@@ -94,30 +96,30 @@ export const deleteMovement = createAsyncThunk(
       return { id, message: response.data.message };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.error || "Не вдалося видалити запис"
+        error.response?.data?.error || "Не вдалося видалити запис",
       );
     }
-  }
+  },
 );
 export const fetchProductMovements = createAsyncThunk(
   "stockMovement/fetchProductMovements",
   async (productIndex, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/api/admin/stock/movement/product/${productIndex}`
+        `/api/admin/stock/movement/product/${productIndex}`,
       );
       return { productIndex, data: response.data };
     } catch (error) {
       console.error(
         "🔴 Error fetching product movements:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
       return rejectWithValue({
         productIndex,
         error: error.response?.data?.error || "Не вдалося отримати рухи товару",
       });
     }
-  }
+  },
 );
 
 export const fetchProductSummary = createAsyncThunk(
@@ -125,21 +127,21 @@ export const fetchProductSummary = createAsyncThunk(
   async (productIndex, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `/api/admin/stock/movement/index/${productIndex}/summary`
+        `/api/admin/stock/movement/index/${productIndex}/summary`,
       );
       return { productIndex, data: res.data };
     } catch (err) {
       console.error("❌ Summary fetch error:", err.message);
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 export const fetchProductSummaryAlt = createAsyncThunk(
   "stockMovement/fetchProductSummaryAlt",
   async (productIndex, { rejectWithValue }) => {
     try {
       const res = await axios.get(
-        `/api/admin/stock/movement/index/${productIndex}/summary`
+        `/api/admin/stock/movement/index/${productIndex}/summary`,
       );
       return { productIndex, data: res.data };
     } catch (err) {
@@ -149,5 +151,5 @@ export const fetchProductSummaryAlt = createAsyncThunk(
         error: err.message,
       });
     }
-  }
+  },
 );
