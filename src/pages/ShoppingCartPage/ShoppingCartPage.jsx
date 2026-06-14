@@ -69,6 +69,7 @@ const ShoppingCartPage = ({ promptGoogle }) => {
   const [hasMerged, setHasMerged] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const isUserAuthenticated = useSelector(selectIsLoggedIn);
+  const [selectedSku, setSelectedSku] = useState(null);
   const allProducts = useSelector(selectProducts) || [];
   const guestCart = useSelector(selectGuestCart) || [];
   const backendCartItems = useSelector(selectShoppingCartItems) || [];
@@ -175,14 +176,19 @@ const ShoppingCartPage = ({ promptGoogle }) => {
 
     let stock = 0;
 
-    if (isUserAuthenticated) {
-      // бекенд уже додає availableQuantity
-      stock = item.availableQuantity ?? 0;
-    } else {
-      // гість: беремо зі списку продуктів
-      const product = allProducts.find(
-        (p) => p._id === (item.productId || item.id),
+    const product = allProducts.find(
+      (p) => p._id === (item.productId || item.id),
+    );
+
+    if (product?.variants?.length) {
+      // шукаємо варіант за SKU або size
+      const variant = product.variants.find(
+        (v) => v.variantIndex === item.sku || v.size === item.size,
       );
+
+      stock = variant?.stock ?? 0;
+    } else {
+      // fallback для товарів без варіантів
       stock = product?.currentStock ?? 0;
     }
 
@@ -194,10 +200,9 @@ const ShoppingCartPage = ({ promptGoogle }) => {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <ProductName>{item.name}</ProductName>
 
-            {/* SKU — тільки для каблучок */}
-            {item.subcategory?.toLowerCase() === "rings" && item.sku && (
-              <span style={{ fontSize: "0.85rem", color: "#666" }}>
-                SKU: {item.sku}
+            {item.size && (
+              <span style={{ fontSize: "0.85rem", color: "#444" }}>
+                {t("size")}: {item.size}
               </span>
             )}
           </div>

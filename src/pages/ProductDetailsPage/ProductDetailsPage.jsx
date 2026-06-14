@@ -174,8 +174,8 @@ const ProductDetailsPage = () => {
             {/* MATERIAL */}
             <InfoItem>
               🧵 {t("material")}:{" "}
-              {product.material ? (
-                <NumberValue>{product.material}</NumberValue>
+              {product.materials ? (
+                <NumberValue>{product.materials}</NumberValue>
               ) : (
                 t("not_available")
               )}
@@ -183,8 +183,18 @@ const ProductDetailsPage = () => {
 
             {/* SIZE */}
             <InfoItem>
-              📐 {t("size")}:{" "}
-              {!sizeParts.value ? (
+              📐 {t("size")}: {/* Якщо це каблучка → показуємо всі варіанти */}
+              {product.subcategory?.toLowerCase() === "rings" ? (
+                Array.isArray(product.variants) &&
+                product.variants.length > 0 ? (
+                  <NumberValue>
+                    {product.variants.map((v) => v.size).join(", ")}
+                  </NumberValue>
+                ) : (
+                  t("not_available")
+                )
+              ) : /* Якщо НЕ каблучка → показуємо старе поле size */
+              !sizeParts.value ? (
                 t("not_available")
               ) : (
                 <>
@@ -192,16 +202,6 @@ const ProductDetailsPage = () => {
                 </>
               )}
             </InfoItem>
-            {product.subcategory?.toLowerCase() === "rings" && (
-              <InfoItem>
-                🏷️ SKU:{" "}
-                {product.sku ? (
-                  <NumberValue>{product.sku}</NumberValue>
-                ) : (
-                  t("not_available")
-                )}
-              </InfoItem>
-            )}
 
             {/* WIDTH */}
             <InfoItem>

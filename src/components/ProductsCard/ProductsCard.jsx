@@ -24,6 +24,7 @@ import { toggleGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSli
 // GUEST cart
 import { addGuestCartItem } from "../../redux/guest/shopping/guestShoppingSlice";
 
+import { FormLabel } from "@mui/material";
 import ProductImageWithLightbox from "../ProductImageWithLightbox";
 import {
   ButtonDetailsWrapper,
@@ -41,7 +42,7 @@ import {
 const ProductsCard = ({ product, isUserAuthenticated }) => {
   const [productCount, setProductCount] = useState(1);
   const [selectedSize, setSelectedSize] = useState(null);
-
+  const [selectedSku, setSelectedSku] = useState(null);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -112,8 +113,8 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
   const handleAddToCart = async () => {
     // Якщо товар має розміри — треба вибрати
     if (
-      Array.isArray(product.sizes) &&
-      product.sizes.length > 0 &&
+      Array.isArray(product.variants) &&
+      product.variants.length > 0 &&
       !selectedSize
     ) {
       toast.warn(t("choose_size_first"));
@@ -135,6 +136,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
             price: retailPrice,
             quantity: productCount,
             size: selectedSize,
+            sku: selectedSku,
           }),
         );
 
@@ -152,6 +154,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           quantity: productCount,
           photoUrl: product.photoUrl,
           size: selectedSize,
+          sku: selectedSku,
         }),
       );
 
@@ -180,17 +183,33 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           ) : (
             <div>{t("no_image")}</div>
           )}
-          {Array.isArray(product.sizes) && product.sizes.length > 0 && (
-            <div style={{ marginBottom: "10px" }}>
-              <label>{t("size")}:</label>
+          {Array.isArray(product.variants) && product.variants.length > 0 && (
+            <div style={{ marginTop: "20px" }}>
+              <FormLabel style={{ marginRight: "10px" }}>
+                {t("size")}:
+              </FormLabel>
               <select
                 value={selectedSize || ""}
-                onChange={(e) => setSelectedSize(e.target.value)}
+                onChange={(e) => {
+                  const size = e.target.value;
+                  setSelectedSize(size);
+
+                  // 🔹 Знаходимо відповідний варіант
+                  const variant = product.variants.find((v) => v.size === size);
+                  // 🔹 Зберігаємо SKU (variantIndex) у стані
+                  setSelectedSku(variant?.variantIndex || null);
+                }}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  fontSize: "14px",
+                }}
               >
-                <option value="">{t("choose_size")}</option>
-                {product.sizes.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
+                <option value="">{t("choose_size_first")}</option>
+                {product.variants.map((v) => (
+                  <option key={v.size} value={v.size}>
+                    {v.size}
                   </option>
                 ))}
               </select>

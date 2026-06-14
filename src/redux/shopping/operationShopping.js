@@ -18,11 +18,13 @@ export const getShoppingCart = createAsyncThunk(
 // ✅ Додати товар у кошик
 export const addProductToShoppingCart = createAsyncThunk(
   "shoppingCart/add",
-  async ({ productId, quantity = 1 }, thunkAPI) => {
+  async ({ productId, quantity = 1, size = null, sku = null }, thunkAPI) => {
     try {
       const { data } = await axios.post("/api/user/shopping-cart/add", {
         productId,
         quantity,
+        size,
+        sku,
       });
       return data.item; // ✅ Повертаємо доданий товар
     } catch (error) {

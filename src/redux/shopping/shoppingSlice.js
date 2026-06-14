@@ -37,9 +37,10 @@ const shoppingCartReducer = createSlice({
       })
 
       .addCase(addProductToShoppingCart.fulfilled, (state, { payload }) => {
-        console.log("✅ Redux state updated with new product:", payload);
         const existingProduct = state.products.find(
-          (p) => p.productId === payload.productId,
+          (p) =>
+            p.productId === payload.productId &&
+            (p.sku || null) === (payload.sku || null),
         );
         if (existingProduct) {
           existingProduct.quantity += payload.quantity;
