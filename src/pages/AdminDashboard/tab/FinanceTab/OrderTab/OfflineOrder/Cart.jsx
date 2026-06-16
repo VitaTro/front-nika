@@ -16,17 +16,15 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
 
   const { discount, discountPercent, final } = calculateDiscount(totalPrice);
 
-  // 🔥 Зміна розміру
   const handleSizeChange = (item, newSize) => {
+    if (!item.variants || item.variants.length === 0) return; // ⬅️ важливо
     if (!newSize) return;
 
-    const variant = item.variants?.find((v) => v.size === newSize);
+    const variant = item.variants.find((v) => v.size === newSize);
     if (!variant) return;
 
-    // 1️⃣ Видаляємо старий товар по _id
     removeFromCart(item._id);
 
-    // 2️⃣ Додаємо новий товар з новим SKU
     addToCart({
       productId: item.productId,
       size: newSize,
@@ -47,21 +45,24 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
                 <ProductImage src={item.photoUrl} alt={item.name} />
                 <ProductTitle>{item.name}</ProductTitle>
 
-                {/* 🔥 Розмір + селектор */}
-                <Typography>
-                  Розмір:
-                  <select
-                    value={item.size || ""}
-                    onChange={(e) => handleSizeChange(item, e.target.value)}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    {item.variants?.map((v) => (
-                      <option key={v.size} value={v.size}>
-                        {v.size}
-                      </option>
-                    ))}
-                  </select>
-                </Typography>
+                {item.variants?.length > 0 ? (
+                  <Typography>
+                    Розмір:
+                    <select
+                      value={item.size || ""}
+                      onChange={(e) => handleSizeChange(item, e.target.value)}
+                      style={{ marginLeft: "10px" }}
+                    >
+                      {item.variants.map((v) => (
+                        <option key={v.size} value={v.size}>
+                          {v.size}
+                        </option>
+                      ))}
+                    </select>
+                  </Typography>
+                ) : (
+                  <Typography>Розмір: —</Typography>
+                )}
 
                 <Typography>
                   Ціна: {item.price ? `${item.price} zł` : "—"}
@@ -69,7 +70,6 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
 
                 <Typography>Кількість: {item.quantity}</Typography>
 
-                {/* 🔥 Кнопки кількості */}
                 <div>
                   <button
                     onClick={() => updateQuantity(item._id, item.quantity - 1)}
@@ -84,7 +84,6 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
                   </button>
                 </div>
 
-                {/* 🔥 Видалення */}
                 <button
                   onClick={() => removeFromCart(item._id)}
                   style={{ color: "red" }}
@@ -95,7 +94,6 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
             ))}
           </CartGrid>
 
-          {/* 🔥 Підсумки */}
           <Typography sx={{ mt: 2 }}>
             💰 Сума до знижки: {totalPrice.toFixed(2)} zł
           </Typography>

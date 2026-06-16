@@ -395,7 +395,14 @@ const OfflineOrder = () => {
                     </select>
                     <Button
                       variant="contained"
-                      // onClick={() => addToCart(product)}
+                      onClick={() =>
+                        addToCart({
+                          productId: product._id,
+                          size: null,
+                          sku: product.sku, // ⬅️ ВАЖЛИВО
+                          quantity: 1,
+                        })
+                      }
                       sx={{
                         backgroundColor: isInCart ? "#4CAF50" : "#1976D2",
                         color: "white",
