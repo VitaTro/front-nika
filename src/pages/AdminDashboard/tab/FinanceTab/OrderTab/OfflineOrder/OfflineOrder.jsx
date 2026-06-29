@@ -108,36 +108,46 @@ const OfflineOrder = () => {
     const product = products.find((p) => p._id === productId);
     if (!product) return;
 
+    const isRing =
+      product.subcategory === "rings" || product.category === "rings";
+
+    const resolvedSize = isRing ? size : (product.size ?? "N/A");
+    const resolvedSku = isRing ? sku : null;
+
     setCart((prev) => {
       const existing = prev.find(
-        (item) => item.productId === productId && item.sku === sku,
+        (item) => item.productId === productId && item.sku === resolvedSku,
       );
 
       if (existing) {
         const updated = prev.map((item) =>
-          item.productId === productId && item.sku === sku
+          item.productId === productId && item.sku === resolvedSku
             ? { ...item, quantity: item.quantity + quantity }
             : item,
         );
         localStorage.setItem("cart", JSON.stringify(updated));
         return updated;
       }
+
       const newItem = {
-        _id: crypto.randomUUID(), // локальний id
+        _id: crypto.randomUUID(),
         productId,
+        totalPrice: totalAmount,
         name: product.name,
         price: product.lastRetailPrice,
         photoUrl: product.photoUrl,
         quantity,
-        size,
-        sku,
+        size: resolvedSize,
+        sku: resolvedSku,
         variants: product.variants || [],
       };
+
       const updated = [...prev, newItem];
       localStorage.setItem("cart", JSON.stringify(updated));
       return updated;
     });
   };
+
   //     const updatedCart = [
   //       ...prevCart,
   //       {
@@ -153,18 +163,6 @@ const OfflineOrder = () => {
   //   });
   // };
 
-  // 🔄 Оновлення кількості
-  // const updateQuantity = (productId, newQuantity) => {
-  //   setCart((prevCart) => {
-  //     const updatedCart = prevCart.map((item) =>
-  //       item.productId === productId
-  //         ? { ...item, quantity: newQuantity }
-  //         : item,
-  //     );
-  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //     return updatedCart;
-  //   });
-  // };
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
 
@@ -398,8 +396,8 @@ const OfflineOrder = () => {
                       onClick={() =>
                         addToCart({
                           productId: product._id,
-                          size: null,
-                          sku: product.sku, // ⬅️ ВАЖЛИВО
+                          size: product.subcategory === "rings" ? size : null,
+                          sku: product.subcategory === "rings" ? sku : null,
                           quantity: 1,
                         })
                       }
