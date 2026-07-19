@@ -5,7 +5,14 @@
 # [context.production]
 #   publish = "dist"
 #   command = "npm run build"
+
 [[headers]]
   for = "/sitemap.xml"
   [headers.values]
     Content-Type = "application/xml"
+    X-Content-Type-Options = "nosniff"
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap.xml"
+  status = 200
+  force = true
