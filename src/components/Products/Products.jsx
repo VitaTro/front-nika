@@ -1,8 +1,7 @@
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-
 import {
   CATEGORY_MAP_BY_TYPE,
   FILTER_CONFIG,
@@ -15,7 +14,11 @@ import Loader from "../Loader";
 import PaginationComponent from "../PaginationComponent/PaginationComponent";
 import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
-import { ProductsContainer, ProductsGrid } from "./Products.styled";
+import {
+  ProductsContainer,
+  ProductsGrid,
+  StyledCategoryTitle,
+} from "./Products.styled";
 
 import SidebarTabs from "./SidebarTabs";
 
@@ -347,26 +350,9 @@ const Products = ({ type }) => {
                 {/* CATEGORY DESCRIPTION */}
                 {activeCategory !== "all" && (
                   <Box sx={{ marginBottom: "25px", textAlign: "center" }}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "18px",
-                        lineHeight: "1.8",
-                        fontFamily: "'Regar', serif",
-                        color: "#3a3a3a",
-                        letterSpacing: "0.3px",
-                        borderTop: "1px solid #d4af37",
-                        borderBottom: "1px solid #d4af37",
-                        marginBottom: " 25px",
-                        textAlign: "center",
-                        backgroundColor: " #faf7f2",
-                        borderRadius: "8px",
-                        boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-                        padding: "30px",
-                      }}
-                    >
+                    <StyledCategoryTitle variant="body1">
                       {t(`${type}_type.${activeCategory}`)}
-                    </Typography>
+                    </StyledCategoryTitle>
                   </Box>
                 )}
 
