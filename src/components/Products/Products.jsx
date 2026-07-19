@@ -14,13 +14,38 @@ import Loader from "../Loader";
 import PaginationComponent from "../PaginationComponent/PaginationComponent";
 import ProductsCard from "../ProductsCard/ProductsCard";
 import SearchBar from "../SearchBar/SearchBar";
-import {
-  ProductsContainer,
-  ProductsGrid,
-  StyledCategoryTitle,
-} from "./Products.styled";
+import { ProductsContainer, ProductsGrid } from "./Products.styled";
 
+import { styled } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
 import SidebarTabs from "./SidebarTabs";
+
+export const StyledCategoryTitle = styled(Typography)(({ theme }) => ({
+  fontFamily: "'Regar', serif",
+  lineHeight: "1.8",
+  color: "#3a3a3a",
+  letterSpacing: "0.3px",
+  borderTop: "1px solid #d4af37",
+  borderBottom: "1px solid #d4af37",
+  marginBottom: "25px",
+  textAlign: "center",
+  backgroundColor: "#faf7f2",
+  borderRadius: "8px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+  padding: "30px",
+
+  fontSize: "16px",
+
+  [theme.breakpoints.down("md")]: {
+    fontSize: "14px",
+    padding: "20px",
+  },
+
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "12px",
+    padding: "18px",
+  },
+}));
 
 const productsPerPage = 18;
 

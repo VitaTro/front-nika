@@ -1,5 +1,5 @@
-import Typography from "@mui/material/Typography";
 import styled from "styled-components";
+
 export const ProductsContainer = styled.div`
   text-align: center;
   padding: 20px 40px;
@@ -150,32 +150,3 @@ export const SidebarItem = styled.div`
     background: #f2d37a;
   }
 `;
-export const StyledCategoryTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Regar', serif",
-  lineHeight: "1.8",
-  color: "#3a3a3a",
-  letterSpacing: "0.3px",
-  borderTop: "1px solid #d4af37",
-  borderBottom: "1px solid #d4af37",
-  marginBottom: "25px",
-  textAlign: "center",
-  backgroundColor: "#faf7f2",
-  borderRadius: "8px",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
-  padding: "30px",
-
-  // Desktop
-  fontSize: "18px",
-
-  // Tablet
-  [theme.breakpoints.down("md")]: {
-    fontSize: "14px",
-    padding: "22px",
-  },
-
-  // Mobile
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "12px",
-    padding: "18px",
-  },
-}));
