@@ -5,3 +5,7 @@
 # [context.production]
 #   publish = "dist"
 #   command = "npm run build"
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
