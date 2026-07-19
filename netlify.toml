@@ -11,6 +11,7 @@
   [headers.values]
     Content-Type = "application/xml"
     X-Content-Type-Options = "nosniff"
+    Cache-Control = "no-transform"
 [[redirects]]
   from = "/sitemap.xml"
   to = "/sitemap.xml"
