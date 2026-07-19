@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { searchProducts } from "../../redux/search/operationSearch";
@@ -15,11 +17,10 @@ import {
   WelcomeHeader,
 } from "../Products/Products.styled";
 import ProductsCard from "../ProductsCard/ProductsCard";
-
 const SearchResults = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
   const searchResults = useSelector(selectSearchResults);
   console.log("SearchResults:", searchResults);
 
@@ -30,11 +31,6 @@ const SearchResults = () => {
   const params = new URLSearchParams(location.search);
   const searchQuery = params.get("query") || "";
 
-  // Фільтрація результатів на основі query
-  // const filteredResults = searchResults.filter((product) =>
-  //   product.name.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
-
   useEffect(() => {
     if (searchQuery && searchQuery.trim().length >= 3) {
       dispatch(searchProducts(searchQuery)); // Запит до Redux
@@ -43,6 +39,11 @@ const SearchResults = () => {
 
   return (
     <ProductsContainer>
+      <Helmet>
+        <title>{t("meta.search.title")}</title>
+        <meta name="description" content={t("meta.search.description")} />
+      </Helmet>
+
       <WelcomeHeader>Search Results for "{searchQuery}"</WelcomeHeader>
       {loading && <Loader />}
       {/* {error && <p style={{ color: "red" }}>{error}</p>} */}

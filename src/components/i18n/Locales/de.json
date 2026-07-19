@@ -783,5 +783,64 @@
       "content_7": "Personenbezogene Daten der Kunden werden gemäß den geltenden gesetzlichen Bestimmungen sowie der auf der Website des Verkäufers verfügbaren Datenschutzrichtlinie verarbeitet.",
       "content_8": "Alle Transaktionen werden mit SSL-Verschlüsselung durchgeführt und entsprechen dem Sicherheitsstandard PCI DSS für Kartenzahlungen."
     }
+  },
+
+  "meta": {
+    "home": {
+      "title": "Nika Gold — Schmuck aus Gold und Silber",
+      "description": "Eleganter Schmuck aus Gold, Silber und Handarbeit. Schnelle Lieferung in ganz Polen. Wähle Qualität, Stil und Schönheit jeden Tag."
+    },
+    "products": {
+      "title": "Schmuckkatalog — Nika Gold",
+      "description": "Nika Gold Schmuckkatalog: Gold, Silber, Sets, handgefertigte Stücke und Geschenkboxen. Stilvoller Schmuck für jeden Anlass."
+    },
+    "gold": {
+      "title": "Goldschmuck — Nika Gold",
+      "description": "Goldene Ohrringe, Ringe, Armbänder und Anhänger. Hohe Qualität, modernes Design und schnelle Lieferung in Polen."
+    },
+    "goldLight": {
+      "title": "Gold Light — leichter Goldschmuck",
+      "description": "Leichter Gold Light Schmuck — stilvoll, zart und erschwinglich. Perfekt für den Alltag und besondere Momente."
+    },
+    "silver": {
+      "title": "Silberschmuck — Nika Gold",
+      "description": "Silberohrringe, Ringe, Armbänder und Anhänger aus 925 Silber. Klassisch und modern in jedem Detail."
+    },
+    "set": {
+      "title": "Schmucksets — Nika Gold",
+      "description": "Harmonische Schmucksets für Geschenke und besondere Anlässe. Stilvolle Kombinationen aus Gold und Silber."
+    },
+    "handmade": {
+      "title": "Handgefertigter Schmuck — Nika Gold",
+      "description": "Einzigartiger handgefertigter Schmuck, liebevoll und detailreich gestaltet. Exklusive Designs, die es nirgendwo sonst gibt."
+    },
+    "box": {
+      "title": "Geschenkboxen — Nika Gold",
+      "description": "Nika Gold Geschenkboxen — die perfekte Art, Schmuck elegant zu verschenken. Stilvolle Verpackungen für jeden Anlass."
+    },
+    "about": {
+      "title": "Über uns — Nika Gold",
+      "description": "Nika Gold — eine Familien-Schmuckmarke aus Polen. Wir schaffen Schmuck, der Emotionen weckt. Erfahre mehr über unsere Geschichte und Werte."
+    },
+    "search": {
+      "title": "Schmucksuche — Nika Gold",
+      "description": "Finde das perfekte Schmuckstück im Nika Gold Katalog. Bequeme Suche nach Gold, Silber, Handarbeit und Sets."
+    },
+    "guestCart": {
+      "title": "Gast-Warenkorb — Nika Gold",
+      "description": "Speichere ausgewählte Schmuckstücke ohne Registrierung. Schnell, bequem und einfach."
+    },
+    "guestWishlist": {
+      "title": "Gast-Wunschliste — Nika Gold",
+      "description": "Speichere deine Lieblingsschmuckstücke und kehre jederzeit zurück."
+    },
+    "dataDeletion": {
+      "title": "Datenlöschung — Nika Gold",
+      "description": "Stelle einen Antrag auf Löschung deiner personenbezogenen Daten. Wir respektieren deine Privatsphäre und deine Rechte."
+    },
+    "policies": {
+      "title": "Shop-Richtlinien — Nika Gold",
+      "description": "Zahlungs-, Liefer-, Rückgabe-, Datenschutz- und Cookie-Richtlinien. Klare Regeln für ein angenehmes Einkaufserlebnis."
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
@@ -37,37 +38,44 @@ const CookiesPolicy = () => {
   const { t } = useTranslation();
 
   return (
-    <Wrapper>
-      <Section>
-        <h2>{t("cookies_policy.title")}</h2>
-        <p>{t("cookies_policy.intro")}</p>
+    <>
+      <Helmet>
+        <title>{t("meta.policies.title")}</title>
+        <meta name="description" content={t("meta.policies.description")} />
+      </Helmet>
 
-        <h3>{t("cookies_policy.what_are")}</h3>
-        <p>{t("cookies_policy.what_are_text")}</p>
-        <ul>
-          {t("cookies_policy.list_what_are", { returnObjects: true }).map(
-            (item, index) => (
-              <li key={index}>{item}</li>
-            )
-          )}
-        </ul>
+      <Wrapper>
+        <Section>
+          <h2>{t("cookies_policy.title")}</h2>
+          <p>{t("cookies_policy.intro")}</p>
 
-        <h3>{t("cookies_policy.types")}</h3>
-        <ul>
-          {t("cookies_policy.type_list", { returnObjects: true }).map(
-            (item, index) => (
-              <li key={index}>{item}</li>
-            )
-          )}
-        </ul>
+          <h3>{t("cookies_policy.what_are")}</h3>
+          <p>{t("cookies_policy.what_are_text")}</p>
+          <ul>
+            {t("cookies_policy.list_what_are", { returnObjects: true }).map(
+              (item, index) => (
+                <li key={index}>{item}</li>
+              ),
+            )}
+          </ul>
 
-        <h3>{t("cookies_policy.management")}</h3>
-        <p>{t("cookies_policy.management_text")}</p>
+          <h3>{t("cookies_policy.types")}</h3>
+          <ul>
+            {t("cookies_policy.type_list", { returnObjects: true }).map(
+              (item, index) => (
+                <li key={index}>{item}</li>
+              ),
+            )}
+          </ul>
 
-        <h3>{t("cookies_policy.contact")}</h3>
-        <p>{t("cookies_policy.contact_text")}</p>
-      </Section>
-    </Wrapper>
+          <h3>{t("cookies_policy.management")}</h3>
+          <p>{t("cookies_policy.management_text")}</p>
+
+          <h3>{t("cookies_policy.contact")}</h3>
+          <p>{t("cookies_policy.contact_text")}</p>
+        </Section>
+      </Wrapper>
+    </>
   );
 };
 

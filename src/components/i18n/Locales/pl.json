@@ -786,5 +786,63 @@
       "content_7": "Dane osobowe Klientów przetwarzane są zgodnie z obowiązującym prawem oraz Polityką Prywatności dostępną na stronie internetowej Sprzedawcy.",
       "content_8": "Wszystkie transakcje realizowane są z zastosowaniem szyfrowania SSL oraz zgodnie ze standardem bezpieczeństwa PCI DSS obowiązującym dla płatności kartą."
     }
+  },
+  "meta": {
+    "home": {
+      "title": "Nika Gold — biżuteria ze stali chirurgicznej",
+      "description": "Elegancka biżuteria ze stali chirurgicznej 316L, stali nierdzewnej oraz ręcznie robiona. Dostawa na terenie całej Polski. Wybierz jakość, styl i piękno każdego dnia."
+    },
+    "products": {
+      "title": "Katalog biżuterii — Nika Gold",
+      "description": "Katalog biżuterii Nika Gold: stal chirurgiczna, stal nierdzewna, zestawy, handmade oraz pudełka prezentowe. Stylowa biżuteria na każdą okazję."
+    },
+    "gold": {
+      "title": "Biżuteria pozłacana 18K — Nika Gold",
+      "description": "Pozłacane kolczyki, pierścionki, bransoletki i naszyjniki wykonane ze stali chirurgicznej 316L. Nowoczesny design i szybka dostawa w Polsce."
+    },
+    "goldLight": {
+      "title": "Biżuteria pozłacana 14K — Nika Gold",
+      "description": "Lekka pozłacana biżuteria Gold Light ze stali chirurgicznej — stylowa, delikatna i idealna na co dzień."
+    },
+    "silver": {
+      "title": "Biżuteria srebrna / stalowa — Nika Gold",
+      "description": "Kolczyki, pierścionki, bransoletki i naszyjniki ze stali chirurgicznej 316L w kolorze srebrnym. Klasyka i nowoczesność w każdym detalu."
+    },
+    "set": {
+      "title": "Zestawy biżuterii — Nika Gold",
+      "description": "Harmonijne zestawy biżuterii ze stali chirurgicznej — idealne na prezent i wyjątkowe okazje."
+    },
+    "handmade": {
+      "title": "Biżuteria handmade — Nika Gold",
+      "description": "Unikalna biżuteria handmade tworzona ręcznie z miłością i dbałością o szczegóły. Ekskluzywne projekty, których nie znajdziesz nigdzie indziej."
+    },
+    "box": {
+      "title": "Pudełka prezentowe — Nika Gold",
+      "description": "Pudełka prezentowe Nika Gold — idealny sposób na elegancki prezent. Stylowe opakowania na każdą okazję."
+    },
+    "about": {
+      "title": "O nas — Nika Gold",
+      "description": "Nika Gold — rodzinny polski brand biżuteryjny. Tworzymy biżuterię, która wywołuje emocje. Poznaj naszą historię i wartości."
+    },
+    "search": {
+      "title": "Wyszukiwarka biżuterii — Nika Gold",
+      "description": "Znajdź idealną biżuterię ze stali chirurgicznej w katalogu Nika Gold. Wygodne wyszukiwanie zestawów, handmade i pozłacanych dodatków."
+    },
+    "guestCart": {
+      "title": "Koszyk gościa — Nika Gold",
+      "description": "Zapisz wybrane produkty bez rejestracji. Szybko, wygodnie i bez zbędnych kroków."
+    },
+    "guestWishlist": {
+      "title": "Lista życzeń gościa — Nika Gold",
+      "description": "Dodawaj ulubioną biżuterię i wracaj do niej w dowolnym momencie."
+    },
+    "dataDeletion": {
+      "title": "Usunięcie danych — Nika Gold",
+      "description": "Złóż wniosek o usunięcie danych osobowych. Dbamy o prywatność i szanujemy Twoje prawa."
+    },
+    "policies": {
+      "title": "Polityki sklepu — Nika Gold",
+      "description": "Zasady płatności, dostawy, zwrotów, prywatności i cookies. Przejrzyste zasady dla komfortowych zakupów."
+    }
   }
 }

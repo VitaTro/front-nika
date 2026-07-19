@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 import PolicyPaymentTabs from "../../pages/PolicyPayment/PolicyPaymentTabs";
 
@@ -28,11 +29,17 @@ const Section = styled.section`
 `;
 const PaymentPolicy = () => {
   return (
-    <Wrapper>
-      <Section>
-        <PolicyPaymentTabs />
-      </Section>
-    </Wrapper>
+    <>
+      <Helmet>
+        <title>{t("meta.policies.title")}</title>
+        <meta name="description" content={t("meta.policies.description")} />
+      </Helmet>
+      <Wrapper>
+        <Section>
+          <PolicyPaymentTabs />
+        </Section>
+      </Wrapper>
+    </>
   );
 };
 export default PaymentPolicy;

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
@@ -37,54 +38,60 @@ const TermsPolicy = () => {
   const { t } = useTranslation();
 
   return (
-    <Wrapper>
-      <Section>
-        <h2>{t("terms.title")}</h2>
+    <>
+      <Helmet>
+        <title>{t("meta.policies.title")}</title>
+        <meta name="description" content={t("meta.policies.description")} />
+      </Helmet>
+      <Wrapper>
+        <Section>
+          <h2>{t("terms.title")}</h2>
 
-        <h3>{t("terms.section1.title")}</h3>
-        <p>{t("terms.section1.p1")}</p>
-        <p>{t("terms.section1.p2")}</p>
+          <h3>{t("terms.section1.title")}</h3>
+          <p>{t("terms.section1.p1")}</p>
+          <p>{t("terms.section1.p2")}</p>
 
-        <h3>{t("terms.section2.title")}</h3>
-        <p>{t("terms.section2.p1")}</p>
-        <p>{t("terms.section2.p2")}</p>
+          <h3>{t("terms.section2.title")}</h3>
+          <p>{t("terms.section2.p1")}</p>
+          <p>{t("terms.section2.p2")}</p>
 
-        <h3>{t("terms.section3.title")}</h3>
-        <p>{t("terms.section3.p1")}</p>
-        <ul>
-          {t("terms.section3.list", { returnObjects: true }).map(
-            (item, index) => (
-              <li key={index}>{item}</li>
-            ),
-          )}
-        </ul>
+          <h3>{t("terms.section3.title")}</h3>
+          <p>{t("terms.section3.p1")}</p>
+          <ul>
+            {t("terms.section3.list", { returnObjects: true }).map(
+              (item, index) => (
+                <li key={index}>{item}</li>
+              ),
+            )}
+          </ul>
 
-        <h3>{t("terms.section4.title")}</h3>
-        <p>{t("terms.section4.p1")}</p>
-        <ul>
-          {t("terms.section4.list", { returnObjects: true }).map(
-            (item, index) => (
-              <li key={index}>{item}</li>
-            ),
-          )}
-        </ul>
+          <h3>{t("terms.section4.title")}</h3>
+          <p>{t("terms.section4.p1")}</p>
+          <ul>
+            {t("terms.section4.list", { returnObjects: true }).map(
+              (item, index) => (
+                <li key={index}>{item}</li>
+              ),
+            )}
+          </ul>
 
-        <h3>{t("terms.section5.title")}</h3>
-        <p>{t("terms.section5.p1")}</p>
+          <h3>{t("terms.section5.title")}</h3>
+          <p>{t("terms.section5.p1")}</p>
 
-        <h3>{t("terms.section6.title")}</h3>
-        <p dangerouslySetInnerHTML={{ __html: t("terms.section6.p1") }} />
+          <h3>{t("terms.section6.title")}</h3>
+          <p dangerouslySetInnerHTML={{ __html: t("terms.section6.p1") }} />
 
-        <h3>{t("terms.section7.title")}</h3>
-        <p>{t("terms.section7.p1")}</p>
+          <h3>{t("terms.section7.title")}</h3>
+          <p>{t("terms.section7.p1")}</p>
 
-        <h3>{t("terms.section8.title")}</h3>
-        <p>{t("terms.section8.p1")}</p>
+          <h3>{t("terms.section8.title")}</h3>
+          <p>{t("terms.section8.p1")}</p>
 
-        <h3>{t("terms.section9.title")}</h3>
-        <p>{t("terms.section9.p1")}</p>
-      </Section>
-    </Wrapper>
+          <h3>{t("terms.section9.title")}</h3>
+          <p>{t("terms.section9.p1")}</p>
+        </Section>
+      </Wrapper>
+    </>
   );
 };
 

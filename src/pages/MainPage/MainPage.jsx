@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import BannerCarousel from "../../components/BannerCarousel/BannerCarousel";
 import Loader from "../../components/Loader";
@@ -6,10 +8,11 @@ import { fetchPublicMain } from "../../redux/main/mainOperations";
 import { fetchUserMain } from "../../redux/user/userOperations";
 import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductsPage from "../ProductsPage/ProductsPage";
+
 const MainPage = () => {
   const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
   const wishlist = useSelector(selectWishlistProducts);
   const loading = useSelector((state) => state?.user?.loading || false);
   const error = useSelector((state) => state?.user?.error || null);
@@ -27,6 +30,10 @@ const MainPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("meta.home.title")}</title>
+        <meta name="description" content={t("meta.home.description")} />
+      </Helmet>
       <BannerCarousel />
       <ProductsPage isUserAuthenticated={isUserAuthenticated} />
     </>

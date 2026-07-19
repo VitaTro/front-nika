@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import styled from "styled-components";
 import PrivacyPolicyTabs from "../../pages/PolicyPrivacy/PrivacyPolicyTabs";
 
@@ -29,11 +30,17 @@ const Section = styled.section`
 
 const PrivacyPolicy = () => {
   return (
-    <Wrapper>
-      <Section>
-        <PrivacyPolicyTabs />
-      </Section>
-    </Wrapper>
+    <>
+      <Helmet>
+        <title>{t("meta.policies.title")}</title>
+        <meta name="description" content={t("meta.policies.description")} />
+      </Helmet>
+      <Wrapper>
+        <Section>
+          <PrivacyPolicyTabs />
+        </Section>
+      </Wrapper>
+    </>
   );
 };
 

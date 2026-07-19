@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, useMediaQuery } from "@mui/material";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import AboutSection from "./AboutSection";
@@ -10,7 +11,6 @@ const AboutPage = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [selectedTab, setSelectedTab] = useState(0);
 
-  // Перевіряємо, чи мобільний пристрій
   const isMobile = useMediaQuery("(max-width:600px)");
 
   const handleChange = (event, newValue) => {
@@ -18,41 +18,49 @@ const AboutPage = () => {
   };
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        gap: 3,
-        padding: "20px",
-      }}
-    >
-      <Tabs
-        value={selectedTab}
-        orientation={isMobile ? "horizontal" : "vertical"}
-        variant="scrollable"
-        onChange={handleChange}
-        sx={{
-          minWidth: isMobile ? "100%" : 200,
-          alignItems: isMobile ? "center" : "start",
-          fontFamily: "Arial",
-          order: isMobile ? -1 : 0,
-          marginBottom: "40px",
+    <>
+      <Helmet>
+        <title>{t("meta.about.title")}</title>
+        <meta name="description" content={t("meta.about.description")} />
+      </Helmet>
+
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          gap: 3,
+          padding: "20px",
         }}
       >
-        <Tab
-          label={t("about")}
-          style={{ color: isDarkMode ? "#0c0" : "#dbac01" }}
-        />
-        <Tab
-          label={t("contact")}
-          style={{ color: isDarkMode ? "#0c0" : "#dbac01" }}
-        />
-      </Tabs>
-      <Box>
-        {selectedTab === 0 && <AboutSection />}
-        {selectedTab === 1 && <ContactSection />}
+        <Tabs
+          value={selectedTab}
+          orientation={isMobile ? "horizontal" : "vertical"}
+          variant="scrollable"
+          onChange={handleChange}
+          sx={{
+            minWidth: isMobile ? "100%" : 200,
+            alignItems: isMobile ? "center" : "start",
+            fontFamily: "Arial",
+            order: isMobile ? -1 : 0,
+            marginBottom: "40px",
+          }}
+        >
+          <Tab
+            label={t("about")}
+            style={{ color: isDarkMode ? "#0c0" : "#dbac01" }}
+          />
+          <Tab
+            label={t("contact")}
+            style={{ color: isDarkMode ? "#0c0" : "#dbac01" }}
+          />
+        </Tabs>
+
+        <Box>
+          {selectedTab === 0 && <AboutSection />}
+          {selectedTab === 1 && <ContactSection />}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

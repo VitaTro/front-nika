@@ -781,5 +781,64 @@
       "content_7": "Client personal data is processed in accordance with applicable law and the Privacy Policy available on the Seller’s website.",
       "content_8": "All transactions are secured with SSL encryption and comply with the PCI DSS security standard applicable to card payments."
     }
+  },
+
+  "meta": {
+    "home": {
+      "title": "Nika Gold — fine jewelry",
+      "description": "Elegant gold, silver and handmade jewelry. Fast delivery across Poland. Choose quality, style and beauty every day."
+    },
+    "products": {
+      "title": "Jewelry catalog — Nika Gold",
+      "description": "Nika Gold jewelry catalog: gold, silver, sets, handmade pieces and gift boxes. Stylish jewelry for any occasion."
+    },
+    "gold": {
+      "title": "Gold jewelry — Nika Gold",
+      "description": "Gold earrings, rings, bracelets and pendants. High quality, modern design and fast delivery in Poland."
+    },
+    "goldLight": {
+      "title": "Gold Light — lightweight gold jewelry",
+      "description": "Lightweight Gold Light jewelry — stylish, delicate and affordable. Perfect for everyday wear and special moments."
+    },
+    "silver": {
+      "title": "Silver jewelry — Nika Gold",
+      "description": "Silver earrings, rings, bracelets and pendants made of 925 silver. Classic and modern in every detail."
+    },
+    "set": {
+      "title": "Jewelry sets — Nika Gold",
+      "description": "Harmonious jewelry sets for gifts and special occasions. Stylish combinations of gold and silver."
+    },
+    "handmade": {
+      "title": "Handmade jewelry — Nika Gold",
+      "description": "Unique handmade jewelry crafted with love and attention to detail. Exclusive designs you won’t find anywhere else."
+    },
+    "box": {
+      "title": "Gift boxes — Nika Gold",
+      "description": "Nika Gold gift boxes — the perfect way to present jewelry beautifully. Stylish packaging for any occasion."
+    },
+    "about": {
+      "title": "About us — Nika Gold",
+      "description": "Nika Gold — a family jewelry brand from Poland. We create jewelry that evokes emotions. Discover our story and values."
+    },
+    "search": {
+      "title": "Jewelry search — Nika Gold",
+      "description": "Find the perfect jewelry piece in the Nika Gold catalog. Convenient search for gold, silver, handmade and sets."
+    },
+    "guestCart": {
+      "title": "Guest cart — Nika Gold",
+      "description": "Save your selected jewelry without registration. Fast, convenient and simple."
+    },
+    "guestWishlist": {
+      "title": "Guest wishlist — Nika Gold",
+      "description": "Save your favorite jewelry and return to it anytime."
+    },
+    "dataDeletion": {
+      "title": "Data deletion — Nika Gold",
+      "description": "Submit a request to delete your personal data. We respect your privacy and your rights."
+    },
+    "policies": {
+      "title": "Store policies — Nika Gold",
+      "description": "Payment, delivery, returns, privacy and cookies policies. Clear rules for comfortable shopping."
+    }
   }
 }

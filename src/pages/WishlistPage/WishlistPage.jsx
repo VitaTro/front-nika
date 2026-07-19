@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,6 @@ import {
   RemoveButton,
   WishlistItem,
 } from "./WishlistPage.styled";
-
 const WishlistPage = () => {
   const isUserAuthenticated = useSelector(selectIsLoggedIn);
   const { t } = useTranslation();
@@ -175,6 +175,14 @@ const WishlistPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("meta.guestWishlist.title")}</title>
+        <meta
+          name="description"
+          content={t("meta.guestWishlist.description")}
+        />
+      </Helmet>
+
       <WelcomeGeneral>{t("wishlist_page")}</WelcomeGeneral>
 
       {isLoading && <Loader />}

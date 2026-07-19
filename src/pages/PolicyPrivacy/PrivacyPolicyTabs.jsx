@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import GeneralPolicy from "./Tabs/GeneralPolicy";
 import Section1 from "./Tabs/Section1";
@@ -26,9 +25,7 @@ import Section6 from "./Tabs/Section6";
 import Section7 from "./Tabs/Section7";
 import Section8 from "./Tabs/Section8";
 import Section9 from "./Tabs/Section9";
-
 const PrivacyPolicyTabs = () => {
-  const { t } = useTranslation();
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const isMobile = useMediaQuery("(max-width:600px)");
   const [searchParams] = useSearchParams();
@@ -57,52 +54,58 @@ const PrivacyPolicyTabs = () => {
     navigate(`?tab=${newValue}`);
   };
   return (
-    <Box display="flex" flexDirection={isMobile ? "column" : "row"} padding={2}>
-      {isMobile ? (
-        <FormControl fullWidth sx={{ marginBottom: 2 }}>
-          <Select
-            labelId="policy-section-select"
+    <>
+      <Box
+        display="flex"
+        flexDirection={isMobile ? "column" : "row"}
+        padding={2}
+      >
+        {isMobile ? (
+          <FormControl fullWidth sx={{ marginBottom: 2 }}>
+            <Select
+              labelId="policy-section-select"
+              value={tab}
+              onChange={(e) => setTab(e.target.value)}
+              fullWidth
+            >
+              {sections.map((section, index) => (
+                <MenuItem key={index} value={index}>
+                  {section.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        ) : (
+          <Tabs
             value={tab}
-            onChange={(e) => setTab(e.target.value)}
-            fullWidth
+            onChange={handleChange}
+            orientation="vertical"
+            variant="scrollable"
+            sx={{
+              minWidth: 220,
+              maxWidth: 300,
+              maxHeight: "calc(100vh - 100px)",
+              overflowY: "auto",
+              borderRight: "1px solid #ccc",
+              marginBottom: 0,
+              flexShrink: 0,
+            }}
           >
-            {sections.map((section, index) => (
-              <MenuItem key={index} value={index}>
-                {section.label}
-              </MenuItem>
+            {sections.map((s, i) => (
+              <Tab
+                key={i}
+                label={s.label}
+                style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
+              />
             ))}
-          </Select>
-        </FormControl>
-      ) : (
-        <Tabs
-          value={tab}
-          onChange={handleChange}
-          orientation="vertical"
-          variant="scrollable"
-          sx={{
-            minWidth: 220,
-            maxWidth: 300,
-            maxHeight: "calc(100vh - 100px)",
-            overflowY: "auto",
-            borderRight: "1px solid #ccc",
-            marginBottom: 0,
-            flexShrink: 0,
-          }}
-        >
-          {sections.map((s, i) => (
-            <Tab
-              key={i}
-              label={s.label}
-              style={{ color: isDarkMode ? "#0c0" : "#1f871a" }}
-            />
-          ))}
-        </Tabs>
-      )}
+          </Tabs>
+        )}
 
-      <Box flex={1} paddingLeft={isMobile ? 0 : 3}>
-        {sections[tab].component}
+        <Box flex={1} paddingLeft={isMobile ? 0 : 3}>
+          {sections[tab].component}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

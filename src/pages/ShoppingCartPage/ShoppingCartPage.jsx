@@ -22,6 +22,7 @@ import {
   updateGuestCartQuantity,
 } from "../../redux/guest/shopping/guestShoppingSlice";
 
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { getProducts } from "../../redux/products/operationProducts";
 import { selectProducts } from "../../redux/products/selectorsProducts";
@@ -62,7 +63,6 @@ import {
   TotalAmount,
   TotalHeader,
 } from "./ShoppingCartPage.styled";
-
 const ShoppingCartPage = ({ promptGoogle }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -275,6 +275,11 @@ const ShoppingCartPage = ({ promptGoogle }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{t("meta.guestCart.title")}</title>
+        <meta name="description" content={t("meta.guestCart.description")} />
+      </Helmet>
+
       <WelcomeGeneral style={{ marginTop: "auto" }}>
         {t("basket")}
       </WelcomeGeneral>
