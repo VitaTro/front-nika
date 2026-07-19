@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Забороняємо індексацію адмінки
+Disallow: /admin/
+
+# Карта сайту
+Sitemap: https://nika-gold.net/sitemap.xml
