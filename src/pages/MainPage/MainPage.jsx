@@ -14,7 +14,7 @@ import { selectWishlistProducts } from "../../redux/wishlist/selectorsWishlist";
 import ProductsPage from "../ProductsPage/ProductsPage";
 import Girl from "./xupingGirl.png";
 
-import { HomeTitle } from "./MainPage.styled";
+import { HeroText, HomeTitle } from "./MainPage.styled";
 
 const MainPage = () => {
   const isUserAuthenticated = useSelector((state) => state.userAuth.isLoggedIn);
@@ -78,9 +78,9 @@ const MainPage = () => {
         >
           <HomeTitle>{t("meta.home.description1")}</HomeTitle>
 
-          <p>{t("meta.home.description2")}</p>
-          <p>{t("meta.home.description3")}</p>
-          <p>{t("meta.home.description4")}</p>
+          <HeroText>{t("meta.home.description2")}</HeroText>
+          <HeroText>{t("meta.home.description3")}</HeroText>
+          <HeroText>{t("meta.home.description4")}</HeroText>
         </div>
       </div>
 
