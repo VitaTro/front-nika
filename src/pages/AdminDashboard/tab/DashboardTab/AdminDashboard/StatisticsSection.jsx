@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Paper, Typography } from "@mui/material";
 import VisitsChart from "./VisitsChart";
 
-const StatisticsSection = ({ stats, graph, setViewMode }) => {
+const StatisticsSection = ({ stats, graph, setViewMode, topPages }) => {
   if (!stats) return null;
 
   return (
@@ -55,7 +55,7 @@ const StatisticsSection = ({ stats, graph, setViewMode }) => {
         </Box>
       </Paper>
 
-      <VisitsChart data={graph} />
+      <VisitsChart data={graph} topPages={topPages} />
     </Box>
   );
 };

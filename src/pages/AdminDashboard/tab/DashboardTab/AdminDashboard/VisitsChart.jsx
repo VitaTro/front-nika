@@ -1,4 +1,13 @@
-import { Box, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import {
   CartesianGrid,
   Line,
@@ -9,7 +18,7 @@ import {
   YAxis,
 } from "recharts";
 
-const VisitsChart = ({ data }) => {
+const VisitsChart = ({ data, topPages }) => {
   if (!data || data.length === 0) {
     return <Typography>Немає даних для графіка</Typography>;
   }
@@ -36,6 +45,33 @@ const VisitsChart = ({ data }) => {
           </LineChart>
         </ResponsiveContainer>
       </Box>
+
+      {/* 🔥 ТОП-10 сторінок */}
+      {topPages && topPages.length > 0 && (
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h6" fontWeight={600} mb={2}>
+            Топ 10 сторінок за популярністю
+          </Typography>
+
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600 }}>Сторінка</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>Візитів</TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {topPages.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>{item.page}</TableCell>
+                  <TableCell>{item.count}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      )}
     </Paper>
   );
 };

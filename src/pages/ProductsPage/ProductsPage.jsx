@@ -10,12 +10,12 @@ import {
   WelcomeItem,
   WelcomeList,
 } from "./ProductsPage.styled";
-import Box from "./box.png";
-import Gold from "./gold.png";
-import GoldLight from "./goldLight.png";
-import Handmade from "./handmade.png";
-import Set from "./set.png";
-import Silver from "./silver.png";
+import Box from "./boxNew.png";
+import GoldLight from "./goldLightNew.png";
+import Gold from "./goldNew.png";
+import Handmade from "./handmadeNew.png";
+import Set from "./setNew.png";
+import Silver from "./silverNew.png";
 
 const ProductsPage = ({ isUserAuthenticated }) => {
   const { t } = useTranslation();
