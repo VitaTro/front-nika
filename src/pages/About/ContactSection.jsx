@@ -8,6 +8,7 @@ import {
   FaMapMarkerAlt,
   FaPhone,
   FaShoppingCart,
+  FaTiktok,
 } from "react-icons/fa";
 import {
   ContactContainer,
@@ -80,7 +81,7 @@ const ContactSection = () => {
         </ContactLink>
 
         <ContactLink
-          href="https://www.facebook.com/nika.gold.420361/"
+          href="https://www.facebook.com/nikagoldhuping"
           style={{
             display: "flex",
             alignItems: "center",
@@ -91,6 +92,19 @@ const ContactSection = () => {
         >
           <FaFacebook size={18} color="#1877F2" />
           <span>Facebook</span>
+        </ContactLink>
+        <ContactLink
+          href="https://www.tiktok.com/@vita.trojan_nikagold"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            color: "#000",
+            transition: "all 0.3s ease",
+          }}
+        >
+          <FaTiktok size={18} color="#080808" />
+          <span>TikTok</span>
         </ContactLink>
       </SocialRow>
     </ContactContainer>

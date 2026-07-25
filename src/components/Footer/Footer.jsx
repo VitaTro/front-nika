@@ -46,7 +46,7 @@ const Footer = () => {
               <FaInstagram size={20} />
             </a>
             <a
-              href="https://www.facebook.com/nika.gold.420361/"
+              href="https://www.facebook.com/nikagoldhuping"
               target="_blank"
               rel="noreferrer"
               aria-label="Facebook"

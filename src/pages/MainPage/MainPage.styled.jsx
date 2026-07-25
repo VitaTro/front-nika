@@ -112,13 +112,19 @@ export const HomeTitle = styled.h1`
   font-family: "Playfair Display", serif;
   font-size: 22px;
   font-weight: 600;
+  justify-content: center;
+  display: flex;
+  align-items: center;
   color: #bfa76a;
   margin: 30px auto 10px;
   max-width: 800px;
   line-height: 1.4;
 
   @media (max-width: 768px) {
-    font-size: 26px;
+    font-size: 16px;
+    padding: 20px 30px;
+    font-weight: 500;
+    margin: auto;
   }
 `;
 
