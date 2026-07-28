@@ -18,6 +18,7 @@ import { ProductsContainer, ProductsGrid } from "./Products.styled";
 
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import { Helmet } from "react-helmet-async";
 import SidebarTabs from "./SidebarTabs";
 
 export const StyledCategoryTitle = styled(Typography)(({ theme }) => ({
@@ -307,6 +308,10 @@ const Products = ({ type }) => {
 
   return (
     <>
+      <Helmet>
+        <title>{t(`meta.${type}.title`)}</title>
+        <meta name="description" content={t(`meta.${type}.description`)} />
+      </Helmet>
       <SearchBar onSearch={handleSearch} />
 
       <ProductsContainer>
