@@ -67,6 +67,7 @@ const DashboardTab = () => {
           }}
           setViewMode={setViewMode}
           graph={dashboard.analyticsOverview?.graph}
+          topPages={dashboard.analyticsOverview?.topPages}
         />
       )}
       {viewMode === "popular" && (

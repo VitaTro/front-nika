@@ -193,10 +193,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 onChange={(e) => {
                   const size = e.target.value;
                   setSelectedSize(size);
-
-                  // 🔹 Знаходимо відповідний варіант
                   const variant = product.variants.find((v) => v.size === size);
-                  // 🔹 Зберігаємо SKU (variantIndex) у стані
                   setSelectedSku(variant?.variantIndex || null);
                 }}
                 style={{
@@ -207,11 +204,13 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 }}
               >
                 <option value="">{t("choose_size_first")}</option>
-                {product.variants.map((v) => (
-                  <option key={v.size} value={v.size}>
-                    {v.size}
-                  </option>
-                ))}
+                {product.variants
+                  .filter((v) => v.stock > 0) // 🔹 показує тільки доступні розміри
+                  .map((v) => (
+                    <option key={v.size} value={v.size}>
+                      {v.size}
+                    </option>
+                  ))}
               </select>
             </div>
           )}

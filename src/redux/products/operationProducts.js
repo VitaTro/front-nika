@@ -6,9 +6,23 @@ export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (_, thunkAPI) => {
     try {
+      // 1️⃣ Отримуємо список продуктів
       const response = await axios.get("/api/products");
+      const products = response.data;
 
-      return response.data;
+      // 2️⃣ Отримуємо свіжі дані для кожного продукту
+      const freshProducts = await Promise.all(
+        products.map(async (p) => {
+          try {
+            const res = await axios.get(`/api/products/${p._id}`);
+            return res.data; // повертаємо оновлений продукт
+          } catch {
+            return p; // fallback
+          }
+        }),
+      );
+
+      return freshProducts;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
