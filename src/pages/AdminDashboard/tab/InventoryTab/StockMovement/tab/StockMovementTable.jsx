@@ -41,7 +41,12 @@ const StockMovementTable = () => {
       groupedMovements[m.relatedSaleId].push(m);
     }
   });
-
+  const getDisplaySize = (item) => {
+    if (item.subcategory === "rings") {
+      return item.variant || item.variantIndex || "-";
+    }
+    return item.size || "-";
+  };
   // 📊 Розрахунок ціни та знижки
   const getAdjustedPrice = (item) => {
     const saleId = item.relatedSaleId;
@@ -83,7 +88,7 @@ const StockMovementTable = () => {
                 </Typography>
                 <Typography variant="body2">🔁 {item.type}</Typography>
                 <Typography variant="body2">
-                  📏 Розмір: {item.size || "-"}
+                  📏 Розмір: {getDisplaySize(item)}
                 </Typography>
 
                 <Typography variant="body2">🔢 {item.quantity}</Typography>
@@ -140,7 +145,7 @@ const StockMovementTable = () => {
                       {new Date(item.date).toLocaleDateString()}
                     </TableCell>
                     <TableCell>{item.productName || "—"}</TableCell>
-                    <TableCell>{item.size || "-"}</TableCell>
+                    <TableCell>{getDisplaySize(item)}</TableCell>
                     <TableCell>{item.type}</TableCell>
                     <TableCell>{item.quantity}</TableCell>
                     <TableCell
