@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  addAdminMaterial,
   addAdminProduct,
+  deleteAdminMaterial,
   deleteAdminProduct,
   deleteAdminUser,
   fetchAdminDashboard,
+  fetchAdminMaterials,
   fetchAdminProducts,
   fetchAdminUsers,
+  updateAdminMaterial,
   updateAdminProduct,
 } from "./operationsAdmin";
 
@@ -14,6 +18,7 @@ const adminSlice = createSlice({
   initialState: {
     users: [],
     products: [],
+    materials: [],
     dashboard: {},
     finance: {},
     loading: false,
@@ -60,7 +65,7 @@ const adminSlice = createSlice({
         console.log("🚀 Отриманий payload після PATCH:", payload);
         state.loading = false;
         const index = state.products.findIndex(
-          (product) => product.id === payload.updatedProduct.id
+          (product) => product.id === payload.updatedProduct.id,
         );
         if (index !== -1) {
           state.products[index] = payload.updatedProduct; // Оновлення продукту в списку
@@ -72,7 +77,7 @@ const adminSlice = createSlice({
       })
       .addCase(deleteAdminProduct.fulfilled, (state, { payload }) => {
         state.products = state.products.filter(
-          (product) => product.id !== payload
+          (product) => product.id !== payload,
         );
       })
       .addCase(fetchAdminDashboard.pending, (state) => {
@@ -87,6 +92,34 @@ const adminSlice = createSlice({
       .addCase(fetchAdminDashboard.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(fetchAdminMaterials.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminMaterials.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.materials = payload;
+      })
+      .addCase(fetchAdminMaterials.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(addAdminMaterial.fulfilled, (state, { payload }) => {
+        state.materials.push(payload);
+      })
+      .addCase(updateAdminMaterial.fulfilled, (state, { payload }) => {
+        const index = state.materials.findIndex(
+          (material) => material.id === payload.updatedMaterial.id,
+        );
+        if (index !== -1) {
+          state.materials[index] = payload.updatedMaterial;
+        }
+      })
+      .addCase(deleteAdminMaterial.fulfilled, (state, { payload }) => {
+        state.materials = state.materials.filter(
+          (material) => material.id !== payload,
+        );
       });
   },
 });

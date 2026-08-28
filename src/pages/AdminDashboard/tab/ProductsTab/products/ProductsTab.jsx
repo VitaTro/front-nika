@@ -6,10 +6,10 @@ import {
   deleteAdminProduct,
   fetchAdminProducts,
   updateAdminProduct,
-} from "../../../../redux/admin/operationsAdmin";
-import AddProductForm from "./products/AddProductForm";
-import FilterPanel from "./products/FilterPanel";
-import ProductsTable from "./products/ProductsTable";
+} from "../../../../../redux/admin/operationsAdmin";
+import AddProductForm from "./AddProductForm";
+import FilterPanel from "./FilterPanel";
+import ProductsTable from "./ProductsTable";
 
 const ProductsTab = () => {
   const dispatch = useDispatch();
@@ -67,17 +67,17 @@ const ProductsTab = () => {
     }
     if (searchTerm) {
       results = results.filter((p) =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase())
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
     if (filterCategory) {
       results = results.filter((p) =>
-        p.category.toLowerCase().includes(filterCategory.toLowerCase())
+        p.category.toLowerCase().includes(filterCategory.toLowerCase()),
       );
     }
     if (filterIndex) {
       results = results.filter((p) =>
-        p.index.toLowerCase().includes(filterIndex.toLowerCase())
+        p.index.toLowerCase().includes(filterIndex.toLowerCase()),
       );
     }
 

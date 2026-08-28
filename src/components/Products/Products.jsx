@@ -138,7 +138,9 @@ const Products = ({ type }) => {
           return p.clasp?.toLowerCase() === value.toLowerCase();
         }
         if (f.key === "ringSize") {
-          return Number(p.size) === Number(value);
+          return p.variants?.some(
+            (v) => Number(v.size) === Number(value) && v.stock > 0,
+          );
         }
 
         if (f.key === "withStones") {
@@ -200,7 +202,11 @@ const Products = ({ type }) => {
             ...new Set(
               sortedByDate
                 .filter((p) => p.subcategory === "rings")
-                .map((p) => p.size)
+                .flatMap(
+                  (p) =>
+                    p.variants?.filter((v) => v.stock > 0).map((v) => v.size) ??
+                    [],
+                )
                 .filter((v) => v !== null && v !== undefined),
             ),
           ].sort((a, b) => a - b),

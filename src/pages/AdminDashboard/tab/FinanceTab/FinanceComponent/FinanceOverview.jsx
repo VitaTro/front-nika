@@ -29,8 +29,8 @@ import {
 } from "../../../../../redux/finance/overview/selectorsOverview";
 
 import { selectStockMovements } from "../../../../../redux/inventory/stockMovement/selectorsStockMovement";
-import { selectProducts } from "../../../../../redux/products/selectorsProducts";
 
+import { selectAdminProducts } from "../../../../../redux/admin/selectorsAdmin";
 import { fetchOnlineSales } from "../../../../../redux/finance/onlineSale/operationOnlineSale";
 import {
   selectOnlineSales,
@@ -45,7 +45,6 @@ const FinanceOverview = () => {
   const stats = useSelector(selectFinanceStats);
   const completedSales = useSelector(selectCompletedSales);
   const onlineSales = useSelector(selectOnlineSales);
-  console.log("🟦 ONLINE SALES FROM REDUX:", onlineSales);
 
   const isLoading = useSelector(selectFinanceLoading);
   const onlineLoading = useSelector(selectOnlineSalesLoading);
@@ -53,7 +52,7 @@ const FinanceOverview = () => {
 
   const expenses = useSelector(selectExpensesSummary);
   const movements = useSelector(selectStockMovements);
-  const products = useSelector(selectProducts);
+  const products = useSelector(selectAdminProducts);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const chartRef = useRef(null);
@@ -63,6 +62,19 @@ const FinanceOverview = () => {
     dispatch(fetchAdminProducts());
     dispatch(fetchOnlineSales());
   }, [dispatch]);
+  const availableProductsCount = products.filter(
+    (p) => p.quantity > 0 || p.variants?.some((v) => v.quantity > 0),
+  ).length;
+  const zeroQuantityProducts = products.filter(
+    (p) =>
+      p.quantity === 0 &&
+      (!p.variants || p.variants.every((v) => v.quantity === 0)),
+  ).length;
+  const lowStockProducts = products.filter(
+    (p) =>
+      (p.quantity > 0 && p.quantity <= 2) ||
+      p.variants?.some((v) => v.quantity > 0 && v.quantity <= 2),
+  ).length;
 
   // -----------------------------
   // ONLINE FINANCIALS (from backend)
@@ -88,11 +100,6 @@ const FinanceOverview = () => {
 
   // тимчасово: прибуток = дохід (бо собівартість не чіпаємо)
   const onlineProfit = onlineRevenue;
-
-  console.log("🟦 onlineTotalSales (sum finalPrice):", onlineTotalSales);
-  console.log("🟦 onlineShipping (sum shippingCost):", onlineShipping);
-  console.log("🟦 onlineRevenue (sum totalAmount):", onlineRevenue);
-  console.log("🟦 onlineProfit (TEMP = revenue):", onlineProfit);
 
   // -----------------------------
   // OFFLINE & PLATFORM PROFIT
@@ -228,7 +235,19 @@ const FinanceOverview = () => {
       <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
         <Typography variant="h6">Загальна статистика</Typography>
 
-        <Typography>📦 Продукти: {stats?.totalProducts ?? "—"}</Typography>
+        <Typography>
+          📦 Продукти (всього): {stats?.totalProducts ?? "—"}
+        </Typography>
+        <Typography>
+          📦 Продукти в наявності: {availableProductsCount}
+        </Typography>
+        <Typography>
+          ❗ Продукти з нульовим залишком: {zeroQuantityProducts}
+        </Typography>
+        <Typography>
+          ⚠️ Продукти, які скоро закінчаться (≤2 шт): {lowStockProducts}
+        </Typography>
+
         <Typography>
           🛒 Онлайн-продажі: {stats?.totalOnlineSales ?? "—"}
         </Typography>

@@ -34,10 +34,9 @@ import AdminLayout from "../pages/AdminDashboard/AdminLayout";
 import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab";
 import FinanceOverview from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceOverview";
 import FinanceSettings from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceSettings";
-
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
+import HandmadeCardPage from "../pages/AdminDashboard/tab/HandmadeTab/HandmadeCardPage.jsx";
 import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
-import ProductsTab from "../pages/AdminDashboard/tab/ProductsTab/ProductsTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
 // 📌 User панель
 import { useEffect } from "react";
@@ -53,8 +52,10 @@ import OfflineSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/Offline
 import OnlineSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/OnlineSale/OnlineSale";
 import ProfileSale from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/ProfileSale/ProfileSale";
 import SaleTab from "../pages/AdminDashboard/tab/FinanceTab/SalesTab/SalesTab";
+import HandmadeTabsGeneral from "../pages/AdminDashboard/tab/HandmadeTab/HandmadeTabsGeneral.jsx";
 import MonthlyReportPage from "../pages/AdminDashboard/tab/InventoryTab/MonthlyReport/MonthlyReportPage";
 import PurchaseImport from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/tab/PurchaseImport";
+import ProductsTabsGeneral from "../pages/AdminDashboard/tab/ProductsTab/ProductsTabGeneral.jsx";
 import DataDeletion from "../pages/DataDeletion";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
 import UserOrderPage from "../pages/ProfileUser/OrderPage";
@@ -135,21 +136,6 @@ export const App = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       <Wrapper>
         <ErrorBoundary>
-          {/* ✅ Хедер не рендериться на сторінках логіну/реєстрації */}
-          {/* {!isAdminAuthenticated &&
-            !isAuthPage &&
-            (isUserAuthenticated ? <UserHeader /> : <Header />)} */}
-          {/* {!isAdminAuthenticated &&
-            !isAuthPage &&
-            (isUserAuthenticated && user?.username ? (
-              isMobile ? (
-                <MobileMenuHeader user={user} />
-              ) : (
-                <UserHeader />
-              )
-            ) : (
-              <Header />
-            ))} */}
           {!isAdminPage &&
             (isUserAuthenticated ? (
               <UserHeader />
@@ -273,7 +259,10 @@ export const App = () => {
               {isAdminAuthenticated ? (
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route path="users" element={<UsersTab />} />
-                  <Route path="products" element={<ProductsTab />} />
+                  <Route path="products" element={<ProductsTabsGeneral />} />
+                  <Route path="handmade" element={<HandmadeTabsGeneral />}>
+                    <Route path=":id" element={<HandmadeCardPage />} />
+                  </Route>
                   <Route path="dashboard" element={<DashboardTab />} />
                   <Route path="finance" element={<FinanceTab />}>
                     <Route path="orders" element={<OrderTab />}>

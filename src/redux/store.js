@@ -35,9 +35,9 @@ import overviewReducer from "./finance/overview/overviewSlice";
 import platformReducer from "./finance/platform/platformSlice";
 import offlineReservationsReducer from "./finance/reservation/reserveSlice";
 import settingsReducer from "./finance/settings/settingsSlice";
-// 🏭 Склад — ТИ самостійно імпортуєш 👇
+import adminHandmadeReducer from "./handmade/adminHandmadeSlice";
 import inventoryReducer from "./inventory/inventoryReducer";
-
+import adminStockMaterialsReducer from "./materials/adminStockMaterialsSlice";
 const rootReducer = combineReducers({
   main: mainReducer,
   theme: themeReducer,
@@ -56,6 +56,7 @@ const rootReducer = combineReducers({
   popularProducts: popularProductsReducer,
   search: searchReducer,
   filters: filtersReducer,
+  adminHandmade: adminHandmadeReducer,
 
   // Кошик / Платежі
   shoppingCart: shoppingCartReducer,
@@ -75,6 +76,7 @@ const rootReducer = combineReducers({
   offlineReservations: offlineReservationsReducer,
   // Склад
   inventory: inventoryReducer,
+  adminStockMaterials: adminStockMaterialsReducer,
 });
 
 const store = configureStore({

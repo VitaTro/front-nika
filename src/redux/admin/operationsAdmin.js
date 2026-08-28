@@ -11,7 +11,7 @@ export const fetchAdminUsers = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Видалити користувача
@@ -24,7 +24,7 @@ export const deleteAdminUser = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // подивитись список всіх продуктів
@@ -37,7 +37,7 @@ export const fetchAdminProducts = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Додати новий продукт
@@ -50,7 +50,7 @@ export const addAdminProduct = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Видалити продукт
@@ -63,7 +63,7 @@ export const deleteAdminProduct = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 // змінити дані продукту
 export const updateAdminProduct = createAsyncThunk(
@@ -72,14 +72,14 @@ export const updateAdminProduct = createAsyncThunk(
     try {
       const response = await axios.patch(
         `/api/admin/products/${id}`,
-        updatedData
+        updatedData,
       );
       console.log("📦 Надсилаємо запит:", id, updatedData);
       return response.data; // Повертаємо оновлені дані товару
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Отримати Dashboard
@@ -93,5 +93,36 @@ export const fetchAdminDashboard = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
-  }
+  },
+);
+export const fetchAdminMaterials = createAsyncThunk(
+  "admin/fetchMaterials",
+  async () => {
+    const response = await axios.get("/api/admin/materials");
+    return response.data;
+  },
+);
+
+export const addAdminMaterial = createAsyncThunk(
+  "admin/addMaterial",
+  async (material) => {
+    const response = await axios.post("/api/admin/materials", material);
+    return response.data;
+  },
+);
+
+export const updateAdminMaterial = createAsyncThunk(
+  "admin/updateMaterial",
+  async ({ id, updatedData }) => {
+    const response = await axios.put(`/api/admin/materials/${id}`, updatedData);
+    return response.data;
+  },
+);
+
+export const deleteAdminMaterial = createAsyncThunk(
+  "admin/deleteMaterial",
+  async (id) => {
+    await axios.delete(`/api/admin/materials/${id}`);
+    return id;
+  },
 );
