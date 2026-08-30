@@ -36,6 +36,7 @@ const AddMaterialForm = ({ newMaterial, handleChange, handleAddMaterial }) => {
         onChange={handleChange}
         fullWidth
         margin="normal"
+        select
         required
       >
         {categories.map((c) => (
@@ -44,6 +45,7 @@ const AddMaterialForm = ({ newMaterial, handleChange, handleAddMaterial }) => {
           </MenuItem>
         ))}
       </TextField>
+
       <TextField
         name="color"
         label="Колір"
@@ -169,6 +171,17 @@ const AddMaterialForm = ({ newMaterial, handleChange, handleAddMaterial }) => {
         fullWidth
         margin="normal"
       />
+      <TextField
+        name="purchaseDate"
+        label="Дата закупки"
+        value={newMaterial.purchaseDate}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        type="date"
+        InputLabelProps={{ shrink: true }}
+      />
+
       <Box sx={{ mt: 2 }}>
         <Button type="submit" variant="contained" color="primary">
           Додати матеріал
