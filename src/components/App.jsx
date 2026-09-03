@@ -35,6 +35,7 @@ import DashboardTab from "../pages/AdminDashboard/tab/DashboardTab/DashboardTab"
 import FinanceOverview from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceOverview";
 import FinanceSettings from "../pages/AdminDashboard/tab/FinanceTab/FinanceComponent/FinanceSettings";
 import FinanceTab from "../pages/AdminDashboard/tab/FinanceTab/FinanceTab";
+import CreateProductFromHandmadePage from "../pages/AdminDashboard/tab/HandmadeTab/CreateProductFromHandmadePage.jsx";
 import HandmadeCardPage from "../pages/AdminDashboard/tab/HandmadeTab/HandmadeCardPage.jsx";
 import StockMovementTab from "../pages/AdminDashboard/tab/InventoryTab/StockMovement/StockMovementTab";
 import UsersTab from "../pages/AdminDashboard/tab/UsersTab/UsersTab";
@@ -260,9 +261,13 @@ export const App = () => {
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route path="users" element={<UsersTab />} />
                   <Route path="products" element={<ProductsTabsGeneral />} />
-                  <Route path="handmade" element={<HandmadeTabsGeneral />}>
-                    <Route path=":id" element={<HandmadeCardPage />} />
-                  </Route>
+                  <Route path="handmade" element={<HandmadeTabsGeneral />} />
+                  <Route path="handmade/:id" element={<HandmadeCardPage />} />
+                  <Route
+                    path="/admin/products/create-from-handmade/:id"
+                    element={<CreateProductFromHandmadePage />}
+                  />
+
                   <Route path="dashboard" element={<DashboardTab />} />
                   <Route path="finance" element={<FinanceTab />}>
                     <Route path="orders" element={<OrderTab />}>

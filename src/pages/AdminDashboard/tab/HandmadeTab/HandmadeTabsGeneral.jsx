@@ -1,6 +1,5 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
 import HandmadeCardForm from "./HandmadeCardForm";
 import HandmadeList from "./HandmadeList";
 
@@ -15,7 +14,6 @@ const HandmadeTabsGeneral = () => {
       </Tabs>
       {tab === 0 && <HandmadeList />}
       {tab === 1 && <HandmadeCardForm />}
-      <Outlet />
     </Box>
   );
 };

@@ -5,7 +5,7 @@ const selectAdminHandmadeState = (state) => state.adminHandmade;
 // всі handmade картки
 export const selectHandmadeCards = createSelector(
   [selectAdminHandmadeState],
-  (state) => state.handmade,
+  (state) => state.handmadeCards,
 );
 
 // завантаження

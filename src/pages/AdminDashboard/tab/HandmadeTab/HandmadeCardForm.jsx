@@ -9,9 +9,8 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { fetchAdminMaterials } from "../../../../redux/admin/operationsAdmin";
 import { addHandmadeCard } from "../../../../redux/handmade/operationsAdminHandmade";
-import { fetchAdminStockMaterials } from "../../../../redux/materials/operationsAdminStockMaterials";
 
 const units = [
   { label: "Штуки", value: "pcs" },
@@ -31,6 +30,7 @@ const HandmadeCardForm = () => {
     width: "",
     color: "",
     materialsUsed: [],
+    videoUrl: "",
   });
 
   const [selectedMaterial, setSelectedMaterial] = useState("");
@@ -38,20 +38,28 @@ const HandmadeCardForm = () => {
   const [selectedQty, setSelectedQty] = useState("");
 
   useEffect(() => {
-    dispatch(fetchAdminStockMaterials());
+    dispatch(fetchAdminMaterials());
   }, [dispatch]);
 
   const addMaterialToRecipe = () => {
     if (!selectedMaterial || !selectedUnit || !selectedQty) return;
 
-    const material = materials.find((m) => m._id === selectedMaterial);
+    // ✔ Правильне порівняння _id
+    const material = materials.find(
+      (m) => String(m._id) === String(selectedMaterial),
+    );
+
+    if (!material) {
+      console.error("❌ Material not found in form:", selectedMaterial);
+      return;
+    }
 
     setForm((prev) => ({
       ...prev,
       materialsUsed: [
         ...prev.materialsUsed,
         {
-          materialId: material._id,
+          materialId: material._id, // ✔ тепер завжди правильний
           name: material.name,
           unit: material.unit, // одиниця складу
           usedUnit: selectedUnit, // одиниця використання
@@ -61,6 +69,7 @@ const HandmadeCardForm = () => {
       ],
     }));
 
+    // ✔ очищення полів
     setSelectedMaterial("");
     setSelectedUnit("");
     setSelectedQty("");
@@ -75,8 +84,10 @@ const HandmadeCardForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     dispatch(addHandmadeCard(form));
 
+    // ✔ очищення форми після відправки
     setForm({
       name: "",
       description: "",
@@ -85,6 +96,7 @@ const HandmadeCardForm = () => {
       width: "",
       color: "",
       materialsUsed: [],
+      videoUrl: "",
     });
   };
 
@@ -135,6 +147,15 @@ const HandmadeCardForm = () => {
         margin="normal"
       />
 
+      <TextField
+        label="Відео (URL)"
+        value={form.videoUrl}
+        onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+        fullWidth
+        margin="normal"
+        placeholder="https://yourzone.b-cdn.net/video.mp4"
+      />
+
       {/* Додавання матеріалів */}
       <Box sx={{ mt: 3, mb: 2 }}>
         <Typography variant="h6">Матеріали</Typography>
@@ -148,8 +169,19 @@ const HandmadeCardForm = () => {
           select
         >
           {materials.map((m) => (
-            <MenuItem key={m._id} value={m._id}>
-              {m.name} ({m.unit})
+            <MenuItem key={m._id} value={String(m._id)}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                {m.photoUrl && (
+                  <img
+                    src={m.photoUrl}
+                    alt={m.name}
+                    style={{ width: 30, height: 30, borderRadius: 4 }}
+                  />
+                )}
+                <Typography>
+                  {m.name} ({m.unit})
+                </Typography>
+              </Box>
             </MenuItem>
           ))}
         </TextField>
