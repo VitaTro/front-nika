@@ -11,6 +11,7 @@ const HandmadeTabsGeneral = () => {
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 3 }}>
         <Tab label="Список карток" />
         <Tab label="Створити картку" />
+        {/* <Tab label="Ремонт виробів" /> */}
       </Tabs>
       {tab === 0 && <HandmadeList />}
       {tab === 1 && <HandmadeCardForm />}

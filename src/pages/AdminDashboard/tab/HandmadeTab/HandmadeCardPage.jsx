@@ -12,9 +12,7 @@ const HandmadeCardPage = () => {
   const dispatch = useDispatch();
 
   const card = useSelector((state) => state.adminHandmade.singleHandmadeCard);
-  const materials = useSelector(
-    (state) => state.adminStockMaterials.materials ?? [],
-  );
+  const materials = useSelector((state) => state.admin.materials ?? []);
 
   useEffect(() => {
     dispatch(fetchHandmadeCardById(id));
@@ -97,33 +95,7 @@ const HandmadeCardPage = () => {
             gap: 2,
             alignContent: "start",
           }}
-        >
-          {enrichedMaterials.map((m) => (
-            <Box
-              key={m.materialId}
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: 2,
-                p: 1,
-                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                textAlign: "center",
-              }}
-            >
-              {m.photoUrl && (
-                <img
-                  src={m.photoUrl}
-                  alt={m.name}
-                  style={{
-                    width: "100%",
-                    height: 100,
-                    objectFit: "cover",
-                    borderRadius: 6,
-                  }}
-                />
-              )}
-            </Box>
-          ))}
-        </Box>
+        ></Box>
       </Box>
 
       {/* Назва + опис */}
@@ -160,40 +132,48 @@ const HandmadeCardPage = () => {
               border: "1px solid #ddd",
               borderRadius: 2,
               backgroundColor: "#fff",
+              display: "flex",
+              gap: 2,
+              alignItems: "flex-start",
             }}
           >
-            <Typography sx={{ fontWeight: 600 }}>{m.name}</Typography>
-
+            {/* Фото матеріалу */}
             {m.photoUrl && (
-              <img
+              <Box
+                component="img"
                 src={m.photoUrl}
                 alt={m.name}
-                style={{
-                  width: 100,
-                  height: 100,
+                sx={{
+                  width: 90,
+                  height: 90,
                   objectFit: "cover",
-                  borderRadius: 6,
-                  marginTop: 10,
+                  borderRadius: 2,
+                  flexShrink: 0,
                 }}
               />
             )}
 
-            <Typography>
-              Використано: {m.quantity} {m.usedUnit}
-            </Typography>
+            {/* Текстова частина */}
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography sx={{ fontWeight: 600 }}>{m.name}</Typography>
 
-            <Typography>
-              Ціна рулону: {m.purchasePrice} PLN за {m.materialTotalQty}{" "}
-              {m.unit}
-            </Typography>
+              <Typography>
+                Використано: {m.quantity} {m.usedUnit}
+              </Typography>
 
-            <Typography>
-              Ціна за одиницю: {m.pricePerUnit} PLN / {m.unit}
-            </Typography>
+              <Typography>
+                Ціна рулону: {m.purchasePrice?.value}{" "}
+                {m.purchasePrice?.currency} за {m.materialTotalQty} {m.unit}
+              </Typography>
 
-            <Typography sx={{ fontWeight: 600, color: "#b71c1c" }}>
-              Собівартість цього матеріалу: {m.costForThisMaterial} PLN
-            </Typography>
+              <Typography>
+                Ціна за одиницю: {m.pricePerUnit} PLN / {m.unit}
+              </Typography>
+
+              <Typography sx={{ fontWeight: 600, color: "#b71c1c" }}>
+                Собівартість цього матеріалу: {m.costForThisMaterial} PLN
+              </Typography>
+            </Box>
           </Box>
         ))}
       </Box>

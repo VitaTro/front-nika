@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Grid,
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -77,39 +78,61 @@ const HandmadeList = () => {
             )}
 
             <Typography sx={{ mt: 2, fontWeight: 600 }}>Матеріали:</Typography>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+              {card.materialsUsed.map((m) => (
+                <Grid item xs={12} sm={6} key={m.materialId}>
+                  <Box
+                    sx={{
+                      mb: 1.5,
+                      p: 1.5,
+                      backgroundColor: "#fafafa",
+                      borderRadius: 2,
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    {m.photo && (
+                      <Box
+                        component="img"
+                        src={m.photo}
+                        alt={m.name}
+                        sx={{
+                          width: 70,
+                          height: 70,
+                          objectFit: "cover",
+                          borderRadius: 2,
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography sx={{ fontWeight: 600 }}>{m.name}</Typography>
+                      <Typography sx={{ ml: 1 }}>
+                        Використано: {m.quantity} {m.usedUnit}
+                      </Typography>
 
-            {card.materialsUsed.map((m) => (
-              <Box
-                key={m.materialId}
-                sx={{
-                  mb: 1.5,
-                  p: 1.5,
-                  backgroundColor: "#fafafa",
-                  borderRadius: 2,
-                }}
-              >
-                <Typography sx={{ fontWeight: 600 }}>{m.name}</Typography>
+                      <Typography sx={{ ml: 1 }}>
+                        Ціна рулону: {m.purchasePrice} PLN за{" "}
+                        {m.materialTotalQty} {m.unit}
+                      </Typography>
 
-                <Typography sx={{ ml: 1 }}>
-                  Використано: {m.quantity} {m.usedUnit}
-                </Typography>
+                      <Typography sx={{ ml: 1 }}>
+                        Ціна за одиницю: {safeFixed(m.pricePerUnit)} PLN /{" "}
+                        {m.unit}
+                      </Typography>
 
-                <Typography sx={{ ml: 1 }}>
-                  Ціна рулону: {m.purchasePrice} PLN за {m.materialTotalQty}{" "}
-                  {m.unit}
-                </Typography>
-
-                <Typography sx={{ ml: 1 }}>
-                  Ціна за одиницю: {safeFixed(m.pricePerUnit)} PLN / {m.unit}
-                </Typography>
-
-                <Typography sx={{ ml: 1, fontWeight: 600, color: "#b71c1c" }}>
-                  Собівартість цього матеріалу:{" "}
-                  {safeFixed(m.costForThisMaterial)} PLN
-                </Typography>
-              </Box>
-            ))}
-
+                      <Typography
+                        sx={{ ml: 1, fontWeight: 600, color: "#b71c1c" }}
+                      >
+                        Собівартість цього матеріалу:{" "}
+                        {safeFixed(m.costForThisMaterial)} PLN
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
             <Typography sx={{ mt: 2, fontWeight: 700 }}>
               Собівартість: {card.totalCost} PLN
             </Typography>
