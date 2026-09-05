@@ -171,7 +171,7 @@ export const CATEGORY_MAP_BY_TYPE = {
 
   box: ["boxes", "bags"],
 
-  handmade: ["thread", "beaded", "beads"],
+  handmade: ["macrame", "beads", "pearls", "thread-weaving", "mixed", "wire"],
 
   // set: ["sets"],
 };

@@ -298,7 +298,7 @@ export const App = () => {
             </Routes>
           </main>
         </ErrorBoundary>
-        {!isAdminAuthenticated && !isAuthPage && <Footer />}
+        {!isAuthPage && <Footer />}
       </Wrapper>
       <CookieConsent />
     </ThemeProvider>

@@ -14,9 +14,12 @@
 
   "set": "Sets",
   "handmade": "Handmade",
-  "beaded": "Beaded Bracelets",
-  "thread": "Red Thread Bracelets",
-  "beads": "Bead Necklaces",
+  "macrame": "Macrame Jewelry",
+  "beads": "Beaded Jewelry",
+  "pearls": "Pearl Jewelry",
+  "thread-weaving": "Thread-Woven Jewelry",
+  "mixed": "Mixed Technique Jewelry",
+  "wire": "Wire Jewelry",
   "packaging": "Gift Packaging",
   "all_products": "All products",
   "gold_products": "Gold‑colored jewelry – surgical steel",
@@ -151,6 +154,14 @@
     "pendants": "Silver‑colored pendants are delicate accents that complete any look. Their cool shine appears stylish and contemporary. Medical‑grade steel ensures resistance to tarnish. They pair beautifully with various chains. These accessories highlight individuality and taste.",
     "crosses": "Silver‑colored crosses symbolize harmony and purity. Their cool shine adds understated elegance to any outfit. Medical‑grade steel ensures durability and comfort. These pieces carry deep meaning while remaining stylish. Ideal for those who appreciate classic beauty.",
     "incense": "Silver‑colored medallions stand out with elegance and symbolic depth. Their cool shine adds clarity and harmony to any look. Medical‑grade steel ensures durability and resistance to tarnish. Perfect for everyday wear or meaningful occasions. These accessories blend style with spirituality."
+  },
+  "handmade_type": {
+    "macrame": "Macrame jewelry is the result of meticulous handwork. Each knot is crafted with care and precision, blending tradition with modern design. It’s a form of art that creates true masterpieces. We continue to grow, bringing new handmade creations to life.",
+    "beads": "Beaded jewelry tells a colorful story of patience and creativity. Each piece is made from hundreds of tiny beads forming harmonious patterns. It’s delicate craftsmanship that fascinates with its precision. We keep developing new designs to surprise our customers.",
+    "pearls": "Pearl jewelry symbolizes elegance and timeless beauty. Each creation combines classic style with handmade artistry. It’s a delicate process that results in true gems of craftsmanship.",
+    "thread-weaving": "Thread-woven jewelry is born from patience and artistry. Each weave is made by hand, creating subtle textures and patterns. It’s a unique blend of tradition and modern style. We constantly evolve, crafting more and more new pieces.",
+    "mixed": "Mixed technique jewelry combines various materials and styles to create unique compositions. It’s a space for creativity and experimentation. Our collection keeps expanding, revealing new possibilities of handmade art.",
+    "wire": "Wire jewelry is the art of shaping metal into delicate, artistic forms. Each piece is handcrafted with precision and passion. It’s a demanding process that produces distinctive, character-filled designs."
   },
   "sort_price": "Sort by price",
   "stone": "With stones",

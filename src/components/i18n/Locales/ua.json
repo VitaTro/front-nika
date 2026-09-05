@@ -14,9 +14,12 @@
 
   "set": "Набори",
   "handmade": "Власні вироби",
-  "beaded": "Бісерні браслети",
-  "thread": "Червона нитка",
-  "beads": "Намистини",
+  "macrame": "Макраме",
+  "beads": "Бісерні прикраси",
+  "pearls": "Прикраси з перлів",
+  "thread-weaving": "Плетіння нитками",
+  "mixed": "Мікс технік",
+  "wire": "Прикраси з дроту",
   "packaging": "Подарункове пакування",
   "all_products": "Усі вироби",
   "gold_products": "Біжутерія кольору золота – сталь медична",
@@ -151,6 +154,14 @@
     "pendants": "Підвіски срібного кольору — це делікатні акценти, які додають образу завершеності. Їхній холодний блиск виглядає дуже стильно. Медична сталь забезпечує стійкість до потемніння. Вони чудово поєднуються з різними ланцюжками. Це прикраси, що підкреслюють індивідуальність.",
     "crosses": "Хрестики срібного кольору — це символ гармонії та чистоти. Їхній холодний блиск додає образу стриманої елегантності. Медична сталь гарантує довговічність і комфорт. Це прикраси, які мають глибоке значення. Ідеальні для тих, хто цінує класику.",
     "incense": "Ладанки срібного кольору вирізняються стриманою елегантністю та глибоким символізмом. Їхній холодний блиск додає образу чистоти та гармонії. Медична сталь забезпечує довговічність і стійкість до потемніння. Такі прикраси чудово підходять для щоденного носіння та особливих моментів. Це аксесуари, що поєднують стиль і духовність."
+  },
+  "handmade_type": {
+    "macrame": "Biżuteria makramowa to efekt niezwykle precyzyjnej i czasochłonnej pracy. Każdy węzeł tworzony jest ręcznie, z dbałością o najmniejszy detal. To połączenie tradycji i nowoczesności, które pozwala tworzyć prawdziwe dzieła sztuki. Nasza kolekcja stale się rozwija — wkrótce pojawią się nowe, wyjątkowe projekty.",
+    "beads": "Biżuteria z koralików to kolorowa opowieść o cierpliwości i kreatywności. Każdy element powstaje z setek drobnych koralików, które razem tworzą harmonijną całość. To rękodzieło, które zachwyca subtelnością i precyzją. Z każdym dniem rozwijamy nowe wzory i pomysły, by zaskakiwać naszych klientów.",
+    "pearls": "Biżuteria z pereł to symbol elegancji i ponadczasowego piękna. Każdy projekt łączy klasykę z ręcznym wykonaniem, tworząc unikalne kompozycje. To praca wymagająca skupienia i delikatności, dzięki której powstają prawdziwe perły sztuki jubilerskiej.",
+    "thread-weaving": "Biżuteria pleciona z nici to efekt cierpliwego i artystycznego procesu. Każdy splot powstaje ręcznie, tworząc subtelne wzory i faktury. To wyjątkowa forma rękodzieła, która łączy tradycję z nowoczesnym stylem. Wciąż rozwijamy nowe techniki i wzory, by tworzyć coraz piękniejsze produkty.",
+    "mixed": "Biżuteria mieszana to połączenie różnych technik i materiałów, które razem tworzą niepowtarzalne kompozycje. To przestrzeń dla kreatywności i eksperymentów, gdzie każdy projekt jest małym dziełem sztuki. Nasza kolekcja stale się rozrasta, odkrywając nowe możliwości rękodzieła.",
+    "wire": "Biżuteria z drutu to sztuka formowania metalu w delikatne, artystyczne kształty. Każdy element powstaje ręcznie, z ogromną precyzją i pasją. To praca wymagająca doświadczenia i wyczucia, dzięki której powstają unikalne projekty pełne charakteru."
   },
   "sort_price": "Сортувати за ціною",
   "stone": "З камінцями",

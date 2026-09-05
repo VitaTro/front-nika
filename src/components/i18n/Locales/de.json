@@ -14,9 +14,12 @@
 
   "set": "Garnitur",
   "handmade": "Handgemacht",
-  "beaded": "Perlenarmbänder",
-  "thread": "Rote Fadenarmbänder",
-  "beads": "Perlenketten",
+  "macrame": "Makramee-Schmuck",
+  "beads": "Perlenschmuck",
+  "pearls": "Schmuck aus Perlen",
+  "thread-weaving": "Fadengeflochtener Schmuck",
+  "mixed": "Gemischte Techniken",
+  "wire": "Drahtschmuck",
   "packaging": "Geschenkverpackung",
   "all_products": "Alle Produkte",
   "gold_products": "Schmuck in Goldfarbe – Chirurgenstahl",
@@ -153,6 +156,14 @@
     "pendants": "Anhänger in Silberfarbe sind feine Akzente, die jeden Look vollenden. Ihr kühler Glanz wirkt stilvoll und zeitgemäß. Chirurgischer Stahl schützt vor Anlaufen und Verfärbungen. Sie harmonieren wunderbar mit verschiedenen Ketten. Schmuck, der Individualität und Geschmack betont.",
     "crosses": "Kreuze in Silberfarbe symbolisieren Harmonie und Reinheit. Ihr kühler Glanz verleiht jedem Outfit dezente Eleganz. Chirurgischer Stahl sorgt für Beständigkeit und Komfort. Bedeutungsvolle Schmuckstücke mit klassischer Ausstrahlung. Ideal für Menschen, die zeitlose Schönheit schätzen.",
     "incense": "Medallions in Silberfarbe zeichnen sich durch Eleganz und symbolische Tiefe aus. Ihr kühler Glanz bringt Klarheit und Harmonie in jeden Look. Chirurgischer Stahl garantiert Langlebigkeit und Schutz vor Anlaufen. Perfekt für den Alltag oder besondere Momente. Accessoires, die Stil und Spiritualität verbinden."
+  },
+  "handmade_type": {
+    "macrame": "Makramee-Schmuck ist das Ergebnis äußerst sorgfältiger Handarbeit. Jeder Knoten wird mit Liebe und Präzision gefertigt. Es ist eine Verbindung von Tradition und Moderne, die wahre Meisterwerke entstehen lässt. Wir entwickeln uns ständig weiter und schaffen neue, einzigartige Produkte.",
+    "beads": "Perlenschmuck erzählt eine farbenfrohe Geschichte von Geduld und Kreativität. Jedes Stück besteht aus Hunderten kleiner Perlen, die zusammen ein harmonisches Ganzes bilden. Es ist Handarbeit, die mit ihrer Feinheit und Genauigkeit begeistert. Wir entwerfen ständig neue Designs, um unsere Kunden zu überraschen.",
+    "pearls": "Schmuck aus Perlen ist ein Symbol für Eleganz und zeitlose Schönheit. Jede Kreation verbindet klassische Formen mit handwerklicher Kunst. Es ist eine Arbeit voller Feingefühl, die wahre Schmuckstücke entstehen lässt.",
+    "thread-weaving": "Fadengeflochtener Schmuck entsteht durch Geduld und künstlerisches Geschick. Jede Flechtung wird von Hand gefertigt und schafft feine Muster und Strukturen. Es ist eine einzigartige Verbindung von Tradition und modernem Stil. Wir entwickeln uns weiter, um immer neue Produkte zu schaffen.",
+    "mixed": "Gemischte Techniken vereinen verschiedene Materialien und Stile zu einzigartigen Kompositionen. Es ist Raum für Kreativität und Experimente. Unsere Kollektion wächst ständig und eröffnet neue Möglichkeiten des Kunsthandwerks.",
+    "wire": "Drahtschmuck ist die Kunst, Metall in zarte, künstlerische Formen zu bringen. Jedes Stück wird mit Präzision und Leidenschaft handgefertigt. Es ist eine anspruchsvolle Arbeit, die einzigartige Designs mit Charakter hervorbringt."
   },
   "sort_price": "Nach Preis sortieren",
   "stone": "Mit Steinen",

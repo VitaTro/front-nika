@@ -31,6 +31,7 @@ const HandmadeCardForm = () => {
     color: "",
     materialsUsed: [],
     videoUrl: "",
+    subcategory: "",
   });
 
   const [selectedMaterial, setSelectedMaterial] = useState("");
@@ -84,6 +85,7 @@ const HandmadeCardForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("PAYLOAD:", form);
 
     dispatch(addHandmadeCard(form));
 
@@ -97,6 +99,7 @@ const HandmadeCardForm = () => {
       color: "",
       materialsUsed: [],
       videoUrl: "",
+      subcategory: "",
     });
   };
 
@@ -109,6 +112,30 @@ const HandmadeCardForm = () => {
         fullWidth
         margin="normal"
         required
+      />
+      <TextField
+        label="Підкатегорія"
+        value={form.subcategory}
+        onChange={(e) => setForm({ ...form, subcategory: e.target.value })}
+        fullWidth
+        margin="normal"
+        select
+        required
+      >
+        <MenuItem value="macrame">Макраме</MenuItem>
+        <MenuItem value="beads">Бісер</MenuItem>
+        <MenuItem value="pearls">Перлини</MenuItem>
+        <MenuItem value="thread-weaving">Плетіння нитками</MenuItem>
+        <MenuItem value="mixed">Мікс</MenuItem>
+        <MenuItem value="wire">Дріт</MenuItem>
+      </TextField>
+      <TextField
+        label="Фото (URL)"
+        value={form.photos[0] || ""}
+        onChange={(e) => setForm({ ...form, photos: [e.target.value] })}
+        fullWidth
+        margin="normal"
+        placeholder="https://nika-gold-cdn.net/handmade/20%2000011_1.jpg"
       />
 
       <TextField
