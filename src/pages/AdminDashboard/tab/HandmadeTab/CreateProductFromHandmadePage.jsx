@@ -1,4 +1,11 @@
-import { Box, Button, CardMedia, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CardMedia,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,6 +30,8 @@ const CreateProductFromHandmadePage = () => {
     length: "",
     color: "",
     index: "",
+    subcategory: "",
+    quantityToProduce: 1,
   });
 
   useEffect(() => {
@@ -33,20 +42,33 @@ const CreateProductFromHandmadePage = () => {
     if (card) {
       setProductData({
         name: card.name,
-        price: Number(card.totalCost) * 2,
+        price: Math.ceil(Number(card.totalCost) * 4),
         description: card.description || "",
+        subcategory: card.subcategory,
+
         photoUrl: card.photos?.[0] || "",
         additionalPhotos: card.photos?.slice(1) || [],
         width: card.width || "",
         length: card.length || "",
         color: card.color || "",
         index: card.name.replace(/\s+/g, "").toLowerCase(),
+        quantityToProduce: 1,
       });
     }
   }, [card]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "quantityToProduce") {
+      const qty = Number(value);
+      setProductData((prev) => ({
+        ...prev,
+        quantityToProduce: qty,
+        price: Math.ceil(Number(card.totalCost) * qty), // ← ОНОВЛЕНА ЦІНА
+      }));
+
+      return;
+    }
     setProductData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -54,13 +76,11 @@ const CreateProductFromHandmadePage = () => {
     try {
       const payload = {
         ...productData,
-
-        // 🔥 materials → STRING, не ARRAY
+        subcategory: productData.subcategory,
+        quantityToProduce: Number(productData.quantityToProduce),
         materials: card.materialsUsed
           .map((m) => `${m.quantity} ${m.usedUnit} ${m.name}`)
           .join(", "),
-
-        // 🔥 purchasePrice → повністю валідний
         purchasePrice: {
           value: card.totalCost,
           currency: "PLN",
@@ -106,6 +126,33 @@ const CreateProductFromHandmadePage = () => {
           borderRadius: 3,
           mb: 3,
         }}
+      />
+      <TextField
+        name="subcategory"
+        label="Підкатегорія"
+        value={productData.subcategory}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        select
+        required
+      >
+        <MenuItem value="macrame">Макраме</MenuItem>
+        <MenuItem value="beads">Бісер</MenuItem>
+        <MenuItem value="pearls">Перлини</MenuItem>
+        <MenuItem value="thread-weaving">Плетіння нитками</MenuItem>
+        <MenuItem value="mixed">Мікс</MenuItem>
+        <MenuItem value="wire">Дріт</MenuItem>
+      </TextField>
+      <TextField
+        name="quantityToProduce"
+        label="Кількість виробів"
+        value={productData.quantityToProduce}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        type="number"
+        required
       />
 
       <Box sx={{ mb: 4 }}>
