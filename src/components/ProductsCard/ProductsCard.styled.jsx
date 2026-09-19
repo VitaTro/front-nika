@@ -127,8 +127,16 @@ export const ButtonDetails = styled.button`
 `;
 export const ItemPrice = styled.p`
   font-size: 18px;
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Cinzel Decorative", serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  text-align: center;
 `;
+
 export const ButtonDetailsWrapper = styled.div`
   margin-top: 0;
   display: flex;
@@ -148,4 +156,31 @@ export const LogoOverlay = styled.img`
   opacity: 0.9;
   z-index: 10;
   pointer-events: none;
+`;
+export const PromoStar = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: radial-gradient(circle at center, #ff3b3b 0%, #b30000 90%);
+  color: white;
+  font-weight: 900;
+  font-size: 22px;
+  padding: 12px 18px;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+  transform: rotate(-45deg);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  z-index: 20;
+  animation: sparkle 2s infinite;
+
+  @keyframes sparkle {
+    0%,
+    100% {
+      filter: brightness(1);
+    }
+    50% {
+      filter: brightness(1.4);
+    }
+  }
 `;

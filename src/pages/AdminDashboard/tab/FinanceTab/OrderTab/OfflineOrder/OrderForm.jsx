@@ -18,6 +18,8 @@ const OrderForm = ({
   const [saleDate, setSaleDate] = useState(
     new Date().toISOString().split("T")[0],
   );
+  const [useManualPrice, setUseManualPrice] = useState(false);
+  const [manualPriceInput, setManualPriceInput] = useState("");
   const [buyerType, setBuyerType] = useState("anonim");
   const [buyerInfo, setBuyerInfo] = useState({
     buyerName: "",
@@ -101,6 +103,7 @@ const OrderForm = ({
       discount,
       discountPercent,
       finalPrice,
+      // manualFinalPrice: manualFinalPrice ?? null,
       ...(buyerType === "przedsiębiorca" && {
         buyerName: buyerInfo.buyerName,
         buyerAddress: buyerInfo.buyerAddress,
@@ -122,7 +125,18 @@ const OrderForm = ({
       }
 
       alert("✅ Замовлення створено!");
-
+      if (useManualPrice && manualPriceInput) {
+        try {
+          await axios.patch(
+            `/api/admin/finance/offline/orders/${createdOrder._id}/final-price`,
+            { finalPrice: Number(manualPriceInput) },
+          );
+          alert("✏️ Ручна фінальна сума застосована!");
+        } catch (error) {
+          console.error("🔥 Помилка ручної корекції:", error);
+          alert("❌ Не вдалося застосувати ручну суму!");
+        }
+      }
       await axios.post("/api/admin/finance/offline/sales", {
         orderId: createdOrder._id,
         saleDate,
@@ -238,6 +252,32 @@ const OrderForm = ({
       <Typography sx={{ fontWeight: "bold", mt: 1 }}>
         ✅ До сплати: {finalPrice.toFixed(2)} zł
       </Typography>
+      <label
+        style={{ display: "flex", alignItems: "center", marginTop: "12px" }}
+      >
+        <input
+          type="checkbox"
+          checked={useManualPrice}
+          onChange={(e) => setUseManualPrice(e.target.checked)}
+          style={{ marginRight: "8px" }}
+        />
+        ✏️ Хочу вручну змінити фінальну суму
+      </label>
+      {useManualPrice && (
+        <input
+          type="number"
+          placeholder="Введіть свою суму"
+          value={manualPriceInput}
+          onChange={(e) => setManualPriceInput(e.target.value)}
+          style={{
+            width: "100%",
+            padding: "8px",
+            marginTop: "8px",
+            border: "2px solid #1976D2",
+            borderRadius: "5px",
+          }}
+        />
+      )}
 
       <button
         onClick={handleOrder}

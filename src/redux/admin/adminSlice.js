@@ -11,6 +11,7 @@ import {
   fetchAdminUsers,
   updateAdminMaterial,
   updateAdminProduct,
+  updatePromoPrice,
 } from "./operationsAdmin";
 
 const adminSlice = createSlice({
@@ -120,6 +121,14 @@ const adminSlice = createSlice({
         state.materials = state.materials.filter(
           (material) => material.id !== payload,
         );
+      })
+      .addCase(updatePromoPrice.fulfilled, (state, { payload }) => {
+        const index = state.products.findIndex(
+          (product) => product._id === payload._id,
+        );
+        if (index !== -1) {
+          state.products[index] = payload; // оновлюємо продукт у списку
+        }
       });
   },
 });

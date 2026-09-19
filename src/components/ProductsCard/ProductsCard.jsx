@@ -37,6 +37,7 @@ import {
   ProductAction,
   ProductCardContainer,
   ProductsHeader,
+  PromoStar,
 } from "./ProductsCard.styled";
 
 const ProductsCard = ({ product, isUserAuthenticated }) => {
@@ -179,10 +180,20 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 ]}
               />
               <LogoOverlay src={Logo} alt="logo" />
+              {product.promoPrice && (
+                <PromoStar>
+                  -
+                  {Math.round(
+                    ((retailPrice - product.promoPrice) / retailPrice) * 100,
+                  )}
+                  %
+                </PromoStar>
+              )}
             </ImageWrapper>
           ) : (
             <div>{t("no_image")}</div>
           )}
+
           {Array.isArray(product.variants) && product.variants.length > 0 && (
             <div style={{ marginTop: "20px" }}>
               <FormLabel style={{ marginRight: "10px" }}>
@@ -216,9 +227,50 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           )}
 
           <ItemPrice className="price">
-            {retailPrice !== null
-              ? `${retailPrice} zł`
-              : t("price_unavailable")}
+            {product.promoPrice ? (
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
+                <span
+                  style={{
+                    fontFamily: "Playball",
+                    fontSize: "26px",
+                    color: "red",
+                  }}
+                >
+                  {product.promoPrice} zł
+                </span>
+
+                <span
+                  style={{
+                    textDecoration: "line-through",
+                    color: "#888",
+                    fontSize: "16px",
+                  }}
+                >
+                  {retailPrice} zł
+                </span>
+
+                {/* <span
+                  style={{
+                    background: "red",
+                    color: "white",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                  }}
+                >
+                  -
+                  {Math.round(
+                    ((retailPrice - product.promoPrice) / retailPrice) * 100,
+                  )}
+                  %
+                </span> */}
+              </div>
+            ) : (
+              <span>{retailPrice} zł</span>
+            )}
           </ItemPrice>
 
           <ProductAction>

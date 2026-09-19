@@ -5,8 +5,8 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../../../../redux/products/operationProducts";
 
 const claspOptions = [
@@ -22,6 +22,8 @@ const claspOptions = [
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
+  const adminState = useSelector((state) => state.admin);
+
   const handleAddProduct = (e, newProduct) => {
     e.preventDefault();
 
@@ -43,6 +45,16 @@ const AddProductForm = () => {
 
     dispatch(addProduct(payload));
   };
+  useEffect(() => {
+    if (adminState.error) {
+      alert("❌ Помилка створення продукту: " + adminState.error);
+    }
+
+    if (!adminState.loading && adminState.products.length > 0) {
+      alert("🎉 Новий продукт успішно створено!");
+    }
+  }, [adminState]);
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "",

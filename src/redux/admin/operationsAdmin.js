@@ -126,3 +126,17 @@ export const deleteAdminMaterial = createAsyncThunk(
     return id;
   },
 );
+
+export const updatePromoPrice = createAsyncThunk(
+  "admin/updatePromoPrice",
+  async ({ id, promoPrice }, thunkAPI) => {
+    try {
+      const response = await axios.patch(`/api/admin/products/${id}/promo`, {
+        promoPrice,
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);

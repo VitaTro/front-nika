@@ -10,7 +10,7 @@ import {
 import AddProductForm from "./AddProductForm";
 import FilterPanel from "./FilterPanel";
 import ProductsTable from "./ProductsTable";
-
+import PromoTable from "./Promo/PromoTable";
 const ProductsTab = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.admin.products);
@@ -161,7 +161,13 @@ const ProductsTab = () => {
         >
           Додати товар
         </Button>
-
+        <Button
+          variant={viewMode === "promo" ? "contained" : "outlined"}
+          color="success"
+          onClick={() => setViewMode("promo")}
+        >
+          Акції/Знижки
+        </Button>
         {viewMode === "view" && (
           <>
             <Button
@@ -195,6 +201,14 @@ const ProductsTab = () => {
           newProduct={newProduct}
           handleChange={handleChange}
           handleAddProduct={handleAddProduct}
+        />
+      )}
+      {viewMode === "promo" && (
+        <PromoTable
+          products={products}
+          handleUpdate={(id, data) =>
+            dispatch(updateAdminProduct({ id, updatedData: data }))
+          }
         />
       )}
 

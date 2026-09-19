@@ -12,7 +12,9 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { useState } from "react";
 import ZoomableProductImage from "../../../../../components/ZoomableProductImage";
+import PromoDialog from "./Promo/PromoDialog";
 
 const ProductsTable = ({
   filteredProducts,
@@ -21,6 +23,7 @@ const ProductsTable = ({
   isMobile,
 }) => {
   const isSmall = useMediaQuery("(max-width: 768px)");
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const renderPrice = (product) =>
     product.lastRetailPrice !== null && product.lastRetailPrice !== undefined
@@ -133,6 +136,7 @@ const ProductsTable = ({
               <Typography>
                 <strong>Ціна:</strong> {renderPrice(product)}
               </Typography>
+
               <Typography>
                 <strong>Залишок:</strong> {renderStock(product)}
               </Typography>
@@ -190,6 +194,7 @@ const ProductsTable = ({
               <TableCell>Категорія</TableCell>
               <TableCell>Підкатегорія</TableCell>
               <TableCell>Ціна</TableCell>
+              <TableCell>Акція</TableCell>
               <TableCell>Індекс</TableCell>
               <TableCell>Розміри</TableCell>
               {/* <TableCell>SKU</TableCell> */}
@@ -218,6 +223,10 @@ const ProductsTable = ({
                 <TableCell>{product.category}</TableCell>
                 <TableCell>{product.subcategory}</TableCell>
                 <TableCell>{renderPrice(product)}</TableCell>
+                <TableCell>
+                  {product.promoPrice ? `${product.promoPrice} zł` : "-"}
+                </TableCell>
+
                 <TableCell>{product.index}</TableCell>
                 <TableCell>
                   {product.variants?.length > 0
@@ -234,6 +243,23 @@ const ProductsTable = ({
                 <TableCell>{renderPurchase(product)}</TableCell>
                 <TableCell>{renderAvailability(product)}</TableCell>
                 <TableCell>
+                  {/* <TableCell>
+                    <AddToPromo product={product} handleUpdate={handleUpdate} />
+                  </TableCell> */}
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => setSelectedProduct(product)}
+                  >
+                    Додати в акцію
+                  </Button>
+
+                  <PromoDialog
+                    open={Boolean(selectedProduct)}
+                    onClose={() => setSelectedProduct(null)}
+                    product={selectedProduct}
+                    handleUpdate={handleUpdate}
+                  />
                   <Button
                     size="small"
                     color="primary"
