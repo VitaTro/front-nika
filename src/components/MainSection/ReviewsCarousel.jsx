@@ -1,10 +1,6 @@
 import { useRef } from "react";
 import ReviewIcon from "../icons/review.png";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CarouselTitle,
-} from "../PopularCarousel/PopularCarousel.styled";
+import { ArrowLeft, ArrowRight, CarouselTitle } from "./PopularCarousel.styled";
 import {
   ReviewAvatar,
   ReviewCard,

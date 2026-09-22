@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import GeneralPolicy from "./Tabs/GeneralPolicy";
 import Section1 from "./Tabs/Section1";
@@ -32,7 +33,7 @@ const PrivacyPolicyTabs = () => {
   const initialTab = Number(searchParams.get("tab")) || 0;
   const [tab, setTab] = useState(initialTab);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const sections = [
     { label: t("privacy_policy.short.general"), component: <GeneralPolicy /> },
     { label: t("privacy_policy.short.section1"), component: <Section1 /> },

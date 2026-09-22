@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import PrivacyPolicyTabs from "../../pages/PolicyPrivacy/PrivacyPolicyTabs";
-
 const Wrapper = styled.div`
   max-width: 900px;
 
@@ -29,6 +29,7 @@ const Section = styled.section`
 `;
 
 const PrivacyPolicy = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Helmet>

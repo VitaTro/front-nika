@@ -22,8 +22,7 @@ export const CarouselTitle = styled.h2`
       : "none"};
   background-clip: text;
   -webkit-background-clip: text;
-  color: ${(props) =>
-    props.$isActive ? "transparent" : ""}; /* Завжди чіткий текст */
+
   text-shadow: ${(props) =>
     props.$isActive
       ? props.theme.$isDarkMode
@@ -216,15 +215,20 @@ export const ArrowRight = styled(ArrowLeft)`
   right: -5px;
 `;
 
-// export const ArrowRight = styled(ArrowLeft)`
-//   left: auto;
-//   right: -5px;
+export const PromoGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  padding: 20px;
+`;
 
-//   @media (max-width: 768px) {
-//     right: -2px;
-//   }
-
-//   @media (max-width: 480px) {
-//     right: 0;
-//   }
-// `;
+export const PromoItem = styled.div`
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.03);
+  }
+`;

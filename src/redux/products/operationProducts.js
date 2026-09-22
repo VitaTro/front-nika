@@ -101,3 +101,15 @@ export const deleteProduct = createAsyncThunk(
     }
   },
 );
+
+export const getPromo = createAsyncThunk(
+  "products/getPromo",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("/api/products/promo");
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+);

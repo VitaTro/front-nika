@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import PolicyPaymentTabs from "../../pages/PolicyPayment/PolicyPaymentTabs";
 
@@ -28,6 +29,7 @@ const Section = styled.section`
   }
 `;
 const PaymentPolicy = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Helmet>

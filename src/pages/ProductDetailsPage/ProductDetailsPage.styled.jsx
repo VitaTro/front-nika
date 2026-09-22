@@ -10,6 +10,7 @@ export const DetailsContainer = styled.div`
   text-align: center;
   position: relative;
 `;
+
 export const DetailsHeader = styled.h3`
   padding: 0;
   margin: 0 5px 20px;

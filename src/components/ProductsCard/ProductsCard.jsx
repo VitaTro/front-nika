@@ -37,7 +37,9 @@ import {
   ProductAction,
   ProductCardContainer,
   ProductsHeader,
+  PromoPrice,
   PromoStar,
+  RegularPrice,
 } from "./ProductsCard.styled";
 
 const ProductsCard = ({ product, isUserAuthenticated }) => {
@@ -95,7 +97,13 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           id: product._id,
           name: product.name,
           price: retailPrice,
+          promoPrice: product.promoPrice,
+          lastRetailPrice: product.lastRetailPrice,
           photoUrl: product.photoUrl,
+          size: selectedSize,
+          sku: selectedSku,
+          inStock: product.inStock,
+          variants: product.variants,
         }),
       );
 
@@ -132,12 +140,16 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
       try {
         await dispatch(
           addProductToShoppingCart({
-            productId: product._id,
+            id: product._id,
             name: product.name,
             price: retailPrice,
-            quantity: productCount,
+            promoPrice: product.promoPrice,
+            lastRetailPrice: product.lastRetailPrice,
+            photoUrl: product.photoUrl,
             size: selectedSize,
             sku: selectedSku,
+            inStock: product.inStock,
+            variants: product.variants,
           }),
         );
 
@@ -152,10 +164,13 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
           id: product._id,
           name: product.name,
           price: retailPrice,
-          quantity: productCount,
+          promoPrice: product.promoPrice,
+          lastRetailPrice: product.lastRetailPrice,
           photoUrl: product.photoUrl,
           size: selectedSize,
           sku: selectedSku,
+          inStock: product.inStock,
+          variants: product.variants,
         }),
       );
 
@@ -231,15 +246,7 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <span
-                  style={{
-                    fontFamily: "Playball",
-                    fontSize: "26px",
-                    color: "red",
-                  }}
-                >
-                  {product.promoPrice} zł
-                </span>
+                <PromoPrice>{product.promoPrice} zł</PromoPrice>
 
                 <span
                   style={{
@@ -250,26 +257,9 @@ const ProductsCard = ({ product, isUserAuthenticated }) => {
                 >
                   {retailPrice} zł
                 </span>
-
-                {/* <span
-                  style={{
-                    background: "red",
-                    color: "white",
-                    padding: "2px 6px",
-                    borderRadius: "4px",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                  }}
-                >
-                  -
-                  {Math.round(
-                    ((retailPrice - product.promoPrice) / retailPrice) * 100,
-                  )}
-                  %
-                </span> */}
               </div>
             ) : (
-              <span>{retailPrice} zł</span>
+              <RegularPrice>{retailPrice} zł</RegularPrice>
             )}
           </ItemPrice>
 

@@ -4,39 +4,49 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import Loader from "../../components/Loader";
 import NoResults from "../../components/NoResults/NoResults";
 import PaginationComponent from "../../components/PaginationComponent/PaginationComponent";
-import ZoomableProductImage from "../../components/ZoomableProductImage";
+
 import { selectIsLoggedIn } from "../../redux/auth/userAuth/selectorsAuth";
 import { addGuestCartItem } from "../../redux/guest/shopping/guestShoppingSlice";
 import { selectGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSelectors";
 import { toggleGuestWishlist } from "../../redux/guest/wishlist/guestWishlistSlice";
+
 import { getShoppingCart } from "../../redux/shopping/operationShopping";
 import {
   getWishlist,
   moveProductToShoppingCart,
   removeProductFromWishlist,
 } from "../../redux/wishlist/operationWishlist";
+
 import {
   selectWishlistError,
   selectWishlistLoading,
   selectWishlistProducts,
 } from "../../redux/wishlist/selectorsWishlist";
+
 import { WelcomeGeneral } from "../ProductsPage/ProductsPage.styled";
+
 import {
+  ActionButtons,
   AddToCartButton,
-  AllButton,
+  ProductDetails,
+  ProductImage,
   ProductName,
   ProductPrice,
   RemoveButton,
-  WishlistItem,
+  WishlistCard,
+  WishlistGrid,
 } from "./WishlistPage.styled";
+
 const WishlistPage = () => {
   const isUserAuthenticated = useSelector(selectIsLoggedIn);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 18;
 
@@ -64,31 +74,30 @@ const WishlistPage = () => {
         dispatch(getWishlist());
       });
     } else {
-      dispatch(toggleGuestWishlist({ id }));
+      const productToRemove = wishlist.find((item) => item.id === id);
+      dispatch(toggleGuestWishlist(productToRemove));
       toast.success(t("removed_from_wishlist"));
     }
   };
+
+  // Move to cart
   const handleMoveToCart = async (id) => {
     if (!isUserAuthenticated) {
       const product = wishlist.find((item) => item.id === id);
-
       if (!product) return;
 
       dispatch(
         addGuestCartItem({
-          id: product.id,
-          name: product.name,
-          price: product.price,
+          ...product,
           quantity: 1,
-          photoUrl: product.photoUrl,
         }),
       );
 
-      dispatch(toggleGuestWishlist({ id }));
-
+      dispatch(toggleGuestWishlist(product));
       toast.success(t("productAdded"));
       return;
     }
+
     try {
       await dispatch(moveProductToShoppingCart(id)).unwrap();
       toast.success(t("productAdded"));
@@ -99,6 +108,8 @@ const WishlistPage = () => {
       toast.error(t("errorMessage"));
     }
   };
+
+  // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentWishlist = wishlist.slice(
@@ -112,64 +123,66 @@ const WishlistPage = () => {
     setCurrentPage(pageNumber);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  const displayProducts = currentWishlist.map((product, index) => {
+  // Автоматичне сортування каблучок за розміром
+  const getRingSize = (product) => {
+    if (!product.variants || product.variants.length === 0) return Infinity;
+
+    // беремо всі розміри, які є числами
+    const numericSizes = product.variants
+      .map((v) => Number(v.size))
+      .filter((n) => !isNaN(n));
+
+    if (numericSizes.length === 0) return Infinity;
+
+    return Math.min(...numericSizes);
+  };
+  const sortedWishlist = [...currentWishlist].sort((a, b) => {
+    const aIsRing = a.subcategory === "rings";
+    const bIsRing = b.subcategory === "rings";
+
+    if (aIsRing && bIsRing) {
+      return getRingSize(a) - getRingSize(b);
+    }
+
+    if (aIsRing && !bIsRing) return -1;
+    if (!aIsRing && bIsRing) return 1;
+
+    return 0;
+  });
+
+  // Render cards
+  const displayProducts = sortedWishlist.map((product) => {
     const productId = isUserAuthenticated ? product.productId : product.id;
 
     return (
-      <WishlistItem
-        key={productId}
-        $isLastItem={
-          wishlist.length <= productsPerPage &&
-          index === currentWishlist.length - 1
-        }
-      >
-        <ZoomableProductImage
-          src={product.photoUrl}
-          alt={product.name}
-          tabIndex="0"
-        />
+      <WishlistCard key={productId}>
+        <ProductImage src={product.photoUrl} alt={product.name} />
 
-        <ProductName>{product.name}</ProductName>
+        <ProductDetails>
+          <ProductName>{product.name}</ProductName>
 
-        {product.size && (
-          <div style={{ fontSize: "0.85rem", color: "#666" }}>
-            📏{t("size")}: {product.size}
-          </div>
-        )}
-        <ProductPrice>{product.price} zł</ProductPrice>
-        <AllButton>
-          {isUserAuthenticated ? (
-            <AddToCartButton onClick={() => handleMoveToCart(productId)}>
-              {" "}
-              🛒{" "}
-            </AddToCartButton>
-          ) : (
-            <AddToCartButton
-              onClick={() => {
-                const product = wishlist.find((item) => item.id === productId);
-                if (!product) return;
-                dispatch(
-                  addGuestCartItem({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    quantity: 1,
-                    photoUrl: product.photoUrl,
-                  }),
-                );
-                toast.success(t("productAdded"));
-              }}
-            >
-              {" "}
-              🛒{" "}
-            </AddToCartButton>
-          )}
+          <ProductPrice $promo={!!product.promoPrice}>
+            {product.promoPrice ? (
+              <>
+                <span className="promo">{product.promoPrice} zł</span>
+                <span className="regular">{product.price} zł</span>
+              </>
+            ) : (
+              <span>{product.price} zł</span>
+            )}
+          </ProductPrice>
+        </ProductDetails>
+
+        <ActionButtons>
+          <AddToCartButton onClick={() => handleMoveToCart(productId)}>
+            🛒
+          </AddToCartButton>
+
           <RemoveButton onClick={() => handleRemove(productId)}>
-            {" "}
-            🗑️{" "}
+            🗑️
           </RemoveButton>
-        </AllButton>
-      </WishlistItem>
+        </ActionButtons>
+      </WishlistCard>
     );
   });
 
@@ -194,7 +207,7 @@ const WishlistPage = () => {
 
       {!wishlist.length && !isLoading && <NoResults />}
 
-      {wishlist.length > 0 && <>{displayProducts}</>}
+      {wishlist.length > 0 && <WishlistGrid>{displayProducts}</WishlistGrid>}
 
       {wishlist.length > productsPerPage && (
         <div

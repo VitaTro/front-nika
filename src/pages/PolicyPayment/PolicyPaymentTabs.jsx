@@ -7,7 +7,9 @@ import {
   Tabs,
   useMediaQuery,
 } from "@mui/material";
+
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Section1 from "./Tabs/Section1";
@@ -30,7 +32,7 @@ const PolicyPaymentTabs = () => {
   const initialTab = Number(searchParams.get("tab")) || 0;
   const [tab, setTab] = useState(initialTab);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   const sections = [
     { label: t("regulations.sections.section1"), component: <Section1 /> },
     { label: t("regulations.sections.section2"), component: <Section2 /> },

@@ -18,7 +18,7 @@ export const selectWishlistProducts = createSelector(
 
     return products.map((item) => ({
       ...item,
-      productId: item.productId?._id ?? item.productId,
+      productId: item.productId,
       addedAt: item.addedAt,
     }));
   },

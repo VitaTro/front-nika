@@ -6,6 +6,7 @@ import {
   getProductById,
   getProductByType,
   getProducts,
+  getPromo,
   updateProduct,
 } from "./operationProducts";
 
@@ -16,6 +17,8 @@ const productsSlice = createSlice({
     currentProduct: null, // Для зберігання даних конкретного продукту
     loading: false,
     error: null,
+    promo: [],
+    promoLoading: false,
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -52,7 +55,7 @@ const productsSlice = createSlice({
       })
       .addCase(updateProduct.fulfilled, (state, { payload }) => {
         state.items = state.items.map((item) =>
-          item.id === payload.id ? payload : item
+          item.id === payload.id ? payload : item,
         ); // Оновлюємо продукт у списку
       })
       .addCase(updateProduct.rejected, (state, { payload }) => {
@@ -65,6 +68,17 @@ const productsSlice = createSlice({
         state.items = state.items.filter((item) => item.id !== payload); // Видаляємо продукт зі списку
       })
       .addCase(deleteProduct.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(getPromo.pending, (state) => {
+        state.promoLoading = true;
+      })
+      .addCase(getPromo.fulfilled, (state, { payload }) => {
+        state.promoLoading = false;
+        state.promo = payload; // 🔥 промо зберігається окремо
+      })
+      .addCase(getPromo.rejected, (state, { payload }) => {
+        state.promoLoading = false;
         state.error = payload;
       });
   },

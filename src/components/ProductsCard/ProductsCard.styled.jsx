@@ -128,13 +128,26 @@ export const ButtonDetails = styled.button`
 export const ItemPrice = styled.p`
   font-size: 18px;
   font-family: "Cinzel Decorative", serif;
-
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   margin: 10px 0;
   text-align: center;
+`;
+export const PromoPrice = styled.span`
+  font-family: "Playball", cursive;
+  font-size: 26px;
+  color: red;
+  font-weight: 700;
+`;
+
+export const RegularPrice = styled.span`
+  font-family: "Noto Sans", sans-serif;
+  font-size: 24px;
+  color: #000;
+  font-weight: 500;
 `;
 
 export const ButtonDetailsWrapper = styled.div`

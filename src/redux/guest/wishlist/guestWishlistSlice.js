@@ -27,7 +27,9 @@ const guestWishlistSlice = createSlice({
           id: product.id,
           name: product.name,
           price: product.price,
+          promoPrice: product.promoPrice,
           photoUrl: product.photoUrl,
+          // ...product,
           addedAt: new Date().toISOString(),
         });
       }

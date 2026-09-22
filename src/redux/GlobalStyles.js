@@ -1,8 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
-  /* 🔥 Підключаємо шрифти тут — це безпечно */
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playball&display=swap');
 
   html, body, #root {
     height: 100%;
