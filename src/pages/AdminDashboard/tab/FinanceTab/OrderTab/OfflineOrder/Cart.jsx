@@ -9,13 +9,28 @@ import {
 } from "./OfflineOrder.styled";
 
 const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
-  const totalPrice = cart.reduce(
-    (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
+  // const totalPrice = cart.reduce(
+  //   (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
+  //   0,
+  // );
+  // const { discount, discountPercent, final } = calculateDiscount(regularTotal);
+  const promoItems = cart.filter((item) => Number(item.promoPrice) > 0);
+  const regularItems = cart.filter(
+    (item) => !item.promoPrice || Number(item.promoPrice) === 0,
+  );
+
+  const promoTotal = promoItems.reduce(
+    (sum, item) => sum + (item.promoPrice ?? 0) * item.quantity,
     0,
   );
 
-  const { discount, discountPercent, final } = calculateDiscount(totalPrice);
+  const regularTotal = regularItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+  const { discount, discountPercent, final } = calculateDiscount(regularTotal);
 
+  const finalPrice = final + promoTotal;
   const handleSizeChange = (item, newSize) => {
     if (!item.variants || item.variants.length === 0) return; // ⬅️ важливо
     if (!newSize) return;
@@ -30,6 +45,8 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
       size: newSize,
       sku: variant.variantIndex,
       quantity: item.quantity,
+      promoPrice: item.promoPrice ?? null,
+      price: item.price,
     });
   };
 
@@ -65,7 +82,16 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
                 )}
 
                 <Typography>
-                  Ціна: {item.price ? `${item.price} zł` : "—"}
+                  {/* Ціна: {item.price ? `${item.price} zł` : "—"} */}
+                  {item.promoPrice && item.promoPrice < item.price ? (
+                    <Typography sx={{ color: "red", fontWeight: "bold" }}>
+                      {item.promoPrice} zł
+                    </Typography>
+                  ) : (
+                    <Typography sx={{ color: "inherit", fontWeight: "bold" }}>
+                      {item.price} zł
+                    </Typography>
+                  )}
                 </Typography>
 
                 <Typography>Кількість: {item.quantity}</Typography>
@@ -94,7 +120,7 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
             ))}
           </CartGrid>
 
-          <Typography sx={{ mt: 2 }}>
+          {/* <Typography sx={{ mt: 2 }}>
             💰 Сума до знижки: {totalPrice.toFixed(2)} zł
           </Typography>
 
@@ -106,6 +132,23 @@ const Cart = ({ cart, updateQuantity, removeFromCart, addToCart }) => {
 
           <Typography sx={{ fontWeight: "bold", mt: 1 }}>
             ✅ До сплати: {final.toFixed(2)} zł
+          </Typography> */}
+          <Typography sx={{ mt: 2 }}>
+            🛒 Звичайні товари: {regularTotal.toFixed(2)} zł
+          </Typography>
+
+          <Typography sx={{ mt: 1 }}>
+            🔥 Акційні товари: {promoTotal.toFixed(2)} zł
+          </Typography>
+
+          {discount > 0 && (
+            <Typography sx={{ color: "red" }}>
+              🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
+            </Typography>
+          )}
+
+          <Typography sx={{ fontWeight: "bold", mt: 1 }}>
+            ✅ До сплати: {finalPrice.toFixed(2)} zł
           </Typography>
         </>
       ) : (

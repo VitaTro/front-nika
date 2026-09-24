@@ -43,15 +43,6 @@ const OfflineOrder = () => {
   }, [dispatch]);
 
   // 🧩 Видалення з кошика
-  // const removeFromCart = (productId) => {
-  //   setCart((prevCart) => {
-  //     const updatedCart = prevCart.filter(
-  //       (item) => item.productId !== productId,
-  //     );
-  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //     return updatedCart;
-  //   });
-  // };
   const removeFromCart = (id) => {
     setCart((prev) => {
       const updated = prev.filter((item) => item._id !== id);
@@ -132,9 +123,9 @@ const OfflineOrder = () => {
       const newItem = {
         _id: crypto.randomUUID(),
         productId,
-        totalPrice: totalAmount,
         name: product.name,
         price: product.lastRetailPrice,
+        promoPrice: product.promoPrice ?? null,
         photoUrl: product.photoUrl,
         quantity,
         size: resolvedSize,
@@ -148,21 +139,6 @@ const OfflineOrder = () => {
     });
   };
 
-  //     const updatedCart = [
-  //       ...prevCart,
-  //       {
-  //         productId: product._id,
-  //         name: product.name,
-  //         price: product.lastRetailPrice,
-  //         photoUrl: product.photoUrl,
-  //         quantity: 1,
-  //       },
-  //     ];
-  //     localStorage.setItem("cart", JSON.stringify(updatedCart));
-  //     return updatedCart;
-  //   });
-  // };
-
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
 
@@ -174,12 +150,27 @@ const OfflineOrder = () => {
       return updated;
     });
   };
-  // 💰 Підрахунок суми
-  const totalAmount = cart.reduce(
-    (acc, item) => acc + (Number(item.price) || 0) * item.quantity,
+  // 🔥 НОВА ЛОГІКА РОЗРАХУНКІВ
+  const promoItems = cart.filter((item) => Number(item.promoPrice) > 0);
+  const regularItems = cart.filter(
+    (item) => !item.promoPrice || Number(item.promoPrice) === 0,
+  );
+
+  const promoTotal = promoItems.reduce(
+    (sum, item) => sum + (Number(item.promoPrice) || 0) * item.quantity,
     0,
   );
-  const { discount, discountPercent, final } = calculateDiscount(totalAmount);
+
+  const regularTotal = regularItems.reduce(
+    (sum, item) => sum + (Number(item.price) || 0) * item.quantity,
+    0,
+  );
+
+  // 🔥 Знижка тільки на звичайні товари
+  const { discount, discountPercent, final } = calculateDiscount(regularTotal);
+
+  // 🔥 Фінальна сума
+  const finalPrice = final + promoTotal;
 
   // 🔐 Активні резерви
   const reservedOrders = offlineOrders.filter(
@@ -196,7 +187,6 @@ const OfflineOrder = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-
         <Typography variant="h6">📂 Категорії</Typography>
         {categories.map((category) => (
           <CategoryButton
@@ -210,7 +200,6 @@ const OfflineOrder = () => {
             {category}
           </CategoryButton>
         ))}
-
         {selectedCategory && (
           <>
             <Typography variant="h6">📑 Субкатегорії</Typography>
@@ -227,16 +216,15 @@ const OfflineOrder = () => {
             )}
           </>
         )}
-
         <Typography variant="h6">🛒 Кошик ({cart.length} товарів)</Typography>
-        <Typography>💰 Сума до знижки: {totalAmount.toFixed(2)} zł</Typography>
+        💰 Сума до знижки: {(regularTotal + promoTotal).toFixed(2)} zł
         {discount > 0 && (
           <Typography sx={{ color: "red" }}>
             🔻 Знижка: −{discount.toFixed(2)} zł ({discountPercent}%)
           </Typography>
         )}
         <Typography sx={{ fontWeight: "bold", mt: 1 }}>
-          ✅ До сплати: {final.toFixed(2)} zł
+          ✅ До сплати: {finalPrice.toFixed(2)} zł
         </Typography>
         <Button variant="contained" onClick={() => setViewCart(!viewCart)}>
           {viewCart ? "⬅️ Назад до товарів" : "➡️ Переглянути кошик"}
@@ -247,12 +235,6 @@ const OfflineOrder = () => {
       <RightColumn>
         {viewCart ? (
           <>
-            {/* <Cart
-              cart={cart}
-              updateQuantity={updateQuantity}
-              removeFromCart={removeFromCart}
-              addToCart={addToCart}
-            /> */}
             <Cart
               cart={cart.map((item) => ({
                 ...item,
@@ -286,7 +268,9 @@ const OfflineOrder = () => {
                 <OrderForm
                   cart={cart}
                   setCart={setCart}
-                  finalPrice={final}
+                  regularTotal={regularTotal}
+                  promoTotal={promoTotal}
+                  finalPrice={finalPrice}
                   discount={discount}
                   discountPercent={discountPercent}
                 />
@@ -295,7 +279,7 @@ const OfflineOrder = () => {
                   <SaleButton
                     orderId={orderState.offlineOrders.slice(-1)[0]._id}
                     saleDate={new Date()}
-                    finalPrice={final}
+                    finalPrice={finalPrice}
                     discount={discount}
                     discountPercent={discountPercent}
                   />
@@ -305,7 +289,7 @@ const OfflineOrder = () => {
               <ReservationForm
                 cart={cart}
                 setCart={setCart}
-                finalPrice={final}
+                finalPrice={finalPrice}
                 discount={discount}
                 discountPercent={discountPercent}
               />
@@ -367,8 +351,16 @@ const OfflineOrder = () => {
                     <ProductTitle>{product.name}</ProductTitle>
 
                     <Typography sx={{ fontSize: "18px" }}>
-                      Ціна: {product.lastRetailPrice} zł
+                      {product.promoPrice &&
+                      product.promoPrice < product.lastRetailPrice ? (
+                        <span style={{ color: "red", fontWeight: "bold" }}>
+                          {product.promoPrice} zł
+                        </span>
+                      ) : (
+                        <span>{product.lastRetailPrice} zł</span>
+                      )}
                     </Typography>
+
                     <select
                       onChange={(e) => {
                         const size = e.target.value;

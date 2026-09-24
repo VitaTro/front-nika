@@ -7,6 +7,8 @@ import { createOfflineSale } from "../../../../../../redux/finance/offlineSale/o
 const OrderForm = ({
   cart,
   setCart,
+  regularTotal,
+  promoTotal,
   finalPrice,
   discount,
   discountPercent,
@@ -80,7 +82,8 @@ const OrderForm = ({
           name,
           quantity,
           photoUrl,
-          lastRetailPrice,
+          price,
+          promoPrice,
           index,
           size,
           sku,
@@ -90,12 +93,14 @@ const OrderForm = ({
           quantity,
           photoUrl,
           saleDate,
-          lastRetailPrice,
+          price,
+          promoPrice: promoPrice ?? null,
           index,
           size,
           sku,
         }),
       ),
+
       paymentMethod: selectedPaymentMethod,
       status: "pending",
       buyerType,
@@ -242,7 +247,7 @@ const OrderForm = ({
         style={{ width: "100%", padding: "8px", marginBottom: "12px" }}
       />
       <Typography sx={{ mt: 2 }}>
-        💰 Сума до знижки: {(finalPrice + discount).toFixed(2)} zł
+        💰 Сума до знижки: {(regularTotal + promoTotal).toFixed(2)} zł
       </Typography>
       {discount > 0 && (
         <Typography sx={{ color: "red" }}>
