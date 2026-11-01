@@ -283,7 +283,26 @@ const ShoppingCartPage = ({ promptGoogle }) => {
       <WelcomeGeneral style={{ marginTop: "auto" }}>
         {t("basket")}
       </WelcomeGeneral>
+      <Box
+        sx={{
+          backgroundColor: "#fff3cd",
+          border: "1px solid #ffe69c",
+          color: "#856404",
+          borderRadius: "8px",
+          padding: "16px",
+          marginBottom: "20px",
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: 600 }}>
+          Sklep tymczasowo zawiesił przyjmowanie zamówień
+        </Typography>
 
+        <Typography variant="body2">
+          Dziękujemy za zainteresowanie. Obecnie nie realizujemy nowych
+          zamówień.
+        </Typography>
+      </Box>
       {/* 🟡 Якщо кошик порожній — показуємо окремий блок */}
       {!cartItems.length && !isLoading ? (
         <Box
@@ -336,13 +355,14 @@ const ShoppingCartPage = ({ promptGoogle }) => {
               </TotalHeader>
 
               <ButtonOrderNeutral
-                onClick={() => {
-                  if (!isUserAuthenticated) {
-                    setIsLoginModalOpen(true);
-                  } else {
-                    navigate("/user/orders");
-                  }
-                }}
+                // onClick={() => {
+                //   if (!isUserAuthenticated) {
+                //     setIsLoginModalOpen(true);
+                //   } else {
+                //     navigate("/user/orders");
+                //   }
+                // }}
+                disabled
               >
                 <img
                   src={Tpay}
@@ -350,7 +370,8 @@ const ShoppingCartPage = ({ promptGoogle }) => {
                   height="26"
                   style={{ marginRight: "8px" }}
                 />
-                {t("place_order")}
+                {/* {t("place_order")} */}
+                Zamówienia są chwilowo niedostępne
               </ButtonOrderNeutral>
 
               <PaymentLogos>
